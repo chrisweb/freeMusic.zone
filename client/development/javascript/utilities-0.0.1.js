@@ -7,7 +7,7 @@ define(['jquery', 'configuration'], function($, configuration) {
      * 
      * @returns {undefined}
      */
-    var logger = function(arguments, color) {
+    var logger = function() {
         
         // iOS: http://developer.apple.com/library/ios/#DOCUMENTATION/AppleApplications/Reference/SafariWebContent/DebuggingSafarioniPhoneContent/DebuggingSafarioniPhoneContent.html
         // firefox: https://developer.mozilla.org/en-US/docs/DOM/console.log
@@ -15,24 +15,38 @@ define(['jquery', 'configuration'], function($, configuration) {
         // nodejs: http://nodejs.org/api/stdio.html
         
         var configurationObject = configuration.get();
-        
-        if (typeof(console) === 'undefined' || typeof(arguments) === 'undefined' || configurationObject.application.debugging === false) {
+
+        if (typeof(console) === 'undefined' || typeof(arguments) === 'undefined' || configurationObject.application.debugging !== true) {
             
             return;
             
         }
         
-        $.each(Array.prototype.slice.call(arguments), function(index, value) {
+        var errorObject = new Error();
+        var lineNumber;
+        var fileName;
+        
+        //console.log(errorObject.stack.split('\n'));
+ 
+        if (errorObject.stack.split('\n')[0] === 'Error') {
+ 
+            var errorLine = errorObject.stack.split('\n')[2];
+        
+        } else {
             
-            if (typeof(color) !== 'undefined' && typeof(value) === 'String') {
+            var errorLine = errorObject.stack.split('\n')[1];
             
-                console.log('%c' + value, 'color:' + color + ';');
-                
-            } else {
-                
-                console.log(value);
-                
-            }
+        }
+        
+        var errorParts = errorLine.split(':');
+        var fileNameParts = errorParts[2].split('/');
+
+        fileName = fileNameParts[fileNameParts.length-1];
+        lineNumber = errorParts[3];
+            
+        $.each(arguments, function(index, value) {
+
+            console.log(fileName + ' (line ' + lineNumber + '): ' + value);
         
         });
 
@@ -42,7 +56,7 @@ define(['jquery', 'configuration'], function($, configuration) {
      * 
      */
     return {
-        'logger': logger
+        'log': logger
     };
 
 });

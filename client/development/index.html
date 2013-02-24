@@ -13,7 +13,7 @@
         <meta name="robots" content="index, follow">
         <meta name="robots" content="NOODP,NOYDIR">
         <meta name="author" content="Chris">
-        <meta name="viewport" content="width=1024" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="description" content="My Jamendo Music World">
 
         <link rel="canonical" href="https://www.jamendoworld.com/index.html?language=en" />
@@ -51,9 +51,16 @@
 
     </head>
     <body>
-        <h1>My Jamendo Music World</h1>
-        <div id="cloudLoginBox"></div>
-        <div id="messagesDiv"></div>
+        <div id="startScreenDiv">
+            <h1 id="title">My Jamendo Music World</h1>
+            <div id="cloudLoginBox">
+                <form id="startForm">
+                    <input type="text" id="username">
+                    <input type="submit" value="login">
+                </form>
+            </div>
+            <div id="messagesDiv"></div>
+        </div>
         <canvas id="worldCanvas" width="1024" height="768"></canvas>
     </body>
 </html>

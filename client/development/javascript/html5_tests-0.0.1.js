@@ -4,7 +4,9 @@
  * @param {type} Modernizr
  * @returns {_L4.Anonym$0}
  */
-define(['Modernizr'], function(Modernizr) {
+define(['Modernizr', 'utilities'], function(Modernizr, utilities) {
+
+    var Modernizr = window.Modernizr;
 
     /**
      * 
@@ -26,7 +28,7 @@ define(['Modernizr'], function(Modernizr) {
 
         } else {
 
-            console.log('@fontface test passed');
+            utilities.log('@fontface test passed');
 
         }
         
@@ -39,7 +41,7 @@ define(['Modernizr'], function(Modernizr) {
 
         } else {
 
-            console.log('canvas test passed');
+            utilities.log('canvas test passed');
 
         }
         
@@ -53,7 +55,7 @@ define(['Modernizr'], function(Modernizr) {
 
         } else {
 
-            console.log('HTML5 history api test passed');
+            utilities.log('HTML5 history api test passed');
 
         }
         
@@ -66,7 +68,7 @@ define(['Modernizr'], function(Modernizr) {
 
         } else {
 
-            console.log('HTML5 audio test passed');
+            utilities.log('HTML5 audio test passed');
 
         }
 
@@ -84,7 +86,7 @@ define(['Modernizr'], function(Modernizr) {
 
         } else {
 
-            console.log('localstorage test passed');
+            utilities.log('localstorage test passed');
 
         }
 
@@ -97,7 +99,7 @@ define(['Modernizr'], function(Modernizr) {
 
         } else {
 
-            console.log('websockets test passed');
+            utilities.log('websockets test passed');
 
         }
         
@@ -111,7 +113,7 @@ define(['Modernizr'], function(Modernizr) {
 
         } else {
 
-            console.log('touch events test passed');
+            utilities.log('touch events test passed');
 
         }
 

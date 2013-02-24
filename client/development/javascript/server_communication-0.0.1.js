@@ -5,7 +5,7 @@
  * @param {type} socket
  * @returns {_L4.Anonym$0}
  */
-define(['socket.io'], function(socket) {
+define(['socket.io', 'utilities'], function(socket, utilities) {
 
     /**
      * 
@@ -16,11 +16,11 @@ define(['socket.io'], function(socket) {
         // connect to server
         socket = io.connect('http://127.0.0.1:35000/');
 
-        console.log('trying to open a socket.io connection: ' + typeof(socket));
+        utilities.log('trying to open a socket.io connection: ' + typeof(socket));
 
         socket.on('connection', function(socket) {
 
-            console.log('websocket connection to server');
+            utilities.log('websocket connection to server');
             
             initializeSocketIOListeners();
 
@@ -101,7 +101,7 @@ define(['socket.io'], function(socket) {
 
                 default:
 
-                    console.log('unknown incoming action: ' + action.name);
+                    utilities.log('unknown incoming action: ' + action.name);
 
                 }
 
