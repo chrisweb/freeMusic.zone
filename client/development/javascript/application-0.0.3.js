@@ -17,12 +17,12 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
     var initializeApplication = function() {
 
         utilities.log('initializing application ...');
-        
+        /*
         var configurationObject = configuration.get();
         
         showStartScreen();
-        
-        $('#' + configurationObject.application.cloudLoginBox.id).submit(function(event) {
+        */
+        //$('#' + configurationObject.application.cloudLoginBox.id).submit(function(event) {
             
             event.preventDefault();
             
@@ -35,7 +35,7 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
             initializeApplicationLoop();
             initializeEventListeners();
             
-        });
+        //});
 
     };
     
@@ -152,19 +152,19 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
             var rawStartYModifier = Math.round((event.offsetY / $(window).height()) * 100);
             
             if (rawStartXModifier < 50) {
-                startXModifier = rawStartXModifier;
+                startXModifier = 50-rawStartXModifier;
             } else {
-                startXModifier = rawStartXModifier-(rawStartXModifier-50);
+                startXModifier = (rawStartXModifier-50)*(-1);
             }
             
             if (rawStartYModifier < 50) {
-                startYModifier = rawStartYModifier;
+                startYModifier = 50-rawStartYModifier;
             } else {
-                startYModifier = rawStartYModifier-(rawStartYModifier-50);
+                startYModifier = (rawStartYModifier-50)*(-1);
             }
             
-            utilities.log('startXModifier ' + startXModifier);
-            utilities.log('startYModifier ' + startYModifier);
+            //utilities.log('startXModifier ' + startXModifier);
+            //utilities.log('startYModifier ' + startYModifier);
             
         });
         
@@ -296,7 +296,7 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
         
         //utilities.log('drawCanvas');
         
-        canvasContext.beginPath();
+        
         
         // clear the screen
         paintCanvasBackground(canvasContext, configurationObject);
@@ -308,13 +308,12 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
         var buildingHeight = 200;
         drawBuilding(canvasContext, configurationObject, startX, startY, buildingHeight);
         
-        /*var startX = 500;
+        var startX = 500;
         var startY = 500;
         var buildingHeight = 500;
-        drawBuilding(canvasContext, configurationObject, startX, startY, buildingHeight);*/
+        drawBuilding(canvasContext, configurationObject, startX, startY, buildingHeight);
         
-        // call this when all the drawing is done
-        canvasContext.closePath();
+
         
     };
     
@@ -339,42 +338,65 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
         //utilities.log('startYModifier ' + startYModifier);
         
         // draw top square
-        canvasContext.moveTo(startXModifier+startX, startYModifier+startY);
+        /*canvasContext.moveTo(startXModifier+startX, startYModifier+startY);
         canvasContext.lineTo(startXModifier+startX+cubeUnit, startYModifier+startY+0);
         canvasContext.lineTo(startXModifier+startX+cubeUnit, startYModifier+startY+cubeUnit);
         canvasContext.lineTo(startXModifier+startX+0, startYModifier+startY+cubeUnit);
-        canvasContext.lineTo(startXModifier+startX, startYModifier+startY);
+        canvasContext.lineTo(startXModifier+startX, startYModifier+startY);*/
         
-        canvasContext.stroke();
+        canvasContext.beginPath();
+        canvasContext.rect(startXModifier+startX, startYModifier+startY, cubeUnit, cubeUnit);
+        canvasContext.fillStyle="green";
+        canvasContext.fill();
+                // call this when all the drawing is done
+        canvasContext.closePath();
         
-        // draw cube bottom
-        canvasContext.moveTo(startX, startY);
+        //canvasContext.stroke();
+        
+        // draw bottom square
+        /*canvasContext.moveTo(startX, startY);
         canvasContext.lineTo(startX+cubeUnit, startY+0);
         canvasContext.lineTo(startX+cubeUnit, startY+cubeUnit);
         canvasContext.lineTo(startX+0, startY+cubeUnit);
-        canvasContext.lineTo(startX, startY);
+        canvasContext.lineTo(startX, startY);*/
         
-        canvasContext.stroke();
+        canvasContext.beginPath();
+        canvasContext.rect(startX, startY, cubeUnit, cubeUnit);
+        canvasContext.fillStyle="blue";
+        canvasContext.fill();
+                // call this when all the drawing is done
+        canvasContext.closePath();
+        
+        //canvasContext.stroke();
+        
+        canvasContext.beginPath();
+        
+        canvasContext.moveTo(startX, startY);
+        canvasContext.lineTo(startXModifier+startX, startYModifier+startY);
+        canvasContext.lineTo(startXModifier+startX+0, startYModifier+startY+cubeUnit);
+        canvasContext.lineTo(startX+0, startY+cubeUnit);
+        canvasContext.moveTo(startX, startY);
+        
         /*
-        canvasContext.moveTo(0, 0);
-        canvasContext.lineTo(cubeUnit, cubeUnit);
+        canvasContext.moveTo(startXModifier+startX+cubeUnit, startYModifier+startY+0);
+        canvasContext.lineTo(startX+cubeUnit, startY+0);
+        
+
+        canvasContext.moveTo(startXModifier+startX+cubeUnit, startYModifier+startY+cubeUnit);
+        canvasContext.lineTo(startX+cubeUnit, startY+cubeUnit);
+
+        
+        canvasContext.moveTo(startXModifier+startX+0, startYModifier+startY+cubeUnit);
+        canvasContext.lineTo(startX+0, startY+cubeUnit);
+        */
         
         canvasContext.stroke();
+
+        canvasContext.fillStyle="red";
+        canvasContext.fill();
         
-        canvasContext.moveTo(canvasWidth, 0);
-        canvasContext.lineTo(canvasWidth-cubeUnit, cubeUnit);
-        
-        canvasContext.stroke();
-        
-        canvasContext.moveTo(canvasWidth, canvasHeigth);
-        canvasContext.lineTo(canvasWidth-cubeUnit, canvasHeigth-cubeUnit);
-        
-        canvasContext.stroke();
-        
-        canvasContext.moveTo(cubeUnit, canvasHeigth-cubeUnit);
-        canvasContext.lineTo(0, canvasHeigth);
-        
-        canvasContext.stroke();*/
+                // call this when all the drawing is done
+        canvasContext.closePath();
         
     };
 
