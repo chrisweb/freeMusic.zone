@@ -14,6 +14,7 @@ require.config({
         'socket.io': 'http://127.0.0.1:35000/socket.io/socket.io',
         'serverCommunication': 'server_communication-0.0.1',
         'utilities': 'utilities-0.0.1',
+        'canvas': 'canvas-0.0.1',
         'application': 'application-0.0.3'
     }
 
