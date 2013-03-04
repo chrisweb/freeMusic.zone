@@ -51,12 +51,56 @@ define(['jquery', 'configuration'], function($, configuration) {
         });
 
     };
+    
+    var getDocumentWidth = function() {
+
+        //utilities.log('getClient width $(document) ... ' + $(document).width());
+
+        return $(document).width();
+        
+    };
+    
+    var getDocumentHeight = function() {
+
+        //utilities.log('getClient height $(document) ... ' + $(document).height());
+
+        return $(document).height();
+        
+    };
+
+    var getCanvasElementWidth = function() {
+
+        var configurationObject = configuration.get();
+        var canvasElementId = configurationObject.application.canvasElement.id;
+        var canvasElement = $('#' + configurationObject.application.canvasElement.id);
+
+        //utilities.log('getClient width canvasElement ... ' + canvasElement.width);
+
+        return canvasElement.width();
+
+    };
+
+    var getCanvasElementHeight = function() {
+
+        var configurationObject = configuration.get();
+        var canvasElementId = configurationObject.application.canvasElement.id;
+        var canvasElement = $('#' + configurationObject.application.canvasElement.id);
+
+        //utilities.log('getClient height canvasElement ... ' + canvasElement.height);
+
+        return canvasElement.height();
+
+    };
 
     /**
      * 
      */
     return {
-        'log': logger
+        'log': logger,
+        'getDocumentWidth': getDocumentWidth,
+        'getDocumentHeight': getDocumentHeight,
+        'getCanvasElementWidth': getCanvasElementWidth,
+        'getCanvasElementHeight': getCanvasElementHeight
     };
 
 });

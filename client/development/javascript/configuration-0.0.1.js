@@ -13,8 +13,8 @@ define([], function() {
                     id: 'worldCanvas',
                     backgroundRGBColors: {
                         R: 75,
-                        G: 35,
-                        B: 75
+                        G: 165,
+                        B: 56
                     }
             
                 },
@@ -27,8 +27,8 @@ define([], function() {
                 cloudLoginBox: {
                     id: 'cloudLoginBox',
                 },
-                unitInPixel: 100,
-                framesPerSecond: 30,
+                unitInPixel: 200,
+                framesPerSecond: 10,
                 debugging: true
                 
             }

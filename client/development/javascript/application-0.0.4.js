@@ -7,9 +7,7 @@
  */
 define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utilities', 'canvas'], function($, configuration, html5Tests, serverCommunication, utilities, canvas) {
 
-    var startXModifier;
-    var startYModifier;
-    var loopHandler;
+    var loopHandler = null;
 
     /**
      * 
@@ -92,7 +90,11 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
         
         utilities.log('stoping application loop ...');
         
-        clearInterval(loopHandler);
+        if (loopHandler !== null) {
+            
+            clearInterval(loopHandler);
+            
+        }
         
     };
     
@@ -118,35 +120,43 @@ define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utiliti
         
         var configurationObject = configuration.get();
         
-        // when the user moves the mouse we position of the top square
+        // when the user moves the mouse we calculate the position in percent
+        // where the top and left canvas represent 50, the bottom and right -50
+        // and the center would be 0
         $('#' + configurationObject.application.canvasElement.id).mousemove(function(event) {
            
-            var canvasWidth = canvas.getWidth();
-            var canvasHeight = canvas.getHeight();
+            var canvasElementWidth = utilities.getCanvasElementWidth();
+            var canvasElementHeight = utilities.getCanvasElementHeight();
             
             //utilities.log('event.offsetX ' + event.offsetX);
             //utilities.log('event.offsetY ' + event.offsetY);
             
-            //utilities.log('canvasWidth ' + canvasWidth);
-            //utilities.log('canvasHeight ' + canvasHeight);
+            //utilities.log('canvasElementWidth ' + canvasElementWidth);
+            //utilities.log('canvasElementHeight ' + canvasElementHeight);
+            
+            var xModifier = null;
+            var yModifier = null;
            
-            var rawStartXModifier = Math.round((event.offsetX / $(window).width()) * 100);
-            var rawStartYModifier = Math.round((event.offsetY / $(window).height()) * 100);
+            var rawStartXModifier = Math.round((event.offsetX / canvasElementWidth) * 100);
+            var rawStartYModifier = Math.round((event.offsetY / canvasElementHeight) * 100);
             
             if (rawStartXModifier < 50) {
-                startXModifier = 50-rawStartXModifier;
+                xModifier = 50-rawStartXModifier;
             } else {
-                startXModifier = (rawStartXModifier-50)*(-1);
+                xModifier = (rawStartXModifier-50)*(-1);
             }
             
             if (rawStartYModifier < 50) {
-                startYModifier = 50-rawStartYModifier;
+                yModifier = 50-rawStartYModifier;
             } else {
-                startYModifier = (rawStartYModifier-50)*(-1);
+                yModifier = (rawStartYModifier-50)*(-1);
             }
             
-            //utilities.log('startXModifier ' + startXModifier);
-            //utilities.log('startYModifier ' + startYModifier);
+            //utilities.log('xModifier ' + xModifier);
+            //utilities.log('yModifier ' + yModifier);
+            
+            canvas.setXModifier(xModifier);
+            canvas.setYModifier(yModifier);
             
         });
         
