@@ -2,13 +2,13 @@
  * 
  * tweets model
  * 
- * @param {type} mongoose
- * @returns {module}
+ * @param object app
+ * @returns {undefined}
  */
-var tweetsModel = function(mongoose) {
+var tweetsModel = function(app) {
     
     var collection = 'tweets';
-    var Schema = mongoose.Schema;
+    var Schema = app.mongoose.Schema;
     var ObjectId = Schema.ObjectId;
 
     var schema = new Schema({
@@ -17,7 +17,7 @@ var tweetsModel = function(mongoose) {
         date: Date
     });
 
-    mongoose.model(collection, schema);
+    app.mongoose.model(collection, schema);
     
 };
 

@@ -12,11 +12,11 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 
 }
 
-// include filesystem module
-var fs = require('fs');
-
 // get the environment variable
 var environment = process.env.NODE_ENV;
+
+// include filesystem module
+var fs = require('fs');
 
 // load modules
 var express = require('express');
@@ -34,17 +34,31 @@ app.get('/javascripts/utilities.log', function(req, res){
 // logfile stream
 var logFile = fs.createWriteStream(__dirname + '/logs/application.log', {flags: 'w'});
 
+// public folder
+switch (environment) {
+    case 'production':
+        var publicDirectory = __dirname + '/public';
+        break;
+    case 'staging':
+        var publicDirectory = __dirname + '/public_staging';
+        break;
+    case 'development':
+        var publicDirectory = __dirname + '/public_development';
+        break;
+}
+
 // application configuration
 app.configure(function() {
     app.use(express.compress()); // include compress before initializing static
+    app.engine('.html', require('ejs').__express);
     app.set('views', __dirname + '/views');
-    app.set('view engine', 'ejs');
+    app.set('view engine', 'html');
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({secret: 'topsecret'}));
     app.use(express.methodOverride());
     app.use(app.router);
-    app.use(express.static(__dirname + '/public'));
+    app.use(express.static(publicDirectory));
     app.use(express.logger());
 });
 
