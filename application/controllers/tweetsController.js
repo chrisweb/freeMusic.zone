@@ -5,12 +5,16 @@
  * @param {type} mongoose
  * @returns {undefined}
  */
-var indexAction = function(request, response) {
+var initialize = function(app) {
     
-    var tweetsModel = require('./models/tweetsModel').get();
+    app.get('/', function(req, res) {
     
-    res.render('index', { helloworld: 'Hello World' });
+        var tweetsModel = require(__dirname + '/../models/tweetsModel').constructor();
+
+        res.render('index', { helloworld: 'Hello World' });
+
+    });
     
 };
 
-exports.index = indexAction;
+exports.initialize = initialize;

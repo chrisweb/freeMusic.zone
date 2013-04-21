@@ -32,7 +32,7 @@ app.get('/javascripts/utilities.log', function(req, res){
 });
 
 // logfile stream
-var logFile = fs.createWriteStream('./logs/application.log', {flags: 'w'});
+var logFile = fs.createWriteStream(__dirname + '/logs/application.log', {flags: 'w'});
 
 // application configuration
 app.configure(function() {
@@ -73,9 +73,7 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
 });
 
 // load controllers
-tweetsController = require('./controllers/tweetsController');
-
-app.get('/', tweetsController.index(request, response));
+tweetsController = require(__dirname + '/controllers/tweetsController').initialize(app);
 
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {

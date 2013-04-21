@@ -21,4 +21,4 @@ var tweetsModel = function(mongoose) {
     
 };
 
-exports.get = tweetsModel;
+exports.constructor = tweetsModel;
