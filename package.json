@@ -1,0 +1,12 @@
+{
+    "name": "jamtweets",
+    "description": "jamendo tracks twitter mining",
+    "version": "0.0.1",
+    "dependencies": {
+        "redis": ">=0.8.3",
+        "hiredis": ">=0.1.15",
+        "mongoose": ">=3.6.6",
+        "express": ">=3.2.0"
+    },
+    "engine": "node >= 0.10.4"
+}
