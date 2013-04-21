@@ -17,10 +17,11 @@ backend
 -------
 
 https://github.com/joyent/node
-- https://github.com/visionmedia/express
-- https://github.com/LearnBoost/mongoose
-- https://github.com/mranney/node_redis
--- https://github.com/pietern/hiredis-node
++ https://github.com/visionmedia/express
++ https://github.com/visionmedia/ejs
++ https://github.com/LearnBoost/mongoose
++ https://github.com/mranney/node_redis
+++ https://github.com/pietern/hiredis-node
 
 frontend
 --------

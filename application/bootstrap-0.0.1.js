@@ -12,6 +12,9 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 
 }
 
+// include filesystem module
+var fs = require('fs');
+
 // get the environment variable
 var environment = process.env.NODE_ENV;
 
@@ -28,10 +31,14 @@ app.get('/javascripts/utilities.log', function(req, res){
     res.send('Hello World');
 });
 
+// logfile stream
+var logFile = fs.createWriteStream('./logs/application.log', {flags: 'w'});
+
 // application configuration
 app.configure(function() {
+    app.use(express.compress()); // include compress before initializing static
     app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
+    app.set('view engine', 'ejs');
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({secret: 'topsecret'}));
@@ -44,7 +51,7 @@ app.configure(function() {
 app.configure('development', function() {
     app.use(express.errorHandler({dumpExceptions: true, showStack: true}));
     app.enable('verbose errors');
-    app.use(express.logger('dev'));
+    app.use(express.logger({stream: logFile}));
 });
 
 app.configure('production', function() {
