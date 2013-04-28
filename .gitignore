@@ -7,6 +7,9 @@ lib-cov
 *.pid
 *.gz
 
+Thums.db
+desktop.ini
+
 pids
 logs
 results

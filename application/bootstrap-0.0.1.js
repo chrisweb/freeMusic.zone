@@ -15,6 +15,9 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 // get the environment variable
 var environment = process.env.NODE_ENV;
 
+// include filesystem module
+var fs = require('fs');
+
 // load modules
 var express = require('express');
 var app = express();
@@ -28,23 +31,41 @@ app.get('/javascripts/utilities.log', function(req, res){
     res.send('Hello World');
 });
 
+// logfile stream
+var logFile = fs.createWriteStream(__dirname + '/logs/application.log', {flags: 'w'});
+
+// public folder
+switch (environment) {
+    case 'production':
+        var publicDirectory = __dirname + '/public';
+        break;
+    case 'staging':
+        var publicDirectory = __dirname + '/public_staging';
+        break;
+    case 'development':
+        var publicDirectory = __dirname + '/public_development';
+        break;
+}
+
 // application configuration
 app.configure(function() {
+    app.use(express.compress()); // include compress before initializing static
+    app.engine('.html', require('ejs').__express);
     app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
+    app.set('view engine', 'html');
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({secret: 'topsecret'}));
     app.use(express.methodOverride());
     app.use(app.router);
-    app.use(express.static(__dirname + '/public'));
+    app.use(express.static(publicDirectory));
     app.use(express.logger());
 });
 
 app.configure('development', function() {
     app.use(express.errorHandler({dumpExceptions: true, showStack: true}));
     app.enable('verbose errors');
-    app.use(express.logger('dev'));
+    app.use(express.logger({stream: logFile}));
 });
 
 app.configure('production', function() {
@@ -66,11 +87,15 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
 });
 
 // load controllers
+<<<<<<< HEAD
 var tweetsControllerModule = require('./controllers/tweetsController');
 
 var tweetsController = new tweetsControllerModule(app);
 
 
+=======
+tweetsController = require(__dirname + '/controllers/tweetsController').initialize(app);
+>>>>>>> 6ba9ccd1e7f5ab9c1db66a5f57fb454f81003d34
 
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {
