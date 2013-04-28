@@ -1,25 +1,15 @@
 /**
  * 
- * tweets model constructor
+ * tweets model
  * 
-<<<<<<< HEAD
  * @param {type} app
-=======
- * @param object app
->>>>>>> 6ba9ccd1e7f5ab9c1db66a5f57fb454f81003d34
- * @returns {undefined}
+ * @returns {tweetsModel}
  */
 var tweetsModel = function(app) {
-    
-<<<<<<< HEAD
+
     var collection = 'tweet';
     var schema = app.mongoose.Schema;
     var mixedType = schema.Types.Mixed;
-=======
-    var collection = 'tweets';
-    var Schema = app.mongoose.Schema;
-    var ObjectId = Schema.ObjectId;
->>>>>>> 6ba9ccd1e7f5ab9c1db66a5f57fb454f81003d34
 
     /**
      * possible values:
@@ -37,7 +27,6 @@ var tweetsModel = function(app) {
     },
     { safe: true, wtimeout: 10000 }); // return errors and 10 seconds timeout
 
-<<<<<<< HEAD
     // avoid that mongoose checks if indexes exist on every startup
     tweetsSchema.set('autoIndex', false);
     
@@ -131,10 +120,3 @@ tweetsModel.prototype.getPopular = function(options, callback) {
 };
 
 module.exports = tweetsModel;
-=======
-    app.mongoose.model(collection, schema);
-    
-};
-
-exports.constructor = tweetsModel;
->>>>>>> 6ba9ccd1e7f5ab9c1db66a5f57fb454f81003d34

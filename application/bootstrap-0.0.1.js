@@ -87,15 +87,9 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
 });
 
 // load controllers
-<<<<<<< HEAD
 var tweetsControllerModule = require('./controllers/tweetsController');
 
 var tweetsController = new tweetsControllerModule(app);
-
-
-=======
-tweetsController = require(__dirname + '/controllers/tweetsController').initialize(app);
->>>>>>> 6ba9ccd1e7f5ab9c1db66a5f57fb454f81003d34
 
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {
