@@ -3,48 +3,36 @@ exports.version = '0.0.1';
 
 var routes = {};
 
-createRoute = function(app, configuration, module, controller, action) {
+mapRoutes = function(app, configuration) {
 
-    if (typeof(module) === 'undefined') {
-        
-        this.module = 'default';
-        
-    } else {
-        
-        this.module = module;
-        
-    }
-    
-    if (typeof(controller) === 'undefined') {
-        
-        this.controller = 'index';
-        
-    } else {
-        
-        this.controller = controller;
-        
-    }
-    
-    if (typeof(action) === 'undefined') {
-        
-        this.action = 'index';
-        
-    } else {
-        
-        this.action = action;
-        
-    }
+    console.log('routes mapper got executed');
 
     if (configuration.application.useModules) {
 
-        app.get('/' + this['module'] + '/' + this['controller'] + '/' + this['action'], this['module'].this['controller'].this['action']);
+        app.get('/:module/:controller/:action', function(request, response, next) {
+            
+            
+            
+        });
     
     } else {
         
-        app.get('/' + this['controller'] + '/' + this['action'], this['controller'].this['action']);
+        app.get('/:controller/:action', function(request, response, next) {
+
+            console.log(request.params.controller, 'request.params.controller');
+            console.log(request.params.action, 'request.params.action');
+            console.log('path: ../../application/controllers/' + request.params.controller + 'Controller');
+
+            var controllerModule = require('../../application/controllers/' + request.params.controller + 'Controller');
+
+            console.log('request[\'params\'][\'action\']', request['params']['action']);
+
+            controllerModule[request.params.action]();
+            
+        });
         
     }
 
 };
 
-exports.get = route;
+exports.mapRoutes = mapRoutes;

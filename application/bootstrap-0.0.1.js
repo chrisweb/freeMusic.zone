@@ -86,10 +86,9 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
     
 });
 
-// load controllers
-var tweetsControllerModule = require('./controllers/tweetsController');
+var routesModule = require('../library/plugins/router-0.0.1');
 
-var tweetsController = new tweetsControllerModule(app);
+routesModule.mapRoutes(app, configuration);
 
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {
