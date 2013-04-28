@@ -1,16 +1,23 @@
+
 /**
  * 
- * tweets controller
+ * tweets controller cobstructor
  * 
- * @param {type} mongoose
- * @returns {undefined}
+ * @param {type} app
+ * @returns {tweetsController}
  */
-var indexAction = function(request, response) {
+var tweetsController = function(app) {
     
-    var tweetsModel = require('./models/tweetsModel').get();
+    var tweetsModelModule = require('../models/tweetsModel');
     
-    
+    this.tweetsModel = new tweetsModelModule(app);
     
 };
 
-exports.index = indexAction;
+tweetsController.prototype.index = function() {
+    
+    this.tweetsModel.getPopular({ 'offset': 0, 'limit': 100 });
+    
+};
+
+module.exports = tweetsController;
