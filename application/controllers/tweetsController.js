@@ -6,8 +6,10 @@
  * @param {type} app
  * @returns {tweetsController}
  */
+
+/*
 var tweetsController = function(app) {
-    
+
     var tweetsModelModule = require('../models/tweetsModel');
     
     this.tweetsModel = new tweetsModelModule(app);
@@ -21,3 +23,12 @@ tweetsController.prototype.index = function() {
 };
 
 module.exports = tweetsController;
+*/
+
+index = function(app) {
+    
+    console.log('controller is ready');
+    
+}
+
+exports.index = index;
