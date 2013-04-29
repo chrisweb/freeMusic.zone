@@ -1,4 +1,3 @@
-
 exports.version = '0.0.1';
 
 var routes = {};
@@ -26,8 +25,10 @@ mapRoutes = function(app, configuration) {
             var controllerModule = require('../../application/controllers/' + request.params.controller + 'Controller');
 
             console.log('request[\'params\'][\'action\']', request['params']['action']);
+            
+            global.actionName = request.params.action;
 
-            controllerModule[request.params.action]();
+            controllerModule.global['actionName']();
             
         });
         
