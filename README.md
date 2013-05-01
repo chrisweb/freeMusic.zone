@@ -37,6 +37,9 @@ install instructions
 Use your command line, go to directory of the application
 cd /path_to_jam_tweets/
 
+install python before trying to install hiredis
+(in windows ensure that the correct python path is set by typing this command in your power shell: $env:PYTHON=C:\Python33)
+
 To install the project run this command:
 npm install
 This will automatically install all the dependencies listed in the package.json

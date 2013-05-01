@@ -16,6 +16,7 @@ mapRoutes = function(app, configuration) {
     
     } else {
         
+        // http://127.0.0.1/tweets/index
         app.get('/:controller/:action', function(request, response, next) {
 
             console.log('request.params.controller' + request.params.controller);
@@ -37,7 +38,9 @@ mapRoutes = function(app, configuration) {
             action();
             */
            
-           controllerModule.global['actionName']();
+           //controllerModule.global['actionName']();
+           
+           controllerModule.index();
             
         });
         
