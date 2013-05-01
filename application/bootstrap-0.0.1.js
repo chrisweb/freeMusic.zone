@@ -63,13 +63,12 @@ app.configure(function() {
 });
 
 app.configure('development', function() {
-    app.use(express.errorHandler({dumpExceptions: true, showStack: true}));
+    //app.use(express.errorHandler({dumpExceptions: true, showStack: true}));
     app.enable('verbose errors');
     app.use(express.logger({stream: logFile}));
 });
 
 app.configure('production', function() {
-    app.use(express.errorHandler());
     app.disable('verbose errors');
 });
 
@@ -91,15 +90,41 @@ var tweetsModelModule = require('./models/tweetsModel');
 
 var tweetsModel = new tweetsModelModule(app);
 
-// load all controllers
-//var tweetsModelModule = require('../models/tweetsModel');
+var controllers = {};
 
-//this.tweetsModel = new tweetsModelModule(app);
+// load all controllers (synchronously)
+if (configuration.application.useModules) {
+
+    fs.readdirSync(__dirname + '/modules').forEach(function(moduleDirectoryName) {
+        
+        fs.readdirSync(__dirname + '/' + moduleDirectoryName).forEach(function(controllerFileName) {
+            
+            //name without .js at the end
+            controllerName = controllerFileName.substr(0, controllerFileName.length-3);
+
+            controllers[controllerName] = require(__dirname + '/modules/' + moduleDirectoryName + '/' + controllerFileName);
+            
+        });
+
+    });
+
+} else {
+
+    fs.readdirSync(__dirname + '/controllers').forEach(function(controllerFileName) {
+        
+        //name without .js at the end
+        controllerName = controllerFileName.substr(0, controllerFileName.length-3);
+
+        controllers[controllerName] = require(__dirname + '/controllers/' + controllerFileName);
+
+    });
+
+}
 
 // execute routes plugin
 var routesModule = require('../library/plugins/router-0.0.1');
 
-routesModule.mapRoutes(app, configuration);
+routesModule.mapRoutes(app, configuration, controllers);
 
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {

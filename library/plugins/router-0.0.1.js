@@ -2,9 +2,9 @@ exports.version = '0.0.1';
 
 var routes = {};
 
-mapRoutes = function(app, configuration) {
+mapRoutes = function(app, configuration, controllers) {
 
-console.log('routes mapper got executed');
+    console.log('routes mapper got executed');
 
     if (configuration.application.useModules) {
 
@@ -14,6 +14,9 @@ console.log('routes mapper got executed');
 
     } else {
 
+        // TODO: if the request path is static file, serve it and stop routing
+
+        /*
         console.log(request);
 
         var filePath = request.path;
@@ -28,85 +31,123 @@ console.log('routes mapper got executed');
             }
 
         });
+        */
 
         // http://127.0.0.1/tweets/index
         app.get('/:controller/:action', function(request, response, next) {
 
-            console.log('request.params.controller' + request.params.controller);
-            console.log('request.params.action' + request.params.action);
-            console.log('path: ../../application/controllers/' + request.params.controller + 'Controller');
-
-            var controllerModule = require('../../application/controllers/' + request.params.controller + 'Controller');
-
-            /*
-             global.actionName = request.params.action;
-
-             var controller = new controllerModule(app);
-
-             console.log('controller type: ' + typeof(controller));
-             console.log('global type: ' + typeof(global));
-
-             var action = controller.global['actionName'];
-
-             action();
-             */
-
-            //controllerModule.global['actionName']();
-
-            var controller = new controllerModule(app);
+            console.log('request.params.controller: ' + request.params.controller);
+            console.log('request.params.action: ' + request.params.action);
             
             try {
-                controller.index(request, response);
+
+                // TODO: if controller or action not found send 404
+                // TODO: extract get parameters like /:parameterName/:parameterValue
+                
+                var errorNotFound = false;
+
+                console.log('**' + typeof(controllers[request.params.controller + 'Controller']));
+                console.log(controllers.hasOwnProperty(request.params.controller + 'Controller'));
+
+                if (controllers.hasOwnProperty(request.params.controller + 'Controller')) {
+                    
+                    var controllerModule = controllers[request.params.controller + 'Controller'];
+                    
+                    var controller = new controllerModule(app);
+
+                    var actionName = request.params.action;
+                    
+                    console.log('***' + typeof(controller[actionName]));
+                    console.log(actionName in controller);
+                    
+                    if (actionName in controller) {
+                        
+                        controller[actionName](request, response);
+                        
+                    } else {
+                        
+                        errorNotFound = true;
+                        
+                    }
+                    
+                } else {
+                    
+                    errorNotFound = true;
+                    
+                }
+                
+                if (errorNotFound) {
+                    
+                    var path = '/' + request.params.controller + '/' + request.params.action;
+                    
+                    var error = { status: 404, url: path };
+                    
+                    next(error, request, response, next);
+                    
+                }
+                
             } catch (error) {
+                
+                next(error, request, response, next);
                 
             }
 
-            next();
-
         });
         
-app.get('/people.json', function(request, response) {
-  // We want to set the content-type header so that the browser understands
-  //  the content of the response.
-  response.contentType('application/json');
+        app.get('/some.json', function(request, response, next) {
 
-  // Normally, the would probably come from a database, but we can cheat:
-  var people = [
-    { name: 'Dave', location: 'Atlanta' },
-    { name: 'Santa Claus', location: 'North Pole' },
-    { name: 'Man in the Moon', location: 'The Moon' }
-  ];
+            try {
+                
+                var controllerModule = controllers['tweets'] + 'Controller';
 
-  // Since the request is for a JSON representation of the people, we
-  //  should JSON serialize them. The built-in JSON.stringify() function
-  //  does that.
-  var peopleJSON = JSON.stringify(people);
-
-  // Now, we can use the response object's send method to push that string
-  //  of people JSON back to the browser in response to this request:
-  response.send(peopleJSON);
-});
-
-        // https://github.com/visionmedia/express/tree/master/examples/mvc
-        // assume "not found" in the error msgs
-        // is a 404. this is somewhat silly, but
-        // valid, you can do whatever you like, set
-        // properties, use instanceof etc.
-        app.use(function(error, req, res, next) {
-
-            // treat as 404
-            if (~err.message.indexOf('not found')) return next();
-            // log it
-            console.error(err.stack);
-            // error page
-            res.status(500).render('5xx');
+                var controller = new controllerModule(app);
+                
+                controller.tweetsJson(request, response);
+                
+            } catch (error) {
+                
+                next();
+                
+            }
 
         });
 
-        // assume 404 since no middleware responded
-        app.use(function(req, res, next) {
+        // 5xx error
+        app.use(function(error, request, response, next) {
+            
+            console.error(error);
+            
+            if (error.status === 404) return next();
+            
+            // error page
+            response.status(parseInt(error.status));
 
-            res.status(404).render('404', { url: req.originalUrl });
+            if (request.accepts('html')) {
+            
+                response.render('5xx', { stack: error.stack.replace(/\n/g, '<br>'), message: error.message });
+                
+            } else if (request.accepts('json')) {
+                
+                response.send({ code: error.status, stack: error.stack, message: error.message });
+                
+            }
+
+        });
+
+        // 404 error
+        app.use(function(request, response) {
+
+            response.status(404);
+            
+            if (request.accepts('html')) {
+            
+                response.render('404', { url: request.originalUrl });
+                
+            } else if (request.accepts('json')) {
+                
+                response.send({ code: '404', url: request.originalUrl });
+                
+            }
 
         });
 
