@@ -41,6 +41,9 @@ To install the project run this command:
 npm install
 This will automatically install all the dependencies listed in the package.json
 
+you can also update the packages by using this command:
+npm update
+
 Copy the default configuration file at "/path_to_jam_tweets/application/configurations/default.js" and rename it "configuration.js", then edit the configuration file and add your own values
 
 To run the project run this command on linux:

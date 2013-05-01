@@ -11,10 +11,9 @@ Thums.db
 desktop.ini
 
 pids
-logs
 results
 nbproject
 
-npm-debug.log
+configurations/configuration.js
 
-configuration.js
+
