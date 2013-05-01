@@ -86,6 +86,17 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
     
 });
 
+// load all models
+var tweetsModelModule = require('./models/tweetsModel');
+
+var tweetsModel = new tweetsModelModule(app);
+
+// load all controllers
+//var tweetsModelModule = require('../models/tweetsModel');
+
+//this.tweetsModel = new tweetsModelModule(app);
+
+// execute routes plugin
 var routesModule = require('../library/plugins/router-0.0.1');
 
 routesModule.mapRoutes(app, configuration);

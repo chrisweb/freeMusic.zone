@@ -6,29 +6,34 @@
  * @param {type} app
  * @returns {tweetsController}
  */
-
-/*
 var tweetsController = function(app) {
 
-    var tweetsModelModule = require('../models/tweetsModel');
-    
-    this.tweetsModel = new tweetsModelModule(app);
+    this.app = app;
     
 };
 
-tweetsController.prototype.index = function() {
+tweetsController.prototype.index = function(request, response) {
+
+    console.log('tweets controller index action got executed');
     
-    this.tweetsModel.getPopular({ 'offset': 0, 'limit': 100 });
+    console.log(request);
+    
+    //this.tweetsModel.getPopular({ 'offset': 0, 'limit': 100 });
+    
+    response.render('tweets/index', { tweets: undefined, helloworld: 'Hello World' });
     
 };
 
 module.exports = tweetsController;
-*/
 
+/*
 index = function(app) {
     
-    console.log('controller is ready');
+    console.log('tweets controller index action got executed');
+    
+    
     
 }
 
 exports.index = index;
+*/
