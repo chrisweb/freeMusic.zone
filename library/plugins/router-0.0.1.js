@@ -14,27 +14,9 @@ mapRoutes = function(app, configuration, controllers) {
 
     } else {
 
-        // TODO: if the request path is static file, serve it and stop routing
-
-        /*
-        console.log(request);
-
-        var filePath = request.path;
-
-        fs.exists(filePath, function(exists) {
-
-            if (!exists) {
-
-
-
-
-            }
-
-        });
-        */
-
-        // http://127.0.0.1/tweets/index
-        app.get('/:controller/:action', function(request, response, next) {
+        // for example: http://127.0.0.1/tweets/index
+        // app.all all http verbs, app.get only get request, app.post, ...
+        app.all('/:controller/:action', function(request, response, next) {
 
             console.log('request.params.controller: ' + request.params.controller);
             console.log('request.params.action: ' + request.params.action);

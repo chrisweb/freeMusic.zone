@@ -26,39 +26,42 @@ var app = express();
 var configurationModule = require('./configurations/configuration.js');
 var configuration = configurationModule.get();
 
-// share the utilities module with the client code
-app.get('/javascripts/utilities.log', function(req, res){
-    res.send('Hello World');
-});
-
 // logfile stream
 var logFile = fs.createWriteStream(__dirname + '/logs/application.log', {flags: 'w'});
+
+// share the utilities module with the client code
+//app.get('/javascripts/utilities.log', function(req, res){
+//    res.send('Hello World');
+//});
 
 // public folder
 switch (environment) {
     case 'production':
-        var publicDirectory = __dirname + '/public';
+        var publicDirectory = __dirname + '/../public';
         break;
     case 'staging':
-        var publicDirectory = __dirname + '/public_staging';
+        var publicDirectory = __dirname + '/../public_staging';
         break;
     case 'development':
-        var publicDirectory = __dirname + '/public_development';
+        var publicDirectory = __dirname + '/../public_development';
         break;
 }
+
+console.log('publicDirectory: ' + publicDirectory);
 
 // application configuration
 app.configure(function() {
     app.use(express.compress()); // include compress before initializing static
+    // server static files before executing routes
+    app.use(express.static(publicDirectory));
     app.engine('.html', require('ejs').__express);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
     app.use(express.bodyParser());
     app.use(express.cookieParser());
-    app.use(express.session({secret: 'topsecret'}));
+    app.use(express.session({secret: configuration.application.session.secret }));
     app.use(express.methodOverride());
     app.use(app.router);
-    app.use(express.static(publicDirectory));
     app.use(express.logger());
 });
 

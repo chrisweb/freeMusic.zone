@@ -62,7 +62,10 @@ getConfiguration = function() {
              * 
              */
             configuration.application = {
-                useModules: false
+                useModules: false,
+                session: {
+                    secret: 'my_secret_hash'
+                }
             };
 
             break;
