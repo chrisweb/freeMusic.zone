@@ -1,6 +1,8 @@
-<% include header.html %>
-<div id="error">
+<%- header %>
+<div class="alert alert-error">
     Error:<br>
-    <%- stack %>
+    <% if (environment === 'development') { %>
+        <%- stack %>
+    <% } %>
 </div>
-<% include footer.html %>
+<%- footer %>

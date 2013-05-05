@@ -15,8 +15,14 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 // get the environment variable
 var environment = process.env.NODE_ENV;
 
+// utilities module
+var utilities = require('../library/shared/utilities-0.0.1');
+
 // include filesystem module
 var fs = require('fs');
+
+// ejs templates
+var ejs = require('ejs');
 
 // load modules
 var express = require('express');
@@ -28,11 +34,6 @@ var configuration = configurationModule.get();
 
 // logfile stream
 var logFile = fs.createWriteStream(__dirname + '/logs/application.log', {flags: 'w'});
-
-// share the utilities module with the client code
-//app.get('/javascripts/utilities.log', function(req, res){
-//    res.send('Hello World');
-//});
 
 // public folder
 switch (environment) {
@@ -47,14 +48,14 @@ switch (environment) {
         break;
 }
 
-console.log('publicDirectory: ' + publicDirectory);
+utilities.log('publicDirectory: ' + publicDirectory);
 
 // application configuration
 app.configure(function() {
     app.use(express.compress()); // include compress before initializing static
     // server static files before executing routes
     app.use(express.static(publicDirectory));
-    app.engine('.html', require('ejs').__express);
+    app.engine('.html', ejs.__express);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
     app.use(express.bodyParser());
@@ -63,6 +64,7 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.logger());
+    app.set('environment', environment)
 });
 
 app.configure('development', function() {
@@ -75,6 +77,13 @@ app.configure('production', function() {
     app.disable('verbose errors');
 });
 
+// app footer and header
+var headerHtml = ejs.render(fs.readFileSync(__dirname + '/views/header.html', 'utf8'), { environment: app.get('environment') });
+var footerHtml = ejs.render(fs.readFileSync(__dirname + '/views/footer.html', 'utf8'), { environment: app.get('environment') });
+
+app.set('headerHtml', headerHtml);
+app.set('footerHtml', footerHtml);
+
 // mongodb
 app.mongoose = require('mongoose');
 
@@ -82,16 +91,23 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
     
     if (typeof(error) !== 'undefined') {
         
-        console.log('mongodb connection failed, host: ' + configuration.mongodb.host + ', database: ' + configuration.mongodb.database.name + ', error: ' + error);
+        utilities.log('mongodb connection failed, host: ' + configuration.mongodb.host + ', database: ' + configuration.mongodb.database.name + ', error: ' + error);
         
     }
     
 });
 
-// load all models
-var tweetsModelModule = require('./models/tweetsModel');
+// load all models (synchronously)
+var models = {};
 
-var tweetsModel = new tweetsModelModule(app);
+fs.readdirSync(__dirname + '/models').forEach(function(modelFileName) {
+
+    //name without .js at the end
+    modelName = modelFileName.substr(0, modelFileName.length-3);
+
+    models[modelName] = require(__dirname + '/models/' + modelFileName);
+
+});
 
 var controllers = {};
 
@@ -125,14 +141,14 @@ if (configuration.application.useModules) {
 }
 
 // execute routes plugin
-var routesModule = require('../library/plugins/router-0.0.1');
+var routerModule = require('../library/plugins/router-0.0.1');
 
-routesModule.mapRoutes(app, configuration, controllers);
+routerModule.mapRoutes(app, configuration, controllers, models);
 
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {
     
-    console.log('server started on port: ' + configuration.server.port + ', environment: ' + environment);
+    utilities.log('server started on port: ' + configuration.server.port + ', environment: ' + environment);
     
 });
 

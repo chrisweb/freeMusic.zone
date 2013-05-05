@@ -1,10 +1,12 @@
 app name
 ========
 
+
+
 description
 -----------
 
-
+http://chrisweb.github.io/jam_prototype
 
 backend
 -------
@@ -14,17 +16,17 @@ https://github.com/joyent/node
 * https://github.com/visionmedia/ejs
 * https://github.com/LearnBoost/mongoose
 * https://github.com/mranney/node_redis
-* * https://github.com/pietern/hiredis-node
+* https://github.com/pietern/hiredis-node
 
 frontend
 --------
 
-https://github.com/jrburke/requirejs
-https://github.com/jquery/jquery
-https://github.com/angular
-http://twitter.github.io/bootstrap/
-https://github.com/scottschiller/SoundManager2
-https://github.com/Modernizr/Modernizr
+* https://github.com/jrburke/requirejs
+* https://github.com/jquery/jquery
+* https://github.com/angular
+* https://github.com/twitter/bootstrap/tree/3.0.0-wip
+* https://github.com/scottschiller/SoundManager2
+* https://github.com/Modernizr/Modernizr
 
 install instructions
 --------------------
@@ -55,6 +57,15 @@ NODE_ENV can be development, staging, production
 
 Now open your browser and go to:
 127.0.0.1:THE_PORT_YOU_HAVE_SET_IN_THE_CONFIGURATION
+
+twitter boostrap less css
+-------------------------
+
+install lesscss nodejs module:
+npm install -g less@beta
+
+deployment
+----------
 
 contributors
 ------------

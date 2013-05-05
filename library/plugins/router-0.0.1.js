@@ -1,22 +1,59 @@
+// include filesystem module
+var fs = require('fs');
+
 exports.version = '0.0.1';
 
 var routes = {};
 
-mapRoutes = function(app, configuration, controllers) {
+mapRoutes = function(app, configuration, controllers, models) {
 
     console.log('routes mapper got executed');
+    
+    /**
+     * share the utilities plugin with the client
+     */
+    app.all('/javascripts/utilities-0.0.1.js', function(request, response, next) {
 
+        console.log(' $$$ ROUTE MATCH: /javascripts/utilities-0.0.1.js by: ' + request.url);
+
+        try {
+
+            response.send(fs.readFileSync(__dirname + '/../shared/utilities-0.0.1.js', 'utf8'));
+
+        } catch(error) {
+
+            console.log(error);
+
+            next(error, request, response, next);
+
+        }
+
+    });
+
+    /**
+     * serve the api calls
+     */
     if (configuration.application.useModules) {
 
-        app.get('/:module/:controller/:action', function(request, response, next) {
+        /**
+         * route: /api/v1/:module/:controller/:action
+         */
+        app.all('/api/v1/:module/:controller/:action', function(request, response, next) {
+            
+            console.log(' $$$ ROUTE MATCH: /api/v1/:module/:controller/:action by: ' + request.url);
 
         });
 
     } else {
 
-        // for example: http://127.0.0.1/tweets/index
-        // app.all all http verbs, app.get only get request, app.post, ...
-        app.all('/:controller/:action', function(request, response, next) {
+        /**
+         * route: /api/v1/:controller/:action
+         */
+        // for example: http://127.0.0.1/api/v1/:tweets/:list
+        // app.all: all http verbs, app.get: only get request, app.post, ...
+        app.all('/api/v1/:controller/:action', function(request, response, next) {
+            
+            console.log(' $$$ ROUTE MATCH: /api/v1/:controller/:action by: ' + request.url);
 
             console.log('request.params.controller: ' + request.params.controller);
             console.log('request.params.action: ' + request.params.action);
@@ -44,7 +81,7 @@ mapRoutes = function(app, configuration, controllers) {
                     
                     if (actionName in controller) {
                         
-                        controller[actionName](request, response);
+                        controller[actionName](request, response, models);
                         
                     } else {
                         
@@ -62,7 +99,7 @@ mapRoutes = function(app, configuration, controllers) {
                     
                     var path = '/' + request.params.controller + '/' + request.params.action;
                     
-                    var error = { status: 404, url: path };
+                    error = { status: 404, url: path };
                     
                     next(error, request, response, next);
                     
@@ -75,65 +112,89 @@ mapRoutes = function(app, configuration, controllers) {
             }
 
         });
-        
-        app.get('/some.json', function(request, response, next) {
-
-            try {
-                
-                var controllerModule = controllers['tweets'] + 'Controller';
-
-                var controller = new controllerModule(app);
-                
-                controller.tweetsJson(request, response);
-                
-            } catch (error) {
-                
-                next();
-                
-            }
-
-        });
-
-        // 5xx error
-        app.use(function(error, request, response, next) {
-            
-            console.error(error);
-            
-            if (error.status === 404) return next();
-            
-            // error page
-            response.status(parseInt(error.status));
-
-            if (request.accepts('html')) {
-            
-                response.render('5xx', { stack: error.stack.replace(/\n/g, '<br>'), message: error.message });
-                
-            } else if (request.accepts('json')) {
-                
-                response.send({ code: error.status, stack: error.stack, message: error.message });
-                
-            }
-
-        });
-
-        // 404 error
-        app.use(function(request, response) {
-
-            response.status(404);
-            
-            if (request.accepts('html')) {
-            
-                response.render('404', { url: request.originalUrl });
-                
-            } else if (request.accepts('json')) {
-                
-                response.send({ code: '404', url: request.originalUrl });
-                
-            }
-
-        });
-
+    
     }
+
+    /**
+     * route: /
+     * deliver the html code of our one page app
+     */
+    app.get('/', function(request, response, next) {
+
+        console.log(' $$$ ROUTE MATCH: / by: ' + request.url);
+        //console.log(' error: ' + error);
+
+        //if (error !== false) return next();
+
+        try {
+
+            var headerHtml = app.get('headerHtml');
+            var footerHtml = app.get('footerHtml');
+
+            response.render('index', { environment: app.get('environment'), header: headerHtml, footer: footerHtml });
+
+        } catch (error) {
+
+            console.log('* error: ' + JSON.stringify(error));
+
+            next(error, request, response, next);
+
+        }
+
+    });
+
+    /**
+     * 5xx error middleware
+     */
+    app.use(function(error, request, response, next) {
+
+        console.log('server error: ' + JSON.stringify(error));
+
+        if (error.status === 404) return next();
+
+        console.log('5xx middleware catch by: ' + request.url);
+
+        // error page
+        response.status(parseInt(error.status));
+
+        if (request.accepts('html')) {
+
+            var headerHtml = app.get('headerHtml');
+            var footerHtml = app.get('footerHtml');
+
+            response.render('5xx', { environment: app.get('environment'), stack: error.stack.replace(/\n/g, '<br>'), message: error.message, header: headerHtml, footer: footerHtml });
+
+        } else if (request.accepts('json')) {
+
+            response.send({ code: error.status, stack: error.stack, message: error.message });
+
+        }
+
+    });
+
+    /**
+     * 404 error middleware
+     */
+    app.use(function(request, response) {
+
+        response.status(404);
+
+        console.log('404 middleware catch by: ' + request.url);
+
+        if (request.accepts('html')) {
+
+            var headerHtml = app.get('headerHtml');
+            var footerHtml = app.get('footerHtml');
+
+            response.render('404', { environment: app.get('environment'), url: request.originalUrl, header: headerHtml, footer: footerHtml });
+
+        } else if (request.accepts('json')) {
+
+            response.send({ code: '404', url: request.originalUrl });
+
+        }
+
+    });
 
 };
 

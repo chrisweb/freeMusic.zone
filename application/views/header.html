@@ -3,7 +3,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title>JamTweets</title>
+        <title>JamPrototype</title>
         <base href="">
         <link rel="home" href="/index.html">
         
@@ -12,27 +12,27 @@
 
         <meta name="robots" content="index, follow, NOODP, NOYDIR">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <meta name="description" content="JamTweets">
+        <meta name="description" content="JamPrototype">
 
-        <link rel="canonical" href="https://www.jamtweets.com/index.html?language=en" />
-        <link rel="alternate" hreflang="af" href="https://www.jamtweets.com/index.html?language=de" />
-        <link rel="alternate" hreflang="af" href="https://www.jamtweets.com/index.html?language=fr" />
+        <link rel="canonical" href="https://www.jamprototype.com/index.html?language=en" />
+        <link rel="alternate" hreflang="af" href="https://www.jamprototype.com/index.html?language=de" />
+        <link rel="alternate" hreflang="af" href="https://www.jamprototype.com/index.html?language=fr" />
 
-        <meta property="og:title" content="JamTweets" />
+        <meta property="og:title" content="JamPrototype" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.jamtweets.com/images/logo.png" />
-        <meta property="og:site_name" content="JamTweets" />
-        <meta property="og:url" content="https://www.jamtweets.com" />
-        <meta property="og:description" content="JamTweets">
+        <meta property="og:image" content="https://www.jamprototype.com/images/logo.png" />
+        <meta property="og:site_name" content="JamPrototype" />
+        <meta property="og:url" content="https://www.jamprototype.com" />
+        <meta property="og:description" content="JamPrototype">
         <meta property="fb:app_id" content="1234567"/>
 
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:url" content="https://www.jamtweets.com" />
-        <meta name="twitter:title" content="JamTweets" />
-        <meta name="twitter:image" content="https://www.jamtweets.com" />
-        <meta name="twitter:site" content="@jamtweets" />
-        <meta name="twitter:creator" content="@jamtweets" />
-        <meta name="twitter:description" content="JamTweets">
+        <meta name="twitter:url" content="https://www.jamprototype.com" />
+        <meta name="twitter:title" content="JamPrototype" />
+        <meta name="twitter:image" content="https://www.jamprototype.com" />
+        <meta name="twitter:site" content="@jamprototype" />
+        <meta name="twitter:creator" content="@jamprototype" />
+        <meta name="twitter:description" content="JamPrototype">
 
         <meta name="apple-itunes-app" content="app-id=myAppStoreID, affiliate-data=myAffiliateData, app-argument=myURL">
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -43,12 +43,36 @@
         <link rel="apple-touch-icon" sizes="114x114" href="icon_114.png" />
         <link rel="apple-touch-icon" sizes="144x144" href="icon_144.png" />
         
-        <meta name="application-name" content="JamTweets"/> 
+        <meta name="application-name" content="JamPrototype"/> 
         <meta name="msapplication-TileColor" content="#3e2743"/> 
         <meta name="msapplication-TileImage" content="/images/icon_144.png"/>
-        <meta name="msapplication-tooltip" content="JamTweets" />
+        <meta name="msapplication-tooltip" content="JamPrototype" />
 
         <link rel="shortcut icon" href="/favicon.ico">
+        
+        <% if (environment === 'development') { %>
+        
+            <link rel="/stylesheets/vendor/less/bootstrap-3.0.0-wip" type="text/css" href="styles.less" />
+            
+            <script type="text/javascript">
+                less = {
+                    env: "development", // or "production"
+                    async: false,       // load imports async
+                    fileAsync: false,   // load imports async when in a page under
+                                        // a file protocol
+                    poll: 1000,         // when in watch mode, time in ms between polls
+                    functions: {},      // user functions, keyed by name
+                    dumpLineNumbers: "comments", // or "mediaQuery" or "all"
+                    relativeUrls: false // whether to adjust url's to be relative
+                                        // if false, url's are already relative to the
+                                        // entry less file
+                };
+            </script>
+        
+            <script src="/javascripts/vendor/less/less-1.3.3.min.js" type="text/javascript"></script>
+            
+        <% } %>
+        
         <link rel="stylesheet" href="/stylesheets/main-0.0.1.css">
         <script data-main="/javascripts/main-0.0.1" src="/javascripts/vendor/require-2.1.5.js"></script>
 
