@@ -1,33 +1,28 @@
-jamtweets
-=========
+app name
+========
 
 description
 -----------
 
-create jamendo.com charts using an analyses of tweets
 
-possible evolutions: 
-* charts per genre
-* charts per country / language
-* allow users to create playlists which then get filled by tweeting the playlist id in combination of the jamendo track url
-* users that tweets a song to the playlist for the first time get their song placed on a suggestions section of the playlist, as soon as three other users also tweet that track it gets included in the playlist
-* more retweets of one song increases it's score and therefore it's chance to get played
 
 backend
 -------
 
 https://github.com/joyent/node
-+ https://github.com/visionmedia/express
-+ https://github.com/visionmedia/ejs
-+ https://github.com/LearnBoost/mongoose
-+ https://github.com/mranney/node_redis
-++ https://github.com/pietern/hiredis-node
+* https://github.com/visionmedia/express
+* https://github.com/visionmedia/ejs
+* https://github.com/LearnBoost/mongoose
+* https://github.com/mranney/node_redis
+* * https://github.com/pietern/hiredis-node
 
 frontend
 --------
 
 https://github.com/jrburke/requirejs
 https://github.com/jquery/jquery
+https://github.com/angular
+http://twitter.github.io/bootstrap/
 https://github.com/scottschiller/SoundManager2
 https://github.com/Modernizr/Modernizr
 
