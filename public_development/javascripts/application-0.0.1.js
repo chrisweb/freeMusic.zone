@@ -7,7 +7,7 @@
  * @param {type} socket
  * @returns {_L4.Anonym$0}
  */
-define(['jquery', 'configuration', 'utilities', 'colorbox'], function($, configuration, utilities) {
+define(['jquery', 'configuration', 'colorbox'], function($, configuration) {
 
     var loopHandler = null;
     

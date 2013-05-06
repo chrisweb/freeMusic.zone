@@ -53,7 +53,7 @@ require.config({
  * @param {type} application
  * @returns {undefined}
  */
-require(['jquery', 'application'], function($, application) {
+require(['jquery', 'application', 'angular', 'utilities'], function($, application) {
 
     /**
      * 

@@ -18,6 +18,8 @@ mapRoutes = function(app, configuration, controllers, models) {
 
         try {
 
+            response.setHeader('Content-Type', 'application/javascript');
+
             response.send(fs.readFileSync(__dirname + '/../shared/utilities-0.0.1.js', 'utf8'));
 
         } catch(error) {
