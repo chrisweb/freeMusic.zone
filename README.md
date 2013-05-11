@@ -34,8 +34,9 @@ install instructions
 Use your command line, go to directory of the application
 cd /path_to_jam_tweets/
 
-install python before trying to install hiredis
-(in windows ensure that the correct python path is set by typing this command in your power shell: $env:PYTHON=C:\Python33)
+install python (python version needs to be > 2.5 and < 3.0) before trying to install hiredis (node-gyp dependency needs python)
+in windows ensure that the correct python path is set by typing this command in your power shell: $env:PYTHON="C:\Python27\python.exe"
+you also need Microsoft Visual Studio C++ 2012 (VS Express is ok)
 
 To install the project run this command:
 npm install

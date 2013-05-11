@@ -5,8 +5,13 @@
  * 
  */
 
+// utilities module
+var utilities = require('../library/shared/utilities-0.0.1');
+
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
+    
+    utilities.log('PROCESS ENV NOT FOUND, setting it by default to PRODUCTION', 'red');
 
     process.env.NODE_ENV = 'production';
 
@@ -14,9 +19,6 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 
 // get the environment variable
 var environment = process.env.NODE_ENV;
-
-// utilities module
-var utilities = require('../library/shared/utilities-0.0.1');
 
 // include filesystem module
 var fs = require('fs');
@@ -58,13 +60,15 @@ app.configure(function() {
     app.engine('.html', ejs.__express);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
+    app.set('configuration', configuration);
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.session({secret: configuration.application.session.secret }));
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.logger());
-    app.set('environment', environment)
+    app.set('environment', environment);
+    app.set('utilities', utilities);
 });
 
 app.configure('development', function() {
