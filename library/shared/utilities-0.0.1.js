@@ -22,6 +22,8 @@
                     colors.green  = '\u001b[32m';
                     colors.yellow  = '\u001b[33m';
                     colors.blue  = '\u001b[34m';
+                    colors.magenta = '\u001b[35m';
+                    colors.cyan = '\u001b[36m';
 
                     var colorReset = '\u001b[0m';
 
@@ -45,6 +47,10 @@
                     colors.red   = 'FF0000';
                     colors.green  = '00FF00';
                     colors.yellow  = 'FFFF00';
+                    colors.blue  = '0000FF';
+                    colors.magenta = 'FF00FF';
+                    colors.cyan = '00FFFF';
+                    
                     colors.blue  = '0000FF';
 
                     if (typeof(colors[color]) === undefined) {

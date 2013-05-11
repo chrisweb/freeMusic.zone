@@ -1,6 +1,8 @@
 /**
  * 
- * @param {type} param
+ * require js setup
+ * 
+ * @param object param
  */
 require.config({
     
@@ -22,7 +24,7 @@ require.config({
         'angular-locale_en': 'vendor/angular-1.1.4/i18n/angular-locale_en.js',
         'angular-locale_de': 'vendor/angular-1.1.4/i18n/angular-locale_de.js',
         'angular-locale_fr': 'vendor/angular-1.1.4/i18n/angular-locale_fr.js',
-        'Modernizr': 'vendor/modernizr.custom.42019', // http://modernizr.com/
+        'modernizr': 'vendor/modernizr.custom.42019', // http://modernizr.com/
         'utilities': 'utilities-0.0.1',
         'application': 'application-0.0.1',
         'colorbox': 'vendor/jquery.colorbox-1.4.10',
@@ -42,22 +44,49 @@ require.config({
     },
     
     shim: {
-        'colorbox': ['jquery']
+        'bootstrap-affix': { deps: ['jquery'] },
+        'bootstrap-alert': { deps: ['jquery'] },
+        'bootstrap-button': { deps: ['jquery'] },
+        'bootstrap-carousel': { deps: ['jquery'] },
+        'bootstrap-collapse': { deps: ['jquery'] },
+        'bootstrap-dropdown': { deps: ['jquery'] },
+        'bootstrap-modal': { deps: ['jquery'] },
+        'bootstrap-popover': { deps: ['jquery'] },
+        'bootstrap-scrollspy': { deps: ['jquery'] },
+        'bootstrap-tab': { deps: ['jquery'] },
+        'bootstrap-tolltip': { deps: ['jquery'] },
+        'bootstrap-transition': { deps: ['jquery'] },
+        'bootstrap-typehead': { deps: ['jquery'] },
+        'colorbox': { deps: ['jquery'] },
+        'angular': { deps: ['jquery'], exports: 'angular' },
+        'angular-bootstrap': { deps: ['angular'] },
+        'angular-bootstrap-prettify': { deps: ['angular'] },
+        'angular-cookies': { deps: ['angular'] },
+        'angular-loader': { deps: ['angular'] },
+        'angular-mobile': { deps: ['angular'] },
+        'angular-resource': { deps: ['angular'] },
+        'angular-sanitize': { deps: ['angular'] },
+        'angular-mocks': { deps: ['angular'] },
+        'angular-scenario': { deps: ['angular'] },
+        'angular-locale_en': { deps: ['angular'] },
+        'angular-locale_de': { deps: ['angular'] },
+        'angular-locale_fr': { deps: ['angular'] }
     }
 
 });
 
 /**
  * 
- * @param {type} $
- * @param {type} application
- * @returns {undefined}
+ * @param object $
+ * @param object application
  */
-require(['jquery', 'application', 'angular', 'utilities'], function($, application) {
+require(['application', 'angular', 'angular-bootstrap'], function(application) {
+    
+    // enforce ecma script strict mode
+    'use strict';
 
     /**
-     * 
-     * @returns {undefined}
+     * initialize the application
      */
     $(function() {
         

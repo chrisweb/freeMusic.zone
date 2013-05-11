@@ -9,14 +9,14 @@ mapRoutes = function(app, configuration, controllers, models) {
     
     var utilities = app.get('utilities');
 
-    utilities.log('routes mapper got executed');
+    utilities.log('routes mapper got executed', 'green');
     
     /**
      * share the utilities plugin with the client
      */
     app.all('/javascripts/utilities-0.0.1.js', function(request, response, next) {
 
-        utilities.log(' $$$ ROUTE MATCH: /javascripts/utilities-0.0.1.js by: ' + request.url);
+        utilities.log(' $$$ ROUTE MATCH: /javascripts/utilities-0.0.1.js by: ' + request.url, 'yellow');
 
         try {
 
@@ -26,7 +26,7 @@ mapRoutes = function(app, configuration, controllers, models) {
 
         } catch(error) {
 
-            utilities.log(error);
+            utilities.log(error, 'red');
 
             next(error, request, response, next);
 
@@ -44,7 +44,7 @@ mapRoutes = function(app, configuration, controllers, models) {
          */
         app.all('/api/v1/:module/:controller/:action', function(request, response, next) {
             
-            utilities.log(' $$$ ROUTE MATCH: /api/v1/:module/:controller/:action by: ' + request.url);
+            utilities.log(' $$$ ROUTE MATCH: /api/v1/:module/:controller/:action by: ' + request.url, 'yellow');
 
         });
 
@@ -57,10 +57,10 @@ mapRoutes = function(app, configuration, controllers, models) {
         // app.all: all http verbs, app.get: only get request, app.post, ...
         app.all('/api/v1/:controller/:action', function(request, response, next) {
             
-            utilities.log(' $$$ ROUTE MATCH: /api/v1/:controller/:action by: ' + request.url);
+            utilities.log(' $$$ ROUTE MATCH: /api/v1/:controller/:action by: ' + request.url, 'yellow');
 
-            utilities.log('request.params.controller: ' + request.params.controller);
-            utilities.log('request.params.action: ' + request.params.action);
+            utilities.log('request.params.controller: ' + request.params.controller, 'yellow');
+            utilities.log('request.params.action: ' + request.params.action, 'yellow');
             
             try {
 
@@ -69,8 +69,8 @@ mapRoutes = function(app, configuration, controllers, models) {
                 
                 var errorNotFound = false;
 
-                utilities.log('**' + typeof(controllers[request.params.controller + 'Controller']));
-                utilities.log(controllers.hasOwnProperty(request.params.controller + 'Controller'));
+                utilities.log('**' + typeof(controllers[request.params.controller + 'Controller']), 'yellow');
+                utilities.log(controllers.hasOwnProperty(request.params.controller + 'Controller'), 'yellow');
 
                 if (controllers.hasOwnProperty(request.params.controller + 'Controller')) {
                     
@@ -80,8 +80,8 @@ mapRoutes = function(app, configuration, controllers, models) {
 
                     var actionName = request.params.action;
                     
-                    utilities.log('***' + typeof(controller[actionName]));
-                    utilities.log(actionName in controller);
+                    utilities.log('***' + typeof(controller[actionName]), 'yellow');
+                    utilities.log(actionName in controller, 'yellow');
                     
                     if (actionName in controller) {
                         
@@ -125,7 +125,7 @@ mapRoutes = function(app, configuration, controllers, models) {
      */
     app.get('/', function(request, response, next) {
 
-        utilities.log(' $$$ ROUTE MATCH: / by: ' + request.url);
+        utilities.log(' $$$ ROUTE MATCH: / by: ' + request.url, 'yellow');
         //utilities.log(' error: ' + error);
 
         //if (error !== false) return next();
@@ -139,7 +139,7 @@ mapRoutes = function(app, configuration, controllers, models) {
 
         } catch (error) {
 
-            utilities.log('* error: ' + JSON.stringify(error));
+            utilities.log('* error: ' + JSON.stringify(error), 'red');
 
             next(error, request, response, next);
 
@@ -152,11 +152,11 @@ mapRoutes = function(app, configuration, controllers, models) {
      */
     app.use(function(error, request, response, next) {
 
-        utilities.log('server error: ' + JSON.stringify(error));
+        utilities.log('server error: ' + JSON.stringify(error), 'red');
 
         if (error.status === 404) return next();
 
-        utilities.log('5xx middleware catch by: ' + request.url);
+        utilities.log('5xx middleware catch by: ' + request.url, 'yellow');
 
         // error page
         response.status(parseInt(error.status));
@@ -183,7 +183,7 @@ mapRoutes = function(app, configuration, controllers, models) {
 
         response.status(404);
 
-        utilities.log('404 middleware catch by: ' + request.url);
+        utilities.log('404 middleware catch by: ' + request.url, 'yellow');
 
         if (request.accepts('html')) {
 

@@ -152,7 +152,7 @@ routerModule.mapRoutes(app, configuration, controllers, models);
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {
     
-    utilities.log('server started on port: ' + configuration.server.port + ', environment: ' + environment);
+    utilities.log('server started on port: ' + configuration.server.port + ', environment: ' + environment, 'green');
     
 });
 

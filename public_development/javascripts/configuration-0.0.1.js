@@ -21,7 +21,7 @@ define([], function() {
 
                 configuration.application = {
 
-                    
+                    name: 'jam_prototype'
 
                 };
 

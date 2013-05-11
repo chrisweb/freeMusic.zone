@@ -1,15 +1,13 @@
 /**
  * 
- * 
- * 
- * @param {type} $
- * @param {type} configuration
- * @param {type} socket
- * @returns {_L4.Anonym$0}
+ * @param object $
+ * @param object configuration
+ * @param object utilities
+ * @returns object
  */
-define(['jquery', 'configuration', 'colorbox'], function($, configuration) {
-
-    var loopHandler = null;
+define(['jquery', 'configuration', 'utilities', 'angular', 'angular-bootstrap', 'colorbox'], function($, configurationModule, utilities, angular) {
+    
+    'use strict';
     
     /**
      * 
@@ -19,9 +17,20 @@ define(['jquery', 'configuration', 'colorbox'], function($, configuration) {
      */
     var initializeApplication = function() {
         
-        utilities.log('[APPLICATION] initializeApplication...');
+        utilities.log('[APPLICATION] initializeApplication...', 'blue');
         
-        var configurationObject = configuration.get();
+        var configuration = configurationModule.get();
+        
+        $(document).ready(function() {
+            
+            // 
+            //angular.module(configuration.application.name, [controllers, services, filters, directives]);
+            
+            // compile the template into an executable, bi-directionally bound application
+            //angular.bootstrap(document, [configuration.application.name]);
+            
+            
+        });
         
     };
 
