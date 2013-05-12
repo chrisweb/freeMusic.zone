@@ -34,6 +34,13 @@ var app = express();
 var configurationModule = require('./configurations/configuration.js');
 var configuration = configurationModule.get();
 
+// check if logs directory exists, if not create it
+if (!fs.existsSync(__dirname + '/logs/')) {
+
+    fs.mkdirSync(__dirname + '/logs/');
+
+}
+
 // logfile stream
 var logFile = fs.createWriteStream(__dirname + '/logs/application.log', {flags: 'w'});
 

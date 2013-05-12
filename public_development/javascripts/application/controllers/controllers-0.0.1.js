@@ -5,7 +5,7 @@
  * @param {type} angular
  * @returns {@exp;@exp;angular@pro;module@pro;c@call;ontroller@call;@call;controller|@exp;angular@pro;module@pro;c@call;ontroller@call;@call;controller}
  */
-define(['angular', 'configuration', 'services'], function(angular, configuration) {
+define(['angular', 'configuration', 'utilities', 'services'], function(angular, configuration, utilities) {
     
     'use strict';
 
@@ -13,13 +13,21 @@ define(['angular', 'configuration', 'services'], function(angular, configuration
 
         .controller('BaseController', ['$scope', function($scope) {
 
+            utilities.log('BaseController got executed');
+
             $scope.application = { version: configuration.get().application.version };
 
         }])
     
         .controller('OauthController', ['$scope', function($scope) {
+        
+            utilities.log('OauthController got executed');
 
-            
+            $.colorbox({
+                inline: true,
+                width: '50%',
+                href: 'div#oauth_connect_box'
+            });
 
         }])
 

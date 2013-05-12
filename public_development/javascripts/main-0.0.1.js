@@ -11,7 +11,8 @@ require.config({
     paths: {
         'utilities': 'library/utilities-0.0.1',
         'configuration': 'application/configurations/configuration-0.0.1',
-        'application': 'application/bootstrap-0.0.1',
+        'bootstrap': 'application/bootstrap-0.0.1',
+        'application': 'application/application-0.0.1',
         'controllers': 'application/controllers/controllers-0.0.1',
         'filters': 'application/filters/filters-0.0.1',
         'services': 'application/services/services-0.0.1',
@@ -85,7 +86,7 @@ require.config({
  * @param object $
  * @param object application
  */
-require(['application', 'angular', 'angular-bootstrap'], function(application) {
+require(['bootstrap', 'angular', 'angular-bootstrap'], function(bootstrap) {
     
     // enforce ecma script strict mode
     'use strict';
@@ -95,7 +96,7 @@ require(['application', 'angular', 'angular-bootstrap'], function(application) {
      */
     $(function() {
         
-        application.initialize();
+        bootstrap.run();
         
     });
     
