@@ -9,14 +9,14 @@ mapRoutes = function(app, configuration, controllers, models) {
     
     var utilities = app.get('utilities');
 
-    utilities.log('routes mapper got executed', 'green');
+    utilities.log('routes mapper initialization...', 'blue');
     
     /**
      * share the utilities plugin with the client
      */
-    app.all('/javascripts/utilities-0.0.1.js', function(request, response, next) {
+    app.all('/javascripts/library/utilities-0.0.1.js', function(request, response, next) {
 
-        utilities.log(' $$$ ROUTE MATCH: /javascripts/utilities-0.0.1.js by: ' + request.url, 'yellow');
+        utilities.log(' $$$ ROUTE MATCH: /javascripts/library/utilities-0.0.1.js by: ' + request.url, 'yellow');
 
         try {
 
@@ -45,6 +45,8 @@ mapRoutes = function(app, configuration, controllers, models) {
         app.all('/api/v1/:module/:controller/:action', function(request, response, next) {
             
             utilities.log(' $$$ ROUTE MATCH: /api/v1/:module/:controller/:action by: ' + request.url, 'yellow');
+            
+            // TODO finish modules support
 
         });
 
@@ -53,7 +55,7 @@ mapRoutes = function(app, configuration, controllers, models) {
         /**
          * route: /api/v1/:controller/:action
          */
-        // for example: http://127.0.0.1/api/v1/:tweets/:list
+        // for example: http://127.0.0.1:35000/api/v1/:playlists/:playlistId
         // app.all: all http verbs, app.get: only get request, app.post, ...
         app.all('/api/v1/:controller/:action', function(request, response, next) {
             
@@ -64,9 +66,6 @@ mapRoutes = function(app, configuration, controllers, models) {
             
             try {
 
-                // TODO: if controller or action not found send 404
-                // TODO: extract get parameters like /:parameterName/:parameterValue
-                
                 var errorNotFound = false;
 
                 utilities.log('**' + typeof(controllers[request.params.controller + 'Controller']), 'yellow');
@@ -118,6 +117,14 @@ mapRoutes = function(app, configuration, controllers, models) {
         });
     
     }
+    
+    app.get('/404', function(request, response, next) {
+        
+        error = { status: 404, url: '/404' };
+                    
+        next(error, request, response, next);
+        
+    });
 
     /**
      * route: /

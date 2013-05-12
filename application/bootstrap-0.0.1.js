@@ -145,9 +145,9 @@ if (configuration.application.useModules) {
 }
 
 // execute routes plugin
-var routerModule = require('../library/plugins/router-0.0.1');
+var routesModule = require('../library/plugins/routes-0.0.1');
 
-routerModule.mapRoutes(app, configuration, controllers, models);
+routesModule.mapRoutes(app, configuration, controllers, models);
 
 // start server
 app.listen(process.env.PORT || configuration.server.port, function() {

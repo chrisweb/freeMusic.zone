@@ -1,12 +1,22 @@
 app name
 ========
 
-
+TODO: define app name
 
 description
 -----------
 
 http://chrisweb.github.io/jam_prototype
+
+TODOs
+-----
+
+socket io chat
+list of playlists
+playlist detail
+twitter stream listener to mongodb
+oauth connect
+api with redis cache
 
 backend
 -------
@@ -17,6 +27,7 @@ https://github.com/joyent/node
 * https://github.com/LearnBoost/mongoose
 * https://github.com/mranney/node_redis
 * https://github.com/pietern/hiredis-node
+* https://github.com/learnboost/socket.io/
 
 frontend
 --------
