@@ -102,7 +102,7 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
     
     if (typeof(error) !== 'undefined') {
         
-        utilities.log('mongodb connection failed, host: ' + configuration.mongodb.host + ', database: ' + configuration.mongodb.database.name + ', error: ' + error);
+        utilities.log('mongodb connection failed, host: ' + configuration.mongodb.host + ', database: ' + configuration.mongodb.database.name + ', error: ' + error, 'red');
         
     }
     

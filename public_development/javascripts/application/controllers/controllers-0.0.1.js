@@ -23,11 +23,23 @@ define(['angular', 'configuration', 'utilities', 'services'], function(angular, 
         
             utilities.log('OauthController got executed');
 
+			/*
             $.colorbox({
                 inline: true,
                 width: '50%',
                 href: 'div#oauth_connect_box'
             });
+			*/
+			
+			$scope.connect = function(event) {
+				
+				utilities.log(event);
+				
+				//event.preventDefault();
+				
+				utilities.log('execute jamendo oauth connect action');
+				
+			};
 
         }])
 
