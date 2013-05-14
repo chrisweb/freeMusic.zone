@@ -11,12 +11,16 @@ http://chrisweb.github.io/jam_prototype
 TODOs
 -----
 
-socket io chat
-list of playlists
-playlist detail
-twitter stream listener to mongodb
-oauth connect
-api with redis cache
+* socket io chat (one room per playlist)
+* list of playlists (homepage) sort by (popularity / date)
+* playlist detail
+* twitter stream listener to mongodb (tweet a track id and playlist id followed by #music to increase tracks score)
+* jamendo api calls and oauth connect
+* nodejs api server with api requests redis cache
+* backbone js (underscore) and require js frontend
+* widget to display a playlist on any website
+* music visualizer (server side with nodejs or in browser? using html5 audi api)
+* music player and playlist manager (using soundmanger2)
 
 backend
 -------
