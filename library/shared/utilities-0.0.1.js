@@ -7,31 +7,38 @@
     utilities.version = '0.0.1';
 
     // utilities logger
-    utilities.log = function(data, color) {
+    utilities.log = function(data, fontColor) {
 
+        // transform data to string if it isnt already
+        if (typeof(data) !== 'string') dataString = JSON.stringify(data);
+
+        // apply colors
         if (typeof(console) !== 'undefined') {
 
             // nodejs or browser mode
             if (typeof(window) === 'undefined') {
+                
+                // background default black
+                var backgroundColor = '\u001b[40m';
 
-                if (typeof(color) !== 'undefined') {
+                if (typeof(fontColor) !== 'undefined') {
 
-                    // http://roguejs.com/2011-11-30/console-colors-in-node-js/
-                    var colors = {};
-                    colors.red = '\u001b[31m';
-                    colors.green = '\u001b[32m';
-                    colors.yellow = '\u001b[33m';
-                    colors.blue = '\u001b[34m';
-                    colors.magenta = '\u001b[35m';
-                    colors.cyan = '\u001b[36m';
+                    // http://roguejs.com/2011-11-30/console-fontColors-in-node-js/
+                    var fontColors = {};
+                    fontColors.red = '\u001b[31m';
+                    fontColors.green = '\u001b[32m';
+                    fontColors.yellow = '\u001b[33m';
+                    fontColors.blue = '\u001b[34m';
+                    fontColors.magenta = '\u001b[35m';
+                    fontColors.cyan = '\u001b[36m';
 
-                    var colorReset = '\u001b[0m';
+                    var fontColorReset = '\u001b[0m';
 
-                    if (typeof(colors[color]) === undefined) {
-                        throw "undefined color in utilities console log";
+                    if (typeof(fontColors[fontColor]) === undefined) {
+                        throw "undefined fontColor in utilities console log";
                     }
 
-                    console.log(colors[color] + data + colorReset);
+                    console.log(backgroundColor + fontColors[fontColor] + data + fontColorReset);
 
                 } else {
 
@@ -40,24 +47,27 @@
                 }
 
             } else {
+                
+                // background default white
+                var backgroundColor = 'ffffff';
+                
+                if (typeof(fontColor) !== 'undefined') {
 
-                if (typeof(color) !== 'undefined') {
+                    var fontColors = {};
+                    fontColors.red = 'FF0000';
+                    fontColors.green = '00FF00';
+                    fontColors.yellow = 'FFFF00';
+                    fontColors.blue = '0000FF';
+                    fontColors.magenta = 'FF00FF';
+                    fontColors.cyan = '00FFFF';
 
-                    var colors = {};
-                    colors.red = 'FF0000';
-                    colors.green = '00FF00';
-                    colors.yellow = 'FFFF00';
-                    colors.blue = '0000FF';
-                    colors.magenta = 'FF00FF';
-                    colors.cyan = '00FFFF';
+                    fontColors.blue = '0000FF';
 
-                    colors.blue = '0000FF';
-
-                    if (typeof(colors[color]) === undefined) {
-                        throw "undefined color in utilities console log";
+                    if (typeof(fontColors[fontColor]) === undefined) {
+                        throw "undefined fontColor in utilities console log";
                     }
 
-                    console.log('%c' + data, 'color: #' + colors[color]);
+                    console.log('%c' + data, 'background: #' + backgroundColor + '; color: #' + fontColors[fontColor]);
 
                 } else {
 

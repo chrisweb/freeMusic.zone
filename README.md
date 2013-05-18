@@ -38,7 +38,8 @@ frontend
 
 * https://github.com/jrburke/requirejs
 * https://github.com/jquery/jquery
-* https://github.com/angular
+* https://github.com/documentcloud/backbone
+* https://github.com/documentcloud/underscore
 * https://github.com/twitter/bootstrap/tree/3.0.0-wip
 * https://github.com/scottschiller/SoundManager2
 * https://github.com/Modernizr/Modernizr

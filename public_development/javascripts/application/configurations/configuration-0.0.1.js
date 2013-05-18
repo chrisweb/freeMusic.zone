@@ -1,5 +1,5 @@
 
-define([], function() {
+define('configuration', [], function() {
 
     var getConfiguration = function() {
 
