@@ -9,9 +9,6 @@
     // utilities logger
     utilities.log = function(data, fontColor) {
 
-        // transform data to string if it isnt already
-        if (typeof(data) !== 'string') dataString = JSON.stringify(data);
-
         // apply colors
         if (typeof(console) !== 'undefined') {
 

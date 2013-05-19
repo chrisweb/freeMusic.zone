@@ -10,12 +10,13 @@ define([
     'underscore',
     'jquery',
     // using require js text for templates
-    'text!application/templates/homepage/home.html'
+    'text!application/templates/homepage/home.html',
+    'colorbox'
 ], function(configuration, utilities, Backbone, _, $, homeTemplate) {
 
     'use strict';
 
-    var view = Backbone.View.extend({
+    return Backbone.View.extend({
         
         el: $('#content'),
         
@@ -27,7 +28,7 @@ define([
         
         events: {
     
-            'click #connect': 'connectClick'
+            
     
         },
         
@@ -39,18 +40,8 @@ define([
             
             this.$el.append(compiledTemplate);
             
-        },
-                
-        connectClick: function() {
-    
-            
-    
         }
 
     });
-    
-    var homepageView = new view();
-    
-    return homepageView;
 
 });
