@@ -1,11 +1,11 @@
 /**
  * 
- * tweets model
+ * tweet model
  * 
  * @param {type} app
  * @returns {tweetsModel}
  */
-var tweetsModel = function(app) {
+var tweetModel = function(app) {
 
     var collection = 'tweet';
     var schema = app.mongoose.Schema;
@@ -17,7 +17,7 @@ var tweetsModel = function(app) {
      * 
      * @type tweetsModel.Schema
      */
-    var tweetsSchema = new schema({
+    var tweetSchema = new schema({
         author: { type: String, trim: true },
         name: { type: String, trim: true },
         tweet: { type: String, trim: true },
@@ -28,9 +28,9 @@ var tweetsModel = function(app) {
     { safe: true, wtimeout: 10000 }); // return errors and 10 seconds timeout
 
     // avoid that mongoose checks if indexes exist on every startup
-    tweetsSchema.set('autoIndex', false);
+    tweetSchema.set('autoIndex', false);
     
-    this.model = app.mongoose.model(collection, tweetsSchema);
+    this.model = app.mongoose.model(collection, tweetSchema);
     
 }
 
@@ -40,7 +40,7 @@ var tweetsModel = function(app) {
  * 
  * @returns {undefined}
  */
-tweetsModel.prototype.saveOne = function() {
+tweetModel.prototype.saveOne = function() {
     
     console.log('save a single object');
     
@@ -54,7 +54,7 @@ tweetsModel.prototype.saveOne = function() {
  * 
  * @returns {undefined}
  */
-tweetsModel.prototype.saveAll = function() {
+tweetModel.prototype.saveAll = function() {
     
     console.log('save multiple objects');
     
@@ -66,7 +66,7 @@ tweetsModel.prototype.saveAll = function() {
  * 
  * @returns {undefined}
  */
-tweetsModel.prototype.deleteOne = function() {
+tweetModel.prototype.deleteOne = function() {
     
     console.log('delete a single object');
     
@@ -78,7 +78,7 @@ tweetsModel.prototype.deleteOne = function() {
  * 
  * @returns {undefined}
  */
-tweetsModel.prototype.deleteAll = function() {
+tweetModel.prototype.deleteAll = function() {
     
     console.log('delete multiple objects');
     
@@ -90,7 +90,7 @@ tweetsModel.prototype.deleteAll = function() {
  * 
  * @returns {undefined}
  */
-tweetsModel.prototype.findOne = function() {
+tweetModel.prototype.findOne = function() {
     
     console.log('find a single object');
     
@@ -102,15 +102,15 @@ tweetsModel.prototype.findOne = function() {
  * 
  * @returns {undefined}
  */
-tweetsModel.prototype.findAll = function() {
+tweetModel.prototype.findAll = function() {
     
     console.log('find multiple objects');
     
 };
 
-tweetsModel.prototype.getPopular = function(options, callback) {
+tweetModel.prototype.getPopular = function(options, callback) {
     
-    console.log('tweetsModel -> getPopular');
+    console.log('tweetModel -> getPopular');
     
     var error = false;
     var result = {};
@@ -119,4 +119,4 @@ tweetsModel.prototype.getPopular = function(options, callback) {
     
 };
 
-module.exports = tweetsModel;
+module.exports = tweetModel;

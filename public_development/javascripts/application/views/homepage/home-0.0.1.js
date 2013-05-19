@@ -10,7 +10,7 @@ define([
     'underscore',
     'jquery',
     // using require js text for templates
-    'text!application/templates/homepage/home.html',
+    'text!application/templates/homepage/home-0.0.1.html',
     'colorbox'
 ], function(configuration, utilities, Backbone, _, $, homeTemplate) {
 

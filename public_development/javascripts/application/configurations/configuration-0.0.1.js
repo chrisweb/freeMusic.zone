@@ -23,6 +23,18 @@ define('configuration', [], function() {
                     name: 'jam_prototype',
                     version: '0.0.1'
                 };
+                
+                configuration.jamendoApi = {
+                    clientId: '531b1309',
+                    apiHost: 'api.jamendo.com',
+                    apiVersionPath: '/v3.0',
+                    apiPort: 80,
+                    scope: 'music',
+                    redirect_uri: 'http://127.0.0.1:35000/jamendo_oauth_redirect',
+                    resources: {
+                        authorize: '/oauth/authorize'
+                    }
+                };
 
         }
 

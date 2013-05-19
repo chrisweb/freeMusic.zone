@@ -64,7 +64,26 @@ getConfiguration = function() {
             configuration.application = {
                 useModules: false,
                 session: {
-                    secret: 'my_secret_hash'
+                    secret: 'my_secret_session_hash'
+                },
+                cookie: {
+                    secret: 'my_secret_cookie_hash'
+                }
+            };
+            
+            /**
+             * jamendo api / oauth
+             */
+            configuration.jamendoApi = {
+                clientId: '531b1309',
+                clientSecret: 'fcd11a29f2037880d267875d64426d5f',
+                apiHost: 'api.jamendo.com',
+                apiVersionPath: '/v3.0',
+                apiPort: 443,
+                grantType: 'authorization_code',
+                redirectUri: 'http://127.0.0.1:35000/jamendo_oauth_redirect',
+                resources: {
+                    grant: '/oauth/grant'
                 }
             };
 

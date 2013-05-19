@@ -10,7 +10,7 @@ define([
     'underscore',
     'jquery',
     // using require js text for templates
-    'text!application/templates/connect/connect.html',
+    'text!application/templates/connect/connect-0.0.1.html',
     'colorbox'
 ], function(configuration, utilities, Backbone, _, $, connectTemplate) {
 
@@ -48,24 +48,67 @@ define([
     
             utilities.log('[CONNECT VIEW] connect got clicked', 'blue');
 
+            var configurationObject = configuration.get();
+            var jamendoApiConfiguration = configurationObject.jamendoApi;
+
+            var requestUrl = '';
+
+            // protocol
+            requestUrl += 'https://';
+
+            // host
+            requestUrl += jamendoApiConfiguration.apiHost;
+
+            // port
+            if (
+                typeof(jamendoApiConfiguration.apiPort) !== 'undefined'
+                && jamendoApiConfiguration.apiPort !== ''
+                && jamendoApiConfiguration.apiPort != 80
+            ) {
+
+                requestUrl += ':' + jamendoApiConfiguration.apiPort;
+
+            }
+
+            // api version and authorize resource path
+            requestUrl += jamendoApiConfiguration.apiVersionPath;
+            requestUrl += jamendoApiConfiguration.resources.authorize;
+
+            // parameters
+            requestUrl += '?client_id=' + jamendoApiConfiguration.clientId;
+            requestUrl += '&redirect_uri=' + jamendoApiConfiguration.redirect_uri;
+            requestUrl += '&scope=' + jamendoApiConfiguration.scope;
+
+            // TODO: create a secret state string and store it in LocalStorage
+            var state = '';
+
+            // state
+            requestUrl += '&state=' + state;
+
+            utilities.log('[APPLICATION] requestUrl: ' + requestUrl, 'green');
+
+            // http://www.jacklmoore.com/colorbox/
             $.colorbox({
-                href: '#connectBox',
-                inline: true,
-                onOpen:function(){ 
+                href: requestUrl,
+                iframe: true,
+                fastIframe: false,
+                width: '50%',
+                height: '50%',
+                onOpen:function() {
                     utilities.log('[CONNECT VIEW] colorbox opened', 'blue');
                 },
-                onLoad:function(){ 
+                onLoad:function() {
                     utilities.log('[CONNECT VIEW] colorbox loaded', 'blue');
                 },
-                onComplete:function(){ 
+                onComplete:function() {
                     utilities.log('[CONNECT VIEW] colorbox completed', 'blue');
                 },
-                onCleanup:function(){ 
+                onCleanup:function() {
                     utilities.log('[CONNECT VIEW] colorbox cleanedup', 'blue');
                 },
-                onClosed:function(){ 
+                onClosed:function() {
                     utilities.log('[CONNECT VIEW] colorbox closed', 'blue');
-                }
+                }        
             });
     
         }

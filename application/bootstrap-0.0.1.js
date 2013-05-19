@@ -69,7 +69,7 @@ app.configure(function() {
     app.set('view engine', 'html');
     app.set('configuration', configuration);
     app.use(express.bodyParser());
-    app.use(express.cookieParser());
+    app.use(express.cookieParser(configuration.application.cookie.secret));
     app.use(express.session({secret: configuration.application.session.secret }));
     app.use(express.methodOverride());
     app.use(app.router);
@@ -152,7 +152,7 @@ if (configuration.application.useModules) {
 }
 
 // execute routes plugin
-var routesModule = require('../library/plugins/routes-0.0.1');
+var routesModule = require('../library/plugins/routes');
 
 routesModule.mapRoutes(app, configuration, controllers, models);
 

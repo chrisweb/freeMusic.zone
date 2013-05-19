@@ -31,7 +31,7 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
         // check if user is logged in
         // TODO: create a session model for the user
         // TODO: check login status on every view not just during routes dispatch
-        var isLogged = true;
+        var isLogged = false;
 
         if (!isLogged) {
 

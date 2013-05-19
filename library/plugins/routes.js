@@ -1,6 +1,9 @@
 // include filesystem module
 var fs = require('fs');
 
+// oauth connect plugin
+var oauthPlugin = require(__dirname + '/oauthConnect');
+
 exports.version = '0.0.1';
 
 var routes = {};
@@ -31,6 +34,17 @@ mapRoutes = function(app, configuration, controllers, models) {
             next(error, request, response, next);
 
         }
+
+    });
+    
+    /**
+     * jamendo oauth connect callback url
+     */
+    app.all('/jamendo_oauth_redirect', function (request, response, next) {
+        
+        var oauthConnect = new oauthPlugin();
+        
+        oauthConnect.connect(request, response, models, configuration);
 
     });
 
@@ -84,7 +98,7 @@ mapRoutes = function(app, configuration, controllers, models) {
                     
                     if (actionName in controller) {
                         
-                        controller[actionName](request, response, models);
+                        controller[actionName](request, response, models, configuration);
                         
                     } else {
                         

@@ -64,8 +64,22 @@ getConfiguration = function() {
             configuration.application = {
                 useModules: false,
                 session: {
-                    secret: my_secret_hash
+                    secret: 'my_secret_session_hash'
+                },
+                cookie: {
+                    secret: 'my_secret_cookie_hash'
                 }
+            };
+            
+            /**
+             * jamendo api / oauth
+             */
+            configuration.jamendoApi = {
+                clientId: '00000000',
+                clientSecret: '0000000000000000000000000000000000000000000',
+                apiHost: 'api.jamendo.com',
+                apiVersionPath: '/v3.0',
+                apiPort: 80
             };
 
             break;
