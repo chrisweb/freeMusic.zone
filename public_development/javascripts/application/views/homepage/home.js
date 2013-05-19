@@ -3,19 +3,19 @@
  * homepage view
  * 
  */
-define('homepageView', [
+define([
     'configuration',
     'utilities',
     'backbone',
     'underscore',
     'jquery',
     // using require js text for templates
-    'text!templatesPath/homepage/home.html'
+    'text!application/templates/homepage/home.html'
 ], function(configuration, utilities, Backbone, _, $, homeTemplate) {
 
     'use strict';
 
-    return Backbone.View.extend({
+    var view = Backbone.View.extend({
         
         el: $('#content'),
         
@@ -48,5 +48,9 @@ define('homepageView', [
         }
 
     });
+    
+    var homepageView = new view();
+    
+    return homepageView;
 
 });

@@ -6,7 +6,7 @@
  * @param {type} angular
  * @returns {_L4.Anonym$0}
  */
-define('bootstrap', ['jquery', 'utilities', 'application'], function($, utilities, application) {
+define('bootstrap', ['jquery', 'utilities', 'routes'], function($, utilities, routes) {
 
     'use strict';
 
@@ -25,8 +25,8 @@ define('bootstrap', ['jquery', 'utilities', 'application'], function($, utilitie
             // to debug angular.js use the AngularJS Batarang chrome developer tools extension:
             // https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?hl=en
 
-            // application dispatch
-            application.dispatch();
+            // routes dispatch
+            routes.dispatch();
 
         });
 
