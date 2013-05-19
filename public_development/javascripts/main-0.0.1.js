@@ -13,10 +13,8 @@ require.config({
         'configuration': 'application/configurations/configuration-0.0.1',
         'bootstrap': 'application/bootstrap-0.0.1',
         'application': 'application/application-0.0.1',
-        'controllers': 'application/controllers/controllers-0.0.1',
-        'filters': 'application/filters/filters-0.0.1',
-        'services': 'application/services/services-0.0.1',
-        'directives': 'application/directives/directives-0.0.1',
+        'viewsPath': 'application/views',
+        'templatesPath': 'application/templates',
         'routes': 'library/routes-0.0.1',
         'jquery': 'vendor/jquery-2.0.0', // http://jquery.com/
         'modernizr': 'vendor/modernizr.custom.42019', // http://modernizr.com/
@@ -53,7 +51,7 @@ require.config({
         'bootstrap-transition': { deps: ['jquery'] },
         'bootstrap-typehead': { deps: ['jquery'] },
         'colorbox': { deps: ['jquery'] },
-        'underscore': { exports: _ },
+        'underscore': { exports: '_' },
         'backbone': { deps: ['underscore', 'jquery'], exports: 'Backbone' }
     }
 

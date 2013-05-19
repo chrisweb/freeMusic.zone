@@ -18,7 +18,7 @@ define('bootstrap', ['jquery', 'utilities', 'application'], function($, utilitie
      */
     var initializeApplication = function() {
 
-        utilities.log('[APPLICATION] initialization...', 'blue');
+        utilities.log('[BOOTSTRAP] initialization...', 'blue');
 
         $(document).ready(function() {
 

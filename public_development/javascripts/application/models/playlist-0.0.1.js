@@ -43,6 +43,12 @@ define('playlistModel', ['configuration', 'utilities', 'backbone', 'underscore']
             
         },
                 
+        validate: function(attributes) {
+    
+            
+    
+        },
+                
         reset: function() {
     
             this.destroy();

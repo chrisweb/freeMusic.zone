@@ -8,16 +8,20 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
     'use strict';
 
     return Backbone.Router.extend({
-    
+        
+        initialize: function() {
+            
+            utilities.log('[ROUTER] initialization...', 'blue');
+            
+        },
+        
         routes: {
-            '/': 'renderHomepage',
+            '': 'renderHomepage',
             'playlists': 'renderPaylistsList',
             'playlist/:id': 'renderPlaylistDetail',
-            '*other': 'renderHomepage'
+            '*other': 'render404'
         }
-        
-        
-        
+
     });
 
 });
