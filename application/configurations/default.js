@@ -54,7 +54,7 @@ getConfiguration = function() {
             configuration.mongodb = {
                 host: '127.0.0.1',
                 database: {
-                    name: 'jamtweets'
+                    name: 'jamprototype'
                 }
             };
             
@@ -75,11 +75,16 @@ getConfiguration = function() {
              * jamendo api / oauth
              */
             configuration.jamendoApi = {
-                clientId: '00000000',
-                clientSecret: '0000000000000000000000000000000000000000000',
+                clientId: '0000000000',
+                clientSecret: '0000000000000000000000000000000',
                 apiHost: 'api.jamendo.com',
                 apiVersionPath: '/v3.0',
-                apiPort: 80
+                apiPort: 443,
+                grantType: 'authorization_code',
+                redirectUri: 'http://127.0.0.1:35000/jamendo_oauth_redirect',
+                resources: {
+                    grant: '/oauth/grant'
+                }
             };
 
             break;

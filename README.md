@@ -48,7 +48,7 @@ install instructions
 --------------------
 
 Use your command line, go to directory of the application
-cd /path_to_jam_tweets/
+cd /path_to_jam_prototype/
 
 install python (python version needs to be > 2.5 and < 3.0) before trying to install hiredis (node-gyp dependency needs python)
 in windows ensure that the correct python path is set by typing this command in your power shell: $env:PYTHON="C:\Python27\python.exe"
@@ -61,7 +61,8 @@ This will automatically install all the dependencies listed in the package.json
 you can also update the packages by using this command:
 npm update
 
-Copy the default configuration file at "/path_to_jam_tweets/application/configurations/default.js" and rename it "configuration.js", then edit the configuration file and add your own values
+Copy the default backend configuration file at "/path_to_jam_prototype/application/configurations/default.js" and rename it "configuration.js", then edit the configuration file and add your own values
+Copy the default frontend configuration file at "/path_to_jam_prototype/public_development/javascripts/application/configurations/default-VERSION.js" and rename it "configuration-VERSION.js", then edit the configuration file and add your own values
 
 To run the project run this command on linux:
 NODE_ENV=development node server
