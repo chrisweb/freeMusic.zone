@@ -36,21 +36,47 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
             hostname: configuration.jamendoApi.apiHost,
             port: configuration.jamendoApi.apiPort,
             path: configuration.jamendoApi.resources.grant,
-            method: 'POST'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': data.length
+            }
         };
 
         var oauthRequest = https.request(options, function(oauthResponse) {
 
-            utilities.log('STATUS: ' + oauthResponse.statusCode);
-            utilities.log('HEADERS: ' + JSON.stringify(oauthResponse.headers));
+            utilities.log('status: ' + oauthResponse.statusCode);
+            utilities.log('header: ' + JSON.stringify(oauthResponse.headers));
 
             oauthResponse.setEncoding('utf8');
 
             oauthResponse.on('data', function(chunk) {
 
-                utilities.log('BODY: ' + chunk);
+                utilities.log('body: ' + chunk);
                 
-                response.render('oauth', { environment: app.get('environment'), message: 'success' });
+                if (oauthResponse.statusCode === '200') {
+                    
+                    response.render('oauth', { message: 'oauth connect success' });
+                    
+                } else {
+                
+                    var message = '';
+                    
+                    var matchesArray = chunk.match('<h1[^>]*>(.*?)<\/h1>', 'g');
+                    
+                    if (matchesArray !== null) {
+                    
+                        message += matchesArray[1];
+                                
+                    }
+                
+                    utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + message);
+
+                    error = { status: oauthResponse.statusCode, stack: '', message: message };
+
+                    next(error, request, response, next);
+                    
+                }
 
             });
 
@@ -58,7 +84,7 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
 
         oauthRequest.on('error', function(e) {
 
-            utilities.log('request failed: ' + e.message);
+            utilities.log('oauth request failed: ' + e.message);
             
             error = { status: 500, stack: '', message: e.message };
                     
