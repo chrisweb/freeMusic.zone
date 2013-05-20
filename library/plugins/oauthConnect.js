@@ -32,16 +32,20 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
             redirect_uri: configuration.jamendoApi.redirectUri
         });
 
+        utilities.log(data);
+
         var options = {
             hostname: configuration.jamendoApi.apiHost,
             port: configuration.jamendoApi.apiPort,
-            path: configuration.jamendoApi.resources.grant,
+            path: configuration.jamendoApi.apiVersionPath + configuration.jamendoApi.resources.grant,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Content-Length': data.length
             }
         };
+        
+        utilities.log(options);
 
         var oauthRequest = https.request(options, function(oauthResponse) {
 
@@ -49,35 +53,70 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
             utilities.log('header: ' + JSON.stringify(oauthResponse.headers));
 
             oauthResponse.setEncoding('utf8');
+            
+            var result = '';
 
             oauthResponse.on('data', function(chunk) {
 
                 utilities.log('body: ' + chunk);
                 
-                if (oauthResponse.statusCode === '200') {
+                if (oauthResponse.statusCode === 200) {
+                    
+                    var result;
+
+                    try {
+                        
+                        // try to parse response if it fails the response is not json
+                        result = JSON.parse(chunk);
+                        
+                    } catch(e) {
+
+                        // facebook responds with querystring in the body
+                        result = querystring.parse(chunk);
+                        
+                    }
+                    
+                    utilities.log(result);
                     
                     response.render('oauth', { message: 'oauth connect success' });
                     
                 } else {
-                
-                    var message = '';
-                    
-                    var matchesArray = chunk.match('<h1[^>]*>(.*?)<\/h1>', 'g');
-                    
-                    if (matchesArray !== null) {
-                    
-                        message += matchesArray[1];
-                                
+
+                    var result;
+
+                    try {
+                        
+                        // try to parse response if it fails the response is not json
+                        result = JSON.parse(chunk);
+                        
+                    } catch(e) {
+                        
+                        var matchesArray = chunk.match('<h1[^>]*>(.*?)<\/h1>', 'g');
+
+                        // if there are matches the response might be an error page
+                        if (matchesArray !== null) {
+
+                            result = {};
+
+                            result.error = matchesArray[1];
+
+                        } else {
+
+                            // facebook responds with querystring in the body
+                            result = querystring.parse(chunk);
+
+                        }
+                        
                     }
                 
-                    utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + message);
+                    utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error);
 
-                    error = { status: oauthResponse.statusCode, stack: '', message: message };
+                    error = { status: oauthResponse.statusCode, stack: '', message: result.error };
 
                     next(error, request, response, next);
                     
                 }
-
+                
             });
 
         });
