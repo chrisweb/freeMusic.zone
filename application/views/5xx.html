@@ -1,6 +1,7 @@
 <%- header %>
 <div class="alert alert-error">
-    Error:<br>
+    Error: <%= message %>
+    <br><br>
     <% if (environment === 'development') { %>
         <%- stack %>
     <% } %>

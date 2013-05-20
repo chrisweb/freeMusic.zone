@@ -44,7 +44,7 @@ mapRoutes = function(app, configuration, controllers, models) {
         
         var oauthConnect = new oauthPlugin();
         
-        oauthConnect.connect(request, response, models, configuration);
+        oauthConnect.connect(request, response, next, models, configuration);
 
     });
 
