@@ -78,6 +78,8 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                     
                     utilities.log(result);
                     
+                    models.user.set(result);
+                    
                     response.render('oauth', { message: 'oauth connect success' });
                     
                 } else {
