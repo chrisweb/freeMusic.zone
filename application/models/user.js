@@ -1,3 +1,6 @@
+
+var utilities = require('../../library/shared/utilities-0.0.1');
+
 /**
  * 
  * user model
@@ -8,8 +11,8 @@
 var userModel = function(app) {
 
     var collection = 'user';
-    var schema = app.mongoose.Schema;
-    var mixedType = schema.Types.Mixed;
+    var Schema = app.mongoose.Schema;
+    var mixedType = Schema.Types.Mixed;
 
     /**
      * possible values:
@@ -17,10 +20,11 @@ var userModel = function(app) {
      * 
      * @type tweetsModel.Schema
      */
-    var userSchema = new schema({
+    var userSchema = new Schema({
         nickname: {type: String, trim: true, index: { unique: true }, required: true},
-        joined: {type: Date},
-        lastupdate: {type: Date, default: Date.now},
+        createdAt: {type: Date},
+        lastupdateAt: {type: Date, default: Date.now},
+        id: {type: Number, trim: true, index: { unique: true }, required: true},
         oauth: {
             access_token: {type: String, trim: true, required: true},
             expires_in: {type: Number, trim: true},
@@ -48,7 +52,19 @@ userModel.prototype.saveOne = function(data) {
 
     console.log('save a single object');
 
-    this.model.save(data);
+    this.model.create(data, function (error) {
+        
+        if (error) {
+            
+            utilities.log('userModel save failed, error: ' + error);
+            
+        } else {
+            
+            
+            
+        }
+        
+    });
 
 };
 

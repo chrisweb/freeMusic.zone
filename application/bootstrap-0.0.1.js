@@ -139,9 +139,11 @@ var models = {};
 fs.readdirSync(__dirname + '/models').forEach(function(modelFileName) {
 
     //name without .js at the end
-    modelName = modelFileName.substr(0, modelFileName.length-3);
+    var modelName = modelFileName.substr(0, modelFileName.length-3);
 
-    models[modelName] = require(__dirname + '/models/' + modelFileName);
+    var modelModule = require(__dirname + '/models/' + modelFileName);
+    
+    models[modelName] = new modelModule(app);
 
 });
 

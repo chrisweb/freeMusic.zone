@@ -8,8 +8,8 @@
 var tweetModel = function(app) {
 
     var collection = 'tweet';
-    var schema = app.mongoose.Schema;
-    var mixedType = schema.Types.Mixed;
+    var Schema = app.mongoose.Schema;
+    var mixedType = Schema.Types.Mixed;
 
     /**
      * possible values:
@@ -17,7 +17,7 @@ var tweetModel = function(app) {
      * 
      * @type tweetsModel.Schema
      */
-    var tweetSchema = new schema({
+    var tweetSchema = new Schema({
         author: { type: String, trim: true },
         name: { type: String, trim: true },
         tweet: { type: String, trim: true },
@@ -30,7 +30,9 @@ var tweetModel = function(app) {
     // avoid that mongoose checks if indexes exist on every startup
     tweetSchema.set('autoIndex', false);
     
-    this.model = app.mongoose.model(collection, tweetSchema);
+    var tweetModel = app.mongoose.model(collection, tweetSchema);
+    
+    this.model = new tweetModel();
     
 }
 

@@ -48,11 +48,24 @@ frontend
 install instructions
 --------------------
 
-Use your command line, go to directory of the application
+Use you command line tool and start mongodb:
+on windows:
+cd /mongodb/bin
+mongod
+
+on centos:
+service mongod start
+
+Use another command line session to start redis:
+on centos:
+service redis start
+
+Use another command line session and go into the directory of the application:
 cd /path_to_jam_prototype/
 
 install python (python version needs to be > 2.5 and < 3.0) before trying to install hiredis (node-gyp dependency needs python)
-in windows ensure that the correct python path is set by typing this command in your power shell: $env:PYTHON="C:\Python27\python.exe"
+in windows ensure that the correct python path is set by typing this command in your power shell:
+$env:PYTHON="C:\Python27\python.exe"
 you also need Microsoft Visual Studio C++ 2012 (VS Express is ok)
 
 To install the project run this command:
@@ -82,6 +95,50 @@ twitter boostrap less css
 
 install lesscss nodejs module:
 npm install -g less@beta
+
+debugging
+---------
+
+application:
+watch the verbose console logs messages, on the command line which you used to start the app, in realtime or if the app crashed to get the latest error message before the app crashed
+
+or check out the logs at:
+/path_to_jam_prototype/application/logs
+
+mongodb:
+open your command line tools and type:
+cd /mongodb/bin
+mongo
+
+on the mongo shell type:
+switch to the "jamprototype" database:
+use jamprototype
+
+get the collection names:
+db.getCollectionNames()
+
+find items in the "users" collection:
+db.users.find().pretty()
+
+access help to get all methods information:
+db.users.help()
+
+redis:
+open your command line tool and open the redis command line utility:
+redis-cli
+
+or open the redis command line utility with a password:
+redis-cli -a 'password'
+
+switch to the "sessions" database:
+SELECT 1
+
+to list the session keys:
+KEYS *sess*
+
+get a value corresponding to a key:
+GET <key>
+
 
 deployment
 ----------

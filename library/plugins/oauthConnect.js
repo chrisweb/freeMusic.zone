@@ -78,11 +78,11 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                     
                     utilities.log(result);
                     
-                    var user = {};
+                    // TODO: get user infos through jamendo api (username / id)
+                    
+                    var user = { nickname: 'somebody', id: '123' };
                     
                     user.oauth = result;
-                    
-                    // TODO: get user infos through jamendo api
                     
                     // put user object in session
                     request.session.user = user;

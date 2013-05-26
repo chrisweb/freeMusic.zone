@@ -30,7 +30,7 @@ getConfiguration = function() {
         case 'development':
 
             /**
-             * 
+             * server
              */
             configuration.server = {
                 port: 35000,
@@ -49,7 +49,7 @@ getConfiguration = function() {
             };
                
             /**
-             * 
+             * mongodb
              */
             configuration.mongodb = {
                 host: '127.0.0.1',
@@ -59,7 +59,19 @@ getConfiguration = function() {
             };
             
             /**
-             * 
+             * redis
+             */
+            configuration.redis = {
+                host: '188.165.208.38',
+                port: 6379,
+                auth: '000000000000000000000000000000000000000000000000000',
+                databases: {
+                    session: 1
+                }
+            };
+            
+            /**
+             * application
              */
             configuration.application = {
                 useModules: false,
@@ -75,8 +87,8 @@ getConfiguration = function() {
              * jamendo api / oauth
              */
             configuration.jamendoApi = {
-                clientId: '0000000000',
-                clientSecret: '0000000000000000000000000000000',
+                clientId: '000000000000',
+                clientSecret: '0000000000000000000000000000',
                 apiHost: 'api.jamendo.com',
                 apiVersionPath: '/v3.0',
                 apiPort: 443,
