@@ -10,8 +10,7 @@ define([
     'underscore',
     'jquery',
     // using require js text for templates
-    'text!application/templates/homepage/home-0.0.1.html',
-    'colorbox'
+    'text!application/templates/homepage/home-0.0.1.html'
 ], function(configuration, utilities, Backbone, _, $, homeTemplate) {
 
     'use strict';
@@ -20,7 +19,7 @@ define([
         
         el: $('#content'),
         
-        initialize: function() {
+        initialize: function(options) {
     
             utilities.log('[HOME VIEW] initialization...', 'blue');
     

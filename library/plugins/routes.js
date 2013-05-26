@@ -199,11 +199,27 @@ mapRoutes = function(app, configuration, controllers, models) {
             var headerHtml = app.get('headerHtml');
             var footerHtml = app.get('footerHtml');
 
-            response.render('5xx', { environment: app.get('environment'), stack: error.stack.replace(/\n/g, '<br>'), message: error.message, header: headerHtml, footer: footerHtml });
+            if (typeof(error.stack) !== 'undefined') {
+                
+                response.render('5xx', { environment: app.get('environment'), stack: error.stack.replace(/\n/g, '<br>'), message: error.message, header: headerHtml, footer: footerHtml });
+                
+            } else {
+                
+                response.render('5xx', { environment: app.get('environment'), stack: '', message: error.message, header: headerHtml, footer: footerHtml });
+                
+            }
 
         } else if (request.accepts('json')) {
 
-            response.send({ code: error.status, stack: error.stack, message: error.message });
+            if (typeof(error.stack) !== 'undefined') {
+                
+                response.send({ code: error.status, stack: error.stack, message: error.message });
+                
+            } else {
+                
+                response.send({ code: error.status, stack: '', message: error.message });
+                
+            }
 
         }
 

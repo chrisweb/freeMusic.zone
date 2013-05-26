@@ -42,14 +42,16 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
 
         // route events that retrieve data from models and then call the view render
         applicationRoutes.on('route:renderHomepage', function() {
-
+            
             if (!isLogged) {
                 
                 utilities.log('[APPLICATION] user is not logged, load connect/connect view', 'blue');
 
                 require(['application/views/connect/connect-0.0.1'], function(connectViewModule) {
 
-                    var connectView = new connectViewModule();
+                    var options = {};
+
+                    var connectView = new connectViewModule(options);
 
                     connectView.render();
 
@@ -61,27 +63,32 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
                 
                 require(['application/views/homepage/home-0.0.1'], function(homepageViewModule) {
 
-                    var homepageView = new homepageViewModule();
+                    var options = {};
+
+                    var homepageView = new homepageViewModule(options);
 
                     homepageView.render();
 
                 });
                 
             }
+            
+            var eventManager = _.extend({}, Backbone.Events);
+            
+            // the connect view onclose vent of the colorbox will trigger can
+            // besides the homepage route also trigger the homepage view rendering
+            eventManager.bind('loadHomepage', applicationRoutes.navigate('', true));
 
         });
 
-        applicationRoutes.on('renderPaylistsList', function() {
+        applicationRoutes.on('route:renderPaylistsList', function() {
 
            utilities.log('[APPLICATION] load renderPaylistsList view', 'blue');
            
             require([
-                'application/models/playlist-0.0.1',
                 'application/views/playlist/list-0.0.1'
-            ], function(playlistListViewModule, playlistModelModule) {
-                
-                var playlistModel = new playlistModelModule();
-                
+            ], function(playlistListViewModule) {
+
                 var playlistListView = new playlistListViewModule();
 
                 playlistListView.render();
@@ -90,13 +97,26 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
 
         });
 
-        applicationRoutes.on('renderPlaylistDetail', function() {
+        applicationRoutes.on('route:renderPlaylistDetail', function() {
 
            utilities.log('[APPLICATION] load renderPlaylistDetail view', 'blue');
+           
+            require([
+                'application/models/playlist-0.0.1',
+                'application/views/playlist/detail-0.0.1'
+            ], function(playlistDetailViewModule, playlistModelModule) {
+                
+                var playlistModel = new playlistModelModule();
+                
+                var playlistListView = new playlistListViewModule();
 
+                playlistListView.render();
+
+            });
+            
         });
 
-        applicationRoutes.on('render404', function() {
+        applicationRoutes.on('route:render404', function() {
 
             // default route if none of the previous ones matched
             utilities.log('[APPLICATION] page not found', 'blue');
