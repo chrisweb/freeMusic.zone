@@ -23,7 +23,7 @@ var userModel = function(app) {
         lastupdate: {type: Date, default: Date.now},
         oauth: {
             access_token: {type: String, trim: true, required: true},
-            expires_in: {type: Integer, trim: true},
+            expires_in: {type: Number, trim: true},
             token_type: {type: String, trim: true},
             scope: {type: String, trim: true, required: true},
             refresh_token: {type: String, trim: true, required: true}
@@ -33,36 +33,6 @@ var userModel = function(app) {
 
     // avoid that mongoose checks if indexes exist on every startup
     userSchema.set('autoIndex', false);
-
-    // password virtual
-    userSchema
-        .virtual('password')
-        .set(function(password) {
-            this._password = password;
-            this.salt = this.makeSalt();
-            this.hashed_password = this.encryptPassword(password);
-        })
-        .get(function() {
-            return this._password;
-        });
-
-    userSchema
-        .methods = {
-
-            authenticate: function(plainText) {
-                return this.encryptPassword(plainText) === this.hashed_password
-            },
-
-            makeSalt: function() {
-                return Math.round((new Date().valueOf() * Math.random())) + ''
-            },
-
-            encryptPassword: function(password) {
-                if (!password) return ''
-                return crypto.createHmac('sha1', this.salt).update(password).digest('hex')
-            }
-
-        }
 
     this.model = app.mongoose.model(collection, userSchema);
 
@@ -74,11 +44,27 @@ var userModel = function(app) {
  * 
  * @returns {undefined}
  */
-userModel.prototype.saveOne = function() {
+userModel.prototype.saveOne = function(data) {
 
     console.log('save a single object');
 
-    this.model.set();
+    this.model.save(data);
+
+};
+
+userModel.prototype.getOne = function() {
+
+    console.log('save a single object');
+
+    this.model.save();
+
+};
+
+userModel.prototype.getAll = function() {
+
+    console.log('save a single object');
+
+    this.model.save();
 
 };
 

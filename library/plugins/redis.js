@@ -39,17 +39,17 @@ exports.getClient = function(fromCache, callbackFunction) {
         
     }
     
-    var redisPort = configuration.redisDB.port;
-    var redisIp = configuration.redisDB.ip;
+    var redisPort = configuration.redis.port;
+    var redisHost = configuration.redis.host;
 
     // TODO: does redis have a pool like mongodb, can we define its size
     // TODO: does redis auto reconnect like mongodb, can we set that option
 
     // get redis client instance
-    var redisDBClient = redis.createClient(redisPort, redisIp);
+    var redisDBClient = redis.createClient(redisPort, redisHost);
     
     // NOTE: Your call to client.auth() should not be inside the ready handler
-    var redisAuth = configuration.redisDB.auth;
+    var redisAuth = configuration.redis.auth;
 
     if (redisAuth.length > 0) {
 

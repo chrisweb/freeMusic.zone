@@ -98,6 +98,11 @@ mapRoutes = function(app, configuration, controllers, models) {
                     
                     if (actionName in controller) {
                         
+                        // set global headers
+                        // allow cross-origin resource sharing (CORS)
+                        response.header('Access-Control-Allow-Origin', '*');
+                        response.header('Access-Control-Allow-Headers', 'X-Requested-With');
+                        
                         controller[actionName](request, response, models, configuration);
                         
                     } else {
@@ -155,6 +160,13 @@ mapRoutes = function(app, configuration, controllers, models) {
 
             var headerHtml = app.get('headerHtml');
             var footerHtml = app.get('footerHtml');
+            
+            // developer greeting header
+            response.header('x-powered-by', 'Like to see what\'s under the hood? Check out https://github.com/chrisweb/jam_prototype!');
+            response.header('x-frame-options', 'deny');
+            response.header('x-xss-protection', '1; mode=block');
+            response.header('x-content-type-options', 'nosniff');
+            response.header('x-ua-compatible', 'IE=edge, chrome=1');
 
             response.render('index', { environment: app.get('environment'), header: headerHtml, footer: footerHtml });
 

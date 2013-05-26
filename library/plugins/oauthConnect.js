@@ -78,7 +78,17 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                     
                     utilities.log(result);
                     
-                    models.user.set(result);
+                    var user = {};
+                    
+                    user.oauth = result;
+                    
+                    // TODO: get user infos through jamendo api
+                    
+                    // put user object in session
+                    request.session.user = user;
+                    
+                    // save user in mongodb database
+                    models.user.saveOne(user);
                     
                     response.render('oauth', { message: 'oauth connect success' });
                     

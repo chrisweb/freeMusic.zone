@@ -18,6 +18,9 @@ define('bootstrap', ['jquery', 'utilities', 'routes'], function($, utilities, ro
      */
     var initializeApplication = function() {
 
+        // developer greeting message
+        utilities.log('Like to see what\'s under the hood? Check out https://github.com/chrisweb/jam_prototype!', 'magenta');
+
         utilities.log('[BOOTSTRAP] initialization...', 'blue');
 
         $(document).ready(function() {

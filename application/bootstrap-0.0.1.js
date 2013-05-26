@@ -1,5 +1,5 @@
 /**
- * jamtweets nodejs bootstap
+ * jam_prototype nodejs bootstap
  * 
  * MIT Licensed, see License.txt
  * 
@@ -30,6 +30,12 @@ var ejs = require('ejs');
 var express = require('express');
 var app = express();
 
+// load redis module
+var redis = require('redis');
+
+// redis storage
+var RedisStore = require('connect-redis')(express);
+
 // get configuration
 var configurationModule = require('./configurations/configuration.js');
 var configuration = configurationModule.get();
@@ -59,19 +65,38 @@ switch (environment) {
 
 utilities.log('publicDirectory: ' + publicDirectory);
 
+// redis options for session
+var redisOptions = {
+    host: configuration.redis.host,
+    port: configuration.redis.port,
+    db: configuration.redis.databases.session
+};
+
+if (typeof(configuration.redis.auth) !== 'undefined' && configuration.redis.auth.length > 0) {
+    
+    redisOptions.pass = configuration.redis.auth;
+    
+}
+
 // application configuration
 app.configure(function() {
-    app.use(express.compress()); // include compress before initializing static
-    // server static files before executing routes
+    // include compress before initializing static
+    app.use(express.compress());
+    // serve static files before executing routes
     app.use(express.static(publicDirectory));
     app.engine('.html', ejs.__express);
     app.set('views', __dirname + '/views');
     app.set('view engine', 'html');
     app.set('configuration', configuration);
-    app.use(express.bodyParser());
+    // always call the cookieParser before the session middleware
     app.use(express.cookieParser(configuration.application.cookie.secret));
-    app.use(express.session({secret: configuration.application.session.secret }));
+    app.use(express.session({
+        secret: configuration.application.session.secret,
+        store: new RedisStore(redisOptions)
+    }));
+    app.use(express.bodyParser());
     app.use(express.methodOverride());
+    // session and cookie are ready now we can use the router
     app.use(app.router);
     app.use(express.logger());
     app.set('environment', environment);
