@@ -33,6 +33,7 @@ https://github.com/joyent/node
 * https://github.com/visionmedia/ejs
 * https://github.com/LearnBoost/mongoose
 * https://github.com/learnboost/socket.io/
+* https://github.com/vincent/node-jamendo
 
 frontend
 --------

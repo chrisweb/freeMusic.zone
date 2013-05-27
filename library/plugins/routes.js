@@ -42,7 +42,7 @@ mapRoutes = function(app, configuration, controllers, models) {
      */
     app.all('/jamendo_oauth_redirect', function (request, response, next) {
         
-        var oauthConnect = new oauthPlugin();
+        var oauthConnect = new oauthPlugin({ configuration: configuration });
         
         oauthConnect.connect(request, response, next, models, configuration);
 

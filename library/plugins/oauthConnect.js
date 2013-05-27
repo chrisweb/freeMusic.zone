@@ -6,13 +6,21 @@ var https = require('https');
 
 var querystring = require('querystring');
 
-var oauthConnect = function() {
+// load the jamendo api wrapper module
+var jamendoModule = require('jamendo');
 
+var oauthConnect = function(options) {
+    
+    var configuration = options.configuration;
 
+    // create a new jamendo api instance
+    this.jamendo = new jamendoModule({ client_id: configuration.jamendoApi.clientId });
 
 };
 
 oauthConnect.prototype.connect = function(request, response, next, models, configuration) {
+
+    var that = this;
 
     // get the request parameters
     var rawCode = request.param('code');
@@ -77,20 +85,44 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                     }
                     
                     utilities.log(result);
-                    
-                    // TODO: get user infos through jamendo api (username / id)
-                    
-                    var user = { nickname: 'somebody', id: '123' };
-                    
-                    user.oauth = result;
-                    
-                    // put user object in session
-                    request.session.user = user;
-                    
-                    // save user in mongodb database
-                    models.user.saveOne(user);
-                    
-                    response.render('oauth', { message: 'oauth connect success' });
+
+                    // get user infos through jamendo api (username / id)
+                    that.jamendo.users({
+                        access_token: result.access_token
+                    },
+                    function(error, data) {
+
+                        if (!error) {
+                            
+                            var user = { 
+                                nickname: data.results[0].name,
+                                id: data.results[0].id,
+                                createdAt: data.results[0].creationdate,
+                                language: data.results[0].lang,
+                                avatar: data.results[0].image
+                            };
+
+                            user.oauth = result;
+
+                            // put user object in session
+                            request.session.user = user;
+
+                            // save user in mongodb database
+                            models.user.saveOne(user);
+
+                            response.render('oauth', { message: 'oauth connect success' });
+                            
+                        } else {
+                            
+                            utilities.log('oauth request failed, status: ' + error);
+                            
+                            error = { status: oauthResponse.statusCode, stack: '', message: result.error };
+
+                            next(error, request, response, next);
+                            
+                        }
+
+                    });
                     
                 } else {
 
@@ -154,19 +186,6 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
         next(error, request, response, next);
         
     }
-
-/*
-
-    // generate a unique user hash
-    var hash = '';
-
-    // save to database
-    var userModel = models.userModel();
-
-    userModel.update({code: code, hash: hash});
-
-    // create session
-    request.session.hash = hash;*/
 
 };
 
