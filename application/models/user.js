@@ -22,9 +22,11 @@ var userModel = function(app) {
      */
     var userSchema = new Schema({
         nickname: {type: String, trim: true, index: { unique: true }, required: true},
-        createdAt: {type: Date},
+        createdAt: {type: String},
+        language: {type: String},
+        avatar: {type: String},
         lastupdateAt: {type: Date, default: Date.now},
-        id: {type: Number, trim: true, index: { unique: true }, required: true},
+        id: {type: String, trim: true, index: { unique: true }, required: true},
         oauth: {
             access_token: {type: String, trim: true, required: true},
             expires_in: {type: Number, trim: true},

@@ -20,7 +20,7 @@ define([
         
         el: $('#content'),
         
-        initialize: function() {
+        initialize: function(options) {
     
             utilities.log('[CONNECT VIEW] initialization...', 'blue');
     
@@ -94,20 +94,35 @@ define([
                 fastIframe: false,
                 width: '50%',
                 height: '50%',
-                onOpen:function() {
+                onOpen: function() {
+                    
                     utilities.log('[CONNECT VIEW] colorbox opened', 'blue');
+                    
                 },
-                onLoad:function() {
+                onLoad: function() {
+            
                     utilities.log('[CONNECT VIEW] colorbox loaded', 'blue');
+                    
                 },
-                onComplete:function() {
+                onComplete: function() {
+            
                     utilities.log('[CONNECT VIEW] colorbox completed', 'blue');
+                    
                 },
-                onCleanup:function() {
+                onCleanup: function() {
+            
                     utilities.log('[CONNECT VIEW] colorbox cleanedup', 'blue');
+                    
                 },
-                onClosed:function() {
+                onClosed: function() {
+            
                     utilities.log('[CONNECT VIEW] colorbox closed', 'blue');
+                    
+                    var eventManager = _.extend({}, Backbone.Events);
+                    
+                    // trigger event load homepage view
+                    eventManager.trigger('loadHomepage');
+                    
                 }        
             });
     
