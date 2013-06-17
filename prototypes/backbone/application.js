@@ -1,4 +1,3 @@
-
 /**
  * sample application client code using backbone.js
  * 
@@ -35,7 +34,7 @@
         });
         
         // use modernizr to detect if pushstate is available, if not set it to false
-        Backbone.history.start({ pushState: true, root: 'Users/chris/Documents/GitHub/jam_tweets/prototypes/backbone/' });
+        Backbone.history.start({ pushState: true, root: 'PATH_TO_GITHUB_PROJECTS/jam_prototype/prototypes/backbone/' });
         
         $('.ajaxyfied').each(function(index, Element) {
             
@@ -73,7 +72,7 @@
         
         var request = $.ajax({
             type: 'GET',
-            url: 'file:///C:/Users/chris/Documents/GitHub/jam_tweets/prototypes/history.js/' + url,
+            url: 'file:///C:/PATH_TO_GITHUB_PROJECTS/jam_tweets/prototypes/history.js/' + url,
             dataType: 'html'
         });
         
