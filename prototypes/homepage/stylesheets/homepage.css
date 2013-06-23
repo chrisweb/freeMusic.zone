@@ -1,0 +1,88 @@
+body {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    top: 0px;
+    left: 0px;
+}
+
+.partial {
+    width: 100%;
+    box-shadow:inset 0px 10px 10px rgba(0,0,0,0.3);
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+#community {
+    height: 500px;
+    top: 100px;
+    background-color: red;
+}
+
+#featured {
+    height: 400px;
+    background-color: green;
+}
+
+#charts {
+    height: 600px;
+    background-color: yellow;
+}
+
+#radios {
+    height: 800px;
+    background-color: blue;
+}
+
+#playlists {
+    height: 500px;
+    background-color: orange;
+}
+
+#social {
+    height: 600px;
+    background-color: pink;
+}
+
+.slide {
+    background-attachment: fixed;
+}
+
+#slide1 {
+    height: 600px;
+    background-color: pink;
+}
+
+#player {
+
+
+}
+
+nav#parallax {
+    position:fixed;
+    z-index:1;
+    top:20px;
+    color: white;
+}
+
+nav#top {
+
+
+}
+
+nav#user {
+
+
+}
+
+header {
+
+
+}
+
+footer {
+
+
+}
+
