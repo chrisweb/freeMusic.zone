@@ -18,8 +18,6 @@
 
     var appRouter = new AppRouter();
     
-
-    
     // on dom loaded
     $(function() {
         
@@ -67,8 +65,6 @@
             $('#page').html(data);
             
             ajaxify();
-            
-
             
         });
 
