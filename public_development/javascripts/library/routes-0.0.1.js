@@ -13,6 +13,8 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
             
             utilities.log('[ROUTER] initialization...', 'blue');
             
+            this.eventAggregator = _.extend({}, Backbone.Events);
+            
         },
         
         routes: {
@@ -25,6 +27,8 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
     });
     
     var dispatch = function() {
+        
+        var that = this;
 
         var applicationRoutes = new router();
         
@@ -49,7 +53,7 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
 
                 require(['application/views/connect/connect-0.0.1'], function(connectViewModule) {
 
-                    var options = {};
+                    var options = { eventAggregator: that.eventAggregator};
 
                     var connectView = new connectViewModule(options);
 
@@ -72,12 +76,11 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
                 });
                 
             }
-            
-            var eventManager = _.extend({}, Backbone.Events);
-            
+
             // the connect view onclose vent of the colorbox will trigger can
             // besides the homepage route also trigger the homepage view rendering
-            eventManager.bind('loadHomepage', applicationRoutes.navigate('', true));
+            //that.eventAggregator.bind('loadHomepage', applicationRoutes.navigate('', true));
+            $('#connectbox').bind('loadHomepage', console.log('event call'));
 
         });
 

@@ -23,6 +23,8 @@ define([
         initialize: function(options) {
     
             utilities.log('[CONNECT VIEW] initialization...', 'blue');
+            
+            this.eventAggregator = options.eventAggregator;
     
         },
         
@@ -45,7 +47,7 @@ define([
         connectClick: function(event) {
     
             event.preventDefault();
-    
+
             utilities.log('[CONNECT VIEW] connect got clicked', 'blue');
 
             var configurationObject = configuration.get();
@@ -94,6 +96,7 @@ define([
                 fastIframe: false,
                 width: '50%',
                 height: '50%',
+                id: 'connectbox',
                 onOpen: function() {
                     
                     utilities.log('[CONNECT VIEW] colorbox opened', 'blue');
@@ -117,11 +120,6 @@ define([
                 onClosed: function() {
             
                     utilities.log('[CONNECT VIEW] colorbox closed', 'blue');
-                    
-                    var eventManager = _.extend({}, Backbone.Events);
-                    
-                    // trigger event load homepage view
-                    eventManager.trigger('loadHomepage');
                     
                 }        
             });
