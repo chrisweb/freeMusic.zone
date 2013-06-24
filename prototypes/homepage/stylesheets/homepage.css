@@ -6,7 +6,7 @@ body {
     left: 0px;
 }
 
-.partial {
+.partial, .slide {
     width: 100%;
     box-shadow:inset 0px 10px 10px rgba(0,0,0,0.3);
     position: relative;
@@ -15,28 +15,28 @@ body {
 }
 
 #community {
-    height: 500px;
+    height: 700px;
     top: 100px;
     background-color: red;
 }
 
 #featured {
-    height: 400px;
+    height: 600px;
     background-color: green;
 }
 
 #charts {
-    height: 600px;
+    height: 800px;
     background-color: yellow;
 }
 
 #radios {
-    height: 800px;
+    height: 700px;
     background-color: blue;
 }
 
 #playlists {
-    height: 500px;
+    height: 800px;
     background-color: orange;
 }
 
@@ -47,11 +47,42 @@ body {
 
 .slide {
     background-attachment: fixed;
+	height: 400px;
+}
+
+.slide .text {
+    margin: auto;
+	padding: 40px;
+	width: 960px;
+}
+
+.slide span {
+    padding: 20px;
+	margin: 10px;
+	color: white;
+	display: inline-block;
+	background-color: rgba(0,0,0,0.5);
+	font-size: 200%;
 }
 
 #slide1 {
-    height: 600px;
-    background-color: pink;
+    background-image: url('../images/slide1.png');
+}
+
+#slide2 {
+    background-image: url('../images/slide2.png');
+}
+
+#slide3 {
+    background-image: url('../images/slide3.png');
+}
+
+#slide4 {
+    background-image: url('../images/slide4.png');
+}
+
+#slide5 {
+    background-image: url('../images/slide5.png');
 }
 
 #player {
