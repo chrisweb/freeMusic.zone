@@ -30,6 +30,16 @@ getConfiguration = function() {
         case 'development':
 
             /**
+             * twitter
+             */
+            configuration.twitter = {
+                consumer_key:         '000000000000000000000000000000000', // consumer_key
+                consumer_secret:      '00000000000000000000000000000000000000', // consumer_secret
+                access_token_key:     '0000000000000-000000000000000000000000000000000', // access_token
+                access_token_secret:  '000000000000000000000000000000000000000000' // access_token_secret
+            };
+            
+            /**
              * server
              */
             configuration.server = {
