@@ -8,14 +8,86 @@
         <script src="javascripts/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
         <script src="javascripts/vendor/SoundManager2/script/soundmanager2.js"></script>
         <script src="javascripts/application.js"></script>
+        <style>
+            
+            body {
+                font-size: 16px;
+            }
+            
+            .button {
+                width: 60px;
+                height: 60px;
+                background-color: #4e284f;
+                text-decoration: none;
+                color: #fff;
+                padding: 20px;
+                display: inline-block;
+                box-shadow: 1px 1px #9650b4, 2px 2px #9b4bb4, 3px 3px #a046b4, 4px 4px #a54bb4, 5px 5px #aa46b4, 6px 6px #af41b4, 7px 7px #aa3cb4, 8px 8px #af37b4;
+                position: relative;
+                margin: 0px;
+            }
+            
+            .button:hover {
+                background-color: #7a477c;
+            }
+
+            .button:active {
+                top: 5px;
+                left: 5px;
+                box-shadow: 1px 1px #9650b4, 2px 2px #9b4bb4, 3px 3px #a046b4;
+            }
+            
+            .track {
+                width: 60px;
+                height: 20px;
+                padding: 20px;
+                display: inline-block;
+                background-color: #cbcbcb;
+            }
+            
+            #active_playlist {
+                width: 160px;
+                height: 60px;
+                padding: 20px;
+                background-color: #691bc9;
+            }
+            
+            #active_playlist.drop_hover {
+                background-color: #c91bc9;
+            }
+            
+        </style>
     </head>
     <body>
         <div id="page">
-            
+
             <section id="player">
+                <div id="play" class="button">Play</div>
+                <div id="next" class="button">Next</div>
+                <div id="previous" class="button">Previous</div>
+                <div id="shuffle" class="button">Shuffle</div>
+                <div id="repeat" class="button">Repeat</div>
+                <div id="playlists" class="button">Playlists</div>
+                <div id="volume_slider"></div>
+                <div id="progress_slider"></div>
+                <div id="loading_bar"></div>
+            </section>
+            
+            <br><br>
+            <section id="tracks">
+                <div id="track_1" data-prototype-track-id="11111" class="track">Track 1</div>
+                <div id="track_2" data-prototype-track-id="22222" class="track">Track 2</div>
+                <div id="track_3" data-prototype-track-id="33333" class="track">Track 3</div>
+            </section>
+            
+            <section id="active_playlist" class="dropzone">
                 
             </section>
             
+            <section id="playlists_list">
+                
+            </section>
+
         </div>
     </body>
 </html>
