@@ -56,6 +56,10 @@
                 background-color: #c91bc9;
             }
             
+            a:focus {
+                outline: 0;
+            }
+            
         </style>
     </head>
     <body>
@@ -75,9 +79,9 @@
             
             <br><br>
             <section id="tracks">
-                <div id="track_1" data-prototype-track-id="11111" class="track">Track 1</div>
-                <div id="track_2" data-prototype-track-id="22222" class="track">Track 2</div>
-                <div id="track_3" data-prototype-track-id="33333" class="track">Track 3</div>
+                <a href="http://storage-new.newjamendo.com/?trackid=1036072&format=ogg1" id="track_1" data-prototype-track-id="1036072" class="track">Track 1</a>
+                <a href="http://storage-new.newjamendo.com/?trackid=1042147&format=ogg1" id="track_2" data-prototype-track-id="1042147" class="track">Track 2</a>
+                <a href="http://storage-new.newjamendo.com/?trackid=370658&format=ogg1" id="track_3" data-prototype-track-id="370658" class="track">Track 3</a>
             </section>
             
             <section id="active_playlist" class="dropzone">
@@ -86,6 +90,11 @@
             
             <section id="playlists_list">
                 
+            </section>
+            
+            <section id="playlist_tracks">
+                <ul>
+                </ul>
             </section>
 
         </div>
