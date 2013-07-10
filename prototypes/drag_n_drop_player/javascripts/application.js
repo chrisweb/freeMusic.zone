@@ -10,8 +10,9 @@
 
     // global sounds queue, undefined at start
     var soundsQueue;
-
-    var originalElementPosition;
+    
+    // loaded playlist
+    var activePaylist = {};
 
     /**
      * 
@@ -62,6 +63,30 @@
             }
 
         });
+
+        // set the default options
+        soundManager.defaultOptions = {
+            autoLoad: false, // enable automatic loading (otherwise .load() will call with .play())
+            autoPlay: false, // enable playing of file ASAP (much faster if "stream" is true)
+            from: null, // position to start playback within a sound (msec), see demo
+            loops: 1, // number of times to play the sound. Related: looping (API demo)
+            multiShot: false, // let sounds "restart" or "chorus" when played multiple times..
+            multiShotEvents: false, // allow events (onfinish()) to fire for each shot, if supported.
+            position: null, // offset (milliseconds) to seek to within downloaded sound.
+            pan: 0, // "pan" settings, left-to-right, -100 to 100
+            stream: true, // allows playing before entire file has loaded (recommended)
+            to: null, // position to end playback within a sound (msec), see demo
+            type: null, // MIME-like hint for canPlay() tests, eg. 'audio/mp3'
+            usePolicyFile: false, // enable crossdomain.xml request for remote domains (for ID3/waveform access)
+            volume: 33, // self-explanatory. 0-100, the latter being the max.
+        }
+
+        // flash9 options
+        soundManager.flash9Options = {
+            usePeakData: false, // enable left/right channel peak (level) data
+            useWaveformData: false, // enable sound spectrum (raw waveform data) - WARNING: May set CPUs on fire.
+            useEQData: false // enable sound EQ (frequency spectrum data) - WARNING: Also CPU-intensive.
+        }
 
     };
 
@@ -118,36 +143,57 @@
 
         if (playlistId === 'favorites') {
 
-            var playlistTracks = [];
+            activePaylist.tracks = [];
+            
+        } else {
+            
+            // TODO
+            
+        }
 
-            // TODO: ajax call to server if user is logged in
+        // TODO: ajax call to server if user is logged in
 
-            // TODO: get the playlist from cookie / session? if user is not logged in
+        // TODO: get the playlist from cookie / session? if user is not logged in
 
-            if (playlistTracks.length > 0) {
+        if (activePaylist.tracks.length > 0) {
 
-                var playlistElement = $('#playlist_tracks').find('ul');
+            var playlistElement = $('#playlist_tracks').find('ul');
 
-                $.each(playlistTracks, function(index, track) {
+            $.each(activePaylist.tracks, function(index, track) {
 
-                    // add the track to the playlist tracks element dom
-                    addRowToPlaylist(index + 1, sound, playlistElement);
+                // add the track to the playlist tracks element dom
+                addRowToPlaylist(index + 1, sound, playlistElement);
 
-                    // create a new soundManager2 sound
-                    var sound = soundManager.createSound({id: track.id, url: track.url});
+                // create a new soundManager2 sound
+                var sound = soundManager.createSound({id: track.id, url: track.url});
 
-                    console.log('sound created, id: ' + track.id);
+                console.log('sound created, id: ' + track.id);
 
-                    sound.title = track.title;
+                var jamendoOptions = {
+                    title: track.title,
+                    cover_image: '',
+                    duration: '',
+                    album_id: '',
+                    artist_id: '',
+                    artist_name: '',
+                    album_name: '',
+                    license_ccurl: '',
+                    releasedate: '',
+                    musicinfo: '',
+                    licenses: '',
+                    stats: ''
+                };
 
-                    // add the track to the player soundsQueue
-                    soundsQueue.push(sound);
+                sound.jamendoOptions = jamendoOptions;
 
-                    console.log('sound pushed to queue, trackTitle: ' + track.title);
+                // add the track to the player soundsQueue
+                //TODO: why have a soundQueue and activePlaylist Object
+                //TODO: remove soundQueue, check soundManager if it has a song or use data from activePlaylist object to handle tracks
+                soundsQueue.push(sound);
 
-                });
+                console.log('sound pushed to queue, trackTitle: ' + track.title);
 
-            }
+            });
 
         }
 
@@ -167,7 +213,7 @@
 
             console.log('soundsQueue: ');
             console.log(soundsQueue);
-            
+
             var soundToPLay = soundsQueue[0];
 
             // load the song
@@ -194,7 +240,7 @@
         }
 
     };
-    
+
     var playSound = function(soundToPLay) {
 
         soundToPLay.play({
@@ -217,11 +263,22 @@
 
                 console.log('ondataerror');
 
+                console.log(this);
+
+            },
+            onbufferchange: function() {
+
+                console.log('ondataerror');
+
+                //console.log(this);
+                console.log(this.isBuffering);
+
             },
             whileplaying: function() {
 
                 //console.log('whileplaying');
 
+                //console.log(this);
                 //console.log(this.readyState);
 
             },
@@ -232,10 +289,26 @@
                 console.log(this);
                 console.log(this.bytesLoaded);
                 console.log(this.bytesTotal);
+                
+                var trackPosition = activePaylist.position;
 
-                if (this.bytesLoaded === this.bytesTotal && nextSound.preLoaded === false) {
+                if (trackPosition < activePaylist.tracks.length) {
+                    
+                    var nextPosition = trackPosition++;
+                
+                    var nextTrack = activePaylist.tracks[nextPosition];
+                    
+                } else {
+                    
+                    nextPosition = 0;
+                    
+                    var nextTrack = activePaylist.tracks[nextPosition];
+                    
+                }
 
-                    nextSound.load();
+                if (this.bytesLoaded === this.bytesTotal && soundManager(nextTrack) === false) {
+
+                    soundToPlayNext.load();
 
                 }
 
@@ -249,16 +322,13 @@
 
                 // destroy previous songs expect last 2-5
                 //this.destruct(); // will also try to unload before destroying.
-                
-                // TODO: find next song
-                var soundToPLayNext = '';
 
-                //playSound(soundToPLay);
+                playSound(soundToPlayNext);
 
             }
 
         });
-        
+
     }
 
     /**
@@ -268,6 +338,19 @@
     var pauseClick = function() {
 
         console.log('player pause click');
+        
+        //sound.togglePause();
+        
+        // toggle play pause
+        /*if (isPlaying) {
+            
+            sound.togglePause()();
+            
+        } else {
+            
+            sound.pause();
+            
+        }*/
 
     };
 
@@ -309,6 +392,17 @@
 
         console.log('player repeat click');
 
+    };
+    
+    /**
+     * 
+     * @returns {undefined}
+     */
+    var changeVolume = function() {
+        
+        //soundManager.setVolume();
+        //sound.setVolume();
+        
     };
 
     /**
@@ -372,9 +466,7 @@
             revert: function(event) {
 
                 console.log('track got dropped on dropzone?');
-
-                console.log(originalElementPosition);
-
+                
                 // if element is dropped on a dropzone then event will contain
                 // object, else it will be false
                 if (event) {
@@ -419,8 +511,6 @@
 
                 console.log('#tracks .track drag start');
 
-                originalElementPosition = $(this).position();
-
             },
             stop: function(event, ui) {
 
@@ -446,7 +536,7 @@
         var rowHtml = '';
         rowHtml += '<li id="' + index + '_' + sound.id + '">';
         rowHtml += '<span class="position">' + index + '</span>';
-        rowHtml += '<span class="title">' + sound.title + '</span>';
+        rowHtml += '<span class="title">' + sound.jamendoOptions.title + '</span>';
         rowHtml += '</li>';
 
         var playlistTrackRow = $(rowHtml);
