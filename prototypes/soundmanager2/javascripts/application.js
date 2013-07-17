@@ -200,6 +200,8 @@
 
                 console.log(this);
                 //console.log(this.readyState);
+                
+                console.log('whileplaying(): '+this.position+' / '+this.duration);
 
             },
             whileloading: function() {

@@ -11,8 +11,7 @@
         "ejs": ">=0.8.4",
 		"socket.io": ">=0.9.16",
 		"jamendo": ">=0.3.0",
-		"jamendo-from-twitter": ">=0.0.1",
-		"pcm": "1.0.3"
+		"jamendo-from-twitter": ">=0.0.1"
     },
     "engine": "node >= 0.10.5"
 }

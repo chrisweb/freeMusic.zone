@@ -46,10 +46,10 @@ frontend
 * https://github.com/scottschiller/SoundManager2
 * https://github.com/Modernizr/Modernizr
 
-install instructions
---------------------
+install instructions for the application
+----------------------------------------
 
-Use you command line tool and start mongodb:
+Open your command line tool and start mongodb:
 on windows:
 cd /mongodb/bin
 mongod
@@ -57,11 +57,11 @@ mongod
 on centos:
 service mongod start
 
-Use another command line session to start redis:
+Open another command line session to start redis:
 on centos:
 service redis start
 
-Use another command line session and go into the directory of the application:
+Open yet another command line session and go into the directory of the application:
 cd /path_to_jam_prototype/
 
 install python (python version needs to be > 2.5 and < 3.0) before trying to install hiredis (node-gyp dependency needs python)
@@ -90,6 +90,35 @@ NODE_ENV can be development, staging, production
 
 Now open your browser and go to:
 127.0.0.1:THE_PORT_YOU_HAVE_SET_IN_THE_CONFIGURATION
+
+install instructions for the audio data analyzer
+------------------------------------------------
+
+Open a command line session and go into the directory of the application:
+cd /path_to_jam_prototype/
+
+To install the project run this command:
+npm install
+This will automatically install all the dependencies listed in the package.json
+
+You can also update the packages by using this command:
+npm update
+
+Install ffmpeg (which also contains ffprobe) from http://www.ffmpeg.org/
+
+On windows you also need to add the ffmpeg directory to the windows path
+you can find the windows path tool by pressing the windows key on your keyboard and then searching for a tool called "path", then click on the path variable and then on the button edit
+add the end of the path add a semicolon ";" and then the path to "your ffmpeg/bin" directory
+now you need to restart your pc so that the ney path can be taken into account by windows
+
+To run the project run this command on linux:
+NODE_ENV=development node audio-data-analyzer
+
+OR thess commands for windows powershell:
+$env:NODE_ENV="development"
+node audio-data-analyzer
+
+NODE_ENV can be development, staging, production
 
 twitter boostrap less css
 -------------------------
