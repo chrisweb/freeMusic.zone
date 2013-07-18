@@ -3,7 +3,11 @@
 
 // connect-redis module: https://github.com/visionmedia/connect-redis/blob/master/lib/connect-redis.js
 
+// redis vendor module
 var redis = require('redis');
+
+// utilities library module
+var utilities = require(__dirname + '/../shared/utilities-0.0.3');
 
 var cachedClient = null;
 var cachedDatabases = {};

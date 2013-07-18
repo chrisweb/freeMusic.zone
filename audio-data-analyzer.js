@@ -6,7 +6,7 @@
  */
 
 // utilities module
-var utilities = require('./library/shared/utilities-0.0.1');
+var utilities = require('./library/shared/utilities-0.0.3');
 
 // nodejs http
 var http = require('http');

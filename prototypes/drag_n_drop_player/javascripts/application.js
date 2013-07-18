@@ -8,11 +8,8 @@
 
     var soundManager = window.soundManager;
 
-    // global sounds queue, undefined at start
-    var soundsQueue;
-    
     // loaded playlist
-    var activePaylist = {};
+    var activePlaylist = {};
 
     /**
      * 
@@ -34,9 +31,6 @@
                 console.log('soundmanager2 ready!');
 
                 // TODO: remove the inactive class from buttons
-
-                // initialize sounds queue
-                soundsQueue = [];
 
                 // initialize listeners
                 initializeListeners();
@@ -140,56 +134,57 @@
     var loadPlaylist = function(playlistId) {
 
         console.log('load playlist, playlistId: ' + playlistId);
+        
+        // prepare the active playlist object
+        activePlaylist.sounds = [];
+        activePlaylist.currentSong = {};
 
         if (playlistId === 'favorites') {
+            
+            // TODO: ajax call to server if user is logged in
 
-            activePaylist.tracks = [];
+            // TODO: get the playlist from cookie / session? if user is not logged in
+            
+            var tracks = [];
             
         } else {
             
-            // TODO
+            // TODO: ajax call to server to fetch playlist by id
+            
+            var tracks = [];
             
         }
 
-        // TODO: ajax call to server if user is logged in
-
-        // TODO: get the playlist from cookie / session? if user is not logged in
-
-        if (activePaylist.tracks.length > 0) {
+        if (tracks.length > 0) {
+                  
+            // sort tracks by track position
+            activePlaylist.tracks.sort(function(a, b){
+                return a.position-b.position
+            });
 
             var playlistElement = $('#playlist_tracks').find('ul');
+            
+            var counter = 1;
 
-            $.each(activePaylist.tracks, function(index, track) {
+            $.each(activePlaylist.tracks, function(index, track) {
+
+                track.position = parseInt(index + 1);
 
                 // add the track to the playlist tracks element dom
-                addRowToPlaylist(index + 1, sound, playlistElement);
+                addRowToPlaylist(track, playlistElement);
 
-                // create a new soundManager2 sound
-                var sound = soundManager.createSound({id: track.id, url: track.url});
-
-                console.log('sound created, id: ' + track.id);
-
-                var jamendoOptions = {
-                    title: track.title,
-                    cover_image: '',
-                    duration: '',
-                    album_id: '',
-                    artist_id: '',
-                    artist_name: '',
-                    album_name: '',
-                    license_ccurl: '',
-                    releasedate: '',
-                    musicinfo: '',
-                    licenses: '',
-                    stats: ''
-                };
-
-                sound.jamendoOptions = jamendoOptions;
-
-                // add the track to the player soundsQueue
-                //TODO: why have a soundQueue and activePlaylist Object
-                //TODO: remove soundQueue, check soundManager if it has a song or use data from activePlaylist object to handle tracks
-                soundsQueue.push(sound);
+                // add sound to the active playlist object
+                addSoundToActivePlaylist(track);
+                
+                // when the playlist gets loaded, the first song of the
+                // playlist is the current song
+                if (counter === 1) {
+                
+                    activePlaylist.currentSong.id = track.id;
+                    
+                }
+                
+                counter++;
 
                 console.log('sound pushed to queue, trackTitle: ' + track.title);
 
@@ -197,6 +192,46 @@
 
         }
 
+    };
+    
+    var addSoundToActivePlaylist = function(track) {
+        
+        if ($.type(track.id) === 'number') {
+
+            // create a new soundManager2 sound
+            var sound = soundManager.createSound({id: 'track_' + track.id, url: track.url});
+
+            console.log('sound created, id: ' + track.id);
+
+            var jamendoOptions = {
+                id: track.id,
+                title: track.title,
+                cover_image: '',
+                duration: '',
+                album_id: '',
+                artist_id: '',
+                artist_name: '',
+                album_name: '',
+                license_ccurl: '',
+                releasedate: '',
+                musicinfo: '',
+                licenses: '',
+                stats: '',
+                position: track.position,
+                preload_status: false,
+                preload_timestamp: 0
+            };
+
+            sound.jamendoOptions = jamendoOptions;
+
+            activePlaylist.sounds.push(sound);
+            
+        } else {
+            
+            console.log('error cannot add track with invalid id');
+            
+        }
+        
     };
 
     /**
@@ -206,44 +241,94 @@
     var playClick = function() {
 
         console.log('player play click');
+        
+        console.log('$.type(activePlaylist.sounds): ' + $.type(activePlaylist.sounds));
 
-        if ($.type(soundsQueue) !== 'undefined' && soundsQueue.length > 0) {
+        if ($.type(activePlaylist) !== 'undefined' && $.type(activePlaylist.sounds) === 'array' && activePlaylist.sounds.length > 0) {
 
-            console.log('soundsQueue play start');
+            console.log('activePlaylist play start');
 
-            console.log('soundsQueue: ');
-            console.log(soundsQueue);
+            // TODO: check if a sound has the jamendo option status set to paused
+            
+            var soundToPlayId = 0;
 
-            var soundToPLay = soundsQueue[0];
+            // if the current song object is available
+            if ($.type(activePlaylist.currentSong.id) === 'number') {
+                
+                console.log('$.type(activePlaylist.currentSong.id): ' + $.type(activePlaylist.currentSong.id));
 
-            // load the song
-            soundsQueue[0].load({
-                // start playing it when it finished preloading
-                onload: function() {
-
-                    console.log('onload got triggered');
-
-                    console.log(this);
-
-                    playSound(soundToPLay);
-
-                }
-
+                // use the current song object to get the id
+                soundToPlayId = activePlaylist.currentSong.id;
+                
+            } else {
+                
+                console.log('activePlaylist.sounds[0].id: ' + activePlaylist.sounds[0].id);
+                
+                // the current song must be the first one in the list
+                soundToPlayId = activePlaylist.sounds[0].id;
+                
+                // update the current song variable
+                activePlaylist.currentSong.id = soundToPlayId;
+                
+            }
+            
+            console.log('soundToPlayId: ' + soundToPlayId);
+            
+            // this might be a performance killer with big playlists
+            var resultsArray = $.grep(activePlaylist.sounds, function(e) {
+                
+                return e.id === soundToPlayId;
+                
             });
+            
+            var soundToPlay = resultsArray[0];
+
+            console.log('soundToPlay.jamendoOptions.preload_status: ' + soundToPlay.jamendoOptions.preload_status);
+            
+            // did sound already get preloaded previously and is therefor still
+            // stored in memory
+            if (soundToPlay.jamendoOptions.preload_status === false) {
+
+                // load the song
+                soundToPlay.load({
+                    // start playing it when it finished preloading
+                    onload: function() {
+
+                        console.log('onload got triggered');
+
+                        console.log(this);
+                        
+                        // TODO: cleanup older preloaded songs by oldest
+                        // timestamp if more then 10 preloaded songs exist to
+                        // free some memory space
+
+                        playSound(soundToPlay);
+
+                    }
+
+                });
+                
+            } else {
+                
+                var preloadTimestamp = utilities.getTimestamp();
+                
+                playSound(soundToPlay);
+                
+            }
 
         } else {
 
-            // TODO: show user error message
+            // TODO: show user error message, tell user to add tracks to current playlist or load another playlist
 
-            console.log('soundsQueue is undefined or empty');
+            console.log('activePlaylist is undefined or activePlaylist.sounds is empty');
 
         }
 
     };
 
-    var playSound = function(soundToPLay) {
+    var playSound = function(soundToPlay) {
 
-        soundToPLay.play({
+        soundToPlay.play({
             // mp3 id3 data
             onid3: function() {
 
@@ -285,31 +370,78 @@
             whileloading: function() {
 
                 console.log('whileloading');
+                
+                // about preloading:
+                // i have implemented a light preloading mechanism because
+                // i fear the a more agressive one could harm the performance
+                // too much, will have to do more test especially on older
+                // browsers
+                
+                // when the first track got completle loaded we preload the
+                // next track, but when the next track finished preloading
+                // we wont preload yet another track
+                
+                // we dont keep more then tracks in memory, if there are more
+                // then that we will destroy the oldest ones based on their
+                // timestamp
 
                 console.log(this);
                 console.log(this.bytesLoaded);
                 console.log(this.bytesTotal);
+                console.log(this.jamendoOptions.preload_status);
                 
-                var trackPosition = activePaylist.position;
-
-                if (trackPosition < activePaylist.tracks.length) {
+                // if preloading of current song has finished and preload_status
+                // has not been changed yet
+                if (this.bytesLoaded === this.bytesTotal && this.jamendoOptions.preload_status === false) {
                     
-                    var nextPosition = trackPosition++;
+                    this.jamendoOptions.preload_status = true;
+                    this.jamendoOptions.preload_timetsamp =  new Date().getTime();
+                    
+                    console.log('this.id: ' + this.id);
+                    console.log('activePlaylist.currentSong.id: ' + activePlaylist.currentSong.id);
                 
-                    var nextTrack = activePaylist.tracks[nextPosition];
-                    
-                } else {
-                    
-                    nextPosition = 0;
-                    
-                    var nextTrack = activePaylist.tracks[nextPosition];
-                    
-                }
+                    // only if the sound that finished loading is also the sound
+                    // that gets currently played preload another one
+                    if (this.id === activePlaylist.currentSong.id) {
+                        
+                        var that = this;
+                        
+                        // find all tracks that have a higher position as current track
+                        var nextSounds = $.grep(activePlaylist.sounds, function(e) {
+                            
+                            console.log('e.jamendoOptions.position: ' + e.jamendoOptions.position);
+                            console.log('this.jamendoOptions.position: ' + that.jamendoOptions.position);
 
-                if (this.bytesLoaded === this.bytesTotal && soundManager(nextTrack) === false) {
+                            return e.jamendoOptions.position > that.jamendoOptions.position;
 
-                    soundToPlayNext.load();
+                        });
 
+                        console.log('nextSounds.length: ' + nextSounds.length);
+                        
+                        var nextSound = undefined;
+
+                        // if there is a next track preload it
+                        if (nextSounds.length > 0) {
+
+                            nextSound = nextSounds[0];
+
+                        } else {
+
+                            // if no next sound restart playlist with first song
+                            nextSound = activePlaylist.sounds[0];
+
+                        }
+                        
+                        // check if that track didnt already get preloaded
+                        if ($.type(nextSound) !== 'undefined' && nextSound.jamendoOptions.preload_status === false) {
+
+                            // preload next track
+                            nextSound.load();
+
+                        }
+                        
+                    }
+                
                 }
 
             },
@@ -329,7 +461,7 @@
 
         });
 
-    }
+    };
 
     /**
      * 
@@ -423,28 +555,24 @@
                 console.log('#active_playlist drop');
 
                 var droppedElement = ui.draggable;
+                
+                var track = {};
 
-                var trackUrl = droppedElement.attr('href');
-                var trackId = droppedElement.attr('data-prototype-track-id');
-                var trackTitle = droppedElement.text();
+                track.url = droppedElement.attr('href');
+                track.id = parseInt(droppedElement.attr('data-prototype-track-id'));
+                track.title = droppedElement.text();
 
-                var sound = soundManager.createSound({id: 'track_' + trackId, url: trackUrl});
-
-                console.log('sound created, id: ' + trackId);
-
-                sound.title = trackTitle;
-
-                soundsQueue.push(sound);
-
-                console.log('sound pushed to queue, trackTitle: ' + trackTitle);
+                console.log('dropped track pushed to active playlist, track.title: ' + track.title);
 
                 var playlistElement = $('#playlist_tracks').find('ul');
 
-                var trackPosition = playlistElement.children().length + 1;
+                track.position = playlistElement.children().length + 1;
+                
+                addSoundToActivePlaylist(track);
 
-                addRowToPlaylist(trackPosition, sound, playlistElement);
+                addRowToPlaylist(track, playlistElement);
 
-                console.log('added a row to playlist tracks element at trackPosition: ' + trackPosition);
+                console.log('added a row to playlist tracks element at track.position: ' + track.position);
 
             }
 
@@ -510,6 +638,8 @@
             start: function(event, ui) {
 
                 console.log('#tracks .track drag start');
+                
+                // TODO: increase size of dragged element and also of dropzone
 
             },
             stop: function(event, ui) {
@@ -518,6 +648,8 @@
 
                 // reset the id of dragged track
                 dragggedId = undefined;
+                
+                // TODO: decrease size of dragged element and also of dropzone
 
             }
         });
@@ -526,17 +658,18 @@
 
     /**
      * 
-     * @param {type} index
-     * @param {type} sound
+     * add a row to the playlist helper
+     * 
+     * @param {type} track
      * @param {type} playlistElement
      * @returns {undefined}
      */
-    var addRowToPlaylist = function(index, sound, playlistElement) {
+    var addRowToPlaylist = function(track, playlistElement) {
 
         var rowHtml = '';
-        rowHtml += '<li id="' + index + '_' + sound.id + '">';
-        rowHtml += '<span class="position">' + index + '</span>';
-        rowHtml += '<span class="title">' + sound.jamendoOptions.title + '</span>';
+        rowHtml += '<li id="' + track.position + '_' + track.id + '">';
+        rowHtml += '<span class="position">' + track.position + '</span>';
+        rowHtml += '<span class="title">' + track.title + '</span>';
         rowHtml += '</li>';
 
         var playlistTrackRow = $(rowHtml);

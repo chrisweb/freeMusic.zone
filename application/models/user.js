@@ -1,6 +1,4 @@
 
-var utilities = require('../../library/shared/utilities-0.0.1');
-
 /**
  * 
  * user model
@@ -9,6 +7,8 @@ var utilities = require('../../library/shared/utilities-0.0.1');
  * @returns {userModel}
  */
 var userModel = function(app) {
+
+    var utilities = app.get('utilities');
 
     var collection = 'user';
     var Schema = app.mongoose.Schema;
@@ -58,7 +58,7 @@ userModel.prototype.saveOne = function(data) {
         
         if (error) {
             
-            utilities.log('userModel save failed, error: ' + error);
+            this.utilities.log('userModel save failed, error: ' + error);
             
         } else {
             

@@ -6,7 +6,7 @@ exports.initialize = function(application) {
 
     var socket = require('socket.io')
             , io = socket.listen(application)
-            , utilities = require('./utilities-0.0.1')
+            , utilities = require('./utilities-0.0.3')
             , applicationConfigurationModule = require('./configuration/application-0.2.5')
             , redisStore = require('socket.io/lib/stores/redis')
             , mongoDB = require('./mongodb-0.0.1')

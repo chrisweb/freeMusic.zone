@@ -168,15 +168,6 @@ mapRoutes = function(app, configuration, controllers, models) {
             response.header('x-content-type-options', 'nosniff');
             response.header('x-ua-compatible', 'IE=edge, chrome=1');
             
-var context;
-if (typeof AudioContext !== "undefined") {
-    context = new AudioContext();
-} else if (typeof webkitAudioContext !== "undefined") {
-    context = new webkitAudioContext();
-} else {
-    throw new Error('AudioContext not supported. :(');
-}
-
             response.render('index', { environment: app.get('environment'), header: headerHtml, footer: footerHtml });
 
         } catch (error) {

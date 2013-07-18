@@ -1,6 +1,6 @@
 
 // utilities module
-var utilities = require(__dirname + '/../shared/utilities-0.0.1');
+var utilities = require(__dirname + '/../shared/utilities-0.0.3');
 
 var https = require('https');
 

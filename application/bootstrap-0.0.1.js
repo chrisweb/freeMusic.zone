@@ -6,7 +6,7 @@
  */
 
 // utilities module
-var utilities = require('../library/shared/utilities-0.0.1');
+var utilities = require('../library/shared/utilities-0.0.3');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
