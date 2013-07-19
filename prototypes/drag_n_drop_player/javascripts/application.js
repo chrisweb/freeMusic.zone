@@ -30,7 +30,7 @@
 
                 console.log('soundmanager2 ready!');
 
-                // TODO: remove the inactive class from buttons
+                // TODO: remove the inactive class from all the buttons
 
                 // initialize listeners
                 initializeListeners();

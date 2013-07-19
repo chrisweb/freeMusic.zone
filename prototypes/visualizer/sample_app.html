@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+
+        <title>web audio api example tested with chrome 28 and firefox aurora 24.0a2</title>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+        <script>
+
+            (function($, window, undefined) {
+
+                /*
+ 
+                // web audio api offline mode to pre-render next song
+                // http://stackoverflow.com/questions/8074152/is-there-a-way-to-use-the-web-audio-api-to-sample-audio-faster-than-real-time/8101383#8101383
+
+                // fft explained
+                // http://stackoverflow.com/questions/14789283/what-does-the-fft-data-in-the-web-audio-api-correspond-to
+
+                // AnalyserNode documentation:
+                // http://docs.webplatform.org/wiki/apis/webaudio/AnalyserNode
+
+                */
+               
+                var sourceNode;
+                var analyserNode;
+                var canvasContext;
+                var canvasWidth;
+                var canvasHeight;
+                var audioContext;
+                var audioBuffer;
+                
+                // https://developer.mozilla.org/en-US/docs/Web/API/window.requestAnimationFrame
+                var requestAnimationFrame = window.requestAnimationFrame ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame;
+
+                try {
+
+                    var AudioContext = window.AudioContext || window.webkitAudioContext;
+                    audioContext = new AudioContext();
+                    
+                }
+                catch (e) {
+
+                    console.log('web audio API is not supported by this browser');
+
+                }
+
+                var loadSound = function(url) {
+                    
+                    console.log('loadSound, url: ' + url);
+                    
+                    var request = new XMLHttpRequest();
+                    
+                    request.open('GET', url, true);
+                    request.responseType = 'arraybuffer';
+
+                    // when loaded decode the data
+                    request.onload = function() {
+                        
+                        console.log('request onload');
+
+                        audioContext.decodeAudioData(
+                            request.response,
+                            function onDecodeSuccess(audioBuffer) {
+
+                                // success
+                                
+                                console.log('sound got loaded, buffer: ');
+                                console.log(audioBuffer);
+
+                                // when the audio is decoded play the sound
+                                playSound(audioBuffer);
+
+                            },
+                            function onDecodeFailure(error) {
+
+                                // error
+                                
+                                console.log(error);
+
+                            }
+                        );
+                        
+                    };
+                    
+                    request.send();
+                    
+                };
+                
+                var playSound = function(audioBuffer) {
+                
+                    console.log('playSound');
+                    
+                    if ($.type(sourceNode) !== 'undefined') {
+                        
+                        sourceNode.disconnect();
+                        
+                    }
+
+                    // http://www.html5rocks.com/en/tutorials/webaudio/intro/
+                    // https://hacks.mozilla.org/2013/07/web-audio-api-comes-to-firefox/
+                    // creates a sound source
+                    sourceNode = audioContext.createBufferSource();
+                    // tell the source which sound to play
+                    sourceNode.buffer = audioBuffer;
+                    
+                    if ($.type(analyserNode) !== 'undefined') {
+                        
+                        analyserNode.disconnect();
+                        
+                    }
+                    
+                    // analyzer node
+                    analyserNode = audioContext.createAnalyser();
+                    //analyserNode.smoothingTimeConstant = 0.8;
+                    analyserNode.fftSize = 1024;
+
+                    requestAnimationFrame(animationFrameCallback);
+
+                    // chain both nodes
+                    sourceNode.connect(analyserNode);
+                    // connect the source to the context's destination (the speakers)
+                    analyserNode.connect(audioContext.destination);
+                    
+                     // play the sound
+                    sourceNode.start(0);
+                
+                };
+
+                var animationFrameCallback = function() {
+
+                    //console.log('animationFrame callback got triggered');
+
+                    drawSound();
+
+                };
+                
+                var drawSound = function() {
+                    
+                    //console.log('drawSound');
+                    
+                    var uint8Array = new Uint8Array(analyserNode.frequencyBinCount);
+                    
+                    analyserNode.getByteFrequencyData(uint8Array);
+                    
+                    canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
+                    
+                    var i = 0;
+                    
+                    for (; i < (uint8Array.length); i++) {
+                        
+                        var value = uint8Array[i];
+                        
+                        canvasContext.fillRect(i * 5, canvasHeight - value, 3, canvasHeight);
+                        
+                    }
+
+                    // request next animation frame
+                    requestAnimationFrame(animationFrameCallback);
+                    
+                };
+
+                // on dom ready
+                $(function() {
+                    
+                    console.log('DOM is ready');
+
+                    canvasContext = $('#visualizerCanvas')[0].getContext('2d');
+                    
+                    console.log(canvasContext);
+
+                    canvasWidth = $('#visualizerCanvas').width();
+                    canvasHeight = $('#visualizerCanvas').height();
+
+                    console.log('canvasWidth: ' + canvasWidth);
+                    console.log('canvasHeight: ' + canvasHeight);
+                    
+                    initializeListeners();
+                    
+                });
+                
+                var initializeListeners = function() {
+                    
+                    $('#play').click(function(e) {
+                        
+                        e.preventDefault();
+                        
+                        console.log('play ...');
+                        
+                        var url = $(this).attr('data-song-url');
+
+                        loadSound(url);
+                        
+                    });
+                    
+                };
+                
+            })(jQuery, window);
+
+        </script>
+    </head>
+    <body>
+
+        <h1>>web audio api example tested with chrome 28 and firefox aurora 24.0a2</h1>
+        <div id="play" data-song-url="http://upload.wikimedia.org/wikipedia/en/d/db/Layla_sample_1.ogg">Play</div>
+        <!-- <div id="play" data-song-url="http://storage-new1.newjamendo.com/tracks/1036072_112.ogg">Play</div> -->
+        <canvas id="visualizerCanvas" width="800" height="400"></canvas>
+
+    </body>
+</html>
