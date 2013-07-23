@@ -10,9 +10,9 @@
     if (typeof(window) === 'undefined') {
         
         // get the "winston" nodejs file logger vendor module
-        var winston = require('winston');
+        /*var winston = require('winston');
         
-        var errorLogfilePath = '/../logs/errors.log';
+        var errorLogfilePath = __dirname + '/../../application/logs/application.log';
 
         var winstonErrorFile = new winston.transports.File({
             filename: __dirname + errorLogfilePath,
@@ -29,9 +29,25 @@
                 winstonErrorFile
             ],
             exitOnError: true
-        });
+        });*/
         
     }
+    
+    utilities.htmlLog = function(data) {
+
+        if (typeof(document.getElementById('log')[0]) === 'undefined') {
+            
+            var logDiv = document.createElement('div');
+            logDiv.id = 'log';
+            logDiv.style.cssText('position: absolute; left: 0; top: 0; padding: 0; margin: 0; border: 0; z-index: 999999;');
+            
+            document.getElementsByTagName('body')[0].prependChild(logDiv);
+            
+        }
+
+        document.getElementById('log').appendTo(data);
+            
+    };
     
     utilities.fileLog = function(data) {
         
@@ -40,7 +56,7 @@
     };
 
     // utilities logger
-    utilities.log = function(data, fontColor, logTofile) {
+    utilities.log = function(data, fontColor, logToSpecial) {
 
         // apply colors
         if (typeof(console) !== 'undefined') {
@@ -50,6 +66,12 @@
                 
                 // background default black
                 var backgroundColor = '\u001b[40m';
+                
+                if (typeof(data) === 'object') {
+                    
+                    data = JSON.stringify(data)
+                    
+                }
 
                 if (typeof(fontColor) !== 'undefined') {
 
@@ -77,11 +99,11 @@
                 }
                 
                 // log to file
-                if (typeof(logTofile) !== 'undefined') {
+                /*if (typeof(logToSpecial) !== 'undefined') {
                     
                     this.fileLog(data);
                     
-                }
+                }*/
 
             } else {
                 
@@ -97,7 +119,6 @@
                     fontColors.blue = '0000FF';
                     fontColors.magenta = 'FF00FF';
                     fontColors.cyan = '00FFFF';
-
                     fontColors.blue = '0000FF';
 
                     if (typeof(fontColors[fontColor]) === undefined) {
@@ -105,10 +126,24 @@
                     }
 
                     console.log('%c' + data, 'background: #' + backgroundColor + '; color: #' + fontColors[fontColor]);
+                    
+                    // log to html
+                    if (typeof(logToSpecial) !== 'undefined') {
+
+                        this.htmlLog('<span style="color: #' + fontColors[fontColor] + '; background-color: #' + backgroundColor + ';">' + data + '</span>');
+
+                    }
 
                 } else {
 
                     console.log(data);
+                    
+                    // log to html
+                    if (typeof(logToSpecial) !== 'undefined') {
+
+                        this.htmlLog(data);
+
+                    }
 
                 }
 

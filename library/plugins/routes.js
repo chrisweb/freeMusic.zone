@@ -17,15 +17,15 @@ mapRoutes = function(app, configuration, controllers, models) {
     /**
      * share the utilities plugin with the client
      */
-    app.all('/javascripts/library/utilities-0.0.1.js', function(request, response, next) {
+    app.all('/javascripts/library/utilities-0.0.3.js', function(request, response, next) {
 
-        utilities.log(' $$$ ROUTE MATCH: /javascripts/library/utilities-0.0.1.js by: ' + request.url, 'yellow');
+        utilities.log(' $$$ ROUTE MATCH: /javascripts/library/utilities-0.0.3.js by: ' + request.url, 'yellow');
 
         try {
 
             response.setHeader('Content-Type', 'application/javascript');
 
-            response.send(fs.readFileSync(__dirname + '/../shared/utilities-0.0.1.js', 'utf8'));
+            response.send(fs.readFileSync(__dirname + '/../shared/utilities-0.0.3.js', 'utf8'));
 
         } catch(error) {
 
