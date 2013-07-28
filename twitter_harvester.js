@@ -20,6 +20,44 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 // get the environment variable
 var environment = process.env.NODE_ENV;
 
+// get configuration
+var configurationModule = require('./application/configurations/configuration.js');
+var configuration = configurationModule.get();
+
+// initialize mongodb connection (mongoose)
+var app = {};
+
+app.mongoose = require('mongoose');
+
+app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configuration.mongodb.database.name, function(error) {
+    
+    if (typeof(error) !== 'undefined') {
+        
+        utilities.log('mongodb connection failed, host: ' + configuration.mongodb.host + ', database: ' + configuration.mongodb.database.name + ', error: ' + error, 'red');
+        
+    } else {
+        
+        // enable mongoose debugging in development
+        if (environment === 'development') {
+
+            console.log('enabling mongoose debuggin');
+
+            app.mongoose.set('debug', true);
+
+        }
+        
+    }
+    
+});
+
+
+// get the tweets mongoose model
+var TweetModel = require('./application/models/tweet');
+
+var tweetModel = new TweetModel(app);
+
+// load jamendo from twitter
+// try/catch because it is a github module and might be missing
 try {
 
     var JamendoFromTwitter = require('./node_modules/jamendo-from-twitter/index.js');
@@ -30,49 +68,82 @@ try {
     
 }
 
-
-
-// get configuration
-var configurationModule = require('./application/configurations/configuration.js');
-var configuration = configurationModule.get();
-
 // get an harvester
 var harvester = new JamendoFromTwitter(configuration.twitterModule);
 
 // on twitter message listener ("jamendo from twitter" event)
 harvester.on('message', function(message) {
 
-    console.log('harvester got message');
+    if (message.extracted.nothing === false) {
+        
+        if (typeof(message.extracted.track_ids) !== 'undefined') {
 
-    console.log(message);
-    //utilities.log(message);
-    //utilities.log(message.extracted, 'red', true);
-    
-    /**
-        Mongodb twitter tracks log:
-        Jamendo_track_Id
-        Twitter_user_id
-        Twitter_user_name
-        Twitter_tweet_datedate
-        Found_firsttime_date
-        Twitter_Tweet_original_text
-        Twitter_tweet_id (to help avoid duplicates)
-     */
+            for (var index in message.extracted.track_ids) {
+
+                var twitterData = {
+                    jamendo_track_id: message.extracted.track_ids[index],
+                    twitter_user_id: message.user.id_str,
+                    twitter_user_name: message.user.screen_name,
+                    twitter_user_image: message.profile_image_url,
+                    twitter_tweet_date: '',
+                    twitter_tweet_id: message.id_str,
+                    twitter_tweet_original_text: ''
+                }
+                
+                tweetModel.saveOne(twitterData, function(error) {
+                    
+                    if (!error) {
+                        
+                        console.log('tweet got saved in mongodb');
+                        
+                    } else {
+                        
+                        console.log(error);
+                        
+                    }
+                    
+                });
+                
+            }
+            
+        }
+ 
+    }
 
 });
 
+harvester.on('error', function(error) {
+
+    console.log('harvester on error');
+
+    console.log(error.message);
+    
+});
+
 var streamOptions = {};
+var searchOptions = {};
 
 //streamOptions.track = 'jamendo OR jamen.do OR jamendomusic';
-streamOptions.track = 'music';
+streamOptions.track = 'jamendo';
+searchOptions.track = 'jamendo';
+
+try {
+    
+    harvester.executeSearch(searchOptions);
+    
+} catch(exception) {
+
+    console.log('twitter harvester error: ' + exception);
+
+}
 
 // start harvesting
 try {
     
-    harvester.start(streamOptions);
+    //harvester.startStream(streamOptions);
     
 } catch(exception) {
 
-    console.log(exception);
+    console.log('twitter harvester error: ' + exception);
 
 }

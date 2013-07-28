@@ -18,23 +18,22 @@ var tweetModel = function(app) {
      * @type tweetsModel.Schema
      */
     var tweetSchema = new Schema({
-        author: { type: String, trim: true },
-        name: { type: String, trim: true },
-        tweet: { type: String, trim: true },
-        date: Date,
-        playlistId: { type: mixedType, trim: true },
-        trackId: { type: mixedType, required: true }
+        jamendo_track_id: { type: String, trim: true, required: true, index: true },
+        twitter_user_id: { type: String, trim: true, required: true },
+        twitter_user_name: { type: String, trim: true },
+        twitter_user_image: { type: String, trim: true },
+        twitter_tweet_date: Date,
+        twitter_tweet_id: { type: String, trim: true, required: true, index: { unique: true } },
+        twitter_tweet_original_text: { type: String, trim: true }
     },
     { safe: true, wtimeout: 10000 }); // return errors and 10 seconds timeout
 
-    // avoid that mongoose checks if indexes exist on every startup
-    tweetSchema.set('autoIndex', false);
+    // should mongoose checks if indexes exist on every startup?
+    tweetSchema.set('autoIndex', true);
     
-    var tweetModel = app.mongoose.model(collection, tweetSchema);
+    this.model = app.mongoose.model(collection, tweetSchema);
     
-    this.model = new tweetModel();
-    
-}
+};
 
 /**
  * 
@@ -42,11 +41,25 @@ var tweetModel = function(app) {
  * 
  * @returns {undefined}
  */
-tweetModel.prototype.saveOne = function() {
+tweetModel.prototype.saveOne = function(data, callback) {
     
     console.log('save a single object');
     
-    // this.model
+    tweet = new this.model(data);
+    
+    tweet.save(function(error) {
+        
+        if (error) {
+
+            callback(error);
+
+        } else {
+
+            callback(false);
+
+        }
+        
+    });
     
 };
 
