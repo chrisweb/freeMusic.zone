@@ -47,19 +47,7 @@ tweetModel.prototype.saveOne = function(data, callback) {
     
     tweet = new this.model(data);
     
-    tweet.save(function(error) {
-        
-        if (error) {
-
-            callback(error);
-
-        } else {
-
-            callback(false);
-
-        }
-        
-    });
+    tweet.save(callback);
     
 };
 

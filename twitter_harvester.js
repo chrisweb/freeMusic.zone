@@ -5,6 +5,8 @@
  * 
  */
 
+var async = require('async');
+
 // utilities module
 var utilities = require('./library/shared/utilities-0.0.3');
 
@@ -60,7 +62,7 @@ var tweetModel = new TweetModel(app);
 // try/catch because it is a github module and might be missing
 try {
 
-    var JamendoFromTwitter = require('./node_modules/jamendo-from-twitter/index.js');
+    var JamendoFromTwitter = require('./node_modules/jamendo-from-twitter/index');
     
 } catch(exception) {
     
@@ -69,7 +71,7 @@ try {
 }
 
 // get an harvester
-var harvester = new JamendoFromTwitter(configuration.twitterModule);
+var harvester = new JamendoFromTwitter(configuration);
 
 // on twitter message listener ("jamendo from twitter" event)
 harvester.on('message', function(message) {
@@ -77,40 +79,44 @@ harvester.on('message', function(message) {
     if (message.extracted.nothing === false) {
         
         if (typeof(message.extracted.track_ids) !== 'undefined') {
+            
+            this.message = message;
 
-            for (var index in message.extracted.track_ids) {
-
-                var twitterData = {
-                    jamendo_track_id: message.extracted.track_ids[index],
-                    twitter_user_id: message.user.id_str,
-                    twitter_user_name: message.user.screen_name,
-                    twitter_user_image: message.profile_image_url,
-                    twitter_tweet_date: '',
-                    twitter_tweet_id: message.id_str,
-                    twitter_tweet_original_text: ''
-                }
+            async.each(message.extracted.track_ids, saveTweet.bind(this), function(error){
                 
-                tweetModel.saveOne(twitterData, function(error) {
-                    
-                    if (!error) {
-                        
-                        console.log('tweet got saved in mongodb');
-                        
-                    } else {
-                        
-                        console.log(error);
-                        
-                    }
-                    
-                });
+                console.log(error);
                 
-            }
+            });
             
         }
  
     }
 
 });
+
+var saveTweet = function(trackId) {
+    
+    //console.log(this.message);
+    
+    var message = this.message;
+
+    var twitterData = {
+        jamendo_track_id: trackId,
+        twitter_user_id: message.user.id_str,
+        twitter_user_name: message.user.screen_name,
+        twitter_user_image: message.profile_image_url,
+        twitter_tweet_date: '',
+        twitter_tweet_id: message.id_str,
+        twitter_tweet_original_text: ''
+    }
+
+    tweetModel.saveOne(twitterData, function(error) {
+        
+        console.log('error: ' + error);
+        
+    });
+    
+};
 
 harvester.on('error', function(error) {
 
@@ -124,8 +130,8 @@ var streamOptions = {};
 var searchOptions = {};
 
 //streamOptions.track = 'jamendo OR jamen.do OR jamendomusic';
-streamOptions.track = 'jamendo';
-searchOptions.track = 'jamendo';
+streamOptions.track = 'jamendo OR jamen.do';
+searchOptions.track = 'jamendo OR jamen.do';
 
 try {
     
