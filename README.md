@@ -1,3 +1,5 @@
+[![Dependencies](https://david-dm.org/chrisweb/jam_prototype.png)](https://david-dm.org/chrisweb/jam_prototype)
+
 app name
 ========
 
