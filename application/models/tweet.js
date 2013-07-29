@@ -117,8 +117,14 @@ tweetModel.prototype.mapReduce = function(options, callback) {
 
     var mapReduceContainer = {};
     
+    var dateOject = new Date();
+    
+    var oneDayAgo = dateOject.getDate()-1;
+    var oneWeekAgo = dateOject.getDate()-7;
+    
     mapReduceContainer.map = tweetsMap;
     mapReduceContainer.reduce = tweetsReduce;
+    mapReduceContainer.query = { twitter_tweet_date : { $gt : oneDayAgo }};
     
     tweet = new this.model();
 
