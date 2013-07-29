@@ -73,9 +73,17 @@ var oneMinuteLauncher = function() {
     
     var options = {};
 
-    tweetModel.mapReduce(options, function(error) {
+    tweetModel.mapReduce(options, function(error, results, statistics) {
 
-        console.log('error: ' + error);
+        if (error) {
+
+            utilities.log('error: ' + error);
+            
+        } else {
+            
+            utilities.log(statistics);
+            
+        }
 
     });
     
