@@ -3,16 +3,17 @@
     "description": "jamendo prototype",
     "version": "0.1.5",
     "dependencies": {
-        "redis": ">=0.8.4",
-        "hiredis": ">=0.1.15",
-        "mongoose": ">=3.6.15",
-        "express": ">=3.3.4",
-		"connect-redis": ">=1.4.5",
-        "ejs": ">=0.8.4",
-		"socket.io": ">=0.9.16",
-		"jamendo": ">=0.3.0",
-		"jamendo-from-twitter": ">=0.0.1",
-        "winston": ">=0.7.2"
+        "redis": "0.8.4",
+        "hiredis": "0.1.15",
+        "mongoose": "3.6.15",
+        "express": "3.3.4",
+	"connect-redis": "1.4.5",
+        "ejs": "0.8.4",
+	"socket.io": "0.9.16",
+	"jamendo": "0.3.1",
+	"jamendo-from-twitter": "0.1.0",
+        "winston": "0.7.2",
+	"async": "0.2.9"
     },
     "engine": "node >= 0.10.13"
 }
