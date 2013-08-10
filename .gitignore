@@ -17,4 +17,8 @@ nbproject
 
 configuration*.js
 
+tracks/
 
+prototypes/drag_n_drop_player/javascripts/vendor/SoundManager2/
+prototypes/soundmanager2/javascripts/vendor/SoundManager2/
+prototypes/soundmanager2/javascripts/vendor/jquery/
