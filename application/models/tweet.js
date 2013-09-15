@@ -18,7 +18,8 @@ var tweetModel = function(app) {
      * @type tweetsModel.Schema
      */
     var tweetSchema = new Schema({
-        jamendo_track_id: {type: String, trim: true, required: true, index: true},
+        jamendo_unit_id: {type: Number, trim: true, required: true},
+		jamendo_unit: {type: String, trim: true, required: true},
         twitter_user_id: {type: String, trim: true, required: true},
         twitter_user_name: {type: String, trim: true},
         twitter_user_image: {type: String, trim: true},
@@ -27,6 +28,8 @@ var tweetModel = function(app) {
         twitter_tweet_original_text: {type: String, trim: true}
     },
     {safe: true, wtimeout: 10000}); // return errors and 10 seconds timeout
+
+	tweetSchema.index({ jamendo_unit: 1, jamendo_unit_id: 1});
 
     // should mongoose checks if indexes exist on every startup?
     tweetSchema.set('autoIndex', true);
@@ -134,32 +137,40 @@ tweetModel.prototype.mapReduce = function(options, callback) {
 
 var tweetsMap = function() {
 
-    return emit(this.jam_unit + '-' + this.jam_id, this.tw_userid);
+	var reduceVal = {
+		id: this.jamendo_unit_id, 
+		unit: this.jamendo_unit, 
+		count_total: 1, 
+		count_unique: 1, 
+		twitter_users: [this.twitter_user_id]
+	};
+
+	return emit(this.jamendo_unit + '-' + this.jamendo_unit_id, reduceVal);
 
 }
 
-var tweetsReduce = function(jam_richid, tw_users) {
+var tweetsReduce = function(jamendo_full_id, reduceVal) {
 
-    jam_richid = jam_richid.split("-");
+	jamendo_full_id = jamendo_full_id.split("-");
+	var jamendo_unit = jamendo_full_id[0];
+	var jamendo_unit_id = jamendo_full_id[1];
+	var _reduceVal = {
+		id: jamendo_unit_id, 
+		unit: jamendo_unit, 
+		count_total: 0, 
+		count_unique: 0, 
+		twitter_users: []
+	};
 
-    var jam_unit = jam_richid[0];
-    var jam_id = jam_richid[1];
-    var reduceVal = {id: jam_id, unit: jam_unit, count_tot: 0, count_uniq: 0, users: []};
+	for (var i=0; i < reduceVal.length; i++) {
+		if (_reduceVal.twitter_users.indexOf(reduceVal[i].twitter_users[0]) == -1) {
+			_reduceVal.twitter_users.push(reduceVal[i].twitter_users[0]);
+			_reduceVal.count_unique++;
+		}
+		_reduceVal.count_total ++;
+	}
 
-    for (var i; i < this.tw_users.length; i++) {
-
-        if (reduceVal.users.indexOf(this.tw_users[i]) == -1) {
-
-            reduceVal.users.push(this.tw_users[i]);
-            reduceVal.count_uniq++;
-
-        }
-
-        reduceVal.count_tot++;
-
-    }
-
-    return reduceVal;
+	return _reduceVal;
 
 }
 
