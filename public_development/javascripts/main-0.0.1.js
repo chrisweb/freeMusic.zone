@@ -62,7 +62,7 @@ require.config({
  */
 require(['bootstrap'], function(bootstrap) {
     
-    // enforce ecma script strict mode
+    // enforce ecma script 5 strict mode
     'use strict';
 
     /**

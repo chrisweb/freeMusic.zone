@@ -58,7 +58,7 @@
     // utilities logger
     utilities.log = function(data, fontColor, logToSpecial) {
 
-        // apply colors
+        // is console defined, some older IEs don't have a console
         if (typeof(console) !== 'undefined') {
 
             // nodejs or browser mode
