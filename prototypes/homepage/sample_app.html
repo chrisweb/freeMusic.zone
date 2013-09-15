@@ -1,14 +1,27 @@
 <!DOCTYPE html>
 <html>
+    
     <head>
+        
         <title>parallax sample app</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        
+        <link href='//fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="./stylesheets/homepage.css">
+        <link rel="stylesheet" href="./stylesheets/vendor/bootstrap-3.0.0/bootstrap.min.css">
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="./javascripts/vendor/stellarjs-0.6.2/src/jquery.stellar.js"></script>
+        <script src="./javascripts/vendor/waypoints.min.js"></script>
+        <script src="./javascripts/vendor/bootstrap.min.js"></script>
         <script src="./javascripts/application.js"></script>
-        <link rel="stylesheet"href="stylesheets/homepage.css">
+        <script type="text/javascript" src="./javascripts/vendor/modernizr.custom.11333.js"></script>
+        
     </head>
+    
     <body>
+        
         <nav id="parallax">
             <a href="#community"></a>
             <br>
@@ -26,7 +39,63 @@
         
         <div class="partial" id="community">
 
+            <img src="images/jamendo.png" id="logo" />
             
+            <div class="partial-core" style="margin: auto; width: 960px; padding-top: 350px;">
+
+                <div id="jamendo-login-advantages" style="float: left; width: 300px;" class="col-xs-6 col-sm-4 col-md-4">
+
+                    <h2>
+                        <span class="label label-primary">User advantages</span>
+                    </h2>
+                    <br>
+                    
+                    <ul class="list-group">
+                        <li class="list-group-item">Create your own playlists</li>
+                        <li class="list-group-item">Write reviews</li>
+                        <li class="list-group-item">Follow artists and other user</li>
+                        <li class="list-group-item">Like Tracks, Albums, Playlists</li>
+                    </ul>
+
+                </div>
+                
+                <div id="jamendo-login-box" style="float: left; width: 300px;" class="col-xs-6 col-sm-4 col-md-4">
+
+                    <h2>
+                        <span class="label label-primary">Jamendo sign in</span>
+                    </h2>
+                    <br>
+
+                    <form role="form">
+                        <input class="form-control" type="text" value="" placeholder="username" />
+                        <br>
+                        <input class="form-control" type="password" value="" placeholder="password" />
+                        <br>
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                        <br>
+                    </form>
+
+                </div>
+
+                <div id="social-login-box" style="float: left; width: 300px;" class="col-xs-6 col-sm-4 col-md-4">
+
+                    <h2>
+                        <span class="label label-primary">Social sign in</span>
+                    </h2>
+                    <br>
+
+                    <img src="images/fb.png" />
+                    <br><br>
+                    <img src="images/twitter.png" />
+                    <br><br>
+                    <img src="images/g+.png" />
+                    <br><br>
+
+                </div>
+
+                <div style="clear: both;"></div>
+                
+            </div>
 
         </div>
         
@@ -50,8 +119,11 @@
         
         <div class="slide" id="slide2" data-stellar-background-ratio="0.5">
             
-            
-            
+            <div style="margin-right: auto; margin-left: auto; padding-top: 10px; width: 500px;">
+                <div id="fb-root"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/en_US/all.js#xfbml=1"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
+                <div class="fb-post" data-href="https://www.facebook.com/JAMENDO/posts/10153140842775394" data-width="960" style="margin: auto;"><div class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/JAMENDO/posts/10153140842775394">Post</a> by <a href="https://www.facebook.com/JAMENDO">jamendo</a>.</div></div>
+            </div>
+                
         </div>
         
         <div class="partial" id="charts">
@@ -62,7 +134,15 @@
         
         <div class="slide" id="slide3" data-stellar-background-ratio="0.5">
             
-            
+			<div class="text" style="text-align: right;">
+				<span>DJ SPOOKY VS GHOST BUSTERS</span>
+				<br>
+				<span>On concert this friday</span>
+				<br>
+				<span>Luxembourg ville</span>
+				<span>Place d'armes</span>
+				<span>L-6161 Luxembourg</span>
+			</div>
             
         </div>
         
@@ -74,7 +154,10 @@
         
         <div class="slide" id="slide4" data-stellar-background-ratio="0.5">
             
-            
+            <div style="margin-right: auto; margin-left: auto; padding-top: 50px; width: 500px;">
+                <blockquote class="twitter-tweet"><p>The Kinky Fingers (rock, blues) have answered our questions in this interview!&#10;<a href="http://t.co/3nORo01bKk">http://t.co/3nORo01bKk</a>&#10;<a href="https://twitter.com/search?q=%23creativecommonsrock&amp;src=hash">#creativecommonsrock</a>!</p>&mdash; Jamendo (@Jamendo) <a href="https://twitter.com/Jamendo/statuses/378165622464860161">September 12, 2013</a></blockquote>
+                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
             
         </div>
         
@@ -86,7 +169,13 @@
      
         <div class="slide" id="slide5" data-stellar-background-ratio="0.5">
             
-            
+			<div class="text">
+				<span>Jamendo: We love music</span>
+				<br>
+				<span>50 % off our entire catalog until midnight</span>
+                <br>
+				<span>You need music for your games, youtube video, shop ... explore our large catalog.</span>
+			</div>
             
         </div>
         
@@ -99,5 +188,7 @@
         <section id="player">
             
         </section>
+        
     </body>
+    
 </html>

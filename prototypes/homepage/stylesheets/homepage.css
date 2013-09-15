@@ -4,6 +4,13 @@ body {
     padding: 0px;
     top: 0px;
     left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#logo {
+    position: absolute;
+    top: -300px;
 }
 
 .partial, .slide {
@@ -16,28 +23,28 @@ body {
 
 #community {
     height: 700px;
-    top: 100px;
-    background-color: red;
+    top: 0px;
+    background-color: rgba(142, 68, 173,1.0);
 }
 
 #featured {
     height: 600px;
-    background-color: green;
+    background-color: rgba(39, 174, 96,1.0);
 }
 
 #charts {
     height: 800px;
-    background-color: yellow;
+    background-color: rgba(241, 196, 15,1.0);
 }
 
 #radios {
     height: 700px;
-    background-color: blue;
+    background-color: rgba(41, 128, 185,1.0);
 }
 
 #playlists {
     height: 800px;
-    background-color: orange;
+    background-color: rgba(243, 156, 18,1.0);
 }
 
 #social {
@@ -48,6 +55,7 @@ body {
 .slide {
     background-attachment: fixed;
 	height: 400px;
+    font-family: 'Ropa Sans', sans-serif;
 }
 
 .slide .text {
@@ -61,28 +69,45 @@ body {
 	margin: 10px;
 	color: white;
 	display: inline-block;
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(0,0,0,0.7);
 	font-size: 200%;
 }
 
 #slide1 {
-    background-image: url('../images/slide1.png');
+    background-image: url('../images/slide1.jpg');
+}
+
+#slide1 .text {
+    position:absolute;
+    left: -1000px;
 }
 
 #slide2 {
-    background-image: url('../images/slide2.png');
+    background-image: url('../images/slide2.jpg');
+    height: 690px !important;
 }
 
 #slide3 {
-    background-image: url('../images/slide3.png');
+    background-image: url('../images/slide3.jpg');
 }
 
+#slide3 .text {
+    position:absolute;
+    right: -1000px;
+}
+
+
 #slide4 {
-    background-image: url('../images/slide4.png');
+    background-image: url('../images/slide4.jpg');
 }
 
 #slide5 {
-    background-image: url('../images/slide5.png');
+    background-image: url('../images/slide5.jpg');
+}
+
+#slide5 .text {
+    position:absolute;
+    left: -1000px;
 }
 
 #player {
@@ -91,7 +116,7 @@ body {
 }
 
 nav#parallax {
-    position:fixed;
+    position: absolute;
     z-index:1;
     top:20px;
     color: white;
@@ -116,4 +141,3 @@ footer {
 
 
 }
-

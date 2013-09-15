@@ -8,6 +8,8 @@
     
     // on dom loaded
     $(function() {
+
+        $(this).find('#logo').delay(1000).animate({ 'top': '0px' }, 'slow');
         
         $.stellar({
             // Set scrolling to be in either one or both directions
@@ -32,15 +34,41 @@
             // Hide parallax elements that move outside the viewport
             hideDistantElements: true,
             // Customise how elements are shown and hidden
-            hideElement: function($element) {
-                $element.hide();
+            hideElement: function(element) {
+                element.hide();
             },
-            showElement: function($element) {
-                $element.show();
+            showElement: function(element) {
+                element.show();
             }
         });
+
+        $('#slide1').waypoint(function() {
+            
+            console.log($('#slide1').find('.text'));
+            
+            $(this).find('.text').animate({ 'left': '+500px' }, 'slow');
+            
+        }, { offset: '60%' });
         
+        $('#slide3').waypoint(function() {
+            
+            $(this).find('.text').animate({ 'right': '300px' }, 'slow');
+            
+        }, { offset: '70%' });
         
+        $('#slide5').waypoint(function() {
+            
+            $(this).find('.text').animate({ 'left': '+300px' }, 'slow');
+            
+        }, { offset: '80%' });
+        
+        $('#community-tabs').on('click', 'a', function(event) {
+            
+            event.preventDefault();
+            
+            $(this).tab('show');
+            
+        });
         
     });
 
