@@ -9,7 +9,7 @@
     // on dom loaded
     $(function() {
 
-        $(this).find('#logo').delay(1000).animate({ 'top': '0px' }, 'slow');
+        $(this).find('#logo').delay(1000).animate({ 'top': '100px', 'left': '200px' }, 'slow');
         
         $.stellar({
             // Set scrolling to be in either one or both directions

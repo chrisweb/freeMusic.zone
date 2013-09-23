@@ -21,35 +21,53 @@ body {
     left: 0px;
 }
 
-#community {
+#community-partial {
     height: 700px;
     top: 0px;
-    background-color: rgba(142, 68, 173,1.0);
 }
 
-#featured {
+#featured-partial {
     height: 600px;
-    background-color: rgba(39, 174, 96,1.0);
 }
 
-#charts {
+#charts-partial {
     height: 800px;
-    background-color: rgba(241, 196, 15,1.0);
 }
 
-#radios {
+#radios-partial {
     height: 700px;
-    background-color: rgba(41, 128, 185,1.0);
 }
 
-#playlists {
+#playlists-partial {
     height: 800px;
-    background-color: rgba(243, 156, 18,1.0);
 }
 
-#social {
+#social-partial {
     height: 600px;
-    background-color: pink;
+}
+
+.community-color {
+    background-color: rgba(124, 55, 138, 1.0);
+}
+
+.featured-color {
+    background-color: rgba(177, 0, 88, 1.0);
+}
+
+.charts-color {
+    background-color: rgba(220, 0, 48, 1.0);
+}
+
+.radios-color {
+    background-color: rgba(229, 125, 4, 1.0);
+}
+
+.playlists-color {
+    background-color: rgba(242, 183, 1, 1.0);
+}
+
+.social-color {
+    background-color: rgba(185, 242, 1, 1.0);
 }
 
 .slide {
@@ -120,6 +138,38 @@ nav#parallax {
     z-index:1;
     top:20px;
     color: white;
+    height: 100%;
+    width: 100px;
+}
+
+nav#parallax a {
+    width: 100px;
+    height: 16.6%;
+    display: block;
+}
+
+#community-nav {
+    
+}
+
+#featured-nav {
+    
+}
+
+#charts-nav {
+    
+}
+
+#radios-nav {
+    
+}
+
+#playlists-nav {
+    
+}
+
+#social-nav {
+    
 }
 
 nav#top {
