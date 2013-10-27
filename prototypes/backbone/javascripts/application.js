@@ -52,11 +52,11 @@
         var track5 =  new trackModel({ name: 'baz', artistId: 456, albumId: 123 });
         var track6 =  new trackModel({ name: 'other', artistId: 456, albumId: 789 });
         var tracksCollection3 = new tracksCollection();
-        var album1 = new albumModel({ id: 123, name: 'foo', artistId: 456, tracks: tracksCollection3 });
+        var album1 = new albumModel({ id: 123, name: 'foo', artistId: 456 });
         tracksCollection3.add(track4);
         tracksCollection3.add(track5);
         tracksCollection3.add(track6);
-        album1.saveTracks();
+        album1.saveTracks(tracksCollection3);
         
     });
     
@@ -145,12 +145,10 @@
                 
 
             },
-            saveTracks: function() {
+            saveTracks: function(tracks) {
                 
                 console.log('albumModel saving tracks');
                 
-                var tracks = this.attributes.tracks;
-
                 console.log(tracks);
                 
                 Backbone.sync(
@@ -235,6 +233,10 @@
                     console.log(tracks.length);
                     
                     return tracks;
+                    
+                } else {
+                    
+                    return null;
                     
                 }
                 
