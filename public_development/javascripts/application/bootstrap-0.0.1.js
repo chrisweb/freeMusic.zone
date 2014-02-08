@@ -25,9 +25,6 @@ define('bootstrap', ['jquery', 'utilities', 'routes'], function($, utilities, ro
 
         $(document).ready(function() {
 
-            // to debug angular.js use the AngularJS Batarang chrome developer tools extension:
-            // https://chrome.google.com/webstore/detail/angularjs-batarang/ighdmehidhipcmcojjgiloacoafjmpfk?hl=en
-
             // routes dispatch
             routes.dispatch();
 
