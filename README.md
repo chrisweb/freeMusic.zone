@@ -36,6 +36,9 @@ https://github.com/joyent/node
 * https://github.com/LearnBoost/mongoose
 * https://github.com/learnboost/socket.io/
 * https://github.com/vincent/node-jamendo
+* https://github.com/documentcloud/underscore
+* https://github.com/jakearchibald/es6-promise
+
 
 frontend
 --------
@@ -179,3 +182,5 @@ contributors
 ------------
 
 https://github.com/chrisweb
+https://github.com/claudod
+https://github.com/vincent
