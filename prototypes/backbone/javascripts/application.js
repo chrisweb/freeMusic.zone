@@ -56,7 +56,7 @@
         tracksCollection3.add(track4);
         tracksCollection3.add(track5);
         tracksCollection3.add(track6);
-        album1.saveTracks(tracksCollection3);
+        album1.updateTracks(tracksCollection3);
         
     });
     
@@ -145,7 +145,7 @@
                 
 
             },
-            saveTracks: function(tracks) {
+            updateTracks: function(tracks, selectedIds) {
                 
                 console.log('albumModel saving tracks');
                 
@@ -156,6 +156,7 @@
                     tracks,
                     {
                         albumId: this.id,
+                        selectedIds: selectedIds,
                         success: function() {
                             
                             console.log('successfully saved tracks');
@@ -229,6 +230,12 @@
                 var tracks = this.where({ albumId: options.albumId });
                 
                 if (tracks.length > 0) {
+                    
+                    if ($.type(options.selectedIds) !== 'undefined') {
+
+                        tracks.filter();
+
+                    }
                     
                     console.log(tracks.length);
                     

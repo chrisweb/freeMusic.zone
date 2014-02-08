@@ -72,7 +72,7 @@ getConfiguration = function() {
              * redis
              */
             configuration.redis = {
-                host: '188.165.208.38',
+                host: '127.0.0.1',
                 port: 6379,
                 auth: '000000000000000000000000000000000000000000000000000',
                 databases: {
