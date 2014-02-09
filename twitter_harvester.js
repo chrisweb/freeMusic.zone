@@ -65,7 +65,9 @@ try {
     var JamendoFromTwitter = require('./node_modules/jamendo-from-twitter/index');
     
 } catch(exception) {
-    
+
+    utilities.log('loading jamendo-from-twitter failed: ');
+
     utilities.log(exception);
     
 }
@@ -76,6 +78,10 @@ var harvester = new JamendoFromTwitter(configuration);
 // on twitter message listener ("jamendo from twitter" event)
 harvester.on('message', function(message) {
 
+    utilities.log('harvester incoming message: ');
+    
+    utilities.log(message.extracted);
+
     if (message.extracted.nothing === false) {
         
         if (typeof(message.extracted.track_ids) !== 'undefined') {
@@ -83,6 +89,8 @@ harvester.on('message', function(message) {
             this.message = message;
 
             async.each(message.extracted.track_ids, saveTweet.bind(this), function(error){
+                
+                console.log('async error response: ');
                 
                 console.log(error);
                 
@@ -96,18 +104,21 @@ harvester.on('message', function(message) {
 
 var saveTweet = function(trackId) {
     
-    //console.log(this.message);
+    utilities.log('harvester saveTweet: ');
     
     var message = this.message;
+    
+    //console.log(message);
 
     var twitterData = {
-        jamendo_track_id: trackId,
+        jamendo_unit_id: trackId,
+        jamendo_unit: 'track',
         twitter_user_id: message.user.id_str,
         twitter_user_name: message.user.screen_name,
         twitter_user_image: message.profile_image_url,
-        twitter_tweet_date: '',
+        twitter_tweet_date: message.raw.created_at,
         twitter_tweet_id: message.id_str,
-        twitter_tweet_original_text: ''
+        twitter_tweet_original_text: message.fulltext
     }
 
     tweetModel.saveOne(twitterData, function(error) {
