@@ -21,6 +21,14 @@ var oauthConnect = function(options) {
 oauthConnect.prototype.connect = function(request, response, next, models, configuration) {
 
     var that = this;
+    
+    var appRequest = request;
+    
+    var appResponse = response;
+    
+    var appNext = next;
+    
+    var appModels = models;
 
     // get the request parameters
     var rawCode = request.param('code');
@@ -103,22 +111,34 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                             };
 
                             user.oauth = result;
+                            
+                            if (typeof appRequest.session !== 'undefined') {
 
-                            // put user object in session
-                            request.session.user = user;
+                                // put user object in session
+                                appRequest.session.user = user;
 
-                            // save user in mongodb database
-                            models.user.saveOne(user);
+                                // save user in mongodb database
+                                appModels.user.saveOne(user);
 
-                            response.render('oauth', { message: 'oauth connect success' });
+                                appResponse.render('oauth', { message: 'oauth connect success' });
+                                
+                            } else {
+                                
+                                error = { status: 500, stack: '', message: 'undefined session' };
+                                
+                                utilities.log('undefined session, redis may be down: ' + error);
+
+                                appNext(error, appRequest, appResponse, appNext);
+                                
+                            }
                             
                         } else {
+
+                            error = { status: oauthResponse.statusCode, stack: '', message: result.error };
                             
                             utilities.log('oauth request failed, status: ' + error);
-                            
-                            error = { status: oauthResponse.statusCode, stack: '', message: result.error };
 
-                            next(error, request, response, next);
+                            appNext(error, appRequest, appResponse, appNext);
                             
                         }
 
@@ -152,12 +172,12 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                         }
                         
                     }
-                
-                    utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error);
 
                     error = { status: oauthResponse.statusCode, stack: '', message: result.error };
+                    
+                    utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error);
 
-                    next(error, request, response, next);
+                    appNext(error, appRequest, appResponse, appNext);
                     
                 }
                 
@@ -166,12 +186,12 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
         });
 
         oauthRequest.on('error', function(e) {
-
-            utilities.log('oauth request failed: ' + e.message);
             
             error = { status: 500, stack: '', message: e.message };
+            
+            utilities.log('oauth request failed: ' + e.message);
                     
-            next(error, request, response, next);
+            appNext(error, appRequest, appResponse, appNext);
 
         });
 
@@ -182,8 +202,10 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
     } else {
         
         error = { status: 500, stack: '', message: 'Missing required code' };
+        
+        utilities.log('missing code: ' + error);
                     
-        next(error, request, response, next);
+        appNext(error, appRequest, appResponse, appNext);
         
     }
 

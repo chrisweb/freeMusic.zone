@@ -78,6 +78,28 @@ if (typeof(configuration.redis.auth) !== 'undefined' && configuration.redis.auth
     
 }
 
+var redisStore = new RedisStore(redisOptions);
+
+var redisCallback = function(redisData) {
+    
+    if (typeof redisData !== 'undefined') {
+    
+        utilities.log('redis connection: ' + redisData);
+        
+    } else {
+        
+        utilities.log('redis connection');
+        
+    }
+    
+};
+
+redisStore.client.on('connect', redisCallback);
+redisStore.client.on('error', redisCallback);
+redisStore.client.on('ready', redisCallback);
+redisStore.client.on('reconnecting', redisCallback);
+redisStore.client.on('end', redisCallback);
+
 // application configuration
 app.configure(function() {
     // include compress before initializing static
@@ -92,7 +114,7 @@ app.configure(function() {
     app.use(express.cookieParser(configuration.application.cookie.secret));
     app.use(express.session({
         secret: configuration.application.session.secret,
-        store: new RedisStore(redisOptions)
+        store: redisStore
     }));
     app.use(express.bodyParser());
     app.use(express.methodOverride());
