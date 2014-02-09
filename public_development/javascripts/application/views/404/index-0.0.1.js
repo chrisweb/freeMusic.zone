@@ -1,6 +1,6 @@
 /**
  * 
- * homepage view
+ * 404 view
  * 
  */
 define([
@@ -10,8 +10,8 @@ define([
     'underscore',
     'jquery',
     // using require js text for templates
-    'text!application/templates/homepage/home-0.0.1.html'
-], function(configuration, utilities, Backbone, _, $, homeTemplate) {
+    'text!application/templates/404/index-0.0.1.html'
+], function(configuration, utilities, Backbone, _, $, notfoundTemplate) {
 
     'use strict';
 
@@ -21,7 +21,7 @@ define([
         
         initialize: function(options) {
     
-            utilities.log('[HOME VIEW] initialization...', 'blue');
+            utilities.log('[404 VIEW] initialization...', 'blue');
     
         },
         
@@ -33,9 +33,9 @@ define([
         
         render: function() {
 
-            utilities.log('[HOME VIEW] rendering...', 'blue');
+            utilities.log('[404 VIEW] rendering...', 'blue');
 
-            var compiledTemplate = _.template(homeTemplate);
+            var compiledTemplate = _.template(notfoundTemplate);
             
             this.$el.append(compiledTemplate);
             

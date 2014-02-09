@@ -7,13 +7,13 @@
  * @returns {userModel}
  */
 var userModel = function(app) {
-
+    
     var utilities = app.get('utilities');
-
+    
     var collection = 'user';
     var Schema = app.mongoose.Schema;
     var mixedType = Schema.Types.Mixed;
-
+    
     /**
      * possible values:
      * String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
@@ -36,12 +36,12 @@ var userModel = function(app) {
         }
     },
     {safe: true, wtimeout: 10000}); // return errors and 10 seconds timeout
-
+    
     // avoid that mongoose checks if indexes exist on every startup
     userSchema.set('autoIndex', false);
-
+    
     this.model = app.mongoose.model(collection, userSchema);
-
+    
 };
 
 /**
@@ -51,9 +51,9 @@ var userModel = function(app) {
  * @returns {undefined}
  */
 userModel.prototype.saveOne = function(data) {
-
+    
     console.log('save a single object');
-
+    
     this.model.create(data, function (error) {
         
         if (error) {
@@ -67,23 +67,23 @@ userModel.prototype.saveOne = function(data) {
         }
         
     });
-
+    
 };
 
 userModel.prototype.getOne = function() {
-
-    console.log('save a single object');
-
-    this.model.save();
-
+    
+    console.log('get a single object');
+    
+    //this.model.
+    
 };
 
 userModel.prototype.getAll = function() {
-
-    console.log('save a single object');
-
-    this.model.save();
-
+    
+    console.log('get all objects');
+    
+    //this.model.
+    
 };
 
 module.exports = userModel;

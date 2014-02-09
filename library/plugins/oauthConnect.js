@@ -62,44 +62,47 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
         };
         
         utilities.log(options);
-
+        
         var oauthRequest = https.request(options, function(oauthResponse) {
-
+            
             utilities.log('status: ' + oauthResponse.statusCode);
             utilities.log('header: ' + JSON.stringify(oauthResponse.headers));
-
+            
             oauthResponse.setEncoding('utf8');
             
             var result = '';
-
+            
             oauthResponse.on('data', function(chunk) {
-
+                
                 utilities.log('body: ' + chunk);
                 
                 if (oauthResponse.statusCode === 200) {
                     
                     var result;
-
+                    
                     try {
                         
                         // try to parse response if it fails the response is not json
                         result = JSON.parse(chunk);
                         
                     } catch(e) {
-
+                        
                         // facebook responds with querystring in the body
                         result = querystring.parse(chunk);
                         
                     }
                     
                     utilities.log(result);
-
+                    
                     // get user infos through jamendo api (username / id)
                     that.jamendo.users({
                         access_token: result.access_token
                     },
                     function(error, data) {
-
+                        
+                        utilities.log('oauth result data object: ');
+                        utilities.log(data);
+                        
                         if (!error) {
                             
                             var user = { 
@@ -109,17 +112,18 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                                 language: data.results[0].lang,
                                 avatar: data.results[0].image
                             };
-
+                            
                             user.oauth = result;
                             
                             if (typeof appRequest.session !== 'undefined') {
-
+                                
                                 // put user object in session
                                 appRequest.session.user = user;
-
-                                // save user in mongodb database
+                                
+                                // check if the user exists, if so update it
+                                // else save the user in the mongodb database
                                 appModels.user.saveOne(user);
-
+                                
                                 appResponse.render('oauth', { message: 'oauth connect success' });
                                 
                             } else {
@@ -127,17 +131,17 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                                 error = { status: 500, stack: '', message: 'undefined session' };
                                 
                                 utilities.log('undefined session, redis may be down: ' + error);
-
+                                
                                 appNext(error, appRequest, appResponse, appNext);
                                 
                             }
                             
                         } else {
-
+                            
                             error = { status: oauthResponse.statusCode, stack: '', message: result.error };
                             
                             utilities.log('oauth request failed, status: ' + error);
-
+                            
                             appNext(error, appRequest, appResponse, appNext);
                             
                         }

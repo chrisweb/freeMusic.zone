@@ -31,7 +31,9 @@ require.config({
         'twitter-bootstrap-transition': 'vendor/bootstrap-3.0.0-wip/bootstrap-transition',
         'twitter-bootstrap-typehead': 'vendor/bootstrap-3.0.0-wip/bootstrap-typehead',
         'underscore': 'vendor/underscore-1.4.4',
-        'backbone': 'vendor/backbone-1.0.0'
+        'backbone': 'vendor/backbone-1.0.0',
+        'playlist_collection': 'application/collections/playlists-0.0.1',
+        'playlist_model': 'application/models/playlist-0.0.1'
     },
     
     shim: {
