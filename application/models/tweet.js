@@ -114,7 +114,7 @@ tweetModel.prototype.findAll = function() {
 
 };
 
-tweetModel.prototype.mapReduce = function(options, callback) {
+tweetModel.prototype.mapReduceList = function(options, callback) {
 
     console.log('tweetModel -> mapReduce');
 
@@ -128,10 +128,8 @@ tweetModel.prototype.mapReduce = function(options, callback) {
     mapReduceContainer.map = tweetsMap;
     mapReduceContainer.reduce = tweetsReduce;
     mapReduceContainer.query = { twitter_tweet_date : { $gt : oneDayAgo }};
-    
-    tweet = new this.model();
 
-    tweet.mapReduce(mapReduceContainer, callback)
+    this.model.mapReduce(mapReduceContainer, callback);
 
 };
 

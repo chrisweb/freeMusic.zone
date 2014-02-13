@@ -73,7 +73,7 @@ var oneMinuteLauncher = function() {
     
     var options = {};
 
-    tweetModel.mapReduce(options, function(error, results, statistics) {
+    tweetModel.mapReduceList(options, function(error, results, statistics) {
 
         if (error) {
 
@@ -82,6 +82,7 @@ var oneMinuteLauncher = function() {
         } else {
             
             utilities.log(statistics);
+            utilities.log(results);
             
         }
 
