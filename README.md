@@ -28,18 +28,21 @@ TODOs
 backend
 -------
 
-https://github.com/joyent/node
-* https://github.com/visionmedia/express
-* https://github.com/visionmedia/connect-redis
-* https://github.com/mranney/node_redis
-* https://github.com/pietern/hiredis-node
-* https://github.com/visionmedia/ejs
-* https://github.com/LearnBoost/mongoose
-* https://github.com/learnboost/socket.io/
-* https://github.com/vincent/node-jamendo
-* https://github.com/documentcloud/underscore
-* https://github.com/jakearchibald/es6-promise
-
+http://nodejs.org/ (https://github.com/joyent/node)
+* https://www.npmjs.org/package/express (https://github.com/visionmedia/express)
+* https://www.npmjs.org/package/connect-redis (https://github.com/visionmedia/connect-redis)
+* https://www.npmjs.org/package/redis (https://github.com/mranney/node_redis)
+* https://www.npmjs.org/package/hiredis (https://github.com/pietern/hiredis-node)
+* https://www.npmjs.org/package/ejs (https://github.com/visionmedia/ejs)
+* https://www.npmjs.org/package/mongoose (https://github.com/LearnBoost/mongoose)
+* https://www.npmjs.org/package/socket.io (https://github.com/learnboost/socket.io)
+* https://www.npmjs.org/package/jamendo (https://github.com/vincent/node-jamendo)
+* https://www.npmjs.org/package/jamendo-from-twitter (https://github.com/vincent/jamendo-from-twitter)
+* https://www.npmjs.org/package/underscore (https://github.com/documentcloud/underscore)
+* https://www.npmjs.org/package/es6-promise (https://github.com/jakearchibald/es6-promise)
+* https://www.npmjs.org/package/cron (https://github.com/ncb000gt/node-cron)
+* https://www.npmjs.org/package/winston (https://github.com/flatiron/winston)
+* https://www.npmjs.org/package/async (https://github.com/caolan/async)
 
 frontend
 --------
@@ -48,7 +51,7 @@ frontend
 * https://github.com/jquery/jquery
 * https://github.com/documentcloud/backbone
 * https://github.com/documentcloud/underscore
-* https://github.com/twitter/bootstrap/tree/3.0.0-wip
+* https://github.com/twbs/bootstrap
 * https://github.com/scottschiller/SoundManager2
 * https://github.com/Modernizr/Modernizr
 
