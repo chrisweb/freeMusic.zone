@@ -1,4 +1,5 @@
 [![Dependencies](https://david-dm.org/chrisweb/jam_prototype.png)](https://david-dm.org/chrisweb/jam_prototype)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 app name
 ========
