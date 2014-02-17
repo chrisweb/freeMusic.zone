@@ -55,7 +55,20 @@ frontend
 * https://github.com/scottschiller/SoundManager2
 * https://github.com/Modernizr/Modernizr
 
-install instructions for the application
+Building the application using grunt
+------------------------------------
+
+Go into the root folder of the application using your command line tool
+
+Install grunt-cli globally with "npm install -g grunt-cli"
+
+Run npm install, to install all the nodejs modules (dependencies)
+
+To check if grunt has been installed type "grunt --version"
+
+To build the application type "grunt"
+
+Install instructions for the application
 ----------------------------------------
 
 Open your command line tool and start mongodb:
