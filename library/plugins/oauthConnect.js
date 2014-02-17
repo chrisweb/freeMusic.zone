@@ -70,16 +70,14 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
             
             oauthResponse.setEncoding('utf8');
             
-            var result = '';
-            
             oauthResponse.on('data', function(chunk) {
                 
                 utilities.log('body: ' + chunk);
                 
+                var result = '';
+                
                 if (oauthResponse.statusCode === 200) {
-                    
-                    var result;
-                    
+
                     try {
                         
                         // try to parse response if it fails the response is not json
@@ -150,8 +148,6 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                     
                 } else {
 
-                    var result;
-
                     try {
                         
                         // try to parse response if it fails the response is not json
@@ -177,7 +173,7 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
                         
                     }
 
-                    error = { status: oauthResponse.statusCode, stack: '', message: result.error };
+                    var error = { status: oauthResponse.statusCode, stack: '', message: result.error };
                     
                     utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error);
 
@@ -191,7 +187,7 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
 
         oauthRequest.on('error', function(e) {
             
-            error = { status: 500, stack: '', message: e.message };
+            var error = { status: 500, stack: '', message: e.message };
             
             utilities.log('oauth request failed: ' + e.message);
                     
@@ -205,7 +201,7 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
 
     } else {
         
-        error = { status: 500, stack: '', message: 'Missing required code' };
+        var error = { status: 500, stack: '', message: 'Missing required code' };
         
         utilities.log('missing code: ' + error);
                     

@@ -9,6 +9,10 @@ var redis = require('redis');
 // utilities library module
 var utilities = require(__dirname + '/../shared/utilities-0.0.3');
 
+// get configuration
+var configurationModule = require('./application/configurations/configuration.js');
+var configuration = configurationModule.get();
+
 var cachedClient = null;
 var cachedDatabases = {};
 
@@ -84,7 +88,7 @@ exports.getClient = function(fromCache, callbackFunction) {
     // if error
     redisDBClient.on('error', function(error) {
 
-        return callbackFunction('[REDIS_DB] redisDBClient on error (port: ' + redisPort + ', IP: ' + redisIp + ') error: ' + error, null);
+        return callbackFunction('[REDIS_DB] redisDBClient on error (port: ' + redisPort + ', host: ' + redisHost + ') error: ' + error, null);
 
     });
     
@@ -115,7 +119,7 @@ exports.getClient = function(fromCache, callbackFunction) {
         if (redisAuth.length > 0) {
 
             // This command is magical.  Client stashes the password and will issue on every connect.
-            client.auth("somepass");
+            redisDBClient.auth('somepass');
             
         }
         
@@ -127,6 +131,40 @@ exports.getClient = function(fromCache, callbackFunction) {
         
     });
     
+};
+
+/**
+ * 
+ * callback for redis select database
+ * 
+ * @param {type} databaseIndex
+ * @param {type} redisDBClient
+ * @param {type} callbackFunction
+ * @returns {undefined}
+ */
+var redisSelectDatabase = function(databaseIndex, redisDBClient, callbackFunction) {   
+
+    utilities.log('[REDIS_DB] redisSelectDatabase', 'info');
+
+    if (typeof(databaseIndex) === 'undefined' || databaseIndex === null) {
+
+        databaseIndex = configuration.redisDB.databases.defaultRedis.index;
+
+    }
+
+    // select database
+    redisDBClient.select(databaseIndex, function(error) {
+
+        if (error) {
+
+            return callbackFunction('[REDIS_DB] redisDBClient select database error: ' + error);
+
+        }
+            
+        return callbackFunction(false);
+
+    });
+
 };
 
 /**
@@ -146,7 +184,7 @@ exports.selectDatabase = function(databaseIndex, redisDBClient, fromCache, callb
     // check if we have cached instance of database
     if (fromCache !== false && typeof(cachedDatabases.databaseIndex) !== 'undefined') {
         
-        var redisDBClient = cachedDatabases.databaseIndex;
+        redisDBClient = cachedDatabases.databaseIndex;
         
         return callbackFunction(false, redisDBClient);
         
@@ -198,40 +236,6 @@ exports.selectDatabase = function(databaseIndex, redisDBClient, fromCache, callb
         
     }
     
-};
-
-/**
- * 
- * callback for redis select database
- * 
- * @param {type} databaseIndex
- * @param {type} redisDBClient
- * @param {type} callbackFunction
- * @returns {undefined}
- */
-var redisSelectDatabase = function(databaseIndex, redisDBClient, callbackFunction) {   
-
-    utilities.log('[REDIS_DB] redisSelectDatabase', 'info');
-
-    if (typeof(databaseIndex) === 'undefined' || databaseIndex === null) {
-
-        var databaseIndex = configuration.redisDB.databases.defaultRedis.index;
-
-    }
-
-    // select database
-    redisDBClient.select(databaseIndex, function(error) {
-
-        if (error) {
-
-            return callbackFunction('[REDIS_DB] redisDBClient select database error: ' + error);
-
-        }
-            
-        return callbackFunction(false);
-
-    });
-
 };
 
 /**
@@ -366,7 +370,7 @@ exports.isTimestampValid = function(redisDBClient, timestampKey, secondsBack, ca
         
         if (keyExists) {
 
-            redisReadString(redisDBClient, timestampKey, function(error, timestampString) {
+            this.readString(redisDBClient, timestampKey, function(error, timestampString) {
 
                 if (error) {
 
@@ -417,7 +421,7 @@ exports.getCachedObjectByKey = function(redisDBClient, key, callbackFunction) {
 
     var doesCacheExist = true;
 
-    redisKeyExists(redisDBClient, key, function(error, keyExists) {
+    this.keyExists(redisDBClient, key, function(error, keyExists) {
         
         if (error) {
             
@@ -427,21 +431,23 @@ exports.getCachedObjectByKey = function(redisDBClient, key, callbackFunction) {
         
         if (keyExists) {
 
-            redisReadString(redisDBClient, key, function(error, cacheString) {
+            this.readString(redisDBClient, key, function(error, cacheString) {
 
                 if (error) {
 
-                    return callbackFunction('[REDIS_DB] getCachedValueByKey redisReadString error: ' + error, null);
+                    return callbackFunction('[REDIS_DB] getCachedValueByKey this.readString error: ' + error, null);
 
                 }
+                
+                var cacheObject;
 
                 try {
 
-                    var cacheObject = JSON.parse(cacheString);
+                    cacheObject = JSON.parse(cacheString);
 
-                } catch (error) {
+                } catch (exception) {
 
-                    return callbackFunction('[REDIS_DB] getCachedValueByKey parse json error: ' + error, null);
+                    return callbackFunction('[REDIS_DB] getCachedValueByKey parse json error: ' + exception, null);
 
                 }
                 

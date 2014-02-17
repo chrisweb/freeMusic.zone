@@ -72,6 +72,40 @@ try {
     
 }
 
+/**
+ * 
+ * save a tweet
+ * 
+ * @param {type} trackId
+ * @returns {undefined}
+ */
+var saveTweet = function(trackId) {
+    
+    utilities.log('harvester saveTweet: ');
+    
+    var message = this.message;
+    
+    //console.log(message);
+
+    var twitterData = {
+        jamendo_unit_id: trackId,
+        jamendo_unit: 'track',
+        twitter_user_id: message.user.id_str,
+        twitter_user_name: message.user.screen_name,
+        twitter_user_image: message.profile_image_url,
+        twitter_tweet_date: message.raw.created_at,
+        twitter_tweet_id: message.id_str,
+        twitter_tweet_original_text: message.fulltext
+    };
+
+    tweetModel.saveOne(twitterData, function(error) {
+        
+        console.log('error: ' + error);
+        
+    });
+    
+};
+
 // get an harvester
 var harvester = new JamendoFromTwitter(configuration);
 
@@ -101,33 +135,6 @@ harvester.on('message', function(message) {
     }
 
 });
-
-var saveTweet = function(trackId) {
-    
-    utilities.log('harvester saveTweet: ');
-    
-    var message = this.message;
-    
-    //console.log(message);
-
-    var twitterData = {
-        jamendo_unit_id: trackId,
-        jamendo_unit: 'track',
-        twitter_user_id: message.user.id_str,
-        twitter_user_name: message.user.screen_name,
-        twitter_user_image: message.profile_image_url,
-        twitter_tweet_date: message.raw.created_at,
-        twitter_tweet_id: message.id_str,
-        twitter_tweet_original_text: message.fulltext
-    }
-
-    tweetModel.saveOne(twitterData, function(error) {
-        
-        console.log('error: ' + error);
-        
-    });
-    
-};
 
 harvester.on('error', function(error) {
 

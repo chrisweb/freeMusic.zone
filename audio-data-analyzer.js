@@ -32,304 +32,9 @@ var environment = process.env.NODE_ENV;
 var temporaryTracksDirecotry = '/tmp/tracks';
 var finalTracksDirecotry = __dirname + '/tracks';
 
-var trackFileName = undefined;
+var trackFileName;
 
 var checkIfFileAlreadyExists = false;
-
-/**
- * 
- * get track data
- * 
- * @param {type} audio_path
- * @param {type} output_width
- * @param {type} duration
- * @param {type} sample_rate
- * @param {type} channels
- * @param {type} cb
- * @returns {getPeaks.coefficient_to_db}
- */
-var getTrackData = function(trackId, trackExtension) {
-
-    trackFileName = trackId + '.' + trackExtension;
-
-    if (arguments.length === 2) {
-
-        var tmpDirecotry = '/tmp';
-
-        // does the directory exist
-        fs.exists(tmpDirecotry, function(exists) {
-
-            console.log('getTrackData, tmpDirecotry exists?: ' + exists);
-
-            if (exists) {
-
-                checkIfTemporaryTracksDirectoryExists();
-
-            } else {
-
-                fs.mkdir(tmpDirecotry, 0666, function(error) {
-
-                    if (error) {
-
-                        console.log('getTrackData mkdir error: ' + error);
-
-                    } else {
-
-                        checkIfTemporaryTracksDirectoryExists();
-
-                    }
-
-                });
-
-            }
-
-        });
-
-    } else {
-
-        console.log('getTrackData arguments, error: ' + arguments);
-
-    }
-
-};
-
-/**
- * 
- * check if the temporary tracks directory exists
- * 
- * @param {type} fileDirecotry
- * @returns {undefined}
- */
-var checkIfTemporaryTracksDirectoryExists = function(fileDirecotry) {
-
-    // does the directory exist
-    fs.exists(temporaryTracksDirecotry, function(exists) {
-
-        console.log('checkIfTemporaryTracksDirectoryExists exists?: ' + exists);
-
-        if (exists) {
-
-            checkIfFinalTracksDirectoryExists();
-
-        } else {
-
-            // it does not exist yet so we create it
-            fs.mkdir(temporaryTracksDirecotry, 0666, function(error) {
-
-                if (error) {
-
-                    console.log('checkIfTemporaryTracksDirectoryExists mkdir error: ' + error);
-
-                } else {
-
-                    checkIfFinalTracksDirectoryExists();
-
-                }
-
-            });
-
-        }
-
-    });
-
-};
-
-/**
- * 
- * check if the final tracks directory exists
- * 
- * @returns {undefined}
- */
-var checkIfFinalTracksDirectoryExists = function() {
-
-    // does the directory exist
-    fs.exists(finalTracksDirecotry, function(exists) {
-
-        console.log('checkIfFinalTracksDirectoryExists exists?: ' + exists);
-
-        if (exists) {
-
-            checkIfTrackExists();
-
-        } else {
-
-            // it does not exist yet so we create it
-            fs.mkdir(finalTracksDirecotry, 0666, function(error) {
-
-                if (error) {
-
-                    console.log('checkIfFinalTracksDirectoryExists mkdir error: ' + error);
-
-                } else {
-
-                    checkIfTrackExists();
-
-                }
-
-            });
-
-        }
-
-    });
-
-};
-
-/**
- * 
- * check if the track already exists
- * 
- * @returns {undefined}
- */
-var checkIfTrackExists = function() {
-
-    if (checkIfFileAlreadyExists) {
-
-        var toPath = finalTracksDirecotry + '/' + trackFileName;
-
-        // does the file exist
-        fs.exists(toPath, function(exists) {
-
-            console.log(toPath + ' exists?: ' + exists);
-
-            if (exists) {
-
-                console.log('this track already exists');
-
-            } else {
-
-                writeTrackToDisc();
-
-            }
-
-        });
-
-    } else {
-
-        writeTrackToDisc();
-
-    }
-
-};
-
-/**
- * 
- * write the track to temporary folder on disc
- * 
- * @returns {undefined}
- */
-var writeTrackToDisc = function() {
-
-    var trackPath = temporaryTracksDirecotry + '/' + trackFileName;
-
-    // 
-    var options = {
-        hostname: 'storage-new.newjamendo.com',
-        port: 80,
-        path: '/download/track/415208/ogg1',
-        method: 'GET'
-    };
-
-    var writeStream = fs.createWriteStream(trackPath);
-
-    writeStream.on('open', function() {
-
-        var httpRequest = http.request(options, function(httpResponse) {
-
-            console.log('writeTrackToDisc httpRequest STATUS: ' + httpResponse.statusCode);
-            console.log('writeTrackToDisc httpRequest HEADERS: ' + JSON.stringify(httpResponse.headers));
-
-            httpResponse.on('data', function(chunk) {
-
-                writeStream.write(chunk);
-
-            });
-
-            httpResponse.on('end', function() {
-
-                console.log('file ' + trackFileName + ' got downloaded into ' + trackPath);
-
-                writeStream.end();
-
-                moveTrack();
-
-            });
-
-        });
-
-        httpRequest.on('error', function(error) {
-
-            console.log('writeTrackToDisc, http request error: ' + error.message);
-
-            writeStream.end();
-
-        });
-
-        httpRequest.end();
-
-    });
-
-    writeStream.on('error', function(error) {
-
-        console.log('writeTrackToDisc writeStream, error: ' + error);
-
-        writeStream.end();
-
-    });
-
-};
-
-/**
- * 
- * move the track from temporary folder to its final destination
- * 
- * @returns {undefined}
- */
-var moveTrack = function() {
-
-    var fromPath = temporaryTracksDirecotry + '/' + trackFileName;
-    var toPath = finalTracksDirecotry + '/' + trackFileName;
-
-    var trackSourceReadStream = fs.createReadStream(fromPath);
-
-    trackSourceReadStream.on('open', function() {
-
-        var trackDestinationWriteStream = fs.createWriteStream(toPath);
-
-        trackDestinationWriteStream.on('open', function() {
-
-            trackSourceReadStream.pipe(trackDestinationWriteStream);
-
-        });
-
-        trackDestinationWriteStream.on('close', function() {
-
-            console.log('track got moved from ' + fromPath + ' to final destination ' + toPath);
-
-            analyzeTrack();
-
-        });
-
-        trackDestinationWriteStream.on('error', function(error) {
-
-            console.log('moveTrack trackDestinationWriteStream, error: ' + error);
-
-        });
-
-    });
-
-    trackSourceReadStream.on('close', function(error) {
-
-        console.log('read and write stream are now closed');
-
-    });
-
-    trackSourceReadStream.on('error', function(error) {
-
-        console.log('moveTrack trackSourceReadStream, error: ' + error);
-
-    });
-
-};
 
 /**
  * 
@@ -453,11 +158,11 @@ var analyzeTrack = function() {
         // https://github.com/jhurliman/node-pcm/blob/master/lib/pcm.js
 
         var value;
-        var i = 0;
+        var i;
         var dataLen = data.length;
         var percentageOfMax = 0;
 
-        for (; i < dataLen; i += 2) {
+        for (i=0; i < dataLen; i += 2) {
             
             value = data.readInt16LE(i, true);
             
@@ -489,7 +194,7 @@ var analyzeTrack = function() {
         
         var bar = '';
         
-        for (var i=0; i < absolutePercentageOfMaxMath/10; i++) {
+        for (i=0; i < absolutePercentageOfMaxMath/10; i++) {
             
             bar += '*';
             
@@ -542,6 +247,301 @@ var analyzeTrack = function() {
         console.log('ffmpegSpawn close');
 
     });
+
+};
+
+/**
+ * 
+ * move the track from temporary folder to its final destination
+ * 
+ * @returns {undefined}
+ */
+var moveTrack = function() {
+
+    var fromPath = temporaryTracksDirecotry + '/' + trackFileName;
+    var toPath = finalTracksDirecotry + '/' + trackFileName;
+
+    var trackSourceReadStream = fs.createReadStream(fromPath);
+
+    trackSourceReadStream.on('open', function() {
+
+        var trackDestinationWriteStream = fs.createWriteStream(toPath);
+
+        trackDestinationWriteStream.on('open', function() {
+
+            trackSourceReadStream.pipe(trackDestinationWriteStream);
+
+        });
+
+        trackDestinationWriteStream.on('close', function() {
+
+            console.log('track got moved from ' + fromPath + ' to final destination ' + toPath);
+
+            analyzeTrack();
+
+        });
+
+        trackDestinationWriteStream.on('error', function(error) {
+
+            console.log('moveTrack trackDestinationWriteStream, error: ' + error);
+
+        });
+
+    });
+
+    trackSourceReadStream.on('close', function(error) {
+
+        console.log('read and write stream are now closed');
+
+    });
+
+    trackSourceReadStream.on('error', function(error) {
+
+        console.log('moveTrack trackSourceReadStream, error: ' + error);
+
+    });
+
+};
+
+/**
+ * 
+ * write the track to temporary folder on disc
+ * 
+ * @returns {undefined}
+ */
+var writeTrackToDisc = function() {
+
+    var trackPath = temporaryTracksDirecotry + '/' + trackFileName;
+
+    // 
+    var options = {
+        hostname: 'storage-new.newjamendo.com',
+        port: 80,
+        path: '/download/track/415208/ogg1',
+        method: 'GET'
+    };
+
+    var writeStream = fs.createWriteStream(trackPath);
+
+    writeStream.on('open', function() {
+
+        var httpRequest = http.request(options, function(httpResponse) {
+
+            console.log('writeTrackToDisc httpRequest STATUS: ' + httpResponse.statusCode);
+            console.log('writeTrackToDisc httpRequest HEADERS: ' + JSON.stringify(httpResponse.headers));
+
+            httpResponse.on('data', function(chunk) {
+
+                writeStream.write(chunk);
+
+            });
+
+            httpResponse.on('end', function() {
+
+                console.log('file ' + trackFileName + ' got downloaded into ' + trackPath);
+
+                writeStream.end();
+
+                moveTrack();
+
+            });
+
+        });
+
+        httpRequest.on('error', function(error) {
+
+            console.log('writeTrackToDisc, http request error: ' + error.message);
+
+            writeStream.end();
+
+        });
+
+        httpRequest.end();
+
+    });
+
+    writeStream.on('error', function(error) {
+
+        console.log('writeTrackToDisc writeStream, error: ' + error);
+
+        writeStream.end();
+
+    });
+
+};
+
+/**
+ * 
+ * check if the track already exists
+ * 
+ * @returns {undefined}
+ */
+var checkIfTrackExists = function() {
+
+    if (checkIfFileAlreadyExists) {
+
+        var toPath = finalTracksDirecotry + '/' + trackFileName;
+
+        // does the file exist
+        fs.exists(toPath, function(exists) {
+
+            console.log(toPath + ' exists?: ' + exists);
+
+            if (exists) {
+
+                console.log('this track already exists');
+
+            } else {
+
+                writeTrackToDisc();
+
+            }
+
+        });
+
+    } else {
+
+        writeTrackToDisc();
+
+    }
+
+};
+
+/**
+ * 
+ * check if the final tracks directory exists
+ * 
+ * @returns {undefined}
+ */
+var checkIfFinalTracksDirectoryExists = function() {
+
+    // does the directory exist
+    fs.exists(finalTracksDirecotry, function(exists) {
+
+        console.log('checkIfFinalTracksDirectoryExists exists?: ' + exists);
+
+        if (exists) {
+
+            checkIfTrackExists();
+
+        } else {
+
+            // it does not exist yet so we create it
+            fs.mkdir(finalTracksDirecotry, 0666, function(error) {
+
+                if (error) {
+
+                    console.log('checkIfFinalTracksDirectoryExists mkdir error: ' + error);
+
+                } else {
+
+                    checkIfTrackExists();
+
+                }
+
+            });
+
+        }
+
+    });
+
+};
+
+/**
+ * 
+ * check if the temporary tracks directory exists
+ * 
+ * @param {type} fileDirecotry
+ * @returns {undefined}
+ */
+var checkIfTemporaryTracksDirectoryExists = function(fileDirecotry) {
+    
+    // does the directory exist
+    fs.exists(temporaryTracksDirecotry, function(exists) {
+        
+        console.log('checkIfTemporaryTracksDirectoryExists exists?: ' + exists);
+        
+        if (exists) {
+            
+            checkIfFinalTracksDirectoryExists();
+            
+        } else {
+            
+            // it does not exist yet so we create it
+            fs.mkdir(temporaryTracksDirecotry, 0666, function(error) {
+                
+                if (error) {
+                    
+                    console.log('checkIfTemporaryTracksDirectoryExists mkdir error: ' + error);
+                    
+                } else {
+                    
+                    checkIfFinalTracksDirectoryExists();
+                    
+                }
+                
+            });
+            
+        }
+        
+    });
+    
+};
+
+/**
+ * 
+ * get track data
+ * 
+ * @param {type} audio_path
+ * @param {type} output_width
+ * @param {type} duration
+ * @param {type} sample_rate
+ * @param {type} channels
+ * @param {type} cb
+ * @returns {getPeaks.coefficient_to_db}
+ */
+var getTrackData = function(trackId, trackExtension) {
+
+    trackFileName = trackId + '.' + trackExtension;
+
+    if (arguments.length === 2) {
+
+        var tmpDirecotry = '/tmp';
+
+        // does the directory exist
+        fs.exists(tmpDirecotry, function(exists) {
+
+            console.log('getTrackData, tmpDirecotry exists?: ' + exists);
+
+            if (exists) {
+
+                checkIfTemporaryTracksDirectoryExists();
+
+            } else {
+
+                fs.mkdir(tmpDirecotry, 0666, function(error) {
+
+                    if (error) {
+
+                        console.log('getTrackData mkdir error: ' + error);
+
+                    } else {
+
+                        checkIfTemporaryTracksDirectoryExists();
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    } else {
+
+        console.log('getTrackData arguments, error: ' + arguments);
+
+    }
 
 };
 

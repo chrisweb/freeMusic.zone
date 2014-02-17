@@ -3,11 +3,11 @@
  * @param {type} angular
  * @returns {_L4.Anonym$0}
  */
-define('routes', ['configuration', 'utilities', 'backbone'], function(configuration, utilities, Backbone) {
+define('routes', ['configuration', 'utilities', 'backbone', 'underscore'], function(configuration, utilities, Backbone, _) {
 
     'use strict';
 
-    var router = Backbone.Router.extend({
+    var Router = Backbone.Router.extend({
         
         initialize: function() {
             
@@ -29,7 +29,7 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
         
         var that = this;
 
-        var applicationRoutes = new router();
+        var applicationRoutes = new Router();
         
         // check if user is logged in
         // TODO: create a session model for the user
@@ -48,11 +48,11 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
             
             utilities.log('[APPLICATION] user is not logged, load connect/index view', 'blue');
             
-            require(['application/views/connect/index-0.0.1'], function(connectViewModule) {
+            require(['application/views/connect/index-0.0.1'], function(ConnectViewModule) {
                 
                 var options = { eventAggregator: that.eventAggregator};
                 
-                var connectView = new connectViewModule(options);
+                var connectView = new ConnectViewModule(options);
                 
                 connectView.render();
                 
@@ -64,11 +64,11 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
             
             utilities.log('[APPLICATION] user is logged, load playlist/index view', 'blue');
             
-            require(['application/views/playlist/index-0.0.1'], function(playlistViewModule) {
+            require(['application/views/playlist/index-0.0.1'], function(PlaylistViewModule) {
                 
                 var options = { eventAggregator: that.eventAggregator};
                 
-                var playlistView = new playlistViewModule(options);
+                var playlistView = new PlaylistViewModule(options);
                 
                 playlistView.render();
                 
@@ -81,11 +81,11 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
             // default route if none of the previous ones matched
             utilities.log('[APPLICATION] page not found', 'blue');
             
-            require(['application/views/404/index-0.0.1'], function(notfoundViewModule) {
+            require(['application/views/404/index-0.0.1'], function(NotfoundViewModule) {
                 
                 var options = { eventAggregator: that.eventAggregator};
                 
-                var notfoundView = new notfoundViewModule(options);
+                var notfoundView = new NotfoundViewModule(options);
                 
                 notfoundView.render();
                 
@@ -98,7 +98,7 @@ define('routes', ['configuration', 'utilities', 'backbone'], function(configurat
             root: '/'
         });
         
-    }
+    };
     
     return {
         dispatch: dispatch

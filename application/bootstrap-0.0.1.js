@@ -163,13 +163,15 @@ fs.readdirSync(__dirname + '/models').forEach(function(modelFileName) {
     //name without .js at the end
     var modelName = modelFileName.substr(0, modelFileName.length-3);
 
-    var modelModule = require(__dirname + '/models/' + modelFileName);
+    var ModelModule = require(__dirname + '/models/' + modelFileName);
     
-    models[modelName] = new modelModule(app);
+    models[modelName] = new ModelModule(app);
 
 });
 
 var controllers = {};
+
+var controllerName;
 
 // load all controllers (synchronously)
 if (configuration.application.useModules) {

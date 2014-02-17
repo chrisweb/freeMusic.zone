@@ -13,7 +13,7 @@ var environment = process.env.NODE_ENV;
  * 
  * @returns {getConfiguration.configuration}
  */
-getConfiguration = function() {
+var getConfiguration = function() {
 
     var configuration = {};
 

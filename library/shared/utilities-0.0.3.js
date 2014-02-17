@@ -1,10 +1,12 @@
-'use strict';
-
 (function() {
+    
+    'use strict';
 
     var utilities = {};
 
     utilities.version = '0.0.3';
+    
+    var errorLogger;
     
     // nodejs or browser mode, if windows is undefined it is nodejs mode
     if (typeof(window) === 'undefined') {
@@ -21,7 +23,7 @@
             maxsize: 20971520 // 20MB
         });
         
-        var errorLogger = new winston.Logger({
+        errorLogger = new winston.Logger({
             transports: [
                 winstonErrorFile
             ],
@@ -49,7 +51,7 @@
             
     };
     
-    utilities.fileLog = function(data) {
+    utilities.fileLog = function(data, type) {
         
         errorLogger.log(type.toLowerCase(), JSON.stringify(data, null, 4));
         
@@ -60,23 +62,27 @@
 
         // is console defined, some older IEs don't have a console
         if (typeof(console) !== 'undefined') {
+            
+            var backgroundColor;
+            var fontColors;
 
             // nodejs or browser mode
             if (typeof(window) === 'undefined') {
                 
                 // background default black
-                var backgroundColor = '\u001b[40m';
+                backgroundColor = '\u001b[40m';
                 
                 if (typeof(data) === 'object') {
                     
-                    data = JSON.stringify(data)
+                    data = JSON.stringify(data);
                     
                 }
 
                 if (typeof(fontColor) !== 'undefined') {
 
                     // http://roguejs.com/2011-11-30/console-fontColors-in-node-js/
-                    var fontColors = {};
+                    fontColors = {};
+                    
                     fontColors.red = '\u001b[31m';
                     fontColors.green = '\u001b[32m';
                     fontColors.yellow = '\u001b[33m';
@@ -87,7 +93,7 @@
                     var fontColorReset = '\u001b[0m';
 
                     if (typeof(fontColors[fontColor]) === undefined) {
-                        throw "undefined fontColor in utilities console log";
+                        throw 'undefined fontColor in utilities console log';
                     }
 
                     console.log(backgroundColor + fontColors[fontColor] + data + fontColorReset);
@@ -108,11 +114,12 @@
             } else {
                 
                 // background default white
-                var backgroundColor = 'ffffff';
+                backgroundColor = 'ffffff';
                 
                 if (typeof(fontColor) !== 'undefined') {
 
-                    var fontColors = {};
+                    fontColors = {};
+                    
                     fontColors.red = 'FF0000';
                     fontColors.green = '00FF00';
                     fontColors.yellow = 'FFFF00';
@@ -122,7 +129,7 @@
                     fontColors.blue = '0000FF';
 
                     if (typeof(fontColors[fontColor]) === undefined) {
-                        throw "undefined fontColor in utilities console log";
+                        throw 'undefined fontColor in utilities console log';
                     }
 
                     console.log('%c' + data, 'background: #' + backgroundColor + '; color: #' + fontColors[fontColor]);
@@ -157,7 +164,7 @@
     
         return new Date().getTime();
         
-    }
+    };
 
     utilities.millisecondsToString = function(timeInMilliseconds, translations) {
 

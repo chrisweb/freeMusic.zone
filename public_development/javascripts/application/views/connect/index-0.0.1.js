@@ -63,9 +63,9 @@ define([
             
             // port
             if (
-                typeof(jamendoApiConfiguration.apiPort) !== 'undefined'
-                && jamendoApiConfiguration.apiPort !== ''
-                && jamendoApiConfiguration.apiPort != 80
+                typeof(jamendoApiConfiguration.apiPort) !== 'undefined' &&
+                jamendoApiConfiguration.apiPort !== '' &&
+                jamendoApiConfiguration.apiPort !== 80
             ) {
                 
                 requestUrl += ':' + jamendoApiConfiguration.apiPort;

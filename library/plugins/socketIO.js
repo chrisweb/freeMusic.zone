@@ -2,17 +2,18 @@
 // Module: https://github.com/learnboost/socket.io/
 // Documentation: http://socket.io/#how-to-use
 
-exports.initialize = function(application) {
+var socket = require('socket.io');
+var utilities = require('./utilities-0.0.3');
+var applicationConfigurationModule = require('./configuration/application-0.2.5');
+var RedisStore = require('socket.io/lib/stores/redis');
+var mongoDB = require('./mongodb-0.0.1');
+var redisDB = require('./redis-0.0.1');
+var topPlaylists = require('./top_playlists-0.0.1');
+var jamendoApiModule = require('./jamendo_api-0.0.1');
 
-    var socket = require('socket.io')
-            , io = socket.listen(application)
-            , utilities = require('./utilities-0.0.3')
-            , applicationConfigurationModule = require('./configuration/application-0.2.5')
-            , redisStore = require('socket.io/lib/stores/redis')
-            , mongoDB = require('./mongodb-0.0.1')
-            , redisDB = require('./redis-0.0.1')
-            , topPlaylists = require('./top_playlists-0.0.1')
-            , jamendoApiModule = require('./jamendo_api-0.0.1');
+exports.initialize = function(application) {
+    
+    var io = socket.listen(application);
 
     var applicationConfiguration = applicationConfigurationModule.getApplicationConfiguration();
     
@@ -58,7 +59,7 @@ exports.initialize = function(application) {
                 var redis = redisDB.getModule();
             
                 io.set('store',
-                    new redisStore({
+                    new RedisStore({
                         redis: redis,
                         redisPub: pubClient,
                         redisSub: subClient,
@@ -94,6 +95,8 @@ exports.initialize = function(application) {
             var callbackFunction = '';
             
             jamendoApiModule.makeJamendoApiRequest(path, method, parameters, callbackFunction);
+            
+            var response = {};
             
             response.error = false;
             response.userId = userId;
@@ -191,7 +194,9 @@ exports.initialize = function(application) {
                         playlistId: data.newRoomId,
                         timestamp: new Date().getTime()
                         
-                    }
+                    };
+                    
+                    var safeOption;
                     
                     mongoDB.mongoDBWrite(mongoDBCollection, accessLogEntry, safeOption, function(error) {
                         
@@ -247,9 +252,6 @@ exports.initialize = function(application) {
             
         });
 
-        /**
-         * 
-         */
         socket.on('broadCastMessage', function(data) {
 
             utilities.log('[SOCKET_IO] broadCastMessage', 'info');
@@ -272,9 +274,11 @@ exports.initialize = function(application) {
 
 };
 
-exports.sendToPlaylistsToClient = function(topPlaylistsObject) {
+exports.sendToPlaylistsToClient = function(application, userId, topPlaylistsObject) {
 
     utilities.log('[SOCKET_IO] sendToPlaylistsToClient', 'info');
+    
+    var io = socket.listen(application);
 
     // send world coordinates to user that requested them
     io.sockets.socket(userId).emit('topPlaylistsObject', topPlaylistsObject);

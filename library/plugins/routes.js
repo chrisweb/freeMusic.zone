@@ -8,7 +8,7 @@ exports.version = '0.0.1';
 
 var routes = {};
 
-mapRoutes = function(app, configuration, controllers, models) {
+var mapRoutes = function(app, configuration, controllers, models) {
     
     var utilities = app.get('utilities');
 
@@ -87,9 +87,9 @@ mapRoutes = function(app, configuration, controllers, models) {
 
                 if (controllers.hasOwnProperty(request.params.controller + 'Controller')) {
                     
-                    var controllerModule = controllers[request.params.controller + 'Controller'];
+                    var ControllerModule = controllers[request.params.controller + 'Controller'];
                     
-                    var controller = new controllerModule(app);
+                    var controller = new ControllerModule(app);
 
                     var actionName = request.params.action;
                     
@@ -121,15 +121,15 @@ mapRoutes = function(app, configuration, controllers, models) {
                     
                     var path = '/' + request.params.controller + '/' + request.params.action;
                     
-                    error = { status: 404, url: path };
+                    var error = { status: 404, url: path };
                     
                     next(error, request, response, next);
                     
                 }
                 
-            } catch (error) {
+            } catch (exception) {
                 
-                next(error, request, response, next);
+                next(exception, request, response, next);
                 
             }
 
@@ -139,7 +139,7 @@ mapRoutes = function(app, configuration, controllers, models) {
     
     app.get('/404', function(request, response, next) {
         
-        error = { status: 404, url: '/404' };
+        var error = { status: 404, url: '/404' };
                     
         next(error, request, response, next);
         
@@ -187,7 +187,11 @@ mapRoutes = function(app, configuration, controllers, models) {
 
         utilities.log('server error: ' + JSON.stringify(error), 'red');
 
-        if (error.status === 404) return next();
+        if (error.status === 404) {
+            
+            return next();
+            
+        }
 
         utilities.log('5xx middleware catch by: ' + request.url, 'yellow');
 

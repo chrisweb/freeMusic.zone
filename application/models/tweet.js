@@ -42,13 +42,15 @@ var tweetModel = function(app) {
  * 
  * save a single object
  * 
+ * @param {type} data
+ * @param {type} callback
  * @returns {undefined}
  */
 tweetModel.prototype.saveOne = function(data, callback) {
 
     console.log('save a single object');
 
-    tweet = new this.model(data);
+    var tweet = new this.model(data);
 
     tweet.save(callback);
 
@@ -114,6 +116,73 @@ tweetModel.prototype.findAll = function() {
 
 };
 
+
+/**
+ * 
+ * tweets map function
+ * 
+ * @returns {unresolved}
+ */
+var tweetsMap = function() {
+
+	var reduceVal = {
+		id: this.jamendo_unit_id, 
+		unit: this.jamendo_unit, 
+		count_total: 1, 
+		count_unique: 1, 
+		twitter_users: [this.twitter_user_id]
+	};
+
+	return emit(this.jamendo_unit + '-' + this.jamendo_unit_id, reduceVal);
+
+};
+
+/**
+ * 
+ * tweets reduce function
+ * 
+ * @param {type} jamendo_full_id
+ * @param {type} reduceVal
+ * @returns {tweetsReduce._reduceVal}
+ */
+var tweetsReduce = function(jamendo_full_id, reduceVal) {
+
+	jamendo_full_id = jamendo_full_id.split('-');
+	var jamendo_unit = jamendo_full_id[0];
+	var jamendo_unit_id = jamendo_full_id[1];
+	var _reduceVal = {
+		id: jamendo_unit_id, 
+		unit: jamendo_unit, 
+		count_total: 0, 
+		count_unique: 0, 
+		twitter_users: []
+	};
+
+	for (var i=0; i < reduceVal.length; i++) {
+        
+		if (_reduceVal.twitter_users.indexOf(reduceVal[i].twitter_users[0]) === -1) {
+            
+			_reduceVal.twitter_users.push(reduceVal[i].twitter_users[0]);
+			_reduceVal.count_unique++;
+            
+		}
+        
+		_reduceVal.count_total ++;
+        
+	}
+
+	return _reduceVal;
+
+};
+
+/**
+ * 
+ * tweets map_reduce
+ * 
+ * @param {type} options
+ * @param {type} callback
+ * @returns {undefined}
+ */
 tweetModel.prototype.mapReduceList = function(options, callback) {
 
     console.log('tweetModel -> mapReduce');
@@ -132,44 +201,5 @@ tweetModel.prototype.mapReduceList = function(options, callback) {
     this.model.mapReduce(mapReduceContainer, callback);
 
 };
-
-var tweetsMap = function() {
-
-	var reduceVal = {
-		id: this.jamendo_unit_id, 
-		unit: this.jamendo_unit, 
-		count_total: 1, 
-		count_unique: 1, 
-		twitter_users: [this.twitter_user_id]
-	};
-
-	return emit(this.jamendo_unit + '-' + this.jamendo_unit_id, reduceVal);
-
-}
-
-var tweetsReduce = function(jamendo_full_id, reduceVal) {
-
-	jamendo_full_id = jamendo_full_id.split("-");
-	var jamendo_unit = jamendo_full_id[0];
-	var jamendo_unit_id = jamendo_full_id[1];
-	var _reduceVal = {
-		id: jamendo_unit_id, 
-		unit: jamendo_unit, 
-		count_total: 0, 
-		count_unique: 0, 
-		twitter_users: []
-	};
-
-	for (var i=0; i < reduceVal.length; i++) {
-		if (_reduceVal.twitter_users.indexOf(reduceVal[i].twitter_users[0]) == -1) {
-			_reduceVal.twitter_users.push(reduceVal[i].twitter_users[0]);
-			_reduceVal.count_unique++;
-		}
-		_reduceVal.count_total ++;
-	}
-
-	return _reduceVal;
-
-}
 
 module.exports = tweetModel;
