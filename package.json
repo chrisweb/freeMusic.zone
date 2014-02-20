@@ -1,0 +1,32 @@
+{
+  "name": "playlist.guru",
+  "version": "0.0.1",
+  "description": "playlist guru",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisweb/playlist_guru.git"
+  },
+  "keywords": [
+    "playlist",
+    "guru"
+  ],
+  "author": "chrisweb",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisweb/playlist_guru/issues"
+  },
+  "homepage": "https://github.com/chrisweb/playlist_guru",
+  "dependencies": {
+    "express": "~3.4.8",
+    "connect": "~2.13.0",
+    "socket.io": "~0.9.16",
+    "connect-redis": "~1.4.7",
+    "underscore": "~1.6.0",
+    "mongoose": "~3.8.7",
+    "passport": "~0.2.0"
+  }
+}
