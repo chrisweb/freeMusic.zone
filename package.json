@@ -23,7 +23,11 @@
     "grunt-cli": "0.1.13",
     "grunt-contrib-less": "~0.9.0",
     "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-contrib-jshint": "~0.8.0",
+    "jshint-stylish": "~0.1.5",
+    "grunt-contrib-watch": "~0.5.3",
+    "matchdep": "~0.3.0",
+    "grunt-htmlhint": "~0.4.0"
   },
   "scripts": {
     "test": "",
@@ -43,5 +47,8 @@
   "author": "chrisweb",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "401350bdbdbe761d6146ae7081b94c788b6c692a"
+  "gitHead": "401350bdbdbe761d6146ae7081b94c788b6c692a",
+  "engines": {
+    "node": ">=0.10.26"
+  }
 }

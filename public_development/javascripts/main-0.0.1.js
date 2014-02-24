@@ -10,7 +10,7 @@ require.config({
 
     paths: {
         'text': 'vendor/text-2.0.6',
-        'utilities': 'library/utilities-0.0.3',
+        'utilities': '../../library/shared/utilities-0.0.3',
         'configuration': 'application/configurations/configuration-0.0.1',
         'bootstrap': 'application/bootstrap-0.0.1',
         'routes': 'library/routes-0.0.1',

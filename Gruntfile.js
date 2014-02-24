@@ -1,6 +1,10 @@
 module.exports = function(grunt) {
 
     'use strict';
+    
+    // this replaces all the grunt.loadNpmTasks, by automatically loading
+    // all packages listed in the devDependencies of the package.json
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     // Project configuration.
     grunt.initConfig({
@@ -27,25 +31,11 @@ module.exports = function(grunt) {
                 'public_development/javascripts/application/**/*.js',
                 'public_development/javascripts/library/*.js'
             ],
-            options: {
-                bitwise: true,
-                curly: true,
-                eqeqeq: true,
-                forin: true,
-                freeze: true,
-                immed: true,
-                latedef: true,
-                newcap: true,
-                noarg: true,
-                nonbsp: true,
-                nonew: true,
-                quotmark: 'single',
-                sub: true,
-                undef: true,
-                //unused: true,
-                boss: true,
-                eqnull: true,
-                browser: true,
+            grunt: {
+                options: {
+					jshintrc: '.jshintrc',
+					reporter: require('jshint-stylish')
+				},
                 globals: {
                     require: true,
                     define: true,
@@ -70,14 +60,26 @@ module.exports = function(grunt) {
         // css lint?
         // https://github.com/gruntjs/grunt-contrib-csslint
         
+        // images minification
+        // imagemin
+        
         // require js
         // https://github.com/gruntjs/grunt-contrib-requirejs
 
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: 'path/to/base',
-                    mainConfigFile: 'path/to/config.js',
+                    baseUrl: './public_development/javascripts',
+                    mainConfigFile: './public_development/javascripts/main-0.0.1.js',
+                    dir: './public/javascripts',
+                    findNestedDependencies: true,
+                    fileExclusionRegExp: /^\./,
+                    inlineText: true,
+                    modules:[
+                        {
+                            name: 'main-0.0.1'
+                        }
+                    ],
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
 
@@ -91,7 +93,7 @@ module.exports = function(grunt) {
                     }
                 }
             }
-        }
+        },
 
         // optimize images?
         // https://github.com/gruntjs/grunt-contrib-imagemin
@@ -101,18 +103,43 @@ module.exports = function(grunt) {
 
         // html5 lint
         // https://github.com/alicoding/grunt-lint5
-
-
+        
+        htmlhint: {
+            build: {
+                options: {
+                    'tag-pair': true,
+                    'tagname-lowercase': true,
+                    'attr-lowercase': true,
+                    'attr-value-double-quotes': true,
+                    'doctype-first': true,
+                    'spec-char-escape': true,
+                    'id-unique': true,
+                    'head-script-disabled': true,
+                    'style-disabled': true
+                },
+                src: ['application/views/*.html']
+            }
+        },
+        
+        // watchers
+        watch: {
+            js: {
+                files: '<%= jshint.src %>',
+                tasks: ['jshint']
+            },
+            html: {
+                files: ['index.html'],
+                tasks: ['htmlhint']
+            }
+            /*css: {}*/
+        }
 
     });
 
-    grunt.loadNpmTasks('grunt-contrib-less');
-
-    grunt.loadNpmTasks('grunt-contrib-requirejs');
-    
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-
     // Default task.
-    grunt.registerTask('default', 'jshint');
+    grunt.registerTask('default', ['jshint', 'htmlhint', 'requirejs']);
+    
+    // task for only hinting js and html
+    grunt.registerTask('onlyhint', ['jshint', 'htmlhint']);
 
 };

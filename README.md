@@ -53,6 +53,21 @@ frontend
 * https://github.com/scottschiller/SoundManager2
 * https://github.com/Modernizr/Modernizr
 
+Adding packages
+---------------
+
+To add a package to the depencies list in package.json and install it at the same time type:
+npm install packageName --save
+
+To remove a package as dependency type:
+npm uninstall packageName --save
+
+Watching changes to files and automatically execute grunt tasks
+---------------------------------------------------------------
+
+On the command line type:
+grunt watch
+
 Building the application using grunt
 ------------------------------------
 
@@ -65,6 +80,12 @@ Run npm install, to install all the nodejs modules (dependencies)
 To check if grunt has been installed type "grunt --version"
 
 To build the application type "grunt"
+
+If you want to modify grunt and add a package to the dev depencies type:
+npm install grunt-contrib-packageName --save-dev
+
+To remove a dev dependency package type:
+npm uninstall grunt--contrib-packageName --save-dev
 
 Install instructions for the application
 ----------------------------------------
@@ -188,10 +209,6 @@ KEYS *sess*
 
 get a value corresponding to a key:
 GET <key>
-
-
-deployment
-----------
 
 contributors
 ------------
