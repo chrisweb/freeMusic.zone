@@ -21,12 +21,7 @@
   },
   "homepage": "https://github.com/chrisweb/playlist_guru",
   "dependencies": {
-    "express": "~3.4.8",
-    "connect": "~2.13.0",
-    "socket.io": "~0.9.16",
-    "connect-redis": "~1.4.7",
-    "underscore": "~1.6.0",
-    "mongoose": "~3.8.7",
-    "passport": "~0.2.0"
+    "express": "~4.0.0",
+    "ejs": "~1.0.0"
   }
 }

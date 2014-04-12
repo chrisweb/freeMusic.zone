@@ -21,13 +21,6 @@
     "tests"
   ],
   "dependencies": {
-    "underscore": "~1.6.0",
-    "backbone": "~1.1.1",
-    "jquery": "~2.1.0",
-    "bootstrap": "~3.1.1",
-    "momentjs": "~2.5.1",
-    "modernizr": "~2.7.1",
-    "less.js": "~1.6.3",
-    "animate.css": "~3.0.0"
+
   }
 }

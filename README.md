@@ -4,12 +4,21 @@
 playlist.guru
 =============
 
+To create the project I did:
+
+in your console type
+
+cd C:\Users\chris\Documents\GitHub\playlist_guru
+
 npm install -g bower
 
 bower
 
-create a bower.json file
+create a bower.json file:
+
 bower init
+
+install client libraries:
 
 bower install underscore -S
 
@@ -31,10 +40,15 @@ server
 
 npm
 
-create a package json
+create a package json:
+
 npm init
 
+install server / backend libraries:
+
 npm install express --save
+
+npm install ejs --save
 
 npm install socket.io --save
 
@@ -47,6 +61,24 @@ npm install underscore --save
 npm install mongoose --save
 
 npm install passport --save
+
+
+
+To run the project:
+
+To run the project run this command on linux:
+NODE_ENV=development node server
+
+OR thess commands for windows powershell:
+$env:NODE_ENV="development"
+node server
+
+NODE_ENV can be development, staging, production
+
+
+
+
+
 
 
 production build
