@@ -61,3 +61,33 @@ app.use('/', function(request, response) {
 app.listen(serverPort);
 
 utilities.log('SERVER running on port: ' + serverPort + ', environment is: ' + process.env.NODE_ENV, 'green');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var mongoose = require('mongoose');
+var fs = require('fs');
+var configuration = require('./config/config');
+
+mongoose.connect(config.db);
+var db = mongoose.connection;
+db.on('error', function () {
+    throw new Error('unable to connect to database at ' + config.db);
+});
+
+var modelsPath = __dirname + '/app/models';
+fs.readdirSync(modelsPath).forEach(function (file) {
+    if (file.indexOf('.js') >= 0) {
+        require(modelsPath + '/' + file);
+    }
+});
