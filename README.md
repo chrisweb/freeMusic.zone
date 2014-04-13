@@ -20,6 +20,8 @@ bower init
 
 install client libraries:
 
+bower install requirejs -S
+
 bower install underscore -S
 
 bower install backbone -S

@@ -28,14 +28,18 @@ var serverPort = 35000;
 // desktop router
 var desktopRouter = express.Router();
 
+utilities.log('__dirname: ' + __dirname);
+utilities.log('app.get(\'env\'): ' + app.get('env'));
 
 if (app.get('env') === 'development') {
 
-    desktopRouter.use(express.static(__dirname + '/client/desktop_development'));
+    desktopRouter.use(express.static(__dirname + '/../client/desktop_development'));
+    desktopRouter.use('/vendor', express.static(__dirname + '/../bower_components'));
+    desktopRouter.use('/library/shared', express.static(__dirname + '/library/shared'));
     
 } else {
 
-    desktopRouter.use(express.static(__dirname + '/client/desktop_build'));
+    desktopRouter.use(express.static(__dirname + '/../client/desktop_build'));
 
 }
 
@@ -58,6 +62,9 @@ app.use('/', function(request, response) {
     
 });
 
+// TODO: error route 50x
+// TODO: not found route 404
+
 app.listen(serverPort);
 
 utilities.log('SERVER running on port: ' + serverPort + ', environment is: ' + process.env.NODE_ENV, 'green');
@@ -74,7 +81,7 @@ utilities.log('SERVER running on port: ' + serverPort + ', environment is: ' + p
 
 
 
-
+/*
 var mongoose = require('mongoose');
 var fs = require('fs');
 var configuration = require('./config/config');
@@ -91,3 +98,4 @@ fs.readdirSync(modelsPath).forEach(function (file) {
         require(modelsPath + '/' + file);
     }
 });
+*/
