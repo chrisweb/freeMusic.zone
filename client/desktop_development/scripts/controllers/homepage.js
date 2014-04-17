@@ -6,6 +6,8 @@ define([
 
     var indexAction = function indexActionFunction() {
         
+        utilities.log('[MAIN] homepage controller index action', 'blue');
+        
         
         
     };

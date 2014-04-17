@@ -83,16 +83,51 @@ module.exports = function(grunt) {
 
         qunit: {
             files: ['test/**/*.html']
+        },
+        
+        config: {
+            'bootstrap_path': 'bower_components/bootstrap-sass-official/vendor/assets/stylesheets',
+            'build_path': 'stylesheets'
+        },
+        
+        // Compiles Sass to CSS and generates necessary files if requested
+        sass: {
+            options: {
+                unixNewlines: true
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= config.bootstrap_path %>',
+                    src: ['*.scss'],
+                    dest: '<%= config.build_path %>',
+                    ext: '.css'
+                }]
+            }
+        },
+        
+        // Watches files for changes and runs tasks based on the changed files
+        watch: {
+            sass: {
+                tasks: ['sass:dist']
+            },
+            configFiles: {
+                files: ['Gruntfile.js'],
+                options: {
+                    reload: true
+                }
+            }
         }
 
     });
 
     grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'qunit', 'less', 'requirejs']);
+    grunt.registerTask('default', ['sass', 'jshint', 'qunit', 'less', 'requirejs']);
 
 };

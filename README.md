@@ -12,6 +12,10 @@ cd C:\Users\chris\Documents\GitHub\playlist_guru
 
 npm install -g bower
 
+to update bower
+
+npm update -g bower
+
 bower
 
 create a bower.json file:
@@ -28,7 +32,9 @@ bower install backbone -S
 
 bower install jquery -S
 
-bower install bootstrap -S
+bower install bootstrap-sass-official -S
+
+
 
 bower install momentjs -S
 
@@ -52,6 +58,10 @@ npm install express --save
 
 npm install ejs --save
 
+npm install jamendo --save
+
+
+
 npm install socket.io --save
 
 npm install connect --save
@@ -62,7 +72,13 @@ npm install underscore --save
 
 npm install mongoose --save
 
-npm install passport --save
+
+Fetch the dependencies for development
+
+npm update
+
+bower update
+
 
 
 

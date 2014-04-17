@@ -42,9 +42,11 @@ require([
 
             utilities.log('[MAIN] homepage', 'blue');
 
-            require(['application/views/connect/index-0.0.1'], function(ConnectViewModule) {
+            require(['scripts/controllers/homepage'], function(HomepageController) {
                 
+                utilities.log('[MAIN] homepage controller got loaded', 'blue');
                 
+                HomepageController.index();
                 
             });
 
