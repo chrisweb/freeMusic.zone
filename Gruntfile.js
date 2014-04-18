@@ -67,6 +67,7 @@ module.exports = function(grunt) {
                     mainConfigFile: '<%= config.desktop.development.scripts.path %>/main.js',
                     name: 'main',
                     out: '<%= config.desktop.build.scripts.path %>/main.js',
+                    findNestedDependencies: true,
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
 
@@ -110,7 +111,7 @@ module.exports = function(grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= config.desktop.development.bootstrap.path %>',
+                    cwd: '<%= config.desktop.development.stylesheets.path %>',
                     src: ['main.scss'],
                     dest: '<%= config.desktop.build.stylesheets.path %>',
                     ext: '.css'
@@ -131,7 +132,7 @@ module.exports = function(grunt) {
         // https://github.com/gruntjs/grunt-contrib-watch
         watch: {
             sass: {
-                files: ['<%= config.desktop.development.stylesheets %>/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'],
+                files: ['<%= config.desktop.development.stylesheets.path %>/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'],
                 tasks: ['sass:dist']
             },
             configFiles: {

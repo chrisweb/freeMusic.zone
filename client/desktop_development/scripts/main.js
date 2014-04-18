@@ -42,7 +42,7 @@ require([
 
             utilities.log('[MAIN] homepage', 'blue');
 
-            require(['scripts/controllers/homepage'], function(HomepageController) {
+            require(['controllers/homepage'], function(HomepageController) {
                 
                 utilities.log('[MAIN] homepage controller got loaded', 'blue');
                 
