@@ -38,13 +38,13 @@ bower install qunit --save-dev
 
 
 
-bower install momentjs -S
+bower install momentjs --save
 
-bower install modernizr -S
+bower install modernizr --save
 
-bower install less.js -S
+bower install less.js --save
 
-bower install animate.css -S
+bower install animate.css --save
 
 server
 
@@ -79,6 +79,8 @@ npm install grunt-contrib-jshint --save-dev
 npm install grunt-contrib-requirejs --save-dev
 
 npm install grunt-contrib-qunit --save-dev
+
+npm install grunt-contrib-copy --save-dev
 
 
 

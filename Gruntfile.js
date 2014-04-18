@@ -20,6 +20,9 @@ module.exports = function(grunt) {
                     },
                     bootstrap: {
                         path: 'bower_components/bootstrap-sass-official/vendor/assets'
+                    },
+                    requirejs: {
+                        path: 'bower_components/requirejs'
                     }
                 },
                 build: {
@@ -63,7 +66,7 @@ module.exports = function(grunt) {
                     baseUrl: '<%= config.desktop.development.scripts.path %>',
                     mainConfigFile: '<%= config.desktop.development.scripts.path %>/main.js',
                     name: 'main',
-                    out: '<%= config.desktop.build.scripts.path %>/main-<%= bowerJson.version %>.js',
+                    out: '<%= config.desktop.build.scripts.path %>/main.js',
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
 
@@ -81,9 +84,6 @@ module.exports = function(grunt) {
 
         // optimize images?
         // https://github.com/gruntjs/grunt-contrib-imagemin
-
-        // copy files
-        // https://github.com/gruntjs/grunt-contrib-copy
 
         // html5 (templates) lint
         // https://github.com/alicoding/grunt-lint5
@@ -113,8 +113,17 @@ module.exports = function(grunt) {
                     cwd: '<%= config.desktop.development.bootstrap.path %>',
                     src: ['main.scss'],
                     dest: '<%= config.desktop.build.stylesheets.path %>',
-                    ext: '-<%= bowerJson.version %>.css'
+                    ext: '.css'
                 }]
+            }
+        },
+        
+        // copy files
+        // https://github.com/gruntjs/grunt-contrib-copy
+        copy: {
+            requirejs: {
+                src: '<%= config.desktop.development.requirejs.path %>/require.js',
+                dest: '<%= config.desktop.build.scripts.path %>/require.js'
             }
         },
         
@@ -140,8 +149,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass']);
+    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass', 'copy']);
 
 };

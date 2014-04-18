@@ -33,8 +33,8 @@ utilities.log('app.get(\'env\'): ' + app.get('env'));
 
 if (app.get('env') === 'development') {
 
-    desktopRouter.use(express.static(__dirname + '/../client/desktop_development'));
-    desktopRouter.use('/vendor', express.static(__dirname + '/../bower_components'));
+    desktopRouter.use('/client/desktop_development', express.static(__dirname + '/../client/desktop_development'));
+    desktopRouter.use('/bower_components', express.static(__dirname + '/../bower_components'));
     desktopRouter.use('/library/shared', express.static(__dirname + '/library/shared'));
     
 } else {
