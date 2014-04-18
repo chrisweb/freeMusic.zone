@@ -1,8 +1,15 @@
-/*global require*/
+
 'use strict';
 
 require.config({
-    baseUrl: '/desktop',
+    baseUrl: 'client/desktop_development/scripts',
+    paths: {
+        jquery: '../../../bower_components/jquery/dist/jquery',
+        backbone: '../../../bower_components/backbone/backbone',
+        underscore: '../../../bower_components/underscore/underscore',
+        utilities: '../../../server/library/shared/utilities',
+        ApplicationRouter: 'routes/router'
+    },
     shim: {
         underscore: {
             exports: '_'
@@ -14,13 +21,6 @@ require.config({
             ],
             exports: 'Backbone'
         }
-    },
-    paths: {
-        jquery: 'vendor/jquery/dist/jquery',
-        backbone: 'vendor/backbone/backbone',
-        underscore: 'vendor/underscore/underscore',
-        utilities: 'library/shared/utilities',
-        ApplicationRouter: 'scripts/routes/router'
     }
 });
 

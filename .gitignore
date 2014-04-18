@@ -21,3 +21,8 @@ node_modules
 bower_components
 yeoman
 nbproject
+.sass-cache
+
+desktop_build
+mobile_build
+tablet_build

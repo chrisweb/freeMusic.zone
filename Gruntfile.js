@@ -2,60 +2,68 @@ module.exports = function(grunt) {
 
     'use strict';
 
-    // Project configuration.
+    // grunt
     grunt.initConfig({
         
-        pkg: grunt.file.readJSON('package.json'),
+        packageJson: grunt.file.readJSON('package.json'),
+        bowerJson: grunt.file.readJSON('bower.json'),
         
-        // js hint
-        // ! run this first, if linting fails the script will abort
-        // https://github.com/gruntjs/grunt-contrib-jshint
-        // https://github.com/jquery/jquery/blob/master/Gruntfile.js
-        // ! js hint options: http://www.jshint.com/docs/options/
-
-        jshint: {
-            src: [
-                'Gruntfile.js',
-                'server/*.js',
-                'client/desktop_development/scripts/*.js'
-            ],
-            options: {
-                options: {
-					jshintrc: '.jshintrc',
-					reporter: require('jshint-stylish')
-				},
-                globals: {
-                    require: true,
-                    define: true,
-                    requirejs: true,
-                    describe: true,
-                    expect: true,
-                    it: true,
-                    module: true,
-                    process: true,
-                    __dirname: true,
-                    exports: true,
-                    emit: true,
-                    console: true
+        config: {
+            desktop: {
+                development: {
+                    root: 'client/desktop_development',
+                    stylesheets: {
+                        path: '<%= config.desktop.development.root %>/stylesheets'
+                    },
+                    scripts: {
+                        path: '<%= config.desktop.development.root %>/scripts'
+                    },
+                    bootstrap: {
+                        path: 'bower_components/bootstrap-sass-official/vendor/assets'
+                    }
+                },
+                build: {
+                    root: 'client/desktop_build',
+                    stylesheets: {
+                        path: '<%= config.desktop.build.root %>/stylesheets'
+                    },
+                    scripts: {
+                        path: '<%= config.desktop.build.root %>/scripts'
+                    }
+                }
+            },
+            test: {
+                client: {
+                    root: 'test/client'
                 }
             }
         },
         
-        // less
-        // https://github.com/gruntjs/grunt-contrib-less
-        // https://github.com/twbs/bootstrap/blob/master/Gruntfile.js
+        // js hint
+        // ! run this first, if linting fails the script will abort
+        // https://github.com/gruntjs/grunt-contrib-jshint
+        // ! js hint options: http://www.jshint.com/docs/options/
+        jshint: {
+            src: [
+                'Gruntfile.js',
+                '<%= config.desktop.development.scripts.path %>/*.js',
+                '<%= config.desktop.development.scripts.path %>/**/*.js'
+            ],
+            options: {
+                jshintrc: '.jshintrc',
+                reporter: require('jshint-stylish')
+            }
+        },
 
-        // css lint?
-        // https://github.com/gruntjs/grunt-contrib-csslint
-        
         // require js
         // https://github.com/gruntjs/grunt-contrib-requirejs
-
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: 'path/to/base',
-                    mainConfigFile: 'path/to/config.js',
+                    baseUrl: '<%= config.desktop.development.scripts.path %>',
+                    mainConfigFile: '<%= config.desktop.development.scripts.path %>/main.js',
+                    name: 'main',
+                    out: '<%= config.desktop.build.scripts.path %>/main-<%= bowerJson.version %>.js',
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
 
@@ -77,20 +85,24 @@ module.exports = function(grunt) {
         // copy files
         // https://github.com/gruntjs/grunt-contrib-copy
 
-        // html5 lint
+        // html5 (templates) lint
         // https://github.com/alicoding/grunt-lint5
 
-
+        // QUnit
+        // https://github.com/gruntjs/grunt-contrib-qunit
+        // http://api.qunitjs.com/
+        // https://qunitjs.com/cookbook/ 
         qunit: {
-            files: ['test/**/*.html']
+            all: ['<%= config.test.client.root %>/**/*.html']
         },
         
-        config: {
-            'bootstrap_path': 'bower_components/bootstrap-sass-official/vendor/assets/stylesheets',
-            'build_path': 'stylesheets'
-        },
+        // css lint?
+        // https://github.com/gruntjs/grunt-contrib-csslint
         
-        // Compiles Sass to CSS and generates necessary files if requested
+        // remove comments, vendor prefixes, css minify, gzip
+        
+        // compiles sass to css and generate the necessary files
+        // https://github.com/gruntjs/grunt-contrib-sass
         sass: {
             options: {
                 unixNewlines: true
@@ -98,17 +110,19 @@ module.exports = function(grunt) {
             dist: {
                 files: [{
                     expand: true,
-                    cwd: '<%= config.bootstrap_path %>',
-                    src: ['*.scss'],
-                    dest: '<%= config.build_path %>',
-                    ext: '.css'
+                    cwd: '<%= config.desktop.development.bootstrap.path %>',
+                    src: ['main.scss'],
+                    dest: '<%= config.desktop.build.stylesheets.path %>',
+                    ext: '-<%= bowerJson.version %>.css'
                 }]
             }
         },
         
-        // Watches files for changes and runs tasks based on the changed files
+        // watches files for changes and runs tasks based on the changed files
+        // https://github.com/gruntjs/grunt-contrib-watch
         watch: {
             sass: {
+                files: ['<%= config.desktop.development.stylesheets %>/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'],
                 tasks: ['sass:dist']
             },
             configFiles: {
@@ -128,6 +142,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
-    grunt.registerTask('default', ['sass', 'jshint', 'qunit', 'less', 'requirejs']);
+    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass']);
 
 };

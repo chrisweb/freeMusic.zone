@@ -24,15 +24,17 @@ bower init
 
 install client libraries:
 
-bower install requirejs -S
+bower install requirejs --save
 
-bower install underscore -S
+bower install underscore --save
 
-bower install backbone -S
+bower install backbone --save
 
-bower install jquery -S
+bower install jquery --save
 
-bower install bootstrap-sass-official -S
+bower install bootstrap-sass-official --save
+
+bower install qunit --save-dev
 
 
 
@@ -59,6 +61,24 @@ npm install express --save
 npm install ejs --save
 
 npm install jamendo --save
+
+the development dependencies:
+
+npm install jshint-stylish --save-dev
+
+npm install rjs-build-analysis --save-dev
+
+npm install grunt --save-dev
+
+npm install grunt-contrib-sass --save-dev
+
+npm install grunt-contrib-watch --save-dev
+
+npm install grunt-contrib-jshint --save-dev
+
+npm install grunt-contrib-requirejs --save-dev
+
+npm install grunt-contrib-qunit --save-dev
 
 
 
@@ -107,4 +127,10 @@ npm install -g grunt-cli
 
 To check if grunt has been installed type "grunt --version"
 
-To build the application type "grunt"
+To build the application type:
+
+grunt
+
+To watch sass files (recompile the css build every time you save a sass file):
+
+grunt watch
