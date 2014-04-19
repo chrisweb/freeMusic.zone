@@ -23,6 +23,9 @@ module.exports = function(grunt) {
                     },
                     requirejs: {
                         path: 'bower_components/requirejs'
+                    },
+                    images: {
+                        path: '<%= config.desktop.development.root %>/images'
                     }
                 },
                 build: {
@@ -32,6 +35,9 @@ module.exports = function(grunt) {
                     },
                     scripts: {
                         path: '<%= config.desktop.build.root %>/scripts'
+                    },
+                    images: {
+                        path: '<%= config.desktop.build.root %>/images'
                     }
                 }
             },
@@ -119,12 +125,40 @@ module.exports = function(grunt) {
             }
         },
         
+        // uglify requirejs
+        // https://github.com/gruntjs/grunt-contrib-uglify
+        uglify: {
+            requirejs: {
+                files: {
+                    '<%= config.desktop.build.scripts.path %>/require.min.js': '<%= config.desktop.development.requirejs.path %>/require.js'
+                }
+            }
+        },
+        
         // copy files
         // https://github.com/gruntjs/grunt-contrib-copy
         copy: {
-            requirejs: {
-                src: '<%= config.desktop.development.requirejs.path %>/require.js',
-                dest: '<%= config.desktop.build.scripts.path %>/require.js'
+            favicon: {
+                expand: true,
+                cwd: '<%= config.desktop.development.root %>/',
+                src: 'favicon.ico',
+                dest: '<%= config.desktop.build.root %>/'
+            },
+            robotstxt: {
+                expand: true,
+                cwd: '<%= config.desktop.development.root %>/',
+                src: 'robots.txt',
+                dest: '<%= config.desktop.build.root %>/'
+            },
+            images: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.desktop.development.images.path %>/',
+                        src: ['**'],
+                        dest: '<%= config.desktop.build.images.path %>/'
+                    }
+                ]
             }
         },
         
@@ -151,8 +185,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass', 'copy']);
+    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass', 'copy', 'uglify']);
 
 };

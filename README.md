@@ -82,6 +82,8 @@ npm install grunt-contrib-qunit --save-dev
 
 npm install grunt-contrib-copy --save-dev
 
+npm install grunt-contrib-uglify --save-dev
+
 
 
 npm install socket.io --save
