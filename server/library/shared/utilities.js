@@ -244,6 +244,7 @@
 
     };
 
+    // this module can be used in the browser as well as in nodejs
     if (typeof(module) === 'object' && typeof(module.exports) === 'object') {
         module.exports = utilities;
     } else if (typeof(define) === 'function' && define.amd) {

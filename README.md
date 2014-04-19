@@ -42,8 +42,6 @@ bower install momentjs --save
 
 bower install modernizr --save
 
-bower install less.js --save
-
 bower install animate.css --save
 
 server
@@ -57,8 +55,6 @@ npm init
 install server / backend libraries:
 
 npm install express --save
-
-npm install ejs --save
 
 npm install jamendo --save
 
@@ -83,6 +79,10 @@ npm install grunt-contrib-qunit --save-dev
 npm install grunt-contrib-copy --save-dev
 
 npm install grunt-contrib-uglify --save-dev
+
+npm install grunt-contrib-compress --save-dev
+
+npm install grunt-contrib-cssmin --save-dev
 
 
 
@@ -138,3 +138,7 @@ grunt
 To watch sass files (recompile the css build every time you save a sass file):
 
 grunt watch
+
+to debug grunt, type:
+
+grunt --verbose

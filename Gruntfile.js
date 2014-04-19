@@ -89,10 +89,10 @@ module.exports = function(grunt) {
             }
         },
 
-        // optimize images?
+        // TODO: optimize images?
         // https://github.com/gruntjs/grunt-contrib-imagemin
 
-        // html5 (templates) lint
+        // TODO: html5 (templates) lint?
         // https://github.com/alicoding/grunt-lint5
 
         // QUnit
@@ -103,10 +103,10 @@ module.exports = function(grunt) {
             all: ['<%= config.test.client.root %>/**/*.html']
         },
         
-        // css lint?
+        // TODO: css lint?
         // https://github.com/gruntjs/grunt-contrib-csslint
         
-        // remove comments, vendor prefixes, css minify, gzip
+        // TODO: remove comments, vendor prefixes?
         
         // compiles sass to css and generate the necessary files
         // https://github.com/gruntjs/grunt-contrib-sass
@@ -122,6 +122,19 @@ module.exports = function(grunt) {
                     dest: '<%= config.desktop.build.stylesheets.path %>',
                     ext: '.css'
                 }]
+            }
+        },
+                
+        // css minification
+        // https://github.com/gruntjs/grunt-contrib-cssmin
+        cssmin: {
+            maincss: {
+                options: {
+                    banner: '/* <%= packageJson.name %> <%= packageJson.version %>  css */'
+                },
+                files: {
+                    '<%= config.desktop.build.stylesheets.path %>/main.min.css': '<%= config.desktop.build.stylesheets.path %>/main.css'
+                }
             }
         },
         
@@ -162,6 +175,32 @@ module.exports = function(grunt) {
             }
         },
         
+        // gzip compression of javascript and css builds
+        // https://github.com/gruntjs/grunt-contrib-compress
+        compress: {
+            maincss: {
+                options: {
+                    mode: 'gzip'
+                },
+                src: '<%= config.desktop.build.stylesheets.path %>/main.min.css',
+                dest: '<%= config.desktop.build.stylesheets.path %>/main.min.css'
+            },
+            mainjs: {
+                options: {
+                    mode: 'deflate'
+                },
+                src: '<%= config.desktop.build.scripts.path %>/main.js',
+                dest: '<%= config.desktop.build.scripts.path %>/main.js'
+            },
+            requirejs: {
+                options: {
+                    mode: 'gzip'
+                },
+                src: '<%= config.desktop.build.scripts.path %>/require.min.js',
+                dest: '<%= config.desktop.build.scripts.path %>/require.min.js'
+            }
+        },
+        
         // watches files for changes and runs tasks based on the changed files
         // https://github.com/gruntjs/grunt-contrib-watch
         watch: {
@@ -186,8 +225,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Default task.
-    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass', 'copy', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin','uglify', 'compress']);
 
 };
