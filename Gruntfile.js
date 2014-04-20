@@ -16,7 +16,10 @@ module.exports = function(grunt) {
                         path: '<%= config.desktop.development.root %>/stylesheets'
                     },
                     scripts: {
-                        path: '<%= config.desktop.development.root %>/scripts'
+                        path: '<%= config.desktop.development.root %>/scripts',
+                        templates: {
+                            path: '<%= config.desktop.development.scripts.path %>/templates'
+                        }
                     },
                     bootstrap: {
                         path: 'bower_components/bootstrap-sass-official/vendor/assets'
@@ -41,6 +44,12 @@ module.exports = function(grunt) {
                     }
                 }
             },
+            server: {
+                root: 'server',
+                templates: {
+                    path: '<%= config.server.root %>/templates'
+                }
+            },
             test: {
                 client: {
                     root: 'test/client'
@@ -61,6 +70,19 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: '.jshintrc',
                 reporter: require('jshint-stylish')
+            }
+        },
+        
+        // jst templates file
+        // https://github.com/gruntjs/grunt-contrib-jst/
+        jst: {
+            compile: {
+                options: {
+                    amd: true
+                },
+                files: {
+                    '<%= config.desktop.development.scripts.templates.path %>/templates.js': ['<%= config.server.templates.path %>/*.ejs']
+                }
             }
         },
 
@@ -187,7 +209,7 @@ module.exports = function(grunt) {
             },
             mainjs: {
                 options: {
-                    mode: 'deflate'
+                    mode: 'gzip'
                 },
                 src: '<%= config.desktop.build.scripts.path %>/main.js',
                 dest: '<%= config.desktop.build.scripts.path %>/main.js'
@@ -225,10 +247,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-jst');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
-    // Default task.
-    grunt.registerTask('default', ['jshint', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin','uglify', 'compress']);
+    // default task
+    grunt.registerTask('default', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin','uglify', 'compress']);
+    
+    // templates
+    grunt.registerTask('templates', ['jst']);
 
 };
