@@ -2,11 +2,13 @@ define(function(){
 
 this["JST"] = this["JST"] || {};
 
-this["JST"]["server/templates/application.ejs"] = function(obj) {
+this["JST"]["templates/application"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<p>Your content here.</p>\r\n\r\n';
+__p += '<p>Hello ' +
+((__t = ( world )) == null ? '' : __t) +
+'</p>';
 
 }
 return __p

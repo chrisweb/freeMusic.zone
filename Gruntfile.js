@@ -61,11 +61,14 @@ module.exports = function(grunt) {
         // ! run this first, if linting fails the script will abort
         // https://github.com/gruntjs/grunt-contrib-jshint
         // ! js hint options: http://www.jshint.com/docs/options/
+        // templates directory gets ignored as templates get build by
+        // grunt-contrib-jst which creates files that don't follow our rules
         jshint: {
             src: [
                 'Gruntfile.js',
                 '<%= config.desktop.development.scripts.path %>/*.js',
-                '<%= config.desktop.development.scripts.path %>/**/*.js'
+                '<%= config.desktop.development.scripts.path %>/**/*.js',
+                '!<%= config.desktop.development.scripts.path %>/templates/*.js'
             ],
             options: {
                 jshintrc: '.jshintrc',
@@ -78,7 +81,10 @@ module.exports = function(grunt) {
         jst: {
             compile: {
                 options: {
-                    amd: true
+                    amd: true,
+                    processName: function(filepath) {
+                        return filepath.slice(filepath.indexOf('/')+1, filepath.lastIndexOf('.'));
+                    }
                 },
                 files: {
                     '<%= config.desktop.development.scripts.templates.path %>/templates.js': ['<%= config.server.templates.path %>/*.ejs']
@@ -111,8 +117,48 @@ module.exports = function(grunt) {
             }
         },
 
-        // TODO: optimize images?
+        // TODO: optimize images? svgmin?
         // https://github.com/gruntjs/grunt-contrib-imagemin
+        // read: http://www.html5rocks.com/en/tutorials/tooling/supercharging-your-gruntfile/
+        
+        // TODO: usemin? rev?
+        // https://github.com/yeoman/grunt-usemin
+        
+        /*
+         *         // Renames files for browser caching purposes
+        rev: {
+            dist: {
+                files: {
+                    src: [
+                        '<%= config.dist %>/scripts/{,*/}*.js',
+                        '<%= config.dist %>/styles/{,*/}*.css',
+                        '<%= config.dist %>/images/{,*/}*.*',
+                        '<%= config.dist %>/styles/fonts/{,*/}*.*',
+                        '<%= config.dist %>/*.{ico,png}'
+                    ]
+                }
+            }
+        },
+
+        // Reads HTML for usemin blocks to enable smart builds that automatically
+        // concat, minify and revision files. Creates configurations in memory so
+        // additional tasks can operate on them
+        useminPrepare: {
+            options: {
+                dest: '<%= config.dist %>'
+            },
+            html: '<%= config.app %>/index.html'
+        },
+
+        // Performs rewrites based on rev and the useminPrepare configuration
+        usemin: {
+            options: {
+                assetsDirs: ['<%= config.dist %>', '<%= config.dist %>/images']
+            },
+            html: ['<%= config.dist %>/{,*/}*.html'],
+            css: ['<%= config.dist %>/styles/{,*/}*.css']
+        },
+         */
 
         // TODO: html5 (templates) lint?
         // https://github.com/alicoding/grunt-lint5
@@ -146,6 +192,8 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        
+        // TODO: autoprefixer? after sass
                 
         // css minification
         // https://github.com/gruntjs/grunt-contrib-cssmin
