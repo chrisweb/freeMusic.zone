@@ -1,8 +1,23 @@
 
 // utilities module
-var utilities = require('../server/library/shared/utilities');
+var utilities = require('./library/shared/utilities');
 
+// api module
+var apiModule = require('./library/api');
+
+// application configuration
+var configurationModule = require('./configuration/configuration');
+
+// ejs vendor module
 var ejs = require('ejs');
+
+// expressjs vendor module
+// http://expressjs.com/4x/api.html
+var express = require('express');
+
+// body-parser (express middleware)
+// used to get the data from a POST request
+var bodyParser = require('body-parser');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
@@ -13,23 +28,25 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 
 }
 
-var express = require('express');
+var configuration = configurationModule.get(process.env.NODE_ENV);
 
+// instantiate expressjs
 var app = express({ env: process.env.NODE_ENV });
 
 // template engine setup
 app.engine('html', ejs.renderFile);
 app.set('views', __dirname + '/views');
+
 // by default views will be html
 app.set('view engine', 'html');
 
-var serverPort = 35000;
+// start api
+var apiRouter = express.Router();
+
+apiModule.apiStart(configuration, app, apiRouter);
 
 // desktop router
 var desktopRouter = express.Router();
-
-utilities.log('__dirname: ' + __dirname);
-utilities.log('app.get(\'env\'): ' + app.get('env'));
 
 if (app.get('env') === 'development') {
 
@@ -43,6 +60,29 @@ if (app.get('env') === 'development') {
     desktopRouter.use(express.static(__dirname + '/../client/desktop_build'));
 
 }
+
+// add the body parser middleware
+app.use(bodyParser());
+
+// TODO: as of express all middleware (body-parser, errorhandler,
+// cookie-session, ...) has own repository and is not bundled with either
+// connect or express
+// https://github.com/expressjs
+// http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0
+
+/*
+  app.use(express.errorHandler({
+
+    dumpExceptions: true,
+
+    showStack: true
+
+  }));
+
+  app.use(express.cookieParser());
+
+  app.use(express.session({ secret: configuration.application.session.secret }));
+ */
 
 // always invoked
 desktopRouter.use(function(request, response, next) {
@@ -66,18 +106,11 @@ app.use('/', function(request, response) {
 // TODO: error route 50x
 // TODO: not found route 404
 
-app.listen(serverPort);
+app.set('port', process.env.PORT || configuration.server.port);
 
-utilities.log('SERVER running on port: ' + serverPort + ', environment is: ' + process.env.NODE_ENV, 'green');
+app.listen(app.get('port'));
 
-
-
-
-
-
-
-
-
+utilities.log('SERVER running on port: ' + app.get('port') + ', environment is: ' + app.get('env'), 'green');
 
 
 
@@ -98,40 +131,5 @@ fs.readdirSync(modelsPath).forEach(function (file) {
     if (file.indexOf('.js') >= 0) {
         require(modelsPath + '/' + file);
     }
-});
-*/
-
-
-/*
-
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
-
-var app = express();
-
-app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.favicon());
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
-});
-
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
-
-app.get('/', routes.index);
-app.get('/users', user.list);
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
 });
 */

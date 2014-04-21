@@ -1,10 +1,12 @@
-define(["jquery", "backbone"],
+define([
+    'jquery',
+    'backbone',
+    'underscore'
+], function($, Backbone, _) {
+    'use strict';
 
-  function($, Backbone) {
+    var EventsManager = _.extend({}, Backbone.Events);
 
-    var Notifier = _.extend({}, Backbone.Events);
+    return EventsManager;
 
-    return Notifier;
-
-  }
-);
+});

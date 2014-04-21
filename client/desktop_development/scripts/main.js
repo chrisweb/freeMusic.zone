@@ -1,14 +1,22 @@
 
 'use strict';
 
+/**
+ * 
+ * http://requirejs.org/
+ * 
+ * @param {type} param
+ */
 require.config({
-    baseUrl: 'client/desktop_development/scripts',
+    baseUrl: 'desktop/client/desktop_development/scripts',
     paths: {
         jquery: '../../../bower_components/jquery/dist/jquery',
         backbone: '../../../bower_components/backbone/backbone',
         underscore: '../../../bower_components/underscore/underscore',
         utilities: '../../../server/library/shared/utilities',
-        ApplicationRouter: 'routes/router'
+        configuration: 'configuration/configuration',
+        ApplicationRouter: 'library/router',
+        templates: 'templates/templates'
     },
     shim: {
         underscore: {
@@ -32,7 +40,7 @@ require([
 ], function ($, Backbone, ApplicationRouter, utilities) {
     
     /**
-     * initialize the application
+     * initialize the application on dom ready
      */
     $(function() {
     

@@ -56,6 +56,8 @@ install server / backend libraries:
 
 npm install express --save
 
+npm install body-parser --save
+
 npm install jamendo --save
 
 the development dependencies:

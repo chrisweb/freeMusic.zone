@@ -1,4 +1,8 @@
+/* moved bootstrap glyphicons font to another folder, overwriting icons font path before loading bootstrap */
+$icon-font-path: '../fonts/bootstrap/';
+
 /* import twitter bootstrap */
 @import "../../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 
+/* import playlist guru custom css bootstrap */
 @import "theme";

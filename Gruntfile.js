@@ -41,6 +41,9 @@ module.exports = function(grunt) {
                     },
                     images: {
                         path: '<%= config.desktop.build.root %>/images'
+                    },
+                    fonts: {
+                        path: '<%= config.desktop.build.root %>/fonts'
                     }
                 }
             },
@@ -87,7 +90,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    '<%= config.desktop.development.scripts.templates.path %>/templates.js': ['<%= config.server.templates.path %>/*.ejs']
+                    '<%= config.desktop.development.scripts.templates.path %>/templates.js': ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs']
                 }
             }
         },
@@ -121,44 +124,6 @@ module.exports = function(grunt) {
         // https://github.com/gruntjs/grunt-contrib-imagemin
         // read: http://www.html5rocks.com/en/tutorials/tooling/supercharging-your-gruntfile/
         
-        // TODO: usemin? rev?
-        // https://github.com/yeoman/grunt-usemin
-        
-        /*
-         *         // Renames files for browser caching purposes
-        rev: {
-            dist: {
-                files: {
-                    src: [
-                        '<%= config.dist %>/scripts/{,*/}*.js',
-                        '<%= config.dist %>/styles/{,*/}*.css',
-                        '<%= config.dist %>/images/{,*/}*.*',
-                        '<%= config.dist %>/styles/fonts/{,*/}*.*',
-                        '<%= config.dist %>/*.{ico,png}'
-                    ]
-                }
-            }
-        },
-
-        // Reads HTML for usemin blocks to enable smart builds that automatically
-        // concat, minify and revision files. Creates configurations in memory so
-        // additional tasks can operate on them
-        useminPrepare: {
-            options: {
-                dest: '<%= config.dist %>'
-            },
-            html: '<%= config.app %>/index.html'
-        },
-
-        // Performs rewrites based on rev and the useminPrepare configuration
-        usemin: {
-            options: {
-                assetsDirs: ['<%= config.dist %>', '<%= config.dist %>/images']
-            },
-            html: ['<%= config.dist %>/{,*/}*.html'],
-            css: ['<%= config.dist %>/styles/{,*/}*.css']
-        },
-         */
 
         // TODO: html5 (templates) lint?
         // https://github.com/alicoding/grunt-lint5
@@ -242,6 +207,16 @@ module.exports = function(grunt) {
                         dest: '<%= config.desktop.build.images.path %>/'
                     }
                 ]
+            },
+            glyphiconsfont: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.desktop.development.bootstrap.path %>/fonts/',
+                        src: ['**'],
+                        dest: '<%= config.desktop.build.fonts.path %>/'
+                    }
+                ]
             }
         },
         
@@ -277,6 +252,10 @@ module.exports = function(grunt) {
             sass: {
                 files: ['<%= config.desktop.development.stylesheets.path %>/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'],
                 tasks: ['sass:dist']
+            },
+            jst: {
+                files: ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs'],
+                tasks: ['jst']
             },
             configFiles: {
                 files: ['Gruntfile.js'],
