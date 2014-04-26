@@ -105,6 +105,7 @@ module.exports = function(grunt) {
                     name: 'main',
                     out: '<%= config.desktop.build.scripts.path %>/main.js',
                     findNestedDependencies: true,
+                    optimize: 'uglify2',
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
 

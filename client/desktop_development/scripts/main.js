@@ -17,18 +17,6 @@ require.config({
         configuration: 'configuration/configuration',
         ApplicationRouter: 'library/router',
         templates: 'templates/templates'
-    },
-    shim: {
-        underscore: {
-            exports: '_'
-        },
-        backbone: {
-            deps: [
-                'underscore',
-                'jquery'
-            ],
-            exports: 'Backbone'
-        }
     }
 });
 

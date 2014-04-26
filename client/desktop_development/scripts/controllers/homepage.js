@@ -1,7 +1,8 @@
 define([
     'backbone',
+    'jquery',
     'utilities'
-], function (Backbone, utilities) {
+], function (Backbone, $, utilities) {
     
     'use strict';
 
