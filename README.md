@@ -4,6 +4,22 @@
 playlist.guru
 =============
 
+Features:
+for sure:
+* cooperative multi user playlist with chat
+* twitter charts, scan twitter stream of accounts like the jamendo account, each time a song gets posted on twitter record the tweet, map reduce to create charts of most tweeted tracks
+
+maybe:
+* remote, use the app on a tablet or phone as a remote for another session of the app on a desktop or tv, login into both apps with same account, pub sub sync the state of both apps for that account
+* video paylist, playlist to youtube, create a playlist of jamendo tracks, then a script checks if those videos exist on youtube and create a videos playlist based on the jamendo playlist
+* drive playlist, google drive download / backup, download tracks directly into your google drive account or backup entire playlists
+
+probably not enough time:
+* recommendation, use a recommendation tool to create a discovery page per genre updated once a day, improvement create personal dicovery page based on user data (jamendo likes, facebook likes, ...)
+* song visualizer, use a script to calculate a track fourier transform or wave form, html5 canvas to visualize
+
+-------------------
+
 To create the project I did:
 
 in your console type

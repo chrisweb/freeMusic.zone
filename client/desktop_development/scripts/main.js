@@ -23,16 +23,14 @@ require.config({
 require([
     'jquery',
     'backbone',
-    'ApplicationRouter',
+    'applicationRouter',
     'utilities'
-], function ($, Backbone, ApplicationRouter, utilities) {
+], function ($, Backbone, applicationRouter, utilities) {
     
     /**
      * initialize the application on dom ready
      */
     $(function() {
-    
-        var applicationRouter = new ApplicationRouter();
 
         applicationRouter.on('route:renderHomepage', function() {
 
