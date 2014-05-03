@@ -4,12 +4,13 @@ define([
     'backbone',
     'templates',
     'utilities',
-    'configuration'
-], function ($, _, Backbone, JST, utilities, configurationModule) {
+    'configuration',
+    'view'
+], function ($, _, Backbone, JST, utilities, configurationModule, view) {
     
     'use strict';
     
-    var SearchView = Backbone.View.extend({
+    var SearchView = view.extend({
         
         initialize: function() {
             
@@ -83,7 +84,17 @@ define([
         }
         
     });
+    
+    var insertInto = function insertIntoFunction(element) {
+        
+        var searchView = new SearchView();
+        
+        $(element).append(searchView.render().el);
+        
+    };
 
-    return SearchView;
+    return {
+        insertIn: insertInto
+    };
     
 });

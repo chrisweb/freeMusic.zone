@@ -5,11 +5,11 @@ define([
     
     'use strict';
     
-    var applicationRouter;
+    var router;
     
     var initialize = function initializeFunction() {
         
-        var ApplicationRouter = Backbone.Router.extend({
+        var Router = Backbone.Router.extend({
 
             initialize: function() {
 
@@ -24,26 +24,26 @@ define([
 
         });
         
-        return ApplicationRouter;
+        return Router;
         
     };
     
     var getRrouter = function instantiateFuntion() {
-        
-        if (applicationRouter === undefined) {
+
+        if (router === undefined) {
             
-            var ApplicationRouter = initialize();
+            var Router = initialize();
             
-            applicationRouter = new ApplicationRouter();
+            router = new Router();
             
         }
         
-        return applicationRouter;
+        return router;
         
     };
 
     return {
-        applicationRouter: getRrouter
+        start: getRrouter
     };
     
 });

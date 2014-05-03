@@ -7,7 +7,11 @@ define([
 
     var Collection = Backbone.Collection.extend({
         
-        
+        batchSave: function() {
+            
+            
+            
+        }
         
     });
 
