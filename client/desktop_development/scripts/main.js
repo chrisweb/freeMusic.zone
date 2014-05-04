@@ -23,7 +23,13 @@ require.config({
         model: 'library/model',
         collection: 'library/collection',
         view: 'library/view',
-        templates: 'templates/templates'
+        templates: 'templates/templates',
+        
+        // models
+        TrackSearchResultModel: 'models/TrackSearchResult',
+        
+        // collection
+        TrackSearchResultCollection: 'collections/TrackSearchResult'
     }
 });
 

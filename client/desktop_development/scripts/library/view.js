@@ -17,7 +17,7 @@ define([
             
             utilities.log('[VIEW] rendering ...');
             
-            console.log('this.template: ', this.template);
+            //console.log('this.template: ', this.template);
 
             // put the template into the view element
             if (this.model !== undefined) {
@@ -106,9 +106,12 @@ define([
         close: function() {
 
             // remove the view from dom and stop listening to events that were
-            // added with listenTo
+            // added with listenTo or that were added to the events declaration
             this.remove();
-
+            
+            // unbind events triggered from within views using backbone events
+            this.unbind();
+            
             // if there is a onClose function ...
             if (this.onClose) {
                 

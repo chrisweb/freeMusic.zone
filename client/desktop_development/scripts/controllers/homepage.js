@@ -7,8 +7,10 @@ define([
     'event',
     'configuration',
     'model',
-    'collection'
-], function ($, _, utilities, controller, page, eventsManager, configurationModule, model, collection) {
+    'collection',
+    'TrackSearchResultModel',
+    'TrackSearchResultCollection'
+], function ($, _, utilities, controller, page, eventsManager, configurationModule, model, collection, TrackSearchResultModel, TrackSearchResultCollection) {
     
     'use strict';
 
@@ -26,27 +28,9 @@ define([
         });
         
         // initialize tracks search results model
-        var TrackSearchResultModel = model.extend({
-            
-            initialize: function() {
-                
-            },
-            defaults: {
-                
-            }
-            
-        });
+        var trackSearchResultModel = new TrackSearchResultModel();
         
         // initialize tracks search results collection
-        var TrackSearchResultCollection = collection.extend({
-            
-            initialize: function() {
-                
-            },
-            model: TrackSearchResultModel
-            
-        });
-        
         var trackSearchResultCollection = new TrackSearchResultCollection();
         
         // initialize tracklist view
@@ -71,6 +55,8 @@ define([
         eventsManager.on('search:query', function(parameters, context) {
             
             handleSearch(parameters.queryString, function(error, results) {
+
+                trackSearchResultCollection.reset();
 
                 if (!error) {
                     
