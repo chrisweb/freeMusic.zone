@@ -18,6 +18,11 @@ probably not enough time:
 * recommendation, use a recommendation tool to create a discovery page per genre updated once a day, improvement create personal dicovery page based on user data (jamendo likes, facebook likes, ...)
 * song visualizer, use a script to calculate a track fourier transform or wave form, html5 canvas to visualize
 
+
+Next todos:
+a controller module that can be extends and is like the backbone view or backbone model modules
+views el should be extracted from template and then build upon this, then remove the main element from template
+
 -------------------
 
 To create the project I did:

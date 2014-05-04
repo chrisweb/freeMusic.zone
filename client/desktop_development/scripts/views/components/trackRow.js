@@ -1,19 +1,21 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'view',
     'templates',
     'utilities',
     'configuration'
-], function ($, _, Backbone, JST, utilities, configurationModule) {
+], function ($, _, view, JST, utilities, configurationModule) {
     
     'use strict';
     
-    var TrackRowView = Backbone.View.extend({
+    var TrackRowView = view.extend({
         
-        initialize: function() {
+        initialize: function(options) {
             
             utilities.log('[TRACK ROW VIEW] initializing ...', 'blue');
+            
+            this.options = options || {};
             
         },
         
@@ -21,22 +23,6 @@ define([
         
         // view events
         events: {
-        },
-
-        // render
-        render: function() {
-
-            // put the searcj template into the section#main
-            this.$el.html(this.template);
-            
-            // enables chainability
-            return this;
-
-        },
-        
-        searchResultsRefresh: function(jQueryEvent) {
-            
-            utilities.log('[SEARCH PARTIAL VIEW] refresh search results', 'blue');
             
         }
         

@@ -16,6 +16,8 @@ require.config({
         utilities: '../../../server/library/shared/utilities',
         configuration: 'configuration/configuration',
         router: 'library/router',
+        event: 'library/event',
+        page: 'library/page',
         bootstrap: 'bootstrap',
         controller: 'library/controller',
         model: 'library/model',
@@ -26,10 +28,12 @@ require.config({
 });
 
 require([
-    'application',
+    'bootstrap',
     'utilities'
-], function (application, utilities) {
+], function (bootstrap, utilities) {
     
-    application.start();
+    utilities.log('[MAIN] application start', 'blue');
+    
+    bootstrap.applicationStart();
     
 });

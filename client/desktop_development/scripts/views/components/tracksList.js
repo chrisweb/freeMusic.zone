@@ -1,47 +1,35 @@
 define([
     'jquery',
     'underscore',
-    'backbone',
+    'view',
     'templates',
     'utilities',
     'configuration'
-], function ($, _, Backbone, JST, utilities, configurationModule) {
+], function ($, _, view, JST, utilities, configurationModule) {
     
     'use strict';
     
-    var TrackListView = Backbone.View.extend({
+    var TracksListView = view.extend({
         
-        initialize: function() {
+        initialize: function(options) {
             
-            utilities.log('[TRACK LIST VIEW] initializing ...', 'blue');
+            utilities.log('[TRACKSLIST VIEW] initializing ...', 'blue');
+            
+            this.options = options || {};
+            
+            this.listenTo(this.collection, 'add', this.render);
             
         },
-        
-        template: JST['templates/partials/trackList'],
+
+        template: JST['templates/partials/tracksList'],
         
         // view events
         events: {
-        },
-
-        // render
-        render: function() {
-
-            // put the searcj template into the section#main
-            this.$el.html(this.template);
-            
-            // enables chainability
-            return this;
-
-        },
-        
-        searchResultsRefresh: function(jQueryEvent) {
-            
-            utilities.log('[SEARCH PARTIAL VIEW] refresh search results', 'blue');
             
         }
         
     });
 
-    return TrackListView;
+    return TracksListView;
     
 });

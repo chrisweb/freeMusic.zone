@@ -2,22 +2,22 @@ define([
     'underscore',
     'backbone',
     'jquery',
-    'utilities'
-], function (Backbone, $, utilities) {
+    'utilities',
+    'router',
+    'page'
+], function (_, Backbone, $, utilities, router, page) {
 
     'use strict';
     
     var initializeRouter = function initializeRouterFunction() {
         
+        utilities.log('[BOOTSTRAP] initializeRouter', 'blue');
+        
         var applicationRouter = router.start();
 
         applicationRouter.on('route:renderHomepage', function() {
-
-            utilities.log('[MAIN] homepage', 'blue');
-
+            
             require(['controllers/homepage'], function(HomepageController) {
-                
-                utilities.log('[MAIN] homepage controller got loaded', 'blue');
                 
                 HomepageController.index();
                 
@@ -27,9 +27,11 @@ define([
         
         applicationRouter.on('route:render404', function() {
 
-            utilities.log('[MAIN] 404', 'blue');
-
-            
+            require(['controllers/error'], function(ErrorController) {
+                
+                ErrorController.notfound();
+                
+            });
 
         });
         
@@ -41,23 +43,9 @@ define([
     
     var initializeLayout = function initializeLayoutFunction() {
         
-        require(['views/layout'], function(LayoutView) {
-            
-            // rendering the main layout
-            var layoutView = new LayoutView({ el: 'body' });
-            
-            layoutView.render();
-            
-            require(['views/components/search'], function(SearchView) {
-            
-                // put the search field partial into the main section of the layout
-                var searchView = new SearchView({ el: 'section#main' });
+        utilities.log('[BOOTSTRAP] initializeLayout', 'blue');
 
-                searchView.render();
-                
-            });
-            
-        });
+        page.start();
         
     };
 
@@ -74,7 +62,7 @@ define([
     };
     
     return {
-        start: run
+        applicationStart: run
     };
 
 });
