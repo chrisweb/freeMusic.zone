@@ -29,11 +29,13 @@ var apiStart = function(configuration, app, apiRouter) {
             debug     : false,
             rejectUnauthorized: false
         });
+        
+        utilities.log(request.query.q);
 
-        jamendo.tracks({ namesearch: request.query }, function(error, data){
+        jamendo.tracks({ namesearch: request.query.q }, function(error, data){
             
             //utilities.log(error);
-            //utilities.log(data);
+            utilities.log(data);
             
             if (data.headers.error_message !== '') {
                     

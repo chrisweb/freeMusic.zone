@@ -27,7 +27,7 @@ define([
             'keyup .search input': 'searchResultsRefresh'
         },
         
-        // search results refresh, throttled at 1 action every 2 seconds
+        // search results refresh, throttled at 1 action every 1 second
         searchResultsRefresh: _.throttle(function(jQueryEvent) {
             
             utilities.log('[SEARCH PARTIAL VIEW] refresh search results', 'blue');
@@ -45,9 +45,14 @@ define([
             
             utilities.log('queryString: ' + queryString);
             
-            eventsManager.trigger('search:query', { queryString: queryString }, this);
+            // jamendo requires seqrch queries to have at least two characters
+            if (queryString.length > 1) {
             
-        }, 2000)
+                eventsManager.trigger('search:query', { queryString: queryString }, this);
+                
+            }
+            
+        }, 1000)
         
     });
     

@@ -68,7 +68,13 @@ define([
 
                     });
 
-                } 
+                } else {
+                    
+                    //TODO: handle the error
+                    
+                    console.log('errorThrown: ', error);
+                    
+                }
 
             });
             
@@ -96,7 +102,7 @@ define([
         jqXHR = $.ajax({
             url: configuration.server.path + '/api/search',
             type: 'GET',
-            data: { query: queryString },
+            data: { q: queryString },
             dataType: 'json'
         });
 
@@ -116,7 +122,7 @@ define([
             //utilities.log(textStatus);
             //utilities.log(errorThrown);
 
-            callback(true, errorThrown);
+            callback(errorThrown);
 
         });
         
