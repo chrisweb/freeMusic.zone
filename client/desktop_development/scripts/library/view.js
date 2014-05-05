@@ -15,6 +15,14 @@ define([
         },
         render: function() {
             
+            // right now backbone creates a default div as el
+            // because we dont set all, nor do we use tagName and so on
+            // but we want the root element of the template to be the el
+            // because all html should be in template not in js code
+            // http://stackoverflow.com/questions/11694012/backbone-view-assign-template-to-el
+            // http://stackoverflow.com/questions/11594961/backbone-not-this-el-wrapping
+            // http://backbonejs.org/#View-setElement
+            
             utilities.log('[VIEW] rendering ...');
             
             //console.log('this.template: ', this.template);
