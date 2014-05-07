@@ -1,9 +1,25 @@
+/**
+ * https://github.com/chrisweb
+ * 
+ * Copyright 2014 weber chris
+ * Released under the MIT license
+ * https://chris.lu
+ */
+
+/**
+ * 
+ * layout
+ * 
+ * @param {type} Backbone
+ * @param {type} _
+ * @param {type} JST
+ * @returns {_L8.Anonym$3}
+ */
 define([
     'backbone',
     'underscore',
-    'utilities',
     'templates'
-], function (Backbone, _, utilities, JST) {
+], function (Backbone, _, JST) {
     
     'use strict';
     
@@ -15,8 +31,6 @@ define([
         
         el: 'body',
         initialize: function() {
-            
-            utilities.log('[PAGE LAYOUT] initializing ...', 'blue');
             
         },
         
@@ -40,10 +54,8 @@ define([
         
     });
     
-    var start = function startFunction() {
-        
-        utilities.log('[PAGE] start', 'blue');
-        
+    var create = function createFunction() {
+
         var layout = new Layout();
         
         layoutTemplate = layout.render();
@@ -64,19 +76,12 @@ define([
             
         });
         
-    };
-    
-    var append = function appendFunction(view, containerId) {
-        
-        containers[containerId].push(view);
-        
-        layoutTemplate.$el.find('#' + containerId).append(view.create());
+        return containers;
         
     };
 
     return {
-        start: start,
-        append: append
+        create: create
     };
     
 });

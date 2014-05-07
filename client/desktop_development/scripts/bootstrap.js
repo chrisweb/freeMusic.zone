@@ -4,8 +4,10 @@ define([
     'jquery',
     'utilities',
     'router',
-    'page'
-], function (_, Backbone, $, utilities, router, page) {
+    'container',
+    'layout',
+    'event'
+], function (_, Backbone, $, utilities, router, container, layout, eventsManager) {
 
     'use strict';
     
@@ -45,7 +47,9 @@ define([
         
         utilities.log('[BOOTSTRAP] initializeLayout', 'blue');
 
-        page.start();
+        var containers = layout.create();
+        
+        container.initialize(containers);
         
     };
 
@@ -56,6 +60,10 @@ define([
             initializeLayout();
             
             initializeRouter();
+            
+            console.log(' ## trigger application:loaded');
+            
+            eventsManager.trigger('application:loaded');
             
         });
         

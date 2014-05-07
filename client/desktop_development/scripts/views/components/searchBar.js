@@ -13,9 +13,19 @@ define([
     
     var SearchBarView = view.extend({
         
-        initialize: function() {
+        initialize: function(options) {
             
             utilities.log('[SEARCH PARTIAL VIEW] initializing ...', 'blue');
+            
+            this.options = options || {};
+            
+            var $el = $(this.template());
+            
+            //this.$el.replaceWith($el);
+            
+            this.setElement($el);
+            
+            //this.$el.replaceWith($el);
             
         },
         
@@ -25,6 +35,12 @@ define([
         events: {
             'click .search button': 'searchResultsRefresh',
             'keyup .search input': 'searchResultsRefresh'
+        },
+        
+        onRender: function() {
+            
+            
+            
         },
         
         // search results refresh, throttled at 1 action every 1 second
@@ -47,6 +63,8 @@ define([
             
             // jamendo requires seqrch queries to have at least two characters
             if (queryString.length > 1) {
+            
+                console.log(' ## trigger search:query');
             
                 eventsManager.trigger('search:query', { queryString: queryString }, this);
                 

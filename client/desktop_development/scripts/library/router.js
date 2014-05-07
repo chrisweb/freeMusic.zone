@@ -1,7 +1,21 @@
+/**
+ * https://github.com/chrisweb
+ * 
+ * Copyright 2014 weber chris
+ * Released under the MIT license
+ * https://chris.lu
+ */
+
+/**
+ * 
+ * base router
+ * 
+ * @param {type} Backbone
+ * @returns {_L15.Anonym$2}
+ */
 define([
-    'backbone',
-    'utilities'
-], function (Backbone, utilities) {
+    'backbone'
+], function (Backbone) {
     
     'use strict';
     
@@ -12,8 +26,8 @@ define([
         var Router = Backbone.Router.extend({
 
             initialize: function() {
-
-                utilities.log('[ROUTER] routing...', 'blue');
+                
+                
 
             },
             routes: {

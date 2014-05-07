@@ -1,13 +1,13 @@
 define([
     'underscore',
     'collection',
-    'TrackSearchResultModel'
+    'models/TrackSearchResult'
 ], function (_, collection, TrackSearchResultModel) {
     
     'use strict';
+    
+    var TrackSearchResultsCollection = collection.extend({
 
-    var TrackSearchResultCollection = collection.extend({
-            
         initialize: function() {
 
         },
@@ -15,6 +15,6 @@ define([
 
     });
     
-    return TrackSearchResultCollection;
+    return TrackSearchResultsCollection;
     
 });

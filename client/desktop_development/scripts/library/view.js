@@ -1,31 +1,40 @@
+/**
+ * https://github.com/chrisweb
+ * 
+ * Copyright 2014 weber chris
+ * Released under the MIT license
+ * https://chris.lu
+ */
+
+/**
+ * 
+ * base view
+ * 
+ * @param {type} Backbone
+ * @param {type} _
+ * @returns {unresolved}
+ */
 define([
     'backbone',
-    'utilities',
     'underscore'
-], function(Backbone, utilities, _) {
+], function(Backbone, _) {
 
     'use strict';
-
+    
     var View = Backbone.View.extend({
         
         initialize: function(options) {
+            
+            console.log('%%%%%%%%%%%%initialize chrisweb view');
             
             this.options = options || {};
             
         },
         render: function() {
-            
-            // right now backbone creates a default div as el
-            // because we dont set all, nor do we use tagName and so on
-            // but we want the root element of the template to be the el
-            // because all html should be in template not in js code
-            // http://stackoverflow.com/questions/11694012/backbone-view-assign-template-to-el
-            // http://stackoverflow.com/questions/11594961/backbone-not-this-el-wrapping
-            // http://backbonejs.org/#View-setElement
-            
-            utilities.log('[VIEW] rendering ...');
-            
+
             //console.log('this.template: ', this.template);
+            
+            var renderedTemplate;
 
             // put the template into the view element
             if (this.model !== undefined) {
@@ -33,12 +42,12 @@ define([
                 console.log('this.getModelAsJson()', this.getModelAsJson());
             
                 // model template
-                this.$el.html(this.template(this.getModelAsJson()));
+                renderedTemplate = this.template(this.getModelAsJson());
             
             } else if (this.collection !== undefined) {
             
                 // main collection template
-                this.$el.html(this.template());
+                renderedTemplate = this.template();
             
                 // for each model of the collection append a modelView to collection dom
                 var modelViews = [];
@@ -63,15 +72,21 @@ define([
                 
                 console.log('modelViews: ', modelViews);
                 console.log('this.$el.find(\'tbody\'): ', this.$el.find('tbody'));
-            
-                this.$el.find('tbody').html(modelViews);
+                
+                $('renderedTemplate').find('tbody').html(modelViews);
             
             } else {
                 
                 // view with either collection nor model
-                this.$el.html(this.template());
+                renderedTemplate = this.template();
                 
             }
+            
+            // this will replace the default div by the template root element
+            // and move all the events attached
+            // http://backbonejs.org/#View-setElement
+            //this.$el.html(renderedTemplate);
+            this.setElement(renderedTemplate);
             
             // if there is a onRender function ...
             if (this.onRender) {

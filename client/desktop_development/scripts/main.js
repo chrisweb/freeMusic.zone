@@ -17,25 +17,21 @@ require.config({
         configuration: 'configuration/configuration',
         router: 'library/router',
         event: 'library/event',
-        page: 'library/page',
         bootstrap: 'bootstrap',
         controller: 'library/controller',
         model: 'library/model',
         collection: 'library/collection',
         view: 'library/view',
-        templates: 'templates/templates',
-        
-        // models
-        TrackSearchResultModel: 'models/TrackSearchResult',
-        
-        // collection
-        TrackSearchResultCollection: 'collections/TrackSearchResult'
+        layout: 'library/layout',
+        container: 'library/container',
+        templates: 'templates/templates'
     }
 });
 
 require([
     'bootstrap',
-    'utilities'
+    'utilities',
+    'event'
 ], function (bootstrap, utilities) {
     
     utilities.log('[MAIN] application start', 'blue');

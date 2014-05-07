@@ -1,8 +1,21 @@
+/**
+ * https://github.com/chrisweb
+ * 
+ * Copyright 2014 weber chris
+ * Released under the MIT license
+ * https://chris.lu
+ */
+
+/**
+ * 
+ * base controller
+ * 
+ * @param {type} _
+ * @returns {unresolved}
+ */
 define([
-    'backbone',
-    'underscore',
-    'utilities'
-], function (Backbone, _, utilities) {
+    'underscore'
+], function (_) {
 
     var controller = function controllerFunction(options) {
 

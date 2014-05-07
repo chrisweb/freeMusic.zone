@@ -3,14 +3,12 @@ define([
     'underscore',
     'utilities',
     'controller',
-    'page',
+    'container',
     'event',
     'configuration',
     'model',
-    'collection',
-    'TrackSearchResultModel',
-    'TrackSearchResultCollection'
-], function ($, _, utilities, controller, page, eventsManager, configurationModule, model, collection, TrackSearchResultModel, TrackSearchResultCollection) {
+    'collection'
+], function ($, _, utilities, controller, container, eventsManager, configurationModule, model, collection) {
     
     'use strict';
 
@@ -23,61 +21,62 @@ define([
             
             var searchBarView = new SearchBarView();
             
-            page.append(searchBarView, 'main');
+            container.add('main', searchBarView);
 
         });
-        
-        // initialize tracks search results model
-        var trackSearchResultModel = new TrackSearchResultModel();
-        
-        // initialize tracks search results collection
-        var trackSearchResultCollection = new TrackSearchResultCollection();
         
         // initialize tracklist view
-        require(['views/components/tracksList'], function(TracksListView) {
+        require([
+            'views/components/tracksList',
+            'views/components/trackRow',
+            'models/TrackSearchResult',
+            'collections/TrackSearchResults'
+        ], function(TracksListView, TrackRowView, TrackSearchResultModel, TrackSearchResultsCollection) {
             
-            require(['views/components/trackRow'], function(TrackRowView) {
-                
-                console.log('trackSearchResultCollection: ', trackSearchResultCollection);
+            // initialize tracks search results model
+            var trackSearchResultModel = new TrackSearchResultModel();
+
+            // initialize tracks search results collection
+            var trackSearchResultsCollection = new TrackSearchResultsCollection();
+
+            console.log('trackSearchResultsCollection: ', trackSearchResultsCollection);
+
+            var tracksListView = new TracksListView({
+                collection: trackSearchResultsCollection,
+                ModelView: TrackRowView
+            });
+
+            container.add('main', tracksListView);
             
-                var tracksListView = new TracksListView({
-                    collection: trackSearchResultCollection,
-                    ModelView: TrackRowView
+            // listen for search events
+            eventsManager.on('search:query', function(parameters, context) {
+
+                handleSearch(parameters.queryString, function(error, results) {
+
+                    trackSearchResultsCollection.reset();
+
+                    if (!error) {
+
+                        _.each(results, function(value, key) {
+
+                            var trackSearchResultModel = new TrackSearchResultModel(value);
+
+                            trackSearchResultsCollection.add(trackSearchResultModel);
+
+                        });
+
+                    } else {
+
+                        //TODO: handle the error
+
+                        console.log('errorThrown: ', error);
+
+                    }
+
                 });
-            
-                page.append(tracksListView, 'main');
-                
-            });
-
-        });
-        
-        // listen for search events
-        eventsManager.on('search:query', function(parameters, context) {
-            
-            handleSearch(parameters.queryString, function(error, results) {
-
-                trackSearchResultCollection.reset();
-
-                if (!error) {
-                    
-                    _.each(results, function(value, key) {
-
-                        var trackSearchResultModel = new TrackSearchResultModel(value);
-
-                        trackSearchResultCollection.add(trackSearchResultModel);
-
-                    });
-
-                } else {
-                    
-                    //TODO: handle the error
-                    
-                    console.log('errorThrown: ', error);
-                    
-                }
 
             });
-            
+
         });
         
     };
