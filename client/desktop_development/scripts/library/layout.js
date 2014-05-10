@@ -76,8 +76,6 @@ define([
             
         });
         
-        return containers;
-        
     };
 
     return {

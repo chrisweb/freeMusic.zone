@@ -47,9 +47,7 @@ define([
         
         utilities.log('[BOOTSTRAP] initializeLayout', 'blue');
 
-        var containers = layout.create();
-        
-        container.initialize(containers);
+        layout.create();
         
     };
 

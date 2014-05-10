@@ -13,7 +13,6 @@
  * @param {type} Backbone
  * @param {type} _
  * @param {type} $
- * @param {type} JamEvent
  * @returns {_L17.Anonym$2}
  */
 define([
@@ -24,11 +23,21 @@ define([
     
     'use strict';
     
-    var containers = [];
+    var containers = {};
     
-    var initialize = function initializeFunction(containersArray) {
-        
-        containers = containersArray;
+    var dispatch = function dispatchFunction() {
+
+        _.each(containers, function(views, containerId) {
+
+            _.each(views, function(view) {
+                
+                var viewHtml = view.create('#' + containerId);
+                
+                $('body').find('#' + containerId).append(viewHtml);
+                
+            });
+
+        });
         
     };
     
@@ -39,27 +48,27 @@ define([
             containers[containerId] = [];
             
         }
-        
+
         containers[containerId].push(view);
-        
-        $('body').find('#' + containerId).append(view.create());
         
     };
     
     var clear = function clearFunction(containerId) {
         
         var views = containers[containerId];
-        
+
         _.each(views, function(view) {
             
             view.close();
             
         });
         
+        containers = {};
+        
     };
 
     return {
-        initialize: initialize,
+        dispatch: dispatch,
         add: add,
         clear: clear
     };

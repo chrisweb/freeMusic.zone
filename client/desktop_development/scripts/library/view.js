@@ -16,21 +16,46 @@
  */
 define([
     'backbone',
-    'underscore'
-], function(Backbone, _) {
+    'underscore',
+    'jquery'
+], function(Backbone, _, $) {
 
     'use strict';
     
     var View = Backbone.View.extend({
         
         initialize: function(options) {
-            
-            console.log('%%%%%%%%%%%%initialize chrisweb view');
-            
+
             this.options = options || {};
+            
+            var renderedTemplate;
+            
+            if (this.model !== undefined) {
+                
+                renderedTemplate = this.template(this.getModelAsJson());
+                
+            } else {
+                
+                renderedTemplate = this.template();
+                
+            }
+
+            this.setElement(renderedTemplate);
+
+            if (this.onInitialize) {
+                
+                // execute it now
+                this.onInitialize(options);
+                
+            }
             
         },
         render: function() {
+            
+            
+            
+        },
+        htmlize: function() {
 
             //console.log('this.template: ', this.template);
             
@@ -38,9 +63,7 @@ define([
 
             // put the template into the view element
             if (this.model !== undefined) {
-                
-                console.log('this.getModelAsJson()', this.getModelAsJson());
-            
+
                 // model template
                 renderedTemplate = this.template(this.getModelAsJson());
             
@@ -51,17 +74,11 @@ define([
             
                 // for each model of the collection append a modelView to collection dom
                 var modelViews = [];
-                
-                //console.log('this.getCollectionAsJson()', this.getCollectionAsJson());
-                console.log('this.collection.models: ', this.collection.models);
-                
+
                 var that = this;
                 
                 _.each(this.collection.models, function(value, key) {
-                    
-                    console.log('value', value);
-                    console.log('this.options.ModelView', that.options.ModelView);
-                    
+
                     var ModelView = that.options.ModelView;
                     
                     var modelView = new ModelView({ model: value });
@@ -69,11 +86,8 @@ define([
                     modelViews.push(modelView.create());
                     
                 });
-                
-                console.log('modelViews: ', modelViews);
-                console.log('this.$el.find(\'tbody\'): ', this.$el.find('tbody'));
-                
-                $('renderedTemplate').find('tbody').html(modelViews);
+
+                $(renderedTemplate).find('tbody').html(modelViews);
             
             } else {
                 
@@ -82,22 +96,7 @@ define([
                 
             }
             
-            // this will replace the default div by the template root element
-            // and move all the events attached
-            // http://backbonejs.org/#View-setElement
-            //this.$el.html(renderedTemplate);
-            this.setElement(renderedTemplate);
-            
-            // if there is a onRender function ...
-            if (this.onRender) {
-                
-                // execute it now
-                this.onRender();
-                
-            }
-            
-            // enables chainability
-            return this;
+            return $(renderedTemplate);
             
         },
         getModelAsJson: function() {
@@ -146,7 +145,14 @@ define([
         },
         create: function() {
             
-            return this.render().el;
+            return this.htmlize();
+
+        },
+        update: function() {
+            
+            var viewHtml = this.htmlize();
+
+            $('body').find('#' + this.$el.attr('id')).replaceWith(viewHtml);
             
         }
 
