@@ -31,7 +31,8 @@ define([
 
             _.each(views, function(view) {
                 
-                var viewHtml = view.create('#' + containerId);
+                //var viewHtml = view.create('#' + containerId);
+                var viewHtml = view.render().$el;
                 
                 $('body').find('#' + containerId).append(viewHtml);
                 

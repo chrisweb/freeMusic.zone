@@ -12,7 +12,7 @@ define([
     
     var NotfoundView = view.extend({
         
-        initialize: function() {
+        onInitialize: function() {
             
             utilities.log('[NOTFOUND PARTIAL VIEW] initializing ...', 'blue');
             

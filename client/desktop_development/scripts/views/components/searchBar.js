@@ -4,37 +4,46 @@ define([
     'templates',
     'utilities',
     'view',
-    'event'
-], function ($, _, JST, utilities, view, eventsManager) {
+    'event',
+    'backbone'
+], function ($, _, JST, utilities, View, eventsManager, Backbone) {
     
     'use strict';
-    
-    
-    
-    var SearchBarView = view.extend({
+
+    var SearchBarView = View.extend({
+    //var SearchBarView = Backbone.View.extend({
         
-        initialize: function(options) {
+        onInitialize: function(options) {
             
             utilities.log('[SEARCH PARTIAL VIEW] initializing ...', 'blue');
             
             this.options = options || {};
             
-            var $el = $(this.template());
+            //var $el = $(this.template());
             
             //this.$el.replaceWith($el);
             
-            this.setElement($el);
+            //this.setElement($el);
             
             //this.$el.replaceWith($el);
             
         },
+        /*render : function () {
+            
+            this.$el.html(this.template(this.options));
+            
+            return this;
+            
+        },*/
         
         template: JST['templates/partials/search'],
         
         // view events
         events: {
-            'click .search button': 'searchResultsRefresh',
-            'keyup .search input': 'searchResultsRefresh'
+            /*'click .search button': 'searchResultsRefresh',
+            'keyup .search input': 'searchResultsRefresh'*/
+            'click button': 'searchResultsRefresh',
+            'keyup input': 'searchResultsRefresh'
         },
         
         onRender: function() {

@@ -11,7 +11,7 @@ define([
     
     var TracksListView = view.extend({
         
-        initialize: function(options) {
+        onInitialize: function(options) {
             
             utilities.log('[TRACKSLIST VIEW] initializing ...', 'blue');
             
@@ -19,11 +19,11 @@ define([
             
             this.listenTo(this.collection, 'add', this.render);
             
-            var $el = $(this.template());
+            //var $el = $(this.template());
             
             //this.$el.replaceWith($el);
             
-            this.setElement($el);
+            //this.setElement($el);
             
         },
 

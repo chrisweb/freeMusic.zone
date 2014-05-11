@@ -11,17 +11,17 @@ define([
     
     var TrackRowView = view.extend({
         
-        initialize: function(options) {
+        onInitialize: function(options) {
             
-            utilities.log('[TRACK ROW VIEW] initializing ...', 'blue');
+            utilities.log('[TRACK ROW VIEW] (' + this.cid + ') initializing ...', 'blue');
             
             this.options = options || {};
             
-            var $el = $(this.template());
+            //var $el = $(this.template());
             
             //this.$el.replaceWith($el);
             
-            this.setElement($el);
+            //this.setElement($el);
             
         },
         
