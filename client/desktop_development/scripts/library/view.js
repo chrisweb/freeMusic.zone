@@ -17,14 +17,17 @@
 define([
     'backbone',
     'underscore',
-    'jquery'
-], function(Backbone, _, $) {
+    'jquery',
+    'container'
+], function(Backbone, _, $, Container) {
 
     'use strict';
     
     var View = Backbone.View.extend({
         
         initialize: function(options) {
+            
+            console.log('[CHRISWEB VIEW] initializing ...');
 
             this.options = options || {};
             
@@ -49,39 +52,6 @@ define([
                 var rootElement = $renderedTemplate.first().html('');
                 
                 this.setElement(rootElement);
-                
-                /*console.log(rootElement);
-                console.log(rootElement[0]);
-                
-                console.log(this.el);
-                
-                this.el = rootElement;
-                
-                console.log(this.el);
-                
-                this.setElement(_.result(this, 'el'), true);*/
-                
-                /*var attrs = _.extend({}, _.result(this, 'attributes'));
-                if (this.id) attrs.id = _.result(this, 'id');
-                if (this.className) attrs['class'] = _.result(this, 'className');
-                var $el = Backbone.$('<' + _.result(this, 'tagName') + '>').attr(attrs);
-                this.setElement($el, false);*/
-                
-                /*var rootElement = $renderedTemplate.first().html('');
-                
-                if (rootElement.attr('id')) this.id = rootElement.attr('id');
-                if (rootElement.attr('class')) this.className = rootElement.attr('class');
-                if (rootElement.prop('tagName')) this.tagName = rootElement.prop('tagName');
-                if (rootElement[0].attributes) this.attributes = rootElement[0].attributes;*/
-                
-                //console.log(this.id);
-                //console.log(this.className);
-                //console.log(this.tagName);
-                //console.log(this.attributes);
-                
-                //var $el = $('<' + this.tagName + '>').attr(this.attributes);
-                
-                //this.setElement(this.$el, true);
                 
             } else {
                 
@@ -230,15 +200,23 @@ define([
             
             return this.render().$el;
 
-        }
-        /*,
-        update: function() {
+        },
+        addModel: function(model) {
             
-            var viewHtml = this.htmlize();
+            var ModelView = this.options.ModelView;
 
-            $('body').find('#' + this.$el.attr('id')).replaceWith(viewHtml);
+            var modelView = new ModelView({ model: model });
+
+            this.$el.find('.list').append(modelView.create());
             
-        }*/
+            Container.add(this.options.containerId, modelView);
+            
+        },
+        clear: function() {
+            
+            Container.clear(this.options.containerId);
+            
+        }
 
     });
 

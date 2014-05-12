@@ -25,7 +25,7 @@ define([
     
     var containers = {};
     
-    var dispatch = function dispatchFunction() {
+    var renderAll = function dispatchFunction() {
 
         _.each(containers, function(views, containerId) {
 
@@ -69,7 +69,7 @@ define([
     };
 
     return {
-        dispatch: dispatch,
+        dispatch: renderAll,
         add: add,
         clear: clear
     };

@@ -9,6 +9,8 @@ define([
     var TrackSearchResultsCollection = collection.extend({
 
         initialize: function() {
+            
+            
 
         },
         model: TrackSearchResultModel

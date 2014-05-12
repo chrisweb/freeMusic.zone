@@ -17,7 +17,11 @@ define([
             
             this.options = options || {};
             
-            this.listenTo(this.collection, 'add', this.render);
+            _.bindAll(this, 'addModel');
+            
+            this.listenTo(this.collection, 'add', this.addModel);
+            
+            this.listenTo(this.collection, 'reset', this.clear);
             
             //var $el = $(this.template());
             
@@ -28,6 +32,8 @@ define([
         },
 
         template: JST['templates/partials/tracksList'],
+        
+        containerId: 'trackSearchResults',
         
         // view events
         events: {
