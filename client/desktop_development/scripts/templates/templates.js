@@ -64,7 +64,7 @@ this["JST"]["templates/partials/tracksList"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<table class="table table-hover">\r\n    <thead>\r\n        <tr>\r\n            <th>Actions</th>\r\n            <th>Title</th>\r\n            <th>Artist</th>\r\n            <th>Duration</th>\r\n            <th>Album</th>\r\n        </tr>\r\n    </thead>\r\n    <tbody class="list"></tbody>\r\n</table>';
+__p += '<table class="table table-hover">\r\n    <thead>\r\n        <tr>\r\n            <th class="col-md-2">Actions</th>\r\n            <th>Title</th>\r\n            <th>Artist</th>\r\n            <th>Duration</th>\r\n            <th>Album</th>\r\n        </tr>\r\n    </thead>\r\n    <tbody class="list"></tbody>\r\n</table>';
 
 }
 return __p
