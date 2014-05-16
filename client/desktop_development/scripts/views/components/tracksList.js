@@ -33,7 +33,7 @@ define([
 
         template: JST['templates/partials/tracksList'],
         
-        containerId: 'trackSearchResults',
+        listId: 'trackSearchResults',
         
         // view events
         events: {

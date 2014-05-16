@@ -21,10 +21,11 @@ var bodyParser = require('body-parser');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
-    
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to PRODUCTION', 'red');
 
-    process.env.NODE_ENV = 'production';
+    //process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'development';
+    
+    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'red');
 
 }
 

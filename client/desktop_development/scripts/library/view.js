@@ -34,7 +34,7 @@ define([
             var renderedTemplate;
             
             if (this.model !== undefined) {
-                
+
                 renderedTemplate = this.template(this.getModelAsJson());
                 
             } else {
@@ -46,10 +46,10 @@ define([
             var $renderedTemplate = $(renderedTemplate);
             
             if ($renderedTemplate.length === 1) {
-                
-                //this.setElement($renderedTemplate.first().html(''));
-                
+
                 var rootElement = $renderedTemplate.first().html('');
+                
+                //console.log('****', rootElement);
                 
                 this.setElement(rootElement);
                 
@@ -77,10 +77,6 @@ define([
         },
         htmlize: function() {
 
-            console.log('HTMLIZE');
-
-            //console.log('this.template: ', this.template);
-            
             var renderedTemplate;
 
             // put the template into the view element
@@ -93,9 +89,7 @@ define([
             
                 // main collection template
                 renderedTemplate = this.template();
-                
-                //console.log(renderedTemplate);
-            
+
                 // for each model of the collection append a modelView to collection dom
                 var modelViews = [];
 
@@ -107,37 +101,22 @@ define([
 
                     _.each(this.collection.models, function(value, key) {
                         
-                        //console.log(value);
+                        //console.log('COLLECTION -> MODEL: ', value);
 
                         var modelView = new ModelView({ model: value });
-                        
-                        //console.log(modelView);
 
                         modelViews.push(modelView.create());
 
                     });
 
-                    //console.log(modelViews);
-                    
-                    //console.log($(renderedTemplate).find('.list'));
-                    
                     var renderedTemplateCache = $(renderedTemplate);
 
                     var result = renderedTemplateCache.find('.list').html(modelViews);
-                    
-                    //console.log(renderedTemplate);
-                    //console.log(result[0]);
-                    
-                    // result2 = $(renderedTemplate).find('.list').replaceWith(result);
-                    
-                    //console.log(result2[0]);
-                    
+
                     renderedTemplate = renderedTemplateCache[0];
                     
                 }
-                
-                //console.log(renderedTemplate);
-            
+
             } else {
                 
                 // view with either collection nor model
@@ -146,9 +125,7 @@ define([
             }
             
             var renderedTemplateHtmlWithoutRoot = $(renderedTemplate).first().html();
-            
-            //return $(renderedTemplateHtmlWithoutRoot);
-            
+
             this.$el.html(renderedTemplateHtmlWithoutRoot);
             
         },
@@ -197,24 +174,26 @@ define([
 
         },
         create: function() {
-            
+
             return this.render().$el;
 
         },
         addModel: function(model) {
             
             var ModelView = this.options.ModelView;
+            
+            //console.log(model);
 
             var modelView = new ModelView({ model: model });
 
             this.$el.find('.list').append(modelView.create());
             
-            Container.add(this.options.containerId, modelView);
+            Container.add(this.options.listId, modelView);
             
         },
         clear: function() {
             
-            Container.clear(this.options.containerId);
+            Container.clear(this.options.listId);
             
         }
 

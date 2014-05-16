@@ -25,24 +25,43 @@ define([
     
     var containers = {};
     
-    var renderAll = function dispatchFunction() {
+    var create = function dispatchFunction(container) {
+        
+        console.log('[CONTAINER] VIEWS DISPATCH');
+        
+        if (container === undefined) {
 
-        _.each(containers, function(views, containerId) {
+            _.each(containers, function(views, containerId) {
 
-            _.each(views, function(view) {
-                
-                //var viewHtml = view.create('#' + containerId);
-                var viewHtml = view.render().$el;
-                
-                $('body').find('#' + containerId).append(viewHtml);
-                
+                _.each(views, function(view) {
+
+                    var viewHtml = view.create();
+
+                    $('body').find('#' + containerId).append(viewHtml);
+
+                });
+
             });
+            
+        } else {
+            
+            var views = containers[container];
+            
+            _.each(views, function(view) {
 
-        });
+                var viewHtml = view.create();
+                
+                $('body').find('#' + container).append(viewHtml);
+
+            });
+            
+        }
         
     };
     
     var add = function addFunction(containerId, view) {
+        
+        console.log('[CONTAINER] VIEWS ADD');
         
         if (containers[containerId] === undefined) {
             
@@ -69,7 +88,7 @@ define([
     };
 
     return {
-        dispatch: renderAll,
+        dispatch: create,
         add: add,
         clear: clear
     };

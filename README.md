@@ -20,8 +20,39 @@ probably not enough time:
 
 
 Next todos:
-a controller module that can be extends and is like the backbone view or backbone model modules
-views el should be extracted from template and then build upon this, then remove the main element from template
+* a controller module that can be extends and is like the backbone view or backbone model modules
+* views el should be extracted from template and then build upon this, then remove the main element from template
+* if the view event listener selector includes the class of the root element the event won't get, which cant be found, works fine with the original backbone
+* a soundmanager player
+* create own grunt contrib jst with undefined checks, because underscore precompiled templates throw not defined error if you execute template with no data, this is a problem if in initialize you want the template html code but have no data yet
+* needs fix??? when creating a view using addModel the view ids always get increment by 2???
+
+reading list
+============
+
+http://blog.nikc.org/2013/12/03/managing-scrolltop-in-your-backbone-single-page-app/
+https://developer.chrome.com/devtools/docs/javascript-memory-profiling
+https://github.com/jeresig/idyll
+https://github.com/hoatle/webapp-template/blob/master/webapp/js/router.js
+http://www.joezimjs.com/javascript/lazy-loading-javascript-with-requirejs/
+
+
+development tools
+=================
+
+netbeans plugin
+
+if you use netbeans like me you may want to install the nodejs netbeans plugin: http://plugins.netbeans.org/plugin/36653/nodejs
+
+instructions to install plugin: http://wiki.netbeans.org/InstallingAPlugin
+
+chrome postman addon
+
+debug rest requests: https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm
+
+chrome backbone addon
+
+backbone debugger: https://chrome.google.com/webstore/detail/backbone-debugger/bhljhndlimiafopmmhjlgfpnnchjjbhd
 
 -------------------
 
