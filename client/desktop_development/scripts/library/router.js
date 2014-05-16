@@ -11,11 +11,13 @@
  * base router
  * 
  * @param {type} Backbone
+ * @param {type} Routes
  * @returns {_L15.Anonym$2}
  */
 define([
-    'backbone'
-], function (Backbone) {
+    'backbone',
+    'routes'
+], function (Backbone, Routes) {
     
     'use strict';
     
@@ -30,11 +32,7 @@ define([
                 
 
             },
-            routes: {
-                /* TODO: put route definitions in seperate routes-configuration file */
-                'desktop': 'renderHomepage',
-                '*other': 'render404'
-            }
+            routes: Routes
 
         });
         

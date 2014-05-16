@@ -24,7 +24,8 @@ require.config({
         view: 'library/view',
         layout: 'library/layout',
         container: 'library/container',
-        templates: 'templates/templates'
+        templates: 'templates/templates',
+        routes: 'configuration/routes'
     }
 });
 
