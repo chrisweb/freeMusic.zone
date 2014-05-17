@@ -20,7 +20,9 @@ probably not enough time:
 
 
 Next todos:
-* a controller module that can be extends and is like the backbone view or backbone model modules
+* search queries cache on server with redis
+* track infos cache on server with redis
+* a controller module that can be extended and is architectured like the backbone view or backbone model modules
 * views el should be extracted from template and then build upon this, then remove the main element from template
 * if the view event listener selector includes the class of the root element the event won't get, which cant be found, works fine with the original backbone
 * a soundmanager player
