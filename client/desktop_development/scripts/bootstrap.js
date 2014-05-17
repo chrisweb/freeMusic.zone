@@ -6,9 +6,10 @@ define([
     'router',
     'container',
     'layout',
-    'event',
-    'player.core'
-], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player) {
+    'eventsManager',
+    'player.core',
+    'tracksCache'
+], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager) {
 
     'use strict';
     
@@ -59,9 +60,17 @@ define([
         Player.start();
         
     };
-
-    var run = function runFunction() {
+    
+    var initializeTracksCacheManager = function initializeTracksCacheManagerFunction() {
         
+        utilities.log('[BOOTSTRAP] initializeTracksCacheManager', 'blue');
+
+        TracksCacheManager.start();
+        
+    };
+    
+    var run = function runFunction() {
+
         $(function() {
         
             initializeLayout();
@@ -69,6 +78,8 @@ define([
             initializeRouter();
             
             initializePlayer();
+            
+            initializeTracksCacheManager();
 
             eventsManager.trigger('application:loaded');
             

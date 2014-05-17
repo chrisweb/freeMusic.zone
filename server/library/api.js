@@ -32,7 +32,7 @@ var apiStart = function(configuration, app, apiRouter) {
         
         utilities.log(request.query.q);
 
-        jamendo.tracks({ namesearch: request.query.q }, function(error, data){
+        jamendo.tracks({ namesearch: request.query.q }, function(error, data) {
             
             //utilities.log(error);
             utilities.log(data);

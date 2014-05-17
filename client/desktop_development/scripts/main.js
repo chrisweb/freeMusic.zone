@@ -25,17 +25,25 @@ require.config({
         'templates': 'templates/templates',
         
         // client library
+        'player.core': 'library/player/core',
+        'player.ui': 'library/player/ui',
+        'views.loader': 'library/view/loader',
         'collection': 'library/collection',
         'container': 'library/container',
         'controller': 'library/controller',
-        'event': 'library/event',
+        'eventsManager': 'library/eventsManager',
         'layout': 'library/layout',
         'model': 'library/model',
-        'player.core': 'library/player/core',
-        'player.ui': 'library/player/ui',
         'router': 'library/router',
+        'tracksCache': 'library/tracksCache',
         'view': 'library/view',
-        'views.loader': 'library/view/loader',
+        
+        // collections
+        'collections.TracksCache': 'collections/TracksCache',
+        'collections.TracksSearchResult': 'collections/TracksSearchResult',
+        
+        // models
+        'models.Track': 'models/Track',
         
         // vendor
         'jquery': '../../../bower_components/jquery/dist/jquery',
@@ -48,8 +56,7 @@ require.config({
 
 require([
     'bootstrap',
-    'utilities',
-    'event'
+    'utilities'
 ], function (bootstrap, utilities) {
     
     utilities.log('[MAIN] application start', 'blue');

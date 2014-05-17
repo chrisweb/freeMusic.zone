@@ -14,7 +14,7 @@ define([
     'view',
     'templates',
     'utilities',
-    'event'
+    'eventsManager'
 ], function ($, _, view, JST, utilities, eventsManager) {
     
     'use strict';
@@ -31,17 +31,26 @@ define([
         
         template: JST['templates/partials/trackRow'],
         
-        trackPreview: function trackPreviewFunction() {
+        trackPreviewStart: function trackPreviewStartFunction() {
+            
+            var trackId = parseInt(this.$el.attr('data-track-id'));
+            
+            eventsManager.trigger('track:play', { trackId: trackId });
+            
+        },
+        
+        trackPreviewStop: function trackPreviewStopFunction() {
             
             var trackId = this.$el.attr('data-track-id');
             
-            eventsManager.trigger('track:preview', { trackId: trackId });
+            eventsManager.trigger('track:stop', { trackId: trackId });
             
         },
         
         // view events
         events: {
-            'click .trackPreview': 'trackPreview'
+            'mousedown .trackPreview': 'trackPreviewStart',
+            'mouseup .trackPreview': 'trackPreviewStop'
         }
         
     });

@@ -4,7 +4,7 @@ define([
     'templates',
     'utilities',
     'view',
-    'event'
+    'eventsManager'
 ], function ($, _, JST, utilities, View, eventsManager) {
     
     'use strict';

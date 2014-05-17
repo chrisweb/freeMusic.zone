@@ -8,7 +8,7 @@
 
 /**
  * 
- * base router
+ * router
  * 
  * @param {type} Backbone
  * @param {type} Routes

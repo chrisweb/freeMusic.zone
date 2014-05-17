@@ -26,6 +26,8 @@ Next todos:
 * a soundmanager player
 * create own grunt contrib jst with undefined checks, because underscore precompiled templates throw not defined error if you execute template with no data, this is a problem if in initialize you want the template html code but have no data yet
 * needs fix??? when creating a view using addModel the view ids always get increment by 2???
+* mobile support (pointer events?)
+* a cordova version for android and iOS
 
 reading list
 ============
@@ -35,6 +37,11 @@ https://developer.chrome.com/devtools/docs/javascript-memory-profiling
 https://github.com/jeresig/idyll
 https://github.com/hoatle/webapp-template/blob/master/webapp/js/router.js
 
+pointer events:
+https://github.com/Polymer/PointerEvents
+http://blogs.msdn.com/b/eternalcoding/archive/2013/01/16/hand-js-a-polyfill-for-supporting-pointer-events-on-every-browser.aspx
+http://www.polymer-project.org/platform/pointer-events.html
+http://caniuse.com/pointer
 
 development tools
 =================

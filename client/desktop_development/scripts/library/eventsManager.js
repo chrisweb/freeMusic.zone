@@ -8,7 +8,7 @@
 
 /**
  * 
- * base events manager
+ * events manager
  * 
  * @param {type} Backbone
  * @param {type} _

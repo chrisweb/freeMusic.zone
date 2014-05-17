@@ -4,9 +4,10 @@ define([
     'utilities',
     'controller',
     'container',
-    'event',
-    'configuration'
-], function ($, _, utilities, controller, container, eventsManager, configurationModule) {
+    'eventsManager',
+    'configuration',
+    'tracksCache'
+], function ($, _, utilities, controller, container, eventsManager, configurationModule, tracksCacheManager) {
     
     'use strict';
 
@@ -27,15 +28,16 @@ define([
         require([
             'views/components/tracksList',
             'views/components/trackRow',
-            'models/TrackSearchResult',
-            'collections/TrackSearchResults'
-        ], function(TracksListView, TrackRowView, TrackSearchResultModel, TrackSearchResultsCollection) {
+            'models.Track',
+            'collections.TracksSearchResult'
+        ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {
             
             // initialize tracks search results collection
-            var trackSearchResultsCollection = new TrackSearchResultsCollection();
+            var tracksSearchResultCollection = new TracksSearchResultCollection();
 
+            // initialize the tracks list view
             var tracksListView = new TracksListView({
-                collection: trackSearchResultsCollection,
+                collection: tracksSearchResultCollection,
                 ModelView: TrackRowView
             });
 
@@ -46,15 +48,24 @@ define([
 
                 handleSearch(parameters.queryString, function(error, results) {
 
-                    trackSearchResultsCollection.reset();
+                    tracksSearchResultCollection.reset();
 
                     if (!error) {
 
                         _.each(results, function(value) {
+                            
+                            value.album_id = parseInt(value.album_id);
+                            value.id = parseInt(value.id);
+                            value.artist_id = parseInt(value.artist_id);
 
-                            var trackSearchResultModel = new TrackSearchResultModel(value);
+                            // initialize a new trqck model
+                            var trackModel = new TrackModel(value);
 
-                            trackSearchResultsCollection.add(trackSearchResultModel);
+                            // add the track to the search result collection
+                            tracksSearchResultCollection.add(trackModel);
+                            
+                            // add the track to the cache
+                            tracksCacheManager.addTrack(trackModel);
 
                         });
 

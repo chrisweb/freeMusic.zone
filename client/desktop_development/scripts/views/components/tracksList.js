@@ -22,12 +22,6 @@ define([
             
             this.listenTo(this.collection, 'reset', this.clear);
             
-            //var $el = $(this.template());
-            
-            //this.$el.replaceWith($el);
-            
-            //this.setElement($el);
-            
         },
 
         template: JST['templates/partials/tracksList'],
