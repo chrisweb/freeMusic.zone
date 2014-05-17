@@ -4,5 +4,11 @@ $icon-font-path: '../fonts/bootstrap/';
 /* import twitter bootstrap */
 @import "../../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 
+/* moved font-awesome font to another folder, owerwriting icons font path before loading font-awesome */
+$fa-font-path: '../fonts/fontawesome/';
+
+/* import font-awesome */
+@import "../../../bower_components/fontawesome/scss/font-awesome";
+
 /* import playlist guru custom css bootstrap */
 @import "theme";

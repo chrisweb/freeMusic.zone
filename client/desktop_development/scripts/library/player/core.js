@@ -32,7 +32,7 @@ define([
         soundManager2.setup({
             url: '/flash/soundmanager/',
             flashVersion: 9,
-            preferFlash: false, // prefer 100% HTML5 mode, where both supported
+            preferFlash: false, // prefer HTML5 mode where supported
             onready: function() {
                 
                 eventsManager.trigger('player:loaded');
@@ -44,12 +44,20 @@ define([
                 
             },
             defaultOptions: {
-                // set global default volume for all sound objects
+                
+                // default valome for now sound objects
                 volume: 33
+                
             }
         });
 
     };
+    
+    eventsManager.on('track:preview', function(parameters) {
+
+        utilities.log('track preview: ' + parameters.trackId);
+        
+    });
 
     return {
         start: start

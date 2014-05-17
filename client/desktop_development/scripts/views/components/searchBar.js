@@ -4,9 +4,8 @@ define([
     'templates',
     'utilities',
     'view',
-    'event',
-    'backbone'
-], function ($, _, JST, utilities, View, eventsManager, Backbone) {
+    'event'
+], function ($, _, JST, utilities, View, eventsManager) {
     
     'use strict';
 
@@ -19,23 +18,8 @@ define([
             
             this.options = options || {};
             
-            //var $el = $(this.template());
-            
-            //this.$el.replaceWith($el);
-            
-            //this.setElement($el);
-            
-            //this.$el.replaceWith($el);
-            
         },
-        /*render : function () {
-            
-            this.$el.html(this.template(this.options));
-            
-            return this;
-            
-        },*/
-        
+
         template: JST['templates/partials/search'],
         
         // view events
@@ -72,9 +56,7 @@ define([
             
             // jamendo requires seqrch queries to have at least two characters
             if (queryString.length > 1) {
-            
-                console.log(' ## trigger search:query');
-            
+
                 eventsManager.trigger('search:query', { queryString: queryString }, this);
                 
             }

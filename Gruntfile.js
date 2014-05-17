@@ -24,6 +24,9 @@ module.exports = function(grunt) {
                     bootstrap: {
                         path: 'bower_components/bootstrap-sass-official/vendor/assets'
                     },
+                    fontawesome: {
+                        path: 'bower_components/fontawesome'
+                    },
                     requirejs: {
                         path: 'bower_components/requirejs'
                     },
@@ -218,6 +221,16 @@ module.exports = function(grunt) {
                         dest: '<%= config.desktop.build.fonts.path %>/'
                     }
                 ]
+            },
+            fontawesomefont: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.desktop.development.fontawesome.path %>/fonts/',
+                        src: ['**'],
+                        dest: '<%= config.desktop.build.fonts.path %>/fontawesome/'
+                    }
+                ]
             }
         },
         
@@ -280,7 +293,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
 
     // default task
-    grunt.registerTask('default', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin','uglify', 'compress']);
+    grunt.registerTask('default', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
     // templates
     grunt.registerTask('templates', ['jst']);

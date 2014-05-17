@@ -69,9 +69,7 @@ define([
             initializeRouter();
             
             initializePlayer();
-            
-            console.log(' ## trigger application:loaded');
-            
+
             eventsManager.trigger('application:loaded');
             
         });

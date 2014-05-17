@@ -8,13 +8,11 @@
 
 /**
  * 
- * @param {type} $
- * @returns {undefined}
+ * @returns {_L14.Anonym$1}
  */
 define([
-    'utilities',
-    'jquery'
-], function ($) {
+    'utilities'
+], function () {
     
     'use strict';
 

@@ -1,7 +1,8 @@
 define([
+    'utilities',
     'underscore',
     'model'
-], function (_, model) {
+], function (utilities, _, model) {
     
     'use strict';
 
@@ -14,6 +15,8 @@ define([
 
         },
         validate: function(attrs) {
+
+            utilities.log(attrs);
 
         }
 

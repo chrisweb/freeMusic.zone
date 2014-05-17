@@ -16,6 +16,8 @@
 define([
     'underscore'
 ], function (_) {
+    
+    'use strict';
 
     var controller = function controllerFunction(options) {
 

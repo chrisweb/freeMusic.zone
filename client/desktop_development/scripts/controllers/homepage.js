@@ -5,10 +5,8 @@ define([
     'controller',
     'container',
     'event',
-    'configuration',
-    'model',
-    'collection'
-], function ($, _, utilities, controller, container, eventsManager, configurationModule, model, collection) {
+    'configuration'
+], function ($, _, utilities, controller, container, eventsManager, configurationModule) {
     
     'use strict';
 
@@ -33,13 +31,8 @@ define([
             'collections/TrackSearchResults'
         ], function(TracksListView, TrackRowView, TrackSearchResultModel, TrackSearchResultsCollection) {
             
-            // initialize tracks search results model
-            var trackSearchResultModel = new TrackSearchResultModel();
-
             // initialize tracks search results collection
             var trackSearchResultsCollection = new TrackSearchResultsCollection();
-
-            console.log('trackSearchResultsCollection: ', trackSearchResultsCollection);
 
             var tracksListView = new TracksListView({
                 collection: trackSearchResultsCollection,
@@ -49,7 +42,7 @@ define([
             container.add('main', tracksListView);
             
             // listen for search events
-            eventsManager.on('search:query', function(parameters, context) {
+            eventsManager.on('search:query', function(parameters) {
 
                 handleSearch(parameters.queryString, function(error, results) {
 
@@ -57,7 +50,7 @@ define([
 
                     if (!error) {
 
-                        _.each(results, function(value, key) {
+                        _.each(results, function(value) {
 
                             var trackSearchResultModel = new TrackSearchResultModel(value);
 
@@ -69,7 +62,7 @@ define([
 
                         //TODO: handle the error
 
-                        console.log('errorThrown: ', error);
+                        utilities.log('errorThrown: ' + error);
 
                     }
 
@@ -96,8 +89,6 @@ define([
 
             jqXHR.abort();
 
-            console.log('aborted');
-
         }
 
         jqXHR = $.ajax({
@@ -110,8 +101,8 @@ define([
         jqXHR.done(function(dataJson, textStatus, jqXHR) {
 
             //utilities.log(dataJson);
-            //utilities.log(textStatus);
-            //utilities.log(jqXHR);
+            utilities.log(textStatus);
+            utilities.log(jqXHR);
 
             callback(false, dataJson.results);
 
@@ -120,8 +111,8 @@ define([
         jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
 
             //utilities.log(jqXHR);
-            //utilities.log(textStatus);
-            //utilities.log(errorThrown);
+            utilities.log(textStatus);
+            utilities.log(errorThrown);
 
             callback(errorThrown);
 

@@ -15,11 +15,12 @@
  * @returns {unresolved}
  */
 define([
+    'utilities',
     'backbone',
     'underscore',
     'jquery',
     'container'
-], function(Backbone, _, $, Container) {
+], function(utilities, Backbone, _, $, Container) {
 
     'use strict';
     
@@ -27,7 +28,7 @@ define([
         
         initialize: function(options) {
             
-            console.log('[CHRISWEB VIEW] initializing ...');
+            utilities.log('[CHRISWEB VIEW] initializing ...');
 
             this.options = options || {};
             
@@ -48,9 +49,7 @@ define([
             if ($renderedTemplate.length === 1) {
 
                 var rootElement = $renderedTemplate.first().html('');
-                
-                //console.log('****', rootElement);
-                
+
                 this.setElement(rootElement);
                 
             } else {
@@ -99,9 +98,7 @@ define([
                 
                     var ModelView = that.options.ModelView;
 
-                    _.each(this.collection.models, function(value, key) {
-                        
-                        //console.log('COLLECTION -> MODEL: ', value);
+                    _.each(this.collection.models, function(value) {
 
                         var modelView = new ModelView({ model: value });
 
@@ -111,7 +108,7 @@ define([
 
                     var renderedTemplateCache = $(renderedTemplate);
 
-                    var result = renderedTemplateCache.find('.list').html(modelViews);
+                    renderedTemplateCache.find('.list').html(modelViews);
 
                     renderedTemplate = renderedTemplateCache[0];
                     
@@ -181,8 +178,6 @@ define([
         addModel: function(model) {
             
             var ModelView = this.options.ModelView;
-            
-            //console.log(model);
 
             var modelView = new ModelView({ model: model });
 

@@ -31,7 +31,7 @@ define([
         
         template: JST['templates/partials/trackRow'],
         
-        previewTrack: function previewTrackFunction() {
+        trackPreview: function trackPreviewFunction() {
             
             var trackId = this.$el.attr('data-track-id');
             
@@ -41,7 +41,7 @@ define([
         
         // view events
         events: {
-            'click .previewTrack': 'previewTrack'
+            'click .trackPreview': 'trackPreview'
         }
         
     });

@@ -16,10 +16,11 @@
  * @returns {_L17.Anonym$2}
  */
 define([
+    'utilities',
     'backbone',
     'underscore',
     'jquery'
-], function (Backbone, _, $) {
+], function (utilities, Backbone, _, $) {
     
     'use strict';
     
@@ -27,7 +28,7 @@ define([
     
     var create = function dispatchFunction(container) {
         
-        console.log('[CONTAINER] VIEWS DISPATCH');
+        utilities.log('[CONTAINER] VIEWS DISPATCH');
         
         if (container === undefined) {
 
@@ -61,7 +62,7 @@ define([
     
     var add = function addFunction(containerId, view) {
         
-        console.log('[CONTAINER] VIEWS ADD');
+        utilities.log('[CONTAINER] VIEWS ADD');
         
         if (containers[containerId] === undefined) {
             

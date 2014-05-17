@@ -1,11 +1,10 @@
 define([
+    'utilities',
     'jquery',
     'underscore',
     'view',
-    'templates',
-    'utilities',
-    'configuration'
-], function ($, _, view, JST, utilities, configurationModule) {
+    'templates'
+], function (utilities, $, _, view, JST) {
     
     'use strict';
     

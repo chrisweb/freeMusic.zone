@@ -60,7 +60,7 @@ define([
         
         layoutTemplate = layout.render();
         
-        _.each(layoutTemplate.$el.children(), function(value, key) {
+        _.each(layoutTemplate.$el.children(), function(value) {
             
             var elementId = $(value).attr('id');
             
