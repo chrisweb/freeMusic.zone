@@ -34,7 +34,6 @@ http://blog.nikc.org/2013/12/03/managing-scrolltop-in-your-backbone-single-page-
 https://developer.chrome.com/devtools/docs/javascript-memory-profiling
 https://github.com/jeresig/idyll
 https://github.com/hoatle/webapp-template/blob/master/webapp/js/router.js
-http://www.joezimjs.com/javascript/lazy-loading-javascript-with-requirejs/
 
 
 development tools
@@ -85,6 +84,10 @@ bower install backbone --save
 bower install jquery --save
 
 bower install bootstrap-sass-official --save
+
+bower install https://github.com/scottschiller/SoundManager2.git#V2.97a.20131201+DEV --save
+
+bower install fontawesome --save
 
 bower install qunit --save-dev
 

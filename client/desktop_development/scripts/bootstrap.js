@@ -6,8 +6,9 @@ define([
     'router',
     'container',
     'layout',
-    'event'
-], function (_, Backbone, $, utilities, router, container, layout, eventsManager) {
+    'event',
+    'player.core'
+], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player) {
 
     'use strict';
     
@@ -50,6 +51,14 @@ define([
         layout.create();
         
     };
+    
+    var initializePlayer = function initializePlayerFunction() {
+        
+        utilities.log('[BOOTSTRAP] initializePlayer', 'blue');
+
+        Player.start();
+        
+    };
 
     var run = function runFunction() {
         
@@ -58,6 +67,8 @@ define([
             initializeLayout();
             
             initializeRouter();
+            
+            initializePlayer();
             
             console.log(' ## trigger application:loaded');
             

@@ -1,11 +1,21 @@
+/**
+ * 
+ * @param {type} $
+ * @param {type} _
+ * @param {type} view
+ * @param {type} JST
+ * @param {type} utilities
+ * @param {type} eventsManager
+ * @returns {unresolved}
+ */
 define([
     'jquery',
     'underscore',
     'view',
     'templates',
     'utilities',
-    'configuration'
-], function ($, _, view, JST, utilities, configurationModule) {
+    'event'
+], function ($, _, view, JST, utilities, eventsManager) {
     
     'use strict';
     
@@ -17,19 +27,21 @@ define([
             
             this.options = options || {};
             
-            //var $el = $(this.template());
-            
-            //this.$el.replaceWith($el);
-            
-            //this.setElement($el);
-            
         },
         
         template: JST['templates/partials/trackRow'],
         
+        previewTrack: function previewTrackFunction() {
+            
+            var trackId = this.$el.attr('data-track-id');
+            
+            eventsManager.trigger('track:preview', { trackId: trackId });
+            
+        },
+        
         // view events
         events: {
-            
+            'click .previewTrack': 'previewTrack'
         }
         
     });
