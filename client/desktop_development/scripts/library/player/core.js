@@ -56,11 +56,7 @@ define([
 
     var createTrackSound = function createTrackSoundFunction() {
 
-        // https://github.com/kilokeith/soundcloud-soundmanager-player/blob/master/sc-player.js
-        // https://github.com/audiosocket/backbone.soundmanager2
-        // https://github.com/juliend2/julienMP3Player/blob/master/js/jquery.julienMP3Player.js
-        // https://github.com/dreamindustries/backbone.sm2/blob/master/backbone.sm2.js
-
+        /*
         var trackSound = soundManager2.createSound({
             autoPlay: false,
             id: ,
@@ -117,7 +113,7 @@ define([
 
             }
             
-        });
+        });*/
 
     };
 

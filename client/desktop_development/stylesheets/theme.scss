@@ -2,6 +2,50 @@
  * playlist guru css bootstrap
  */
 
+/* COLORS */
+$White: rgb(255, 255, 255);
+$DullLavender: rgb(182, 143, 229);
+$MediumPurple: rgb(168, 119, 228);
+
+/* CORE */
 body {
-    /* custom playlist guru bootstrap rules */
+
+}
+
+/* BUTTONS */
+.trackPreview {
+    background-color: $DullLavender;
+    box-shadow: 0 0 0 4px $DullLavender;
+    color: $White;
+}
+
+.trackPreview:hover {
+    background-color: $MediumPurple;
+    box-shadow: 0 0 0 4px $MediumPurple;
+}
+
+/* ICONS */
+.icon {
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+}
+
+.icon:focus {
+    outline: 0;
+}
+
+.icon.dashed {
+    border: 2px dashed;
+}
+
+.icon.double {
+    border: 2px double;
+}
+
+.icon.dotted {
+    border: 2px dotted;
 }

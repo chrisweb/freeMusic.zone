@@ -31,11 +31,13 @@ define([
         
         template: JST['templates/partials/trackRow'],
         
-        trackPreviewStart: function trackPreviewStartFunction() {
-            
+        trackPreviewStart: function trackPreviewStartFunction(event) {
+
             var trackId = parseInt(this.$el.attr('data-track-id'));
             
             eventsManager.trigger('track:play', { trackId: trackId });
+            
+            this.$el.find('.trackPreview').addClass('fa-spin');
             
         },
         
@@ -44,6 +46,8 @@ define([
             var trackId = this.$el.attr('data-track-id');
             
             eventsManager.trigger('track:stop', { trackId: trackId });
+            
+            this.$el.find('.trackPreview').removeClass('fa-spin');
             
         },
         

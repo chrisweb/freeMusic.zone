@@ -48,7 +48,7 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<tr data-track-id="' +
 ((__t = ( id )) == null ? '' : __t) +
-'">\r\n    <td><i class="fa fa-play trackPreview"></i></td>\r\n    <td>' +
+'">\r\n    <td><button type="button" class="icon dashed fa fa-play trackPreview"></button></td>\r\n    <td>' +
 ((__t = ( name )) == null ? '' : __t) +
 '</td>\r\n    <td>' +
 ((__t = ( artist_name )) == null ? '' : __t) +

@@ -23,7 +23,7 @@ define([
     
     var start = function startFunction() {
         
-        tracksCacheCollection = new TracksCacheCollection;
+        tracksCacheCollection = new TracksCacheCollection();
         
     };
 
@@ -50,7 +50,7 @@ define([
     
     var addTrack = function addTrackFunction(trackModel, incement) {
         
-        if (!tracksCacheCollection.contains(trackModel.get('id'))) {
+        if (tracksCacheCollection.get(trackModel.get('id')) === undefined) {
         
             tracksCacheCollection.add(trackModel);
             
@@ -73,7 +73,7 @@ define([
     
     var decrementUsage = function incrementUsageFunction(trackModel) {
         
-        trackModel.set('usageCounter', track.get('usageCounter')-1);
+        trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
         
     };
     

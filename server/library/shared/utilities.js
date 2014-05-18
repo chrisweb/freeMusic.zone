@@ -1,3 +1,18 @@
+
+/**
+ * 
+ * TODO: 
+ * - use arguments in function to let user pass multiple variables as for
+ * original console log
+ * - let user set color with argument color:color_name
+ * - let user change environment with environment:environment_mode
+ * - let user choose default color on initialization
+ * - let user set environment on initialization
+ * - silence console logs on production mode
+ * 
+ * @returns {undefined}
+ */
+
 (function() {
     
     'use strict';
