@@ -3,6 +3,8 @@
 // utilities module
 var utilities = require('./shared/utilities');
 
+var _ = require('underscore');
+
 // jamendo vendor module
 var Jamendo = require('jamendo');
 
@@ -32,7 +34,7 @@ var apiStart = function(configuration, app, apiRouter) {
         
         utilities.log(request.query.q);
 
-        jamendo.tracks({ namesearch: request.query.q }, function(error, data) {
+        jamendo.tracks({ namesearch: request.query.q, include: ['musicinfo', 'lyrics'], audioformat: 'ogg' }, function(error, data) {
             
             //utilities.log(error);
             utilities.log(data);
@@ -54,8 +56,23 @@ var apiStart = function(configuration, app, apiRouter) {
                 
             } else {
                 
+                var newData = {};
+                
+                newData.results = [];
+                
+                _.each(data.results, function(value) {
+                    
+                    // string to integer for ids
+                    value.album_id = parseInt(value.album_id);
+                    value.id = parseInt(value.id);
+                    value.artist_id = parseInt(value.artist_id);
+                    
+                    newData.results.push(value);
+                    
+                });
+                
                 response.status(200);
-                response.json(data);
+                response.json(newData);
                 
             }
             

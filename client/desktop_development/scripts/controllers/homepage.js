@@ -53,10 +53,6 @@ define([
                     if (!error) {
 
                         _.each(results, function(value) {
-                            
-                            value.album_id = parseInt(value.album_id);
-                            value.id = parseInt(value.id);
-                            value.artist_id = parseInt(value.artist_id);
 
                             // initialize a new trqck model
                             var trackModel = new TrackModel(value);

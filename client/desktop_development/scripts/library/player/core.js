@@ -24,7 +24,7 @@ define([
 ], function(utilities, eventsManager, Backbone, SoundManager, tracksCacheManager) {
 
     'use strict';
-    
+
     var soundManager2 = SoundManager.soundManager;
 
     var start = function startFunction() {
@@ -36,71 +36,139 @@ define([
             flashVersion: 9,
             preferFlash: false, // prefer HTML5 mode where supported
             onready: function() {
-                
+
                 eventsManager.trigger('player:loaded');
-                
+
             },
             ontimeout: function() {
-                
+
                 eventsManager.trigger('player:timeout');
-                
+
             },
             defaultOptions: {
-                
                 // default valome for now sound objects
                 volume: 33
-                
+
             }
         });
 
     };
-    
+
+    var createTrackSound = function createTrackSoundFunction() {
+
+        // https://github.com/kilokeith/soundcloud-soundmanager-player/blob/master/sc-player.js
+        // https://github.com/audiosocket/backbone.soundmanager2
+        // https://github.com/juliend2/julienMP3Player/blob/master/js/jquery.julienMP3Player.js
+        // https://github.com/dreamindustries/backbone.sm2/blob/master/backbone.sm2.js
+
+        var trackSound = soundManager2.createSound({
+            autoPlay: false,
+            id: ,
+            url: ,
+            volume: ,
+            onfinish: function() {
+
+                eventsManager.trigger('player:onfinish');
+
+            },
+            onload: function() {
+
+                eventsManager.trigger('player:onload');
+
+            },
+            onpause: function() {
+
+                eventsManager.trigger('player:onpause');
+
+            },
+            onplay: function() {
+
+                eventsManager.trigger('player:onplay');
+
+            },
+            onresume: function() {
+
+                eventsManager.trigger('player:onresume');
+
+            },
+            onsuspend: function() {
+
+                eventsManager.trigger('player:onsuspend');
+
+            },
+            onstop: function() {
+
+                eventsManager.trigger('player:onstop');
+
+            },
+            onid3: function() {
+
+                eventsManager.trigger('player:onid3');
+
+            },
+            whileloading: function() {
+
+                eventsManager.trigger('player:whileloading');
+
+            },
+            whileplaying: function() {
+
+                eventsManager.trigger('player:whileplaying');
+
+            }
+            
+        });
+
+    };
+
     var setIsCurrent = function setIsCurrentFunction(trackModel, isCurrent) {
-        
+
         trackModel.set(isCurrent, true);
-        
+
     };
-    
+
     var setIsPlaying = function setIsPlayingFunction(trackModel, isPlaying) {
-        
+
         trackModel.set(isPlaying, true);
-        
+
     };
-    
+
     eventsManager.on('track:play', function(parameters) {
 
         utilities.log('track play: ' + parameters.trackId);
-        
+
         var trackModel = tracksCacheManager.fetchTrack(parameters.trackId);
-        
+
         console.log(trackModel);
-        
+
         // TODO: create sound, play sound
-        
+
+
+
     });
-    
+
     eventsManager.on('track:stop', function(parameters) {
 
         utilities.log('track stop: ' + parameters.trackId);
-        
+
     });
-    
+
     eventsManager.on('track:pause', function(parameters) {
 
         utilities.log('track pause: ' + parameters.trackId);
-        
+
     });
-    
+
     eventsManager.on('track:next', function(parameters) {
 
         utilities.log('track next: ' + parameters.trackId);
-        
+
     });
-    
+
     eventsManager.on('track:previous', function(parameters) {
 
         utilities.log('track previous: ' + parameters.trackId);
-        
+
     });
 
     return {

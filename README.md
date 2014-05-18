@@ -124,6 +124,9 @@ npm install body-parser --save
 
 npm install jamendo --save
 
+npm install underscore --save
+
+
 the development dependencies:
 
 npm install jshint-stylish --save-dev

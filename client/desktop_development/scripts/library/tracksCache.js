@@ -28,18 +28,11 @@ define([
     };
 
     var fetchTrack = function fetchTrackFunction(trackId, incement) {
+ 
+        var trackModel = tracksCacheCollection.get(trackId);
+ 
+        if (trackModel === undefined) {
         
-        console.log('fetchTrack');
-        console.log(trackId);
-        console.log(tracksCacheCollection.models);
-        
-        if (tracksCacheCollection.contains(trackId)) {
-        
-            //get the track from the cache collection
-            var trackModel = tracksCacheCollection.get(trackId);
-            
-        } else {
-            
             // TODO: fetch the track from the server
             
         }
