@@ -27,6 +27,12 @@ define([
             
             this.options = options || {};
             
+            if (this.model !== undefined) {
+                
+                eventsManager.trigger('trackRowView:onInitialize', { id: this.model.get('id') });
+                
+            }
+            
         },
         
         template: JST['templates/partials/trackRow'],
@@ -55,6 +61,16 @@ define([
         events: {
             'mousedown .trackPreview': 'trackPreviewStart',
             'mouseup .trackPreview': 'trackPreviewStop'
+        },
+        
+        onClose: function() {
+            
+            if (this.model !== undefined) {
+                
+                eventsManager.trigger('trackRowView:onClose', { id: this.model.get('id') });
+                
+            }
+            
         }
         
     });

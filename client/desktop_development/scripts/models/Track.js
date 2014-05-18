@@ -25,7 +25,9 @@ define([
         defaults: {
             usageCounter: 0, // usage counter for cache collection to check usage in views
             isPlaying: false, // is player playing this song
-            isCurrent: false // is this the current track in player
+            isCurrent: false, // is this the current track in player
+            loaded: false, // did soundmanager preload this track
+            loadedAt: 0 // timestamp at which the preloading got completed
         },
         validate: function(attrs) {
 

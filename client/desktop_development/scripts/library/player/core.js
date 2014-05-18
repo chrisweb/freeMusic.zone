@@ -8,20 +8,24 @@
 
 /**
  * 
+ * player core
+ * 
  * @param {type} utilities
+ * @param {type} configurationModule
  * @param {type} eventsManager
  * @param {type} Backbone
  * @param {type} SoundManager
  * @param {type} tracksCacheManager
- * @returns {_L18.Anonym$2}
+ * @returns {_L19.Anonym$4}
  */
 define([
     'utilities',
+    'configuration',
     'eventsManager',
     'backbone',
     'SoundManager',
     'tracksCache'
-], function(utilities, eventsManager, Backbone, SoundManager, tracksCacheManager) {
+], function(utilities, configurationModule, eventsManager, Backbone, SoundManager, tracksCacheManager) {
 
     'use strict';
 
@@ -30,90 +34,143 @@ define([
     var start = function startFunction() {
 
         utilities.log('[PLAYER CORE] initializing ...', 'blue');
+        
+        var configuration = configurationModule.get();
 
         soundManager2.setup({
-            url: '/flash/soundmanager/',
-            flashVersion: 9,
-            preferFlash: false, // prefer HTML5 mode where supported
+            url: configuration.soundmanager.flash.url,
+            flashVersion: configuration.soundmanager.flash.version,
+            preferFlash: configuration.soundmanager.preferFlash,
+            debugMode: configuration.soundmanager.debugMode,
             onready: function() {
 
                 eventsManager.trigger('player:loaded');
+                
+                utilities.log('[PLAYER CORE] loaded', 'green');
 
             },
             ontimeout: function() {
 
                 eventsManager.trigger('player:timeout');
-
-            },
-            defaultOptions: {
-                // default valome for now sound objects
-                volume: 33
+                
+                utilities.log('[PLAYER CORE] timeout', 'red');
 
             }
         });
+        
+        // set the default options
+        soundManager2.defaultOptions = {
+            autoLoad: false, // enable automatic loading (otherwise .load() will call with .play())
+            autoPlay: false, // enable playing of file ASAP (much faster if "stream" is true)
+            from: null, // position to start playback within a sound (msec), see demo
+            loops: 1, // number of times to play the sound. Related: looping (API demo)
+            multiShot: false, // let sounds "restart" or "chorus" when played multiple times..
+            multiShotEvents: false, // allow events (onfinish()) to fire for each shot, if supported.
+            position: null, // offset (milliseconds) to seek to within downloaded sound.
+            pan: 0, // "pan" settings, left-to-right, -100 to 100
+            stream: true, // allows playing before entire file has loaded (recommended)
+            to: null, // position to end playback within a sound (msec), see demo
+            type: null, // MIME-like hint for canPlay() tests, eg. 'audio/mp3'
+            usePolicyFile: false, // enable crossdomain.xml request for remote domains (for ID3/waveform access)
+            volume: 33 // self-explanatory. 0-100, the latter being the max.
+        };
+
+        // flash9 options
+        soundManager2.flash9Options = {
+            usePeakData: false, // enable left/right channel peak (level) data
+            useWaveformData: false, // enable sound spectrum (raw waveform data) - WARNING: May set CPUs on fire.
+            useEQData: false // enable sound EQ (frequency spectrum data) - WARNING: Also CPU-intensive.
+        };
 
     };
 
-    var createTrackSound = function createTrackSoundFunction() {
+    var createTrackSound = function createTrackSoundFunction(trackModel, autoPlay) {
 
-        /*
         var trackSound = soundManager2.createSound({
-            autoPlay: false,
-            id: ,
-            url: ,
-            volume: ,
+            autoPlay: autoPlay,
+            id: trackModel.get('id'),
+            url: trackModel.get('audio'),
             onfinish: function() {
 
-                eventsManager.trigger('player:onfinish');
+                eventsManager.trigger('sound:onfinish');
+                
+                utilities.log('[PLAYER CORE] sound:onfinish');
 
             },
             onload: function() {
 
-                eventsManager.trigger('player:onload');
+                eventsManager.trigger('sound:onload', { id: this.id });
+                
+                utilities.log('[PLAYER CORE] sound:onload');
+
+            },
+            onunload: function() {
+
+                eventsManager.trigger('sound:onunload', { id: this.id });
+                
+                utilities.log('[PLAYER CORE] sound:onunload');
 
             },
             onpause: function() {
 
-                eventsManager.trigger('player:onpause');
+                eventsManager.trigger('sound:onpause');
+                
+                utilities.log('[PLAYER CORE] sound:onpause');
 
             },
             onplay: function() {
 
-                eventsManager.trigger('player:onplay');
+                eventsManager.trigger('sound:onplay');
+                
+                utilities.log('[PLAYER CORE] sound:onplay');
 
             },
             onresume: function() {
 
-                eventsManager.trigger('player:onresume');
+                eventsManager.trigger('sound:onresume');
+                
+                utilities.log('[PLAYER CORE] sound:onresume');
 
             },
             onsuspend: function() {
 
-                eventsManager.trigger('player:onsuspend');
+                eventsManager.trigger('sound:onsuspend');
+                
+                utilities.log('[PLAYER CORE] sound:onsuspend');
 
             },
             onstop: function() {
 
-                eventsManager.trigger('player:onstop');
+                eventsManager.trigger('sound:onstop');
+                
+                utilities.log('[PLAYER CORE] sound:onstop');
 
             },
             onid3: function() {
 
-                eventsManager.trigger('player:onid3');
+                eventsManager.trigger('sound:onid3');
+                
+                utilities.log('[PLAYER CORE] sound:onid3');
 
             },
             whileloading: function() {
 
-                eventsManager.trigger('player:whileloading');
+                eventsManager.trigger('sound:whileloading');
+                
+                utilities.log('[PLAYER CORE] sound:whileloading');
 
             },
             whileplaying: function() {
 
-                eventsManager.trigger('player:whileplaying');
+                eventsManager.trigger('sound:whileplaying');
+                
+                utilities.log('[PLAYER CORE] sound:whileplaying');
 
             }
             
-        });*/
+        });
+        
+        return trackSound;
 
     };
 
@@ -134,24 +191,42 @@ define([
         utilities.log('track play: ' + parameters.trackId);
 
         var trackModel = tracksCacheManager.fetchTrack(parameters.trackId);
+        
+        if (trackModel.get('loaded') === false) {
 
-        console.log(trackModel);
+            var autoPlay = true;
 
-        // TODO: create sound, play sound
-
-
+            var trackSound = createTrackSound(trackModel, autoPlay);
+            
+            trackModel.set('sound', trackSound);
+        
+            trackSound.load();
+               
+        } else {
+            
+            trackModel.get('sound').play();
+            
+        }
 
     });
 
     eventsManager.on('track:stop', function(parameters) {
 
         utilities.log('track stop: ' + parameters.trackId);
+        
+        var trackModel = tracksCacheManager.fetchTrack(parameters.trackId);
+        
+        trackModel.get('sound').stop();
 
     });
 
     eventsManager.on('track:pause', function(parameters) {
 
         utilities.log('track pause: ' + parameters.trackId);
+        
+        var trackModel = tracksCacheManager.fetchTrack(parameters.trackId);
+        
+        trackModel.get('sound').pause();
 
     });
 

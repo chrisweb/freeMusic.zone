@@ -19,6 +19,43 @@ probably not enough time:
 * song visualizer, use a script to calculate a track fourier transform or wave form, html5 canvas to visualize
 
 
+remote fuctionality
+* control one instance of the player on for example your tv using the same instance on your tablet or phone
+* can be enabled or disabled
+
+jam with friends
+* team playlist where every user can add songs
+* up or downvote songs
+* song with most votes gets played next
+* show how often a song got played
+* show who selected the song
+* playlist picture upload
+* choose playlist name
+* choose existing playlist to start
+
+jam quiz
+* tracks quiz created by the community
+* choose a track and add chalanges
+** find at least three instruments used in the song
+** language of the lyrics
+** name of the artist, song or album
+** choose genre, mood of a song
+** find if there is one singer or more, female or male or both
+* invite friends by mail or social network
+
+tweet2jam
+* twitter music charts
+* tweet about a track to increase its position in playlist
+
+* store songs in google drive
+* player always on top
+* navigation on left
+* chat on the right side
+* listen to your playlists
+
+
+
+
 Next todos:
 * search queries cache on server with redis
 * track infos cache on server with redis

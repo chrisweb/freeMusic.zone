@@ -49,9 +49,11 @@ require.config({
         'jquery': '../../../bower_components/jquery/dist/jquery',
         'backbone': '../../../bower_components/backbone/backbone',
         'underscore': '../../../bower_components/underscore/underscore',
-        'SoundManager': '../../../bower_components/SoundManager2/script/soundmanager2'
+        'SoundManager': '../../../bower_components/SoundManager2/script/soundmanager2',
+        'moment': '../../../bower_components/moment/moment'
         
     }
+    
 });
 
 require([

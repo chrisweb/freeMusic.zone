@@ -31,6 +31,12 @@ define([
         // view events
         events: {
             
+        },
+        
+        onClose: function() {
+            
+            
+            
         }
         
     });

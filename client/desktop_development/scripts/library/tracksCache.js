@@ -10,12 +10,17 @@
  * 
  * tracks manager
  * 
+ * @param {type} utilities
+ * @param {type} eventsManager
  * @param {type} TracksCacheCollection
- * @returns {_L14.Anonym$1}
+ * @returns {undefined}
  */
 define([
-    'collections.TracksCache'
-], function (TracksCacheCollection) {
+    'utilities',
+    'eventsManager',
+    'collections.TracksCache',
+    'moment'
+], function (utilities, eventsManager, TracksCacheCollection, moment) {
     
     'use strict';
     
@@ -25,30 +30,12 @@ define([
         
         tracksCacheCollection = new TracksCacheCollection();
         
+        // sort the models of the collection by loading timestamp
+        tracksCacheCollection.comparator = 'loadedAt';
+        
     };
 
-    var fetchTrack = function fetchTrackFunction(trackId, incement) {
- 
-        var trackModel = tracksCacheCollection.get(trackId);
- 
-        if (trackModel === undefined) {
-        
-            // TODO: fetch the track from the server
-            
-        }
-        
-        if (incement === true) {
-        
-            // incement the usage counter
-            this.incrementUsage(trackModel);
-            
-        }
-        
-        return trackModel;
-        
-    };
-    
-    var addTrack = function addTrackFunction(trackModel, incement) {
+    var addTrack = function addTrackFunction(trackModel) {
         
         if (tracksCacheCollection.get(trackModel.get('id')) === undefined) {
         
@@ -56,27 +43,25 @@ define([
             
         }
         
-        if (incement === true) {
+    };
+
+    var fetchTrack = function fetchTrackFunction(trackId) {
+ 
+        var trackModel = tracksCacheCollection.get(trackId);
+ 
+        if (trackModel === undefined) {
         
-            // incement the usage counter
-            this.incrementUsage(trackModel);
+            // TODO: fetch the track from the server
+            
+            console.log('fetch the track from the server');
             
         }
         
-    };
-    
-    var incrementUsage = function incrementUsageFunction(trackModel) {
-        
-        trackModel.set('usageCounter', trackModel.get('usageCounter')+1);
+        return trackModel;
         
     };
     
-    var decrementUsage = function incrementUsageFunction(trackModel) {
-        
-        trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
-        
-    };
-    
+    // TODO: need to call this function somewhere at some interval
     var clearUnused = function clearUnusedFunction() {
         
         tracksCacheCollection.each(function(trackModel) {
@@ -90,13 +75,56 @@ define([
         });
         
     };
+    
+    var soundsGarbageCollector = function soundsGarbageCollectorFunction() {
+        
+        var loadedSongs = tracksCacheCollection.where({ loaded: true });
+        
+        if (loadedSongs.length > 10) {
+            
+            // TODO: unload a song and then call this function again
+            
+            console.log('WE NEED TO FREE SOME MEMORY');
+            console.log(loadedSongs);
+            
+        }
+        
+    };
+    
+    eventsManager.on('trackRowView:onInitialize', function incrementUsage(parameters) {
+        
+        var trackModel = tracksCacheCollection.get(parameters.id);
+        
+        trackModel.set('usageCounter', trackModel.get('usageCounter')+1);
+        
+    });
+    
+    eventsManager.on('trackRowView:onInitializeClose', function decrementUsage(parameters) {
+        
+        var trackModel = tracksCacheCollection.get(parameters.id);
+        
+        trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
+        
+    });
+    
+    eventsManager.on('sound:onload', function setLoaded(parameters) {
+        
+        var trackModel = tracksCacheCollection.get(parameters.id);
+        
+        trackModel.set('loaded', true);
+        
+        var timestamp = moment().unix();
+        
+        trackModel.set('loadedAt', timestamp);
+        
+        soundsGarbageCollector();
+        
+    });
 
     return {
         start: start,
         fetchTrack: fetchTrack,
         addTrack: addTrack,
-        incrementUsage: incrementUsage,
-        decrementUsage: decrementUsage,
         clearUnused: clearUnused
     };
     

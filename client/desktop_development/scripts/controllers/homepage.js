@@ -56,12 +56,12 @@ define([
 
                             // initialize a new trqck model
                             var trackModel = new TrackModel(value);
-
-                            // add the track to the search result collection
-                            tracksSearchResultCollection.add(trackModel);
                             
                             // add the track to the cache
                             tracksCacheManager.addTrack(trackModel);
+
+                            // add the track to the search result collection
+                            tracksSearchResultCollection.add(trackModel);
 
                         });
 
@@ -89,7 +89,7 @@ define([
         
         // TODO: filter query string
 
-        var configuration = configurationModule.get('development');
+        var configuration = configurationModule.get();
 
         // abort previous request if it is still ongoing
         if (jqXHR !== undefined && jqXHR.readyState !== 4) {
