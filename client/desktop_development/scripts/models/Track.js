@@ -17,7 +17,7 @@ define([
 
     var TrackModel = model.extend({
             
-        initialize: function() {
+        onInitialize: function() {
             
             utilities.log('[TRACK MODEL] (' + this.cid + ') initializing ...', 'blue');
 

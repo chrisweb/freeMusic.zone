@@ -18,9 +18,9 @@ define([
     
     var TracksCollection = collection.extend({
 
-        initialize: function() {
+        onInitialize: function() {
             
-            utilities.log('[TRACKSSEARCHRESULT COLLECTION] (' + this.cid + ') initializing ...', 'blue');
+            utilities.log('[TRACKSSEARCHRESULT COLLECTION] initializing ...', 'blue');
 
         },
         model: TrackModel

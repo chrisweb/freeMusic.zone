@@ -10,17 +10,34 @@
  * 
  * base collection
  * 
+ * @param {type} utilities
  * @param {type} Backbone
  * @returns {unresolved}
  */
 define([
+    'utilities',
     'backbone'
-], function (Backbone) {
+], function (utilities, Backbone) {
     
     'use strict';
 
     var Collection = Backbone.Collection.extend({
         
+        initialize: function(options) {
+            
+            utilities.log('[CHRISWEB COLLECTION] initializing ...', 'blue');
+            
+            this.options = options || {};
+            
+            // if oninitialize exists
+            if (this.onInitialize) {
+                
+                // execute it now
+                this.onInitialize(options);
+                
+            }
+            
+        },
         batchSave: function() {
             
             
