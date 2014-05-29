@@ -207,9 +207,9 @@ npm install mongoose --save
 
 Fetch the dependencies for development
 
-npm update
+npm install
 
-bower update
+bower install
 
 
 
@@ -228,6 +228,13 @@ NODE_ENV can be development, staging, production
 
 
 
+To find outdated npm packages do
+
+npm outdated --depth 0
+
+To find outdated bower packages do
+
+bower list
 
 
 
