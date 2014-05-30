@@ -68,7 +68,7 @@
 
             logDiv.id = 'log';
             
-            logDiv.style.cssText = 'position: absolute; overflow: scroll; left: 0; bottom: 0; padding: 0; margin: 0; border: 0; z-index: 999999; width: 100%; height: 20%;';
+            logDiv.style.cssText = 'position: absolute; overflow: scroll; left: 0; bottom: 0; padding: 0; margin: 0; border: 0; z-index: 999999; width: 100%; height: 20%; background-color: #fff;';
             
             document.body.appendChild(logDiv);
             
@@ -130,8 +130,16 @@
 
                 // log each object
                 for (var i = 0; i < logObjectsLength; i++) {
-
-                    console.log(color.background + color.font + logObjects[i] + color.reset);
+                    
+                    if (typeof(logObjects[i]) === 'string') {
+                        
+                        console.log(color.background + color.font + logObjects[i] + color.reset);
+                        
+                    } else {
+                        
+                        console.log(logObjects[i]);
+                        
+                    }
 
                 };
                 
@@ -156,7 +164,15 @@
                 // log each object
                 for (var i = 0; i < logObjectsLength; i++) {
 
-                    console.log('%c' + logObjects[i], 'background: #' + color.background + '; color: #' + color.font);
+                    if (typeof(logObjects[i]) === 'string') {
+
+                        console.log('%c' + logObjects[i], 'background: #' + color.background + '; color: #' + color.font);
+                        
+                    } else {
+                        
+                        console.log(logObjects[i]);
+                        
+                    }
 
                 };
                 

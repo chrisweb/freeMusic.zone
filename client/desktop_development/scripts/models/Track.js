@@ -20,7 +20,7 @@ define([
         onInitialize: function() {
             
             utilities.log('[TRACK MODEL] (' + this.cid + ') initializing ...', 'fontColor:blue');
-
+            
         },
         defaults: {
             usageCounter: 0, // usage counter for cache collection to check usage in views
