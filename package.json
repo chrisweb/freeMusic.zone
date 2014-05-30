@@ -22,7 +22,7 @@
   "homepage": "https://github.com/chrisweb/playlist_guru",
   "dependencies": {
     "express": "~4.3.2",
-    "jamendo": "~0.3.3",
+    "jamendo": "~0.3.4",
     "body-parser": "~1.2.2",
     "ejs": "~1.0.0",
     "underscore": "~1.6.0"
