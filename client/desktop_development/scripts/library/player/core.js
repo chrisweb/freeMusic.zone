@@ -33,7 +33,7 @@ define([
 
     var start = function startFunction() {
 
-        utilities.log('[PLAYER CORE] initializing ...', 'blue');
+        utilities.log('[PLAYER CORE] initializing ...', 'fontColor:blue');
         
         var configuration = configurationModule.get();
 
@@ -46,14 +46,14 @@ define([
 
                 eventsManager.trigger('player:loaded');
                 
-                utilities.log('[PLAYER CORE] loaded', 'green');
+                utilities.log('[PLAYER CORE] loaded', 'fontColor:green');
 
             },
             ontimeout: function() {
 
                 eventsManager.trigger('player:timeout');
                 
-                utilities.log('[PLAYER CORE] timeout', 'red');
+                utilities.log('[PLAYER CORE] timeout', 'fontColor:red');
 
             }
         });

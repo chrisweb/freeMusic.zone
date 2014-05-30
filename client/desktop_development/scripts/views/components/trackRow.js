@@ -23,7 +23,7 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[TRACK ROW VIEW] (' + this.cid + ') initializing ...', 'blue');
+            utilities.log('[TRACK ROW VIEW] (' + this.cid + ') initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             

@@ -20,7 +20,7 @@ define([
 
         onInitialize: function() {
             
-            utilities.log('[TRACKSSEARCHRESULT COLLECTION] initializing ...', 'blue');
+            utilities.log('[TRACKSSEARCHRESULT COLLECTION] initializing ...', 'fontColor:blue');
 
         },
         model: TrackModel

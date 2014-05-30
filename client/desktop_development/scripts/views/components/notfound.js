@@ -14,7 +14,7 @@ define([
         
         onInitialize: function() {
             
-            utilities.log('[NOTFOUND PARTIAL VIEW] initializing ...', 'blue');
+            utilities.log('[NOTFOUND PARTIAL VIEW] initializing ...', 'fontColor:blue');
             
         },
         

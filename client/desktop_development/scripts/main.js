@@ -61,7 +61,9 @@ require([
     'utilities'
 ], function (bootstrap, utilities) {
     
-    utilities.log('[MAIN] application start', 'blue');
+    utilities.logSpecial = true;
+    
+    utilities.log('[MAIN] APPLICATION START', 'fontColor:green', 'backgroundColor:yellow');
     
     bootstrap.applicationStart();
     

@@ -15,7 +15,7 @@ define([
     
     var initializeRouter = function initializeRouterFunction() {
         
-        utilities.log('[BOOTSTRAP] initializeRouter', 'blue');
+        utilities.log('[BOOTSTRAP] initializeRouter', 'fontColor:blue');
         
         var applicationRouter = router.start();
 
@@ -47,7 +47,7 @@ define([
     
     var initializeLayout = function initializeLayoutFunction() {
         
-        utilities.log('[BOOTSTRAP] initializeLayout', 'blue');
+        utilities.log('[BOOTSTRAP] initializeLayout', 'fontColor:blue');
 
         layout.create();
         
@@ -55,7 +55,7 @@ define([
     
     var initializePlayer = function initializePlayerFunction() {
         
-        utilities.log('[BOOTSTRAP] initializePlayer', 'blue');
+        utilities.log('[BOOTSTRAP] initializePlayer', 'fontColor:blue');
 
         Player.start();
         
@@ -63,7 +63,7 @@ define([
     
     var initializeTracksCacheManager = function initializeTracksCacheManagerFunction() {
         
-        utilities.log('[BOOTSTRAP] initializeTracksCacheManager', 'blue');
+        utilities.log('[BOOTSTRAP] initializeTracksCacheManager', 'fontColor:blue');
 
         TracksCacheManager.start();
         

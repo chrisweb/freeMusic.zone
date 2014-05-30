@@ -14,7 +14,7 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[SEARCH PARTIAL VIEW] initializing ...', 'blue');
+            utilities.log('[SEARCH PARTIAL VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
@@ -39,7 +39,7 @@ define([
         // search results refresh, throttled at 1 action every 1 second
         searchResultsRefresh: _.throttle(function(jQueryEvent) {
             
-            utilities.log('[SEARCH PARTIAL VIEW] refresh search results', 'blue');
+            utilities.log('[SEARCH PARTIAL VIEW] refresh search results', 'fontColor:blue');
             
             // TODO: use backbone model/collection for search queries
             // TODO: client side cache search queries

@@ -53,7 +53,7 @@ define([
         
             // TODO: fetch the track from the server
             
-            console.log('fetch the track from the server');
+            utilities.log('fetch the track from the server');
             
         }
         
@@ -84,8 +84,8 @@ define([
             
             // TODO: unload a song and then call this function again
             
-            console.log('WE NEED TO FREE SOME MEMORY');
-            console.log(loadedSongs);
+            utilities.log('WE NEED TO FREE SOME MEMORY', 'fontColor:red');
+            utilities.log(loadedSongs);
             
         }
         

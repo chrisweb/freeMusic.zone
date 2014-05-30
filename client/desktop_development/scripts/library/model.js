@@ -25,7 +25,7 @@ define([
         
         initialize: function(options) {
             
-            utilities.log('[CHRISWEB MODEL] (' + this.cid + ') initializing ...', 'blue');
+            utilities.log('[CHRISWEB MODEL] (' + this.cid + ') initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             

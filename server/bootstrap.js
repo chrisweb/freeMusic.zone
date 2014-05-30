@@ -25,7 +25,7 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
     //process.env.NODE_ENV = 'production';
     process.env.NODE_ENV = 'development';
     
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'red');
+    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red');
 
 }
 
@@ -111,7 +111,7 @@ app.set('port', process.env.PORT || configuration.server.port);
 
 app.listen(app.get('port'));
 
-utilities.log('SERVER running on port: ' + app.get('port') + ', environment is: ' + app.get('env'), 'green');
+utilities.log('SERVER running on port: ' + app.get('port') + ', environment is: ' + app.get('env'), 'fontColor:green');
 
 
 

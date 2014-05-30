@@ -27,9 +27,9 @@
     
     utilities.logBackgroundColor = 'default';
     
-    utilities.logToHtml = false;
+    utilities.logSpecial = false;
     
-    utilities.logVerbose = false;
+    utilities.logVerbose = true;
     
     // nodejs or browser mode, if windows is undefined it is nodejs mode
     if (typeof(window) === 'undefined') {
@@ -58,19 +58,39 @@
         
     }
     
-    utilities.htmlLog = function(data) {
+    utilities.htmlLog = function(logObjects, logObjectsLength, logFontColor, logBackgroundColor) {
 
-        if (typeof(document.getElementById('log')[0]) === 'undefined') {
+        // TODO: fix: if logging start before domload some messages get lost
+
+        if (document.getElementById('log') === null) {
             
             var logDiv = document.createElement('div');
+
             logDiv.id = 'log';
-            logDiv.style.cssText('position: absolute; left: 0; top: 0; padding: 0; margin: 0; border: 0; z-index: 999999;');
             
-            document.getElementsByTagName('body')[0].prependChild(logDiv);
+            logDiv.style.cssText = 'position: absolute; overflow: scroll; left: 0; bottom: 0; padding: 0; margin: 0; border: 0; z-index: 999999; width: 100%; height: 20%;';
+            
+            document.body.appendChild(logDiv);
             
         }
+        
+        for (var i = 0; i < logObjectsLength; i++) {
+            
+            var logSpan = document.createElement('span');
+            
+            logSpan.style.cssText = 'color: #' + logFontColor + '; background-color: #' + logBackgroundColor + ';';
+            
+            var spanContent = document.createTextNode(logObjects[i]);
+            
+            logSpan.appendChild(spanContent);
 
-        document.getElementById('log').appendTo(data);
+            document.getElementById('log').appendChild(logSpan);
+            
+            var brElement = document.createElement('br');
+            
+            document.getElementById('log').appendChild(brElement);
+            
+        }
             
     };
     
@@ -90,145 +110,230 @@
             
         }
         
-        var logArguments = [];
+        // extract options and get objects to log
+        var logArguments = handleLogArguments(arguments);
         
-        var argumentsLength = arguments.length;
+        var logObjects = logArguments.objects;
+        var logFontColor = logArguments.fontColor;
+        var logBackgroundColor = logArguments.backgroundColor;
         
-        for (var i = 0; i < argumentsLength; i++) {
-            
-            var argument = arguments[i];
-            
-            if (typeof(argument) === 'string') {
-                
-                if (argument.substr(0, 5) === 'color:') {
-                    
-                    utilities.logFontColor = argument.substr(5, argument.length);
-                    
-                } else if (argument.substr(0, 7) === 'verbose:') {
-                    
-                    var verboseBoolean;
-                    
-                    if (argument.substr(7, argument.length) === 'true') {
-                        
-                        verboseBoolean = true;
-                        
-                    } else {
-                        
-                        verboseBoolean = false;
-                        
-                    }
-                    
-                    utilities.logVerbose = verboseBoolean;
-                    
-                } else if (argument.substr(0, 6) === 'tohtml:') {
-                    
-                    utilities.logFontColor = argument.substr(6, argument.length);
-                    
-                } else {
-                    
-                    logArguments.push(argument);
-                    
-                }
-                
-            } else {
-                    
-                logArguments.push(argument);
-                    
-            }
-            
-        }
+        var logObjectsLength = logObjects.length;
 
         // nodejs or browser mode
         if (typeof(window) === 'undefined') {
 
-            // background default black
-            backgroundColor = '\u001b[40m';
+            if (typeof(utilities.logVerbose) !== 'undefined'
+            && utilities.logVerbose === true) {
 
-            if (typeof(fontColor) !== 'undefined') {
+                // get background and fontColor codes
+                var color = getServerColors(logFontColor, logBackgroundColor);
 
-                fontColors = {};
+                // log each object
+                for (var i = 0; i < logObjectsLength; i++) {
 
-                fontColors.red = '\u001b[31m';
-                fontColors.green = '\u001b[32m';
-                fontColors.yellow = '\u001b[33m';
-                fontColors.blue = '\u001b[34m';
-                fontColors.magenta = '\u001b[35m';
-                fontColors.cyan = '\u001b[36m';
-                fontColors.white = '\u001b[37m';
+                    console.log(color.background + color.font + logObjects[i] + color.reset);
 
-                var fontColorReset = '\u001b[0m';
+                };
+                
+            }
+            
+            // log to file
+            if (typeof(utilities.logSpecial) !== 'undefined'
+            && utilities.logSpecial === true) {
 
-                if (typeof(fontColors[fontColor]) === undefined) {
-                    throw 'undefined fontColor in utilities console log';
-                }
-
-                console.log(backgroundColor + fontColors[fontColor] + data + fontColorReset);
-
-            } else {
-
-                console.log(data);
+                this.fileLog(logObjects, logObjectsLength);
 
             }
 
-            // log to file
-            /*if (typeof(logToHtml) !== 'undefined') {
-
-                this.fileLog(data);
-
-            }*/
-
         } else {
 
-            // background default white
-            backgroundColor = 'ffffff';
+            // get background and fontColor codes
+            var color = getClientColors(logFontColor, logBackgroundColor);
 
-            if (typeof(fontColor) !== 'undefined') {
+            if (typeof(utilities.logVerbose) !== 'undefined'
+            && utilities.logVerbose === true) {
 
-                fontColors = {};
+                // log each object
+                for (var i = 0; i < logObjectsLength; i++) {
 
-                fontColors.red = 'FF0000';
-                fontColors.green = '00FF00';
-                fontColors.yellow = 'FFFF00';
-                fontColors.blue = '0000FF';
-                fontColors.magenta = 'FF00FF';
-                fontColors.cyan = '00FFFF';
-                fontColors.blue = '0000FF';
-                fontColors.white = 'FFFFFF';
+                    console.log('%c' + logObjects[i], 'background: #' + color.background + '; color: #' + color.font);
 
-                if (typeof(fontColors[fontColor]) === undefined) {
-                    throw 'undefined fontColor in utilities console log';
-                }
+                };
+                
+            }
 
-                console.log('%c' + data, 'background: #' + backgroundColor + '; color: #' + fontColors[fontColor]);
+            // log to html
+            if (typeof(utilities.logSpecial) !== 'undefined'
+            && utilities.logSpecial === true) {
 
-                // log to html
-                if (typeof(logToHtml) !== 'undefined') {
-
-                    this.htmlLog('<span style="color: #' + fontColors[fontColor] + '; background-color: #' + backgroundColor + ';">' + data + '</span>');
-
-                }
-
-            } else {
-
-                console.log(data);
-
-                // log to html
-                if (typeof(logToHtml) !== 'undefined') {
-
-                    this.htmlLog(data);
-
-                }
+                this.htmlLog(logObjects, logObjectsLength, color.font, color.background);
 
             }
 
         }
-        
-        _.each(logArguments, function() {
-            
-            
-            
-        });
 
+    };
+    
+    var getClientColors = function getClientColorsFunction(logFontColor, logBackgroundColor) {
+        
+        var colors = {};
+
+        colors.red = 'FF0000';
+        colors.green = '00FF00';
+        colors.yellow = 'FFFF00';
+        colors.blue = '0000FF';
+        colors.magenta = 'FF00FF';
+        colors.cyan = '00FFFF';
+        colors.blue = '0000FF';
+        colors.white = 'FFFFFF';
+        colors.black = '000000';
+        
+        var fontColor;
+        var backgroundColor;
+
+        // font color
+        if (typeof(logFontColor) === 'undefined'
+        || logFontColor === 'default') {
+            
+            fontColor = colors['black'];
+            
+        } else {
+            
+            if (typeof(colors[logFontColor]) !== 'undefined') {
+            
+                fontColor = colors[logFontColor];
+                
+            } else {
+                
+                throw 'unknown fontColor in utilities console log';
+                
+            }
+            
+        }
+        
+        // background color
+        if (typeof(logBackgroundColor) === 'undefined'
+        || logBackgroundColor === 'default') {
+            
+            backgroundColor = colors['white'];
+            
+        } else {
+            
+            if (typeof(colors[logBackgroundColor]) !== 'undefined') {
+            
+                backgroundColor = colors[logBackgroundColor];
+                
+            } else {
+                
+                throw 'unknown fontColor in utilities console log';
+                
+            }
+            
+        }
+        
+        return { font: fontColor, background: backgroundColor };
+        
+    };
+    
+    var getServerColors = function getServerColorsFunction(logFontColor, logBackgroundColor) {
+        
+        var colors = {};
+
+        colors.red = '\u001b[31m';
+        colors.green = '\u001b[32m';
+        colors.yellow = '\u001b[33m';
+        colors.blue = '\u001b[34m';
+        colors.magenta = '\u001b[35m';
+        colors.cyan = '\u001b[36m';
+        colors.white = '\u001b[37m';
+        colors.black = '\u001b[40m';
+        
+        var fontColor;
+        var backgroundColor;
+
+        // font color
+        if (typeof(logFontColor) === 'undefined'
+        || logFontColor === 'default') {
+            
+            fontColor = colors['white'];
+            
+        } else {
+            
+            if (typeof(colors[logFontColor]) !== 'undefined') {
+            
+                fontColor = colors[logFontColor];
+                
+            } else {
+                
+                throw 'unknown font color in utilities console log';
+                
+            }
+            
+        }
+        
+        // background color
+        if (typeof(logBackgroundColor) === 'undefined'
+        || logBackgroundColor === 'default') {
+            
+            backgroundColor = colors['black'];
+            
+        } else {
+            
+            if (typeof(colors[logBackgroundColor]) !== 'undefined') {
+            
+                backgroundColor = colors[logBackgroundColor];
+                
+            } else {
+                
+                throw 'unknown background color in utilities console log';
+                
+            }
+            
+        }
+        
+        return { font: fontColor, background: backgroundColor, reset: '\u001b[0m' };
+        
+    };
+    
+    var handleLogArguments = function handleLogArgumentsFunction(logArguments) {
+        
+        var logObjects = [];
+        
+        var logFontColor = utilities.logFontColor;
+        var logBackgroundColor = utilities.logBackgroundColor;
+        
+        var argumentsLength = logArguments.length;
+        
+        for (var i = 0; i < argumentsLength; i++) {
+            
+            var argument = logArguments[i];
+            
+            if (typeof(argument) === 'string') {
+                
+                if (argument.substr(0, 10) === 'fontColor:') {
+                    
+                    logFontColor = argument.substr(10, argument.length);
+                    
+                } else if (argument.substr(0, 16) === 'backgroundColor:') {
+                    
+                    logBackgroundColor = argument.substr(16, argument.length);
+                    
+                } else {
+                    
+                    logObjects.push(argument);
+                    
+                }
+                
+            } else {
+                    
+                logObjects.push(argument);
+                    
+            }
+            
+        }
+        
+        return { objects: logObjects, fontColor: logFontColor, backgroundColor: logBackgroundColor };
+        
     };
     
     utilities.getTimestamp = function() {

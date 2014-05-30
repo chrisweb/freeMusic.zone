@@ -13,7 +13,7 @@ define([
 
     var indexAction = function indexActionFunction() {
         
-        utilities.log('[MAIN] controller: homepage,  action: index', 'blue');
+        utilities.log('[MAIN] controller: homepage,  action: index', 'fontColor:blue');
         
         // add the search bar to the main section of the layout
         require(['views/components/searchBar'], function(SearchBarView) {

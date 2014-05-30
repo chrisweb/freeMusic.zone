@@ -19,7 +19,7 @@ define([
             
         onInitialize: function() {
             
-            utilities.log('[TRACK MODEL] (' + this.cid + ') initializing ...', 'blue');
+            utilities.log('[TRACK MODEL] (' + this.cid + ') initializing ...', 'fontColor:blue');
 
         },
         defaults: {

@@ -7,7 +7,7 @@ define([
 
     var notfoundAction = function notfoundActionFunction() {
         
-        utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'blue');
+        utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'fontColor:blue');
             
         require(['views/components/notfound'], function(notfoundView) {
 

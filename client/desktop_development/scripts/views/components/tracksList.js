@@ -12,7 +12,7 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[TRACKSLIST VIEW] initializing ...', 'blue');
+            utilities.log('[TRACKSLIST VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             

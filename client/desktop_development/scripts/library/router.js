@@ -15,9 +15,10 @@
  * @returns {_L15.Anonym$2}
  */
 define([
+    'utilities',
     'backbone',
     'routes'
-], function (Backbone, Routes) {
+], function (utilities, Backbone, Routes) {
     
     'use strict';
     
@@ -29,7 +30,7 @@ define([
 
             initialize: function() {
                 
-                
+                utilities.log('[ROUTER] initializing...', 'fontColor:green');
 
             },
             routes: Routes
