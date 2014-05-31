@@ -205,7 +205,9 @@ npm install underscore --save
 npm install mongoose --save
 
 
-Fetch the dependencies for development
+
+
+Fetch the dependencies
 
 npm install
 

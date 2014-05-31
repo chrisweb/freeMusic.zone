@@ -10,7 +10,6 @@ define([
     'use strict';
 
     var SearchBarView = View.extend({
-    //var SearchBarView = Backbone.View.extend({
         
         onInitialize: function(options) {
             

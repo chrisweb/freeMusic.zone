@@ -1,0 +1,43 @@
+/**
+ * https://github.com/chrisweb
+ * 
+ * Copyright 2014 weber chris
+ * Released under the MIT license
+ * https://chris.lu
+ */
+
+/**
+ * 
+ * navigation bar
+ * 
+ * @param {type} utilities
+ * @param {type} Backbone
+ * @param {type} container
+ * @returns {_L16.Anonym$2}
+ */
+define([
+    'utilities',
+    'backbone',
+    'container'
+], function (utilities, Backbone, container) {
+    
+    'use strict';
+    
+    var initialize = function initializeFunction() {
+        
+        // add the navigation bar to the header element of the layout
+        require(['views/components/navigationBar'], function(NavigationBarView) {
+            
+            var navigationBarView = new NavigationBarView();
+            
+            container.add('header', navigationBarView);
+
+        });
+        
+    };
+
+    return {
+        start: initialize
+    };
+    
+});

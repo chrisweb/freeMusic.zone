@@ -10,9 +10,10 @@
  * 
  * router
  * 
+ * @param {type} utilities
  * @param {type} Backbone
  * @param {type} Routes
- * @returns {_L15.Anonym$2}
+ * @returns {_L16.Anonym$2}
  */
 define([
     'utilities',

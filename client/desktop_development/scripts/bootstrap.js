@@ -8,10 +8,13 @@ define([
     'layout',
     'eventsManager',
     'player.core',
-    'tracksCache'
-], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager) {
+    'tracksCache',
+    'navigationBar'
+], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager, NavigationBar) {
 
     'use strict';
+    
+    // TODO: all of these initializers could be put into "plugins"
     
     var initializeRouter = function initializeRouterFunction() {
         
@@ -69,6 +72,14 @@ define([
         
     };
     
+    var initializeNavigationBar = function initializeNavigationBarFunction() {
+        
+        utilities.log('[BOOTSTRAP] initializeNavigationBar', 'fontColor:blue');
+        
+        NavigationBar.start();
+        
+    };
+    
     var run = function runFunction() {
 
         $(function() {
@@ -80,6 +91,8 @@ define([
             initializePlayer();
             
             initializeTracksCacheManager();
+            
+            initializeNavigationBar();
 
             eventsManager.trigger('application:loaded');
             
