@@ -9,17 +9,17 @@ define([
     
     'use strict';
 
-    var NavigationBarView = View.extend({
+    var HeaderNavigationView = View.extend({
         
         onInitialize: function(options) {
             
-            utilities.log('[NAVIGATION PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[HEADER NAVIGATION PARTIAL VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
         },
 
-        template: JST['templates/partials/navigation'],
+        template: JST['templates/partials/header_navigation'],
         
         // view events
         events: {
@@ -32,6 +32,6 @@ define([
         
     });
     
-    return NavigationBarView;
+    return HeaderNavigationView;
     
 });

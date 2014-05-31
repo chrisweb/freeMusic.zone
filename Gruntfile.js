@@ -149,7 +149,8 @@ module.exports = function(grunt) {
         // https://github.com/gruntjs/grunt-contrib-sass
         sass: {
             options: {
-                unixNewlines: true
+                unixNewlines: true,
+                precision: 10
             },
             dist: {
                 files: [{

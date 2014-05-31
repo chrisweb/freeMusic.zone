@@ -6,17 +6,17 @@ this["JST"]["templates/layout"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<header></header>\r\n<section id="main"></section>\r\n<aside></aside>\r\n<footer></footer>';
+__p += '<header></header>\r\n<aside id="right_aside"></aside>\r\n<section id="main"></section>\r\n<aside id="left_aside"></aside>\r\n<footer></footer>';
 
 }
 return __p
 };
 
-this["JST"]["templates/partials/navigation"] = function(obj) {
+this["JST"]["templates/partials/header_navigation"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<nav class="navbar navbar-default" role="navigation">\r\n    <div class="container-fluid">\r\n\r\n        <button type="button" class="btn btn-default navbar-btn">\r\n            <i class="fa fa-bars"></i>\r\n            <span class="caret"></span>\r\n        </button>\r\n\r\n        <a class="navbar-brand" href="#">Brand</a>\r\n\r\n\r\n\r\n        <button type="button" class="btn btn-default navbar-btn navbar-right">\r\n            <i class="fa fa-cog"></i>\r\n        </button>\r\n\r\n        <button type="button" class="btn btn-default navbar-btn navbar-right">\r\n            <i class="fa fa-user"></i>\r\n        </button>\r\n\r\n        <form class="navbar-form navbar-right" role="search">\r\n            <div class="form-group">\r\n                <div class="input-group">\r\n                    <input type="text" class="form-control" placeholder="Search">\r\n                    <span class="input-group-btn">\r\n                        <button class="btn btn-default" type="button">\r\n                            <span class="glyphicon glyphicon-search"></span>\r\n                        </button>\r\n                    </span>\r\n                </div>\r\n            </div>\r\n        </form>\r\n\r\n    </div>\r\n</nav>';
+__p += '<nav class="navbar navbar-default" role="navigation" id="header_navigation">\r\n    <div class="container-fluid">\r\n\r\n        <div class="row">\r\n            <div class="col-md-3 col-sm-3">\r\n\r\n                <a class="navbar-brand" href="#">Brand</a>\r\n\r\n                <button type="button" class="btn btn-default navbar-btn">\r\n                    <i class="fa fa-bars"></i>\r\n                    <span class="caret"></span>\r\n                </button>\r\n\r\n            </div>\r\n            <div class="col-md-3 col-sm-3">\r\n                Player\r\n            </div>\r\n            <div class="col-md-3 col-sm-3">\r\n\r\n                <form class="navbar-form navbar-right" role="search">\r\n                    <div class="form-group">\r\n                        <div class="input-group">\r\n                            <input type="text" class="form-control" placeholder="Search">\r\n                            <span class="input-group-btn">\r\n                                <button class="btn btn-default" type="button">\r\n                                    <span class="glyphicon glyphicon-search"></span>\r\n                                </button>\r\n                            </span>\r\n                        </div>\r\n                    </div>\r\n                </form>\r\n\r\n            </div>\r\n            <div class="col-md-3 col-sm-3">\r\n                <div class="navbar-right">\r\n\r\n                    <button type="button" class="btn btn-default navbar-btn">\r\n                        <i class="fa fa-user"></i>\r\n                    </button>\r\n                    \r\n                    <button type="button" class="btn btn-default navbar-btn">\r\n                        <i class="fa fa-cog"></i>\r\n                    </button>\r\n                    \r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n    </div>\r\n</nav>';
 
 }
 return __p
@@ -27,6 +27,16 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '';
+
+}
+return __p
+};
+
+this["JST"]["templates/partials/right_navigation"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<nav role="navigation" id="right_navigation">\r\n    \r\n    <a href="/collaborative-playlists" class="playlist">\r\n        <i class="fa fa-list"></i>\r\n    </a>\r\n\r\n    <a href="/twitter-charts" class="tweet">\r\n        <i class="fa fa-twitter"></i>\r\n    </a>\r\n\r\n    <a href="/quiz-games" class="quiz">\r\n        <i class="fa fa-gamepad"></i>\r\n    </a>\r\n\r\n    <a href="/remote-control" class="remote">\r\n        <i class="fa fa-caret-square-o-right"></i>\r\n    </a>\r\n    \r\n</nav>';
 
 }
 return __p

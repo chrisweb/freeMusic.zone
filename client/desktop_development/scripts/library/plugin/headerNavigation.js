@@ -8,7 +8,7 @@
 
 /**
  * 
- * navigation bar
+ * header navigation
  * 
  * @param {type} utilities
  * @param {type} Backbone
@@ -25,12 +25,12 @@ define([
     
     var initialize = function initializeFunction() {
         
-        // add the navigation bar to the header element of the layout
-        require(['views/components/navigationBar'], function(NavigationBarView) {
+        // add the header navigation to the header element of the layout
+        require(['views/components/headerNavigation'], function(HeaderNavigationView) {
             
-            var navigationBarView = new NavigationBarView();
+            var headerNavigationView = new HeaderNavigationView();
             
-            container.add('header', navigationBarView);
+            container.add('header', headerNavigationView);
 
         });
         

@@ -49,3 +49,65 @@ body {
 .icon.dotted {
     border: 2px dotted;
 }
+
+
+
+
+
+
+
+
+
+
+nav {
+    position: fixed;
+    z-index:100;
+    color: white;
+    margin: 0px;
+    padding: 0px;
+}
+
+nav#right_navigation {
+    height: 100%;
+    width: 100px;
+}
+
+nav#right_navigation a {
+    vertical-align: middle;
+    text-align: center;
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    height: 25%;
+    font-size: 50px;
+}
+
+nav#right_navigation a.active span {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+nav#right_navigation a:hover {
+    text-decoration: none;
+    color: white;
+}
+
+nav#right_navigation .playlist {
+    color: rgb(41, 128, 185);
+    background-color: rgb(52, 152, 219);
+}
+
+nav#right_navigation .tweet {
+    color: rgb(39, 174, 96);
+    background-color: rgb(46, 204, 113);
+}
+
+nav#right_navigation .quiz {
+    color: rgb(243, 156, 18);
+    background-color: rgb(241, 196, 15);
+}
+
+nav#right_navigation .remote {
+    color: rgb(192, 57, 43);
+    background-color: rgb(231, 76, 60);
+}

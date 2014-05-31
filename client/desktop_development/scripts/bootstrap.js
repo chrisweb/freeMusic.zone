@@ -9,8 +9,9 @@ define([
     'eventsManager',
     'player.core',
     'tracksCache',
-    'navigationBar'
-], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager, NavigationBar) {
+    'headerNavigation',
+    'rightNavigation'
+], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, RightNavigation) {
 
     'use strict';
     
@@ -72,11 +73,19 @@ define([
         
     };
     
-    var initializeNavigationBar = function initializeNavigationBarFunction() {
+    var initializeHeaderNavigation = function initializeHeaderNavigationFunction() {
         
-        utilities.log('[BOOTSTRAP] initializeNavigationBar', 'fontColor:blue');
+        utilities.log('[BOOTSTRAP] initializeHeaderNavigation', 'fontColor:blue');
         
-        NavigationBar.start();
+        HeaderNavigation.start();
+        
+    };
+    
+    var initializeRightNavigation = function initializeRightNavigationFunction() {
+        
+        utilities.log('[BOOTSTRAP] initializeRightNavigation', 'fontColor:blue');
+        
+        RightNavigation.start();
         
     };
     
@@ -92,7 +101,9 @@ define([
             
             initializeTracksCacheManager();
             
-            initializeNavigationBar();
+            initializeHeaderNavigation();
+            
+            initializeRightNavigation();
 
             eventsManager.trigger('application:loaded');
             

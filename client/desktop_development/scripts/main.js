@@ -37,7 +37,10 @@ require.config({
         'router': 'library/router',
         'tracksCache': 'library/tracksCache',
         'view': 'library/view',
-        'navigationBar': 'library/plugin/navigationBar',
+        
+        // plugins
+        'headerNavigation': 'library/plugin/headerNavigation',
+        'rightNavigation': 'library/plugin/rightNavigation',
         
         // collections
         'collections.TracksCache': 'collections/TracksCache',
