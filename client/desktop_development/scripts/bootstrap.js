@@ -10,8 +10,8 @@ define([
     'player.core',
     'tracksCache',
     'headerNavigation',
-    'rightNavigation'
-], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, RightNavigation) {
+    'leftNavigation'
+], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {
 
     'use strict';
     
@@ -81,11 +81,11 @@ define([
         
     };
     
-    var initializeRightNavigation = function initializeRightNavigationFunction() {
+    var initializeLeftNavigation = function initializeLeftNavigationFunction() {
         
-        utilities.log('[BOOTSTRAP] initializeRightNavigation', 'fontColor:blue');
+        utilities.log('[BOOTSTRAP] initializeLeftNavigation', 'fontColor:blue');
         
-        RightNavigation.start();
+        LeftNavigation.start();
         
     };
     
@@ -103,7 +103,7 @@ define([
             
             initializeHeaderNavigation();
             
-            initializeRightNavigation();
+            initializeLeftNavigation();
 
             eventsManager.trigger('application:loaded');
             

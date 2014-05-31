@@ -40,7 +40,7 @@ require.config({
         
         // plugins
         'headerNavigation': 'library/plugin/headerNavigation',
-        'rightNavigation': 'library/plugin/rightNavigation',
+        'leftNavigation': 'library/plugin/leftNavigation',
         
         // collections
         'collections.TracksCache': 'collections/TracksCache',

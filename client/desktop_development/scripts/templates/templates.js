@@ -6,7 +6,7 @@ this["JST"]["templates/layout"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<header></header>\r\n<aside id="right_aside"></aside>\r\n<section id="main"></section>\r\n<aside id="left_aside"></aside>\r\n<footer></footer>';
+__p += '<div id="left">\r\n    <aside id="left_aside"></aside>\r\n</div>\r\n<div id="right">\r\n    <header id="header"></header>\r\n    <section id="main"></section>\r\n    <footer id="footer"></footer>\r\n</div>';
 
 }
 return __p
@@ -22,21 +22,21 @@ __p += '<nav class="navbar navbar-default" role="navigation" id="header_navigati
 return __p
 };
 
-this["JST"]["templates/partials/notfound"] = function(obj) {
+this["JST"]["templates/partials/left_navigation"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '';
+__p += '<nav role="navigation" id="left_navigation">\r\n    \r\n    <a href="/collaborative-playlists" class="playlist">\r\n        <i class="fa fa-list"></i>\r\n    </a>\r\n\r\n    <a href="/twitter-charts" class="tweet">\r\n        <i class="fa fa-twitter"></i>\r\n    </a>\r\n\r\n    <a href="/quiz-games" class="quiz">\r\n        <i class="fa fa-gamepad"></i>\r\n    </a>\r\n\r\n    <a href="/remote-control" class="remote">\r\n        <i class="fa fa-caret-square-o-right"></i>\r\n    </a>\r\n    \r\n</nav>';
 
 }
 return __p
 };
 
-this["JST"]["templates/partials/right_navigation"] = function(obj) {
+this["JST"]["templates/partials/notfound"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<nav role="navigation" id="right_navigation">\r\n    \r\n    <a href="/collaborative-playlists" class="playlist">\r\n        <i class="fa fa-list"></i>\r\n    </a>\r\n\r\n    <a href="/twitter-charts" class="tweet">\r\n        <i class="fa fa-twitter"></i>\r\n    </a>\r\n\r\n    <a href="/quiz-games" class="quiz">\r\n        <i class="fa fa-gamepad"></i>\r\n    </a>\r\n\r\n    <a href="/remote-control" class="remote">\r\n        <i class="fa fa-caret-square-o-right"></i>\r\n    </a>\r\n    \r\n</nav>';
+__p += '';
 
 }
 return __p

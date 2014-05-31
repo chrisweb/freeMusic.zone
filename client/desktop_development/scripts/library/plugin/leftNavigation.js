@@ -8,7 +8,7 @@
 
 /**
  * 
- * right navigation
+ * left navigation
  * 
  * @param {type} utilities
  * @param {type} Backbone
@@ -26,11 +26,11 @@ define([
     var initialize = function initializeFunction() {
         
         // add the header navigation to the header element of the layout
-        require(['views/components/rightNavigation'], function(RightNavigationView) {
+        require(['views/components/leftNavigation'], function(LeftNavigationView) {
             
-            var rightNavigationView = new RightNavigationView();
+            var leftNavigationView = new LeftNavigationView();
             
-            container.add('right_aside', rightNavigationView);
+            container.add('left_aside', leftNavigationView);
 
         });
         

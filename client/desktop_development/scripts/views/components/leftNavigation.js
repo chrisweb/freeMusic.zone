@@ -9,17 +9,17 @@ define([
     
     'use strict';
 
-    var RightNavigationView = View.extend({
+    var LeftNavigationView = View.extend({
         
         onInitialize: function(options) {
             
-            utilities.log('[RIGHT NAVIGATION PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[LEFT NAVIGATION PARTIAL VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
         },
 
-        template: JST['templates/partials/right_navigation'],
+        template: JST['templates/partials/left_navigation'],
         
         // view events
         events: {
@@ -32,6 +32,6 @@ define([
         
     });
     
-    return RightNavigationView;
+    return LeftNavigationView;
     
 });
