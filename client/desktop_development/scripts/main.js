@@ -42,6 +42,9 @@ require.config({
         'headerNavigation': 'library/plugin/headerNavigation',
         'leftNavigation': 'library/plugin/leftNavigation',
         
+        // library jquery plugins
+        'caretToggle': 'library/jquery/plugin/caretToggle',
+        
         // collections
         'collections.TracksCache': 'collections/TracksCache',
         'collections.TracksSearchResult': 'collections/TracksSearchResult',

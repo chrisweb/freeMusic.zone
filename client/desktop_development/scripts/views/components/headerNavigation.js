@@ -23,10 +23,19 @@ define([
         
         // view events
         events: {
-            
+            'click #left_navigation_button': 'toggleMenuEvent'
         },
         
         onRender: function() {
+            
+        },
+        toggleMenuEvent: function toggleMenuEventFunction(event) {
+            
+            //utilities.log(event);
+            
+            event.preventDefault();
+            
+            eventsManager.trigger('menu:toggle', this);
             
         }
         

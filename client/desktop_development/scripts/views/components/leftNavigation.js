@@ -4,7 +4,8 @@ define([
     'templates',
     'utilities',
     'view',
-    'eventsManager'
+    'eventsManager',
+    'caretToggle'
 ], function ($, _, JST, utilities, View, eventsManager) {
     
     'use strict';
@@ -17,6 +18,8 @@ define([
             
             this.options = options || {};
             
+            eventsManager.on('menu:toggle', this.toggleMenu, this);
+            
         },
 
         template: JST['templates/partials/left_navigation'],
@@ -27,6 +30,24 @@ define([
         },
         
         onRender: function() {
+            
+        },
+        
+        toggleMenu: function toggleMenuFunction(headerNavigationView) {
+            
+            //utilities.log(headerNavigationView.$el);
+            
+            var $leftNavigationButton = headerNavigationView.$el.find('#left_navigation_button');
+            
+            // toggle arrow of button
+            var $leftNavigationButtonCaret = $leftNavigationButton.find('.caret');
+            
+            //utilities.log($leftNavigationButtonCaret);
+            
+            $leftNavigationButtonCaret.caretToggle();
+            
+            // toggle open class of left navigation element
+            this.$el.toggleClass('open');
             
         }
         
