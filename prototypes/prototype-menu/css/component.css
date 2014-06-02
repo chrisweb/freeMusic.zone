@@ -6,12 +6,16 @@ body,
 	height: 100%;
 }
 
-.st-content {
-	overflow-y: scroll;
-	background: #f3efe0;
+body {
+	-webkit-perspective: 1500px;
+	perspective: 1500px;
+	-webkit-perspective-origin: 0% 50%;
+	perspective-origin: 0% 50%;
 }
 
 .st-content {
+	overflow-y: scroll;
+	background: #f3efe0;
 	position: relative;
 }
 
@@ -22,6 +26,8 @@ body,
 	height: 100%;
 	-webkit-transition: -webkit-transform 0.5s;
 	transition: transform 0.5s;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
 }
 
 .st-pusher::after {
@@ -56,6 +62,12 @@ body,
 	background: #48a770;
 	-webkit-transition: all 0.5s;
 	transition: all 0.5s;
+	-webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg);
+	transform: translate3d(-100%, 0, 0) rotateY(-90deg);
+	-webkit-transform-origin: 100% 50%;
+	transform-origin: 100% 50%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
 }
 
 .st-menu::after {
@@ -71,42 +83,17 @@ body,
 	transition: opacity 0.5s;
 }
 
+.open.st-pusher {
+	-webkit-transform: translate3d(300px, 0, 0);
+	transform: translate3d(300px, 0, 0);
+}
+
 .open .st-menu::after {
 	width: 0;
 	height: 0;
 	opacity: 0;
 	-webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
 	transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
-}
-
-/* Individual effects */
-
-/* Effect 7: 3D rotate in */
-
-body {
-	-webkit-perspective: 1500px;
-	perspective: 1500px;
-	-webkit-perspective-origin: 0% 50%;
-	perspective-origin: 0% 50%;
-}
-
-.st-pusher {
-	-webkit-transform-style: preserve-3d;
-	transform-style: preserve-3d;
-}
-
-.open.st-pusher {
-	-webkit-transform: translate3d(300px, 0, 0);
-	transform: translate3d(300px, 0, 0);
-}
-
-.st-effect-7.st-menu {
-	-webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg);
-	transform: translate3d(-100%, 0, 0) rotateY(-90deg);
-	-webkit-transform-origin: 100% 50%;
-	transform-origin: 100% 50%;
-	-webkit-transform-style: preserve-3d;
-	transform-style: preserve-3d;
 }
 
 .open .st-menu {
