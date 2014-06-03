@@ -22,6 +22,30 @@ define([
         
         // view events
         events: {
+            'click .login button': 'loginClick'
+        },
+        
+        loginClick: function loginClickFunction(event) {
+            
+            event.preventDefault();
+
+            this.$el.find('form.login').hide();
+            
+            this.$el.find('loading').show();
+            
+            var oauthIFrame = this.$el.find('.jamendo');
+            
+            var that = this;
+            
+            oauthIFrame.ready(function oauthIFrameReady() {
+                
+                oauthIFrame.attr('src', that.options.oauthUrl);
+            
+                oauthIFrame.show();
+                
+            });
+            
+            
             
         }
         

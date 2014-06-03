@@ -8,30 +8,36 @@ $DullLavender: rgb(182, 143, 229);
 $MediumPurple: rgb(168, 119, 228);
 
 /* CORE */
-body {
-    
+html, body, #container {
+    height: 100%;
+    width: 100%;
 }
 
 #left {
     float: left;
-    width: 10%;
     position: absolute;
     height: 100%;
+    display: none;
 }
 
 #center {
     float: right;
-    width: 90%;
     position: relative;
     height: 100%;
+    width: 100%;
 }
 
 #right {
-    
+    display: none;
 }
 
 #left_aside {
     height: 100%;
+}
+
+#main {
+    height: 100%;
+    width: 100%;
 }
 
 /* BUTTONS */
@@ -174,4 +180,22 @@ nav#left_navigation .quiz {
 nav#left_navigation .remote {
     color: rgb(192, 57, 43);
     background-color: rgb(231, 76, 60);
+}
+
+/* jamendo connect iframe */
+.connect {
+    width: 100%;
+    height: 100%;
+}
+
+.connect iframe.jamendo {
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* loading animation default hidden */
+.loading {
+    display: none;
 }
