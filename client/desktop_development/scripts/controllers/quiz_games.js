@@ -13,7 +13,16 @@ define([
 
     var indexAction = function indexActionFunction() {
         
-        utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
+        utilities.log('[MAIN] controller: homepage,  action: index', 'fontColor:blue');
+        
+        // chat message input form
+        require(['views/components/chatBar'], function(ChatBarView) {
+            
+            var chatBarView = new ChatBarView();
+            
+            container.add('main', chatBarView);
+
+        });
         
         
         

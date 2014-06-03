@@ -9,6 +9,7 @@ define([], function () {
     
     var routesDefinitions = {
         'desktop': 'renderHomepage',
+        'desktop/:controller(/:action)': 'controllerActionDispatcher',
         '*other': 'render404'
     };
     

@@ -3,6 +3,7 @@ define([
     'backbone',
     'jquery',
     'utilities',
+    'configuration',
     'router',
     'container',
     'layout',
@@ -11,7 +12,7 @@ define([
     'tracksCache',
     'headerNavigation',
     'leftNavigation'
-], function (_, Backbone, $, utilities, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {
+], function (_, Backbone, $, utilities, configuration, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {
 
     'use strict';
     
@@ -28,6 +29,30 @@ define([
             require(['controllers/homepage'], function(HomepageController) {
                 
                 HomepageController.index();
+                
+            });
+
+        });
+        
+        applicationRouter.on('route:controllerActionDispatcher', function(controllerName, actionName) {
+            
+            // if the action is not defined use the default value from
+            // configuration
+            if ($.type(actionName) === 'undefined') {
+                
+                actionName = configuration.client.defaults.action;
+                
+            }
+            
+            // filter symbols of action and controller name
+            // remove everything that is not alpha numeric
+            controllerName.replace(/[^a-zA-Z0-9]/g, '');
+            actionName.replace(/[^a-zA-Z0-9]/g, '');
+            
+            // load the controller and call the action
+            require(['controllers/' + controllerName], function(controller) {
+                
+                controller[actionName]();
                 
             });
 
