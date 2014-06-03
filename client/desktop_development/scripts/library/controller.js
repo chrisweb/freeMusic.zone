@@ -8,27 +8,58 @@
 
 /**
  * 
- * base controller
+ * chrisweb controller
  * 
  * @param {type} _
- * @returns {unresolved}
+ * @param {type} Backbone
+ * @param {type} utilities
+ * @param {type} container
+ * @returns {_L17.chrisweb.Controller|chrisweb.Controller}
  */
 define([
-    'underscore'
-], function (_) {
+    'underscore',
+    'backbone',
+    'utilities',
+    'container'
+], function (_, Backbone, utilities, container) {
     
     'use strict';
+    
+    var chrisweb = {};
 
-    var controller = function controllerFunction(options) {
+    chrisweb.Controller = function ControllerFunction() {
 
-        this.options = options || {};
-
-        if (_.isFunction(this.initialize)) {
-            this.initialize(this.options);
-        }
+        this.initialize.apply(this, arguments);
 
     };
+
+    _.extend(chrisweb.Controller.prototype, Backbone.Events, {
+
+        initialize: function controllerInitializeFunction(options) {
+
+            utilities.log('[CHRISWEB CONTROLLER] initializing ...', 'fontColor:blue');
+
+            this.options = options || {};
+
+            // if oninitialize exists
+            if (this.onInitialize) {
+
+                // execute it now
+                this.onInitialize(this.options);
+
+            }
+
+        },
+        dispatch: function controllerDispatchFunction(containerId) {
+
+            container.dispatch(containerId);
+
+        }
+
+    });
     
-    return controller;
+    chrisweb.Controller.extend = Backbone.Model.extend;
+    
+    return chrisweb.Controller;
 
 });

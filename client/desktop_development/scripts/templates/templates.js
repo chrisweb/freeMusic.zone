@@ -6,7 +6,7 @@ this["JST"]["templates/layout"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div id="left">\r\n    <aside id="left_aside"></aside>\r\n</div>\r\n<div id="center">\r\n    <header id="header"></header>\r\n    <section id="main"></section>\r\n    <footer id="footer"></footer>\r\n</div>';
+__p += '<div id="container">\r\n    <div id="left">\r\n        <aside id="left_aside"></aside>\r\n    </div>\r\n    <div id="center">\r\n        <header id="header"></header>\r\n        <section id="main"></section>\r\n        <footer id="footer"></footer>\r\n    </div>\r\n</div>';
 
 }
 return __p
@@ -27,6 +27,16 @@ obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<nav role="navigation" id="left_navigation">\r\n    \r\n    <a href="/collaborative-playlists" class="playlist">\r\n        <i class="fa fa-list"></i>\r\n    </a>\r\n\r\n    <a href="/twitter-charts" class="tweet">\r\n        <i class="fa fa-twitter"></i>\r\n    </a>\r\n\r\n    <a href="/quiz-games" class="quiz">\r\n        <i class="fa fa-gamepad"></i>\r\n    </a>\r\n\r\n    <a href="/remote-control" class="remote">\r\n        <i class="fa fa-caret-square-o-right"></i>\r\n    </a>\r\n    \r\n</nav>';
+
+}
+return __p
+};
+
+this["JST"]["templates/partials/login"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<form>\r\n  <fieldset>\r\n    <legend>Login with your jamendo account</legend>\r\n    <button type="submit" class="btn" id="connect">Login</button>\r\n  </fieldset>\r\n</form>';
 
 }
 return __p

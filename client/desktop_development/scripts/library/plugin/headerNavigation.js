@@ -31,6 +31,8 @@ define([
             var headerNavigationView = new HeaderNavigationView();
             
             container.add('header', headerNavigationView);
+            
+            container.dispatch();
 
         });
         

@@ -1,26 +1,40 @@
 define([
-    'jquery',
     'underscore',
     'utilities',
     'controller',
     'container',
-    'eventsManager',
-    'configuration',
-    'tracksCache'
-], function ($, _, utilities, controller, container, eventsManager, configurationModule, tracksCacheManager) {
+    'backbone'
+], function (_, utilities, Controller, container, Backbone) {
     
     'use strict';
+    
+    var HomepageController = Controller.extend({
+        
+        onInitialize: function() {
+            
+            utilities.log('[HOMEPAGE CONTROLLER] initializing ...', 'fontColor:blue');
+            
+        },
+        
+        indexAction: function indexActionFunction() {
+        
+            utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
 
-    var indexAction = function indexActionFunction() {
-        
-        utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
-        
-        
-        
-    };
+            // chat message input form
+            require(['views/components/login'], function(LoginView) {
 
-    return {
-        index: indexAction
-    };
+                var loginView = new LoginView();
+
+                container.add('main', loginView);
+                
+                this.dispatch();
+
+            });
+
+        }
+        
+    });
+
+    return HomepageController;
     
 });

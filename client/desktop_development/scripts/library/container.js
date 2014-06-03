@@ -10,6 +10,7 @@
  * 
  * views container
  * 
+ * @param {type} utilities
  * @param {type} Backbone
  * @param {type} _
  * @param {type} $
@@ -20,19 +21,45 @@ define([
     'backbone',
     'underscore',
     'jquery'
-], function (utilities, Backbone, _, $) {
-    
-    'use strict';
-    
-    var containers = {};
-    
-    var create = function dispatchFunction(container) {
-        
-        utilities.log('[CONTAINER] VIEWS DISPATCH');
-        
-        if (container === undefined) {
+], function(utilities, Backbone, _, $) {
 
-            _.each(containers, function(views, containerId) {
+    'use strict';
+
+    var instance = null;
+
+    var ContainerSingleton = function ContainerSingletonFunction() {
+        
+        if (instance !== null) {
+            throw new Error("Cannot instantiate more than one MySingleton, use MySingleton.getInstance()");
+        }
+        
+        this.containers = {};
+        
+    };
+    
+    ContainerSingleton.prototype = {
+
+        dispatch: function dispatchFunction(containerId) {
+
+            utilities.log('[CONTAINER] VIEWS DISPATCH');
+
+            if (containerId === undefined) {
+
+                _.each(this.containers, function(views, containerId) {
+
+                    _.each(views, function(view) {
+
+                        var viewHtml = view.create();
+
+                        $('body').find('#' + containerId).append(viewHtml);
+
+                    });
+
+                });
+
+            } else {
+
+                var views = this.containers[containerId];
 
                 _.each(views, function(view) {
 
@@ -42,56 +69,52 @@ define([
 
                 });
 
-            });
+            }
             
-        } else {
-            
-            var views = containers[container];
-            
+            this.containers = {};
+
+        },
+
+        add: function addFunction(containerId, view) {
+
+            utilities.log('[CONTAINER] VIEWS ADD');
+
+            if (this.containers[containerId] === undefined) {
+
+                this.containers[containerId] = [];
+
+            }
+
+            this.containers[containerId].push(view);
+
+        },
+
+        clear: function clearFunction(containerId) {
+
+            var views = this.containers[containerId];
+
             _.each(views, function(view) {
 
-                var viewHtml = view.create();
-                
-                $('body').find('#' + container).append(viewHtml);
+                view.close();
 
             });
-            
+
+            this.containers = {};
+
         }
         
     };
     
-    var add = function addFunction(containerId, view) {
+    var getInstance = function getInstanceFunction() {
         
-        utilities.log('[CONTAINER] VIEWS ADD');
-        
-        if (containers[containerId] === undefined) {
-            
-            containers[containerId] = [];
-            
+        if (instance === null) {
+            instance = new ContainerSingleton();
         }
-
-        containers[containerId].push(view);
         
-    };
-    
-    var clear = function clearFunction(containerId) {
-        
-        var views = containers[containerId];
-
-        _.each(views, function(view) {
-            
-            view.close();
-            
-        });
-        
-        containers = {};
+        return instance;
         
     };
 
-    return {
-        dispatch: create,
-        add: add,
-        clear: clear
-    };
-    
+    return getInstance();
+
 });

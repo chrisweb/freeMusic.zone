@@ -28,7 +28,9 @@ define([
             
             require(['controllers/homepage'], function(HomepageController) {
                 
-                HomepageController.index();
+                var homepageController = new HomepageController();
+                
+                homepageController.indexAction();
                 
             });
 
@@ -122,13 +124,14 @@ define([
             
             initializeRouter();
             
-            initializePlayer();
+            // TODO: initialize these onLogin:
+            //initializePlayer();
             
-            initializeTracksCacheManager();
+            //initializeTracksCacheManager();
             
-            initializeHeaderNavigation();
+            //initializeHeaderNavigation();
             
-            initializeLeftNavigation();
+            //initializeLeftNavigation();
 
             eventsManager.trigger('application:loaded');
             
