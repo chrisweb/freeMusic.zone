@@ -5,6 +5,9 @@ var utilities = require('./library/shared/utilities');
 // api module
 var apiModule = require('./library/api');
 
+// oauth module
+var oauthModule = require('./library/oauth');
+
 // application configuration
 var configurationModule = require('./configuration/configuration');
 
@@ -45,6 +48,10 @@ app.set('view engine', 'html');
 var apiRouter = express.Router();
 
 apiModule.apiStart(configuration, app, apiRouter);
+
+var oauthRouter = express.Router();
+
+
 
 // desktop router
 var desktopRouter = express.Router();
