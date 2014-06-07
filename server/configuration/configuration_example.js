@@ -1,6 +1,8 @@
-exports.version = '0.0.1';
+'use strict';
 
-module.exports.get = function getConfigurationFunction(environment) {
+module.exports.version = '0.0.1';
+
+module.exports.get = function getConfiguration(environment) {
 
     var configuration = {};
 
@@ -20,10 +22,10 @@ module.exports.get = function getConfigurationFunction(environment) {
              * twitter
              */
             configuration.twitter = {
-                consumer_key:         'hdf46hd4hdf64hfd46hfd', // consumer_key
-                consumer_secret:      'hdfhfd654hfd5hfd645dhf4hdf65dhf65hfd65hdf65', // consumer_secret
-                access_token_key:     '484864646-465hfd4hfd4hfd654hfd654hfd65hfd465hfdhfd6546hfd', // access_token
-                access_token_secret:  '4hfd456hfd4hfd654hfd564hfd654hfd65hfd4' // access_token_secret
+                consumer_key:         '4r6g4ger46g4rg4r', // consumer_key
+                consumer_secret:      '4gr6g4er4re64r6r4e6grre644gr64r64gr64r', // consumer_secret
+                access_token_key:     'xbc44b6x46xb-gre44r64r64gre646r4re6464r', // access_token
+                access_token_secret:  '4e8r4zr6rez46rze4rz644zr6r4z6r4z4zr' // access_token_secret
             };
             
             /**
@@ -51,7 +53,7 @@ module.exports.get = function getConfigurationFunction(environment) {
             configuration.mongodb = {
                 host: '127.0.0.1',
                 database: {
-                    name: 'jamprototype'
+                    name: 'playlist_guru'
                 }
             };
             
@@ -61,7 +63,7 @@ module.exports.get = function getConfigurationFunction(environment) {
             configuration.redis = {
                 host: '127.0.0.1',
                 port: 6379,
-                auth: '4fa5s564afs654fsa654fsa65fas465fsa46f5sa465fsa465fsa4',
+                auth: 'h4b4dt4rt4bt64bt46b6r4b64bt64bt6b4rt64b64',
                 databases: {
                     session: 1
                 }
@@ -84,15 +86,17 @@ module.exports.get = function getConfigurationFunction(environment) {
              * jamendo api / oauth
              */
             configuration.jamendoApi = {
-                clientId: '45gds546gds4',
-                clientSecret: 'gds65g4ds54gds564gds65gds465gds',
+                clientId: 'egr5gre+5g6r5',
+                clientSecret: 'bfd95bf5bf59bfd5bfd95bfd5f5bf5bfd65bf6',
                 apiHost: 'api.jamendo.com',
                 apiVersionPath: '/v3.0',
                 apiPort: 443,
+                scope: 'music',
                 grantType: 'authorization_code',
-                redirectUri: 'http://127.0.0.1:35000/jamendo_oauth_redirect',
+                redirectUri: 'http://127.0.0.1:35000/oauth/redirect',
                 resources: {
-                    grant: '/oauth/grant'
+                    grant: '/oauth/grant',
+                    authorize: '/oauth/authorize'
                 }
             };
 
@@ -103,7 +107,3 @@ module.exports.get = function getConfigurationFunction(environment) {
     return configuration;
 
 };
-
-exports.get = getConfiguration;
-
-

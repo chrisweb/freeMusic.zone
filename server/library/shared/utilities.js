@@ -58,7 +58,7 @@
         
     }
     
-    utilities.htmlLog = function(logObjects, logObjectsLength, logFontColor, logBackgroundColor) {
+    utilities.htmlLog = function htmlLogFunction(logObjects, logObjectsLength, logFontColor, logBackgroundColor) {
 
         // TODO: fix: if logging start before domload some messages get lost
 
@@ -94,14 +94,14 @@
             
     };
     
-    utilities.fileLog = function(data, type) {
+    utilities.fileLog = function fileLogFunction(data, type) {
         
         errorLogger.log(type.toLowerCase(), JSON.stringify(data, null, 4));
         
     };
 
     // utilities logger
-    utilities.log = function() {
+    utilities.log = function logFunction() {
 
         // is console defined, some older IEs don't have a console
         if (typeof(console) === 'undefined') {
@@ -351,13 +351,13 @@
         
     };
     
-    utilities.getTimestamp = function() {
+    utilities.getTimestamp = function getTimestampFunction() {
     
         return new Date().getTime();
         
     };
 
-    utilities.millisecondsToString = function(timeInMilliseconds, translations) {
+    utilities.millisecondsToString = function millisecondsToStringFunction(timeInMilliseconds, translations) {
 
         if (typeof(translations) === 'undefined') {
             
@@ -433,6 +433,28 @@
 
         return timeString;
 
+    };
+    
+    utilities.generateUUID = function generateUUIDFunction() {
+    
+        // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+    
+        // http://www.ietf.org/rfc/rfc4122.txt
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        
+        for (var i = 0; i < 36; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        
+        s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] = "-";
+
+        var uuid = s.join("");
+        
+        return uuid;
+        
     };
 
     // this module can be used in the browser as well as in nodejs

@@ -24,13 +24,11 @@ define([
             
             var that = this;
 
-            this.getOauthUrl(function getOauthUrlCallback(error, results) {
+            this.getOauthUrl(function getOauthUrlCallback(error, dataJson) {
                 
                 if (!error) {
                     
-                    console.log('GGGGGGGGGG', results);
-                    
-                    var oauthUrl = '';
+                    var oauthUrl = dataJson.url;
                     
                     // chat message input form
                     require(['views/components/login'], function(LoginView) {
@@ -42,6 +40,10 @@ define([
                         that.dispatch();
 
                     });
+                    
+                } else {
+                    
+                    utilities.log('[CONTROLLER HOMEPAGE] getOauthUrl error', error, 'fontColor:red');
                     
                 }
                 
@@ -65,7 +67,7 @@ define([
                 utilities.log(textStatus);
                 utilities.log(jqXHR);
                 
-                callback(dataJson);
+                callback(false, dataJson);
 
             });
 

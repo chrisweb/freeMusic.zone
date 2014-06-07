@@ -145,8 +145,6 @@ redisModule.getClient(false, function getClientCallback(error, client) {
 
                 }
 
-
-
                 // always invoked
                 desktopRouter.use(function(request, response, next) {
 

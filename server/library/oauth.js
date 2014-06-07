@@ -32,66 +32,58 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
 
     });
     
+    oauthRouter.get('/redirect', function(request, response, next) {
+        
+        console.log('outh redirect');
+        console.log(request);
+
+    });
+    
     app.use('/oauth', oauthRouter);
 
 };
 
 var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, request) {
     
-    var state = '';
+    // a state to verify the response
+    var state = utilities.generateUUID();
     
-    utilities.log(request.session.state, 'fontColor:red');
+    // put the state in the user session to be able to verify it later
+    request.session.state = state;
     
-    if (request.session.state === undefined) {
-    
-        request.session.state = 1;
-        
-    } else {
-        
-        request.session.state++;
-        
-    }
-    
-    /*
-
+    // build the request url
     var requestUrl = '';
 
     // protocol
     requestUrl += 'https://';
 
     // host
-    requestUrl += jamendoApiConfiguration.apiHost;
+    requestUrl += configuration.jamendoApi.apiHost;
 
     // port
     if (
-        $.type(jamendoApiConfiguration.apiPort) !== 'undefined' &&
-        jamendoApiConfiguration.apiPort !== '' &&
-        jamendoApiConfiguration.apiPort !== 80
+        typeof(configuration.jamendoApi.apiPort) !== 'undefined' &&
+        configuration.jamendoApi.apiPort !== '' &&
+        configuration.jamendoApi.apiPort !== 80
     ) {
 
-        requestUrl += ':' + jamendoApiConfiguration.apiPort;
+        requestUrl += ':' + configuration.jamendoApi.apiPort;
 
     }
 
     // api version and authorize resource path
-    requestUrl += jamendoApiConfiguration.apiVersionPath;
-    requestUrl += jamendoApiConfiguration.resources.authorize;
+    requestUrl += configuration.jamendoApi.apiVersionPath;
+    requestUrl += configuration.jamendoApi.resources.authorize;
 
     // parameters
-    requestUrl += '?client_id=' + jamendoApiConfiguration.clientId;
-    requestUrl += '&redirect_uri=' + jamendoApiConfiguration.redirect_uri;
-    requestUrl += '&scope=' + jamendoApiConfiguration.scope;
+    requestUrl += '?client_id=' + configuration.jamendoApi.clientId;
+    requestUrl += '&redirect_uri=' + configuration.jamendoApi.redirectUri;
+    requestUrl += '&scope=' + configuration.jamendoApi.scope;
 
     // state
     requestUrl += '&state=' + state;
 
-    utilities.log('[APPLICATION] requestUrl: ' + requestUrl, 'green');
-
     return requestUrl;
-    
-    */
-   
-   return 'http://';
 
 };
 
