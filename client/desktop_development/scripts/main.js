@@ -57,7 +57,10 @@ require.config({
         'backbone': '../../../bower_components/backbone/backbone',
         'underscore': '../../../bower_components/underscore/underscore',
         'SoundManager': '../../../bower_components/SoundManager2/script/soundmanager2',
-        'moment': '../../../bower_components/moment/moment'
+        'moment': '../../../bower_components/moment/moment',
+        
+        // vendor modernizr
+        //'moment': '../../../bower_components/moment/moment',
         
     }
     

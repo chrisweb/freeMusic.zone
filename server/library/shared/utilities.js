@@ -200,7 +200,6 @@
         colors.blue = '0000FF';
         colors.magenta = 'FF00FF';
         colors.cyan = '00FFFF';
-        colors.blue = '0000FF';
         colors.white = 'FFFFFF';
         colors.black = '000000';
         

@@ -1,6 +1,6 @@
 
 // utilities module
-var utilities = require(__dirname + '/../shared/utilities');
+var utilities = require('./shared/utilities');
 
 var https = require('https');
 
@@ -9,26 +9,94 @@ var querystring = require('querystring');
 // load the jamendo api wrapper module
 var jamendoModule = require('jamendo');
 
-var oauthConnect = function(options) {
-    
-    var configuration = options.configuration;
+module.exports.start = function initialize(configuration, app, oauthRouter) {
 
-    // create a new jamendo api instance
-    this.jamendo = new jamendoModule({ client_id: configuration.jamendoApi.clientId });
+    oauthRouter.use(function(request, response, next) {
+
+        utilities.log('/oauth, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
+
+        next();
+
+    });
+
+    oauthRouter.get('/url', function(request, response, next) {
+        
+        var url = getOAuthRequestUrl(configuration, request);
+        
+        var data = {
+            url: url
+        };
+
+        response.status(200);
+        response.json(data);
+
+    });
+    
+    app.use('/oauth', oauthRouter);
 
 };
 
-oauthConnect.prototype.connect = function(request, response, next, models, configuration) {
+var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, request) {
+    
+    var state = '';
+    
+    utilities.log(request.session.state, 'fontColor:red');
+    
+    if (request.session.state === undefined) {
+    
+        request.session.state = 1;
+        
+    } else {
+        
+        request.session.state++;
+        
+    }
+    
+    /*
 
-    var that = this;
+    var requestUrl = '';
+
+    // protocol
+    requestUrl += 'https://';
+
+    // host
+    requestUrl += jamendoApiConfiguration.apiHost;
+
+    // port
+    if (
+        $.type(jamendoApiConfiguration.apiPort) !== 'undefined' &&
+        jamendoApiConfiguration.apiPort !== '' &&
+        jamendoApiConfiguration.apiPort !== 80
+    ) {
+
+        requestUrl += ':' + jamendoApiConfiguration.apiPort;
+
+    }
+
+    // api version and authorize resource path
+    requestUrl += jamendoApiConfiguration.apiVersionPath;
+    requestUrl += jamendoApiConfiguration.resources.authorize;
+
+    // parameters
+    requestUrl += '?client_id=' + jamendoApiConfiguration.clientId;
+    requestUrl += '&redirect_uri=' + jamendoApiConfiguration.redirect_uri;
+    requestUrl += '&scope=' + jamendoApiConfiguration.scope;
+
+    // state
+    requestUrl += '&state=' + state;
+
+    utilities.log('[APPLICATION] requestUrl: ' + requestUrl, 'green');
+
+    return requestUrl;
     
-    var appRequest = request;
-    
-    var appResponse = response;
-    
-    var appNext = next;
-    
-    var appModels = models;
+    */
+   
+   return 'http://';
+
+};
+
+
+/*module.exports.oauthCconnect = function oauthCconnectFunction(request, response, next, models, configuration) {
 
     // get the request parameters
     var rawCode = request.param('code');
@@ -63,142 +131,6 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
         
         utilities.log(options);
         
-        var oauthRequest = https.request(options, function(oauthResponse) {
-            
-            utilities.log('status: ' + oauthResponse.statusCode);
-            utilities.log('header: ' + JSON.stringify(oauthResponse.headers));
-            
-            oauthResponse.setEncoding('utf8');
-            
-            oauthResponse.on('data', function(chunk) {
-                
-                utilities.log('body: ' + chunk);
-                
-                var result = '';
-                
-                if (oauthResponse.statusCode === 200) {
-
-                    try {
-                        
-                        // try to parse response if it fails the response is not json
-                        result = JSON.parse(chunk);
-                        
-                    } catch(e) {
-                        
-                        // facebook responds with querystring in the body
-                        result = querystring.parse(chunk);
-                        
-                    }
-                    
-                    utilities.log(result);
-                    
-                    // get user infos through jamendo api (username / id)
-                    that.jamendo.users({
-                        access_token: result.access_token
-                    },
-                    function(error, data) {
-                        
-                        utilities.log('oauth result data object: ');
-                        utilities.log(data);
-                        
-                        if (!error) {
-                            
-                            var user = { 
-                                nickname: data.results[0].name,
-                                id: data.results[0].id,
-                                createdAt: data.results[0].creationdate,
-                                language: data.results[0].lang,
-                                avatar: data.results[0].image
-                            };
-                            
-                            user.oauth = result;
-                            
-                            if (typeof appRequest.session !== 'undefined') {
-                                
-                                // put user object in session
-                                appRequest.session.user = user;
-                                
-                                // check if the user exists, if so update it
-                                // else save the user in the mongodb database
-                                appModels.user.saveOne(user);
-                                
-                                appResponse.render('oauth', { message: 'oauth connect success' });
-                                
-                            } else {
-                                
-                                error = { status: 500, stack: '', message: 'undefined session' };
-                                
-                                utilities.log('undefined session, redis may be down: ' + error);
-                                
-                                appNext(error, appRequest, appResponse, appNext);
-                                
-                            }
-                            
-                        } else {
-                            
-                            error = { status: oauthResponse.statusCode, stack: '', message: result.error };
-                            
-                            utilities.log('oauth request failed, status: ' + error);
-                            
-                            appNext(error, appRequest, appResponse, appNext);
-                            
-                        }
-
-                    });
-                    
-                } else {
-
-                    try {
-                        
-                        // try to parse response if it fails the response is not json
-                        result = JSON.parse(chunk);
-                        
-                    } catch(e) {
-                        
-                        var matchesArray = chunk.match('<h1[^>]*>(.*?)<\/h1>', 'g');
-
-                        // if there are matches the response might be an error page
-                        if (matchesArray !== null) {
-
-                            result = {};
-
-                            result.error = matchesArray[1];
-
-                        } else {
-
-                            // facebook responds with querystring in the body
-                            result = querystring.parse(chunk);
-
-                        }
-                        
-                    }
-
-                    var error = { status: oauthResponse.statusCode, stack: '', message: result.error };
-                    
-                    utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error);
-
-                    appNext(error, appRequest, appResponse, appNext);
-                    
-                }
-                
-            });
-
-        });
-
-        oauthRequest.on('error', function(e) {
-            
-            var error = { status: 500, stack: '', message: e.message };
-            
-            utilities.log('oauth request failed: ' + e.message);
-                    
-            appNext(error, appRequest, appResponse, appNext);
-
-        });
-
-        // write data to request body
-        oauthRequest.write(data);
-        oauthRequest.end();
-
     } else {
         
         var error = { status: 500, stack: '', message: 'Missing required code' };
@@ -208,7 +140,145 @@ oauthConnect.prototype.connect = function(request, response, next, models, confi
         appNext(error, appRequest, appResponse, appNext);
         
     }
-
+    
 };
 
-module.exports = oauthConnect;
+module.exports.oauthRequest = function oauthRequestFunction() {
+
+    var oauthRequest = https.request(options, function(oauthResponse) {
+
+        utilities.log('status: ' + oauthResponse.statusCode);
+        utilities.log('header: ' + JSON.stringify(oauthResponse.headers));
+
+        oauthResponse.setEncoding('utf8');
+
+        // write data to request body
+        oauthRequest.write(data);
+        oauthRequest.end();
+        
+    });
+
+    oauthResponse.on('data', function(chunk) {
+
+        utilities.log('body: ' + chunk);
+
+        var result = '';
+
+        if (oauthResponse.statusCode === 200) {
+
+            try {
+
+                // try to parse response if it fails the response is not json
+                result = JSON.parse(chunk);
+
+            } catch(e) {
+
+                // facebook responds with querystring in the body
+                result = querystring.parse(chunk);
+
+            }
+
+            utilities.log(result);
+
+            // get user infos through jamendo api (username / id)
+            that.jamendo.users({
+                access_token: result.access_token
+            },
+            function(error, data) {
+
+                utilities.log('oauth result data object: ');
+                utilities.log(data);
+
+                if (!error) {
+
+                    var user = { 
+                        nickname: data.results[0].name,
+                        id: data.results[0].id,
+                        createdAt: data.results[0].creationdate,
+                        language: data.results[0].lang,
+                        avatar: data.results[0].image
+                    };
+
+                    user.oauth = result;
+
+                    if (typeof appRequest.session !== 'undefined') {
+
+                        // put user object in session
+                        appRequest.session.user = user;
+
+                        // check if the user exists, if so update it
+                        // else save the user in the mongodb database
+                        appModels.user.saveOne(user);
+
+                        appResponse.render('oauth', { message: 'oauth connect success' });
+
+                    } else {
+
+                        error = { status: 500, stack: '', message: 'undefined session' };
+
+                        utilities.log('undefined session, redis may be down: ' + error);
+
+                        appNext(error, appRequest, appResponse, appNext);
+
+                    }
+
+                } else {
+
+                    error = { status: oauthResponse.statusCode, stack: '', message: result.error };
+
+                    utilities.log('oauth request failed, status: ' + error);
+
+                    appNext(error, appRequest, appResponse, appNext);
+
+                }
+
+            });
+
+        } else {
+
+            try {
+
+                // try to parse response if it fails the response is not json
+                result = JSON.parse(chunk);
+
+            } catch(e) {
+
+                var matchesArray = chunk.match('<h1[^>]*>(.*?)<\/h1>', 'g');
+
+                // if there are matches the response might be an error page
+                if (matchesArray !== null) {
+
+                    result = {};
+
+                    result.error = matchesArray[1];
+
+                } else {
+
+                    // facebook responds with querystring in the body
+                    result = querystring.parse(chunk);
+
+                }
+
+            }
+
+            var error = { status: oauthResponse.statusCode, stack: '', message: result.error };
+
+            utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error);
+
+            appNext(error, appRequest, appResponse, appNext);
+
+        }
+
+    });
+    
+    oauthRequest.on('error', function(e) {
+
+        var error = { status: 500, stack: '', message: e.message };
+
+        utilities.log('oauth request failed: ' + e.message);
+
+        appNext(error, appRequest, appResponse, appNext);
+
+    });
+
+};*/

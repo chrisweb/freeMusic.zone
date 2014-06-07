@@ -28,7 +28,8 @@
     "bootstrap-sass-official": "~3.1.1",
     "SoundManager2": "https://github.com/scottschiller/SoundManager2.git#V2.97a.20131201+DEV",
     "fontawesome": "~4.1.0",
-    "moment": "~2.6.0"
+    "moment": "~2.6.0",
+    "modernizr": "master"
   },
   "devDependencies": {
     "qunit": "~1.14.0"

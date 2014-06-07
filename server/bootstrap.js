@@ -1,12 +1,35 @@
+/**
+ * 
+ * Playlist Guru
+ * 
+ * Copyright 2014 weber chris and other contributors
+ * Released under the MIT license
+ * 
+ * https://chris.lu
+ * 
+ */
 
 // utilities module
 var utilities = require('./library/shared/utilities');
+
+// NODE_ENV can be "development", "staging" or "production"
+if (typeof(process.env.NODE_ENV) === 'undefined') {
+
+    //process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'development';
+    
+    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red');
+
+}
 
 // api module
 var apiModule = require('./library/api');
 
 // oauth module
 var oauthModule = require('./library/oauth');
+
+// redis module
+var redisModule = require('./library/redis');
 
 // application configuration
 var configurationModule = require('./configuration/configuration');
@@ -18,19 +41,25 @@ var ejs = require('ejs');
 // http://expressjs.com/4x/api.html
 var express = require('express');
 
+// errorhandler (express middleware)
+// https://github.com/expressjs/errorhandler
+var errorhandler = require('errorhandler');
+
+// cookieParser (express middleware)
+// https://github.com/expressjs/cookie-parser
+var cookieParser = require('cookie-parser');
+
+// express-session (express middleware)
+// https://github.com/expressjs/session
+var session = require('express-session');
+
 // body-parser (express middleware)
 // used to get the data from a POST request
+// https://github.com/expressjs/body-parser
 var bodyParser = require('body-parser');
 
-// NODE_ENV can be "development", "staging" or "production"
-if (typeof(process.env.NODE_ENV) === 'undefined') {
-
-    //process.env.NODE_ENV = 'production';
-    process.env.NODE_ENV = 'development';
-    
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red');
-
-}
+// https://github.com/visionmedia/connect-redis
+var connectRedis = require('connect-redis');
 
 var configuration = configurationModule.get(process.env.NODE_ENV);
 
@@ -44,82 +73,121 @@ app.set('views', __dirname + '/views');
 // by default views will be html
 app.set('view engine', 'html');
 
-// start api
-var apiRouter = express.Router();
+// ERROR HANDLER
+if (process.env.NODE_ENV === 'development') {
 
-apiModule.apiStart(configuration, app, apiRouter);
-
-var oauthRouter = express.Router();
-
-
-
-// desktop router
-var desktopRouter = express.Router();
-
-if (app.get('env') === 'development') {
-
-    desktopRouter.use('/client/desktop_development', express.static(__dirname + '/../client/desktop_development'));
-    desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
-    desktopRouter.use('/bower_components', express.static(__dirname + '/../bower_components'));
-    desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
+    app.use(errorhandler({
+        dumpExceptions: true,
+        showStack: true
+    }));
     
-} else {
-
-    desktopRouter.use(express.static(__dirname + '/../client/desktop_build'));
-
 }
 
 // add the body parser middleware
 app.use(bodyParser());
 
-// TODO: as of express all middleware (body-parser, errorhandler,
-// cookie-session, ...) has own repository and is not bundled with either
-// connect or express
-// https://github.com/expressjs
-// http://scotch.io/bar-talk/expressjs-4-0-new-features-and-upgrading-from-3-0
-
-/*
-  app.use(express.errorHandler({
-
-    dumpExceptions: true,
-
-    showStack: true
-
-  }));
-
-  app.use(express.cookieParser());
-
-  app.use(express.session({ secret: configuration.application.session.secret }));
- */
-
-// always invoked
-desktopRouter.use(function(request, response, next) {
-    
-    utilities.log('/desktop, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
-    
-    response.render('desktop');
-    
-});
-
-app.use('/desktop', desktopRouter);
-
-app.use('/', function(request, response) {
-    
-    utilities.log('/ redirect, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
-    
-    response.redirect(301, '/desktop');
-    
-});
-
 // TODO: error route 50x
 // TODO: not found route 404
 
-app.set('port', process.env.PORT || configuration.server.port);
+// SESSION
+var RedisStore = connectRedis(session);
 
-app.listen(app.get('port'));
+redisModule.getClient(false, function getClientCallback(error, client) {
+    
+    if (!error) {
+        
+        redisModule.selectDatabase(configuration.redis.databases.session, client, false, function selectDatabaseCallback(error) {
+            
+            if (!error) {
+                
+                var redisOptions = { client: client };
+        
+                var redisStore = new RedisStore(redisOptions);
 
-utilities.log('SERVER running on port: ' + app.get('port') + ', environment is: ' + app.get('env'), 'fontColor:green');
+                app.use(cookieParser()); // required before session.
+                app.use(session({
+                    secret: configuration.application.session.secret,
+                    proxy: false, // set to true for SSL outside of node
+                    cookie: {
+                        path: '/',
+                        httpOnly: true, // the browser will not expose cookie data
+                        secure: false, // if https
+                        // if null the cookie becomes a browser-session cookie,
+                        // so whenhen the user closes the browser the cookie (and session) will be removed
+                        maxAge: null
+                    },
+                    store: redisStore
 
+                }));
+                
+                // start api
+                var apiRouter = express.Router();
+
+                apiModule.start(configuration, app, apiRouter);
+
+                var oauthRouter = express.Router();
+
+                oauthModule.start(configuration, app, oauthRouter);
+
+                // desktop router
+                var desktopRouter = express.Router();
+
+                if (app.get('env') === 'development') {
+
+                    desktopRouter.use('/client/desktop_development', express.static(__dirname + '/../client/desktop_development'));
+                    desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
+                    desktopRouter.use('/bower_components', express.static(__dirname + '/../bower_components'));
+                    desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
+
+                } else {
+
+                    desktopRouter.use(express.static(__dirname + '/../client/desktop_build'));
+
+                }
+
+
+
+                // always invoked
+                desktopRouter.use(function(request, response, next) {
+
+                    utilities.log('/desktop, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
+
+                    response.render('desktop');
+
+                });
+
+                app.use('/desktop', desktopRouter);
+
+                app.use('/', function(request, response) {
+
+                    utilities.log('/ redirect, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
+
+                    response.redirect(301, '/desktop');
+
+                });
+
+                // START SERVER
+                app.set('port', process.env.PORT || configuration.server.port);
+
+                app.listen(app.get('port'));
+
+                utilities.log('SERVER running on port: ' + app.get('port') + ', environment is: ' + app.get('env'), 'fontColor:green');
+
+            } else {
+                
+                utilities.log(error, 'fontColor:red');
+                
+            }
+            
+        });
+        
+    } else {
+        
+        utilities.log(error, 'fontColor:red');
+        
+    }
+    
+});
 
 
 

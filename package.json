@@ -21,10 +21,15 @@
   },
   "homepage": "https://github.com/chrisweb/playlist_guru",
   "dependencies": {
-    "express": "~4.3.2",
-    "jamendo": "~0.3.4",
     "body-parser": "~1.2.2",
+    "connect-redis": "^2.0.0",
+    "cookie-parser": "^1.1.0",
     "ejs": "~1.0.0",
+    "errorhandler": "^1.0.2",
+    "express": "~4.3.2",
+    "express-session": "^1.2.1",
+    "jamendo": "~0.3.4",
+    "redis": "^0.10.3",
     "underscore": "~1.6.0"
   },
   "devDependencies": {

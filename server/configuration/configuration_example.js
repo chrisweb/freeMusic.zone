@@ -1,6 +1,6 @@
 exports.version = '0.0.1';
 
-getConfiguration = function(environment) {
+module.exports.get = function getConfigurationFunction(environment) {
 
     var configuration = {};
 

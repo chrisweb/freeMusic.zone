@@ -8,7 +8,7 @@ var _ = require('underscore');
 // jamendo vendor module
 var Jamendo = require('jamendo');
 
-var apiStart = function(configuration, app, apiRouter) {
+module.exports.start = function initialize(configuration, app, apiRouter) {
 
 	apiRouter.use(function(request, response, next) {
     
@@ -83,5 +83,3 @@ var apiStart = function(configuration, app, apiRouter) {
     app.use('/api', apiRouter);
 
 };
-
-module.exports.apiStart = apiStart;

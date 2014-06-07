@@ -119,6 +119,10 @@ create a bower.json file:
 
 bower init
 
+to clear bowers cache
+
+bower cache clean
+
 install client libraries:
 
 bower install requirejs --save
@@ -134,6 +138,8 @@ bower install bootstrap-sass-official --save
 bower install https://github.com/scottschiller/SoundManager2.git#V2.97a.20131201+DEV --save
 
 bower install fontawesome --save
+
+bower install modernizr --save
 
 bower install qunit --save-dev
 
@@ -162,6 +168,16 @@ npm install body-parser --save
 npm install jamendo --save
 
 npm install underscore --save
+
+npm install errorhandler --save
+
+npm install cookie-parser --save
+
+npm install express-session --save
+
+npm install redis --save
+
+npm install connect-redis --save
 
 
 the development dependencies:

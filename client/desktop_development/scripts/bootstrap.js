@@ -18,6 +18,14 @@ define([
     
     // TODO: all of these initializers could be put into "plugins"
     
+    var initializeApplication = function initializeApplicationFunction() {
+        
+        utilities.log('[BOOTSTRAP] initializeApplication', 'fontColor:blue');
+        
+        // TODO: modernizr checks
+        
+    };
+    
     var initializeRouter = function initializeRouterFunction() {
         
         utilities.log('[BOOTSTRAP] initializeRouter', 'fontColor:blue');
@@ -119,6 +127,8 @@ define([
     var run = function runFunction() {
 
         $(function() {
+            
+            initializeApplication();
         
             initializeLayout();
             

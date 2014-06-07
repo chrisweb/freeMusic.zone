@@ -71,7 +71,7 @@ define([
             // listen for search events
             eventsManager.on('search:query', function(parameters) {
 
-                handleSearch(parameters.queryString, function(error, results) {
+                handleSearch(parameters.queryString, function handleSearchCallback(error, results) {
 
                     tracksSearchResultCollection.reset();
 
