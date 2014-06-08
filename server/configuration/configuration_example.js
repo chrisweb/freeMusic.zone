@@ -65,6 +65,7 @@ module.exports.get = function getConfiguration(environment) {
                 port: 6379,
                 auth: 'h4b4dt4rt4bt64bt46b6r4b64bt64bt6b4rt64b64',
                 databases: {
+                    default: 0,
                     session: 1
                 }
             };

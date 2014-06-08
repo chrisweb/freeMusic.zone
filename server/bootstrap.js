@@ -124,10 +124,14 @@ redisModule.getClient(false, function getClientCallback(error, client) {
                 var apiRouter = express.Router();
 
                 apiModule.start(configuration, app, apiRouter);
+                
+                addErrorRoutes(apiRouter);
 
                 var oauthRouter = express.Router();
 
                 oauthModule.start(configuration, app, oauthRouter);
+                
+                addErrorRoutes(oauthRouter);
 
                 // desktop router
                 var desktopRouter = express.Router();
@@ -153,6 +157,8 @@ redisModule.getClient(false, function getClientCallback(error, client) {
                     response.render('desktop');
 
                 });
+                
+                addErrorRoutes(desktopRouter);
 
                 app.use('/desktop', desktopRouter);
 
@@ -187,7 +193,76 @@ redisModule.getClient(false, function getClientCallback(error, client) {
     
 });
 
+var addErrorRoutes = function addErrorRoutesFunction(router) {
+    
+    /**
+     * 5xx error middleware
+     */
+    router.use(function(error, request, response, next) {
 
+        utilities.log('server error: ' + JSON.stringify(error), 'fontColor:red');
+
+        if (error.status === 404) {
+            
+            return next();
+            
+        }
+
+        utilities.log('5xx middleware catch by: ' + request.url, 'fontColor:yellow');
+
+        // error page
+        response.status(parseInt(error.status));
+
+        if (request.accepts('html')) {
+
+            if (typeof(error.stack) !== 'undefined') {
+                
+                response.render('5xx', { environment: process.env.NODE_ENV, stack: error.stack.replace(/\n/g, '<br>'), message: error.message });
+                
+            } else {
+                
+                response.render('5xx', { environment: process.env.NODE_ENV, stack: '', message: error.message });
+                
+            }
+
+        } else if (request.accepts('json')) {
+
+            if (typeof(error.stack) !== 'undefined') {
+                
+                response.send({ code: error.status, stack: error.stack, message: error.message });
+                
+            } else {
+                
+                response.send({ code: error.status, stack: '', message: error.message });
+                
+            }
+
+        }
+
+    });
+
+    /**
+     * 404 error middleware
+     */
+    router.use(function(request, response) {
+
+        response.status(404);
+
+        utilities.log('404 middleware catch by: ' + request.url, 'fontColor:red');
+
+        if (request.accepts('html')) {
+
+            response.render('404', { environment: process.env.NODE_ENV, url: request.originalUrl, message: '404 page not found' });
+
+        } else if (request.accepts('json')) {
+
+            response.send({ code: '404', url: request.originalUrl, message: '404 page not found' });
+
+        }
+
+    });
+    
+};
 
 /*
 var mongoose = require('mongoose');

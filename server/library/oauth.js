@@ -13,14 +13,14 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
 
     oauthRouter.use(function(request, response, next) {
 
-        utilities.log('/oauth, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
-
+        utilities.log('/oauth, method: ' + request.method + ', url:' + request.url + ', path:' + request.path, 'fontColor:magenta');
+        
         next();
 
     });
 
     oauthRouter.get('/url', function(request, response, next) {
-        
+
         var url = getOAuthRequestUrl(configuration, request);
         
         var data = {
@@ -34,8 +34,51 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
     
     oauthRouter.get('/redirect', function(request, response, next) {
         
-        console.log('outh redirect');
-        console.log(request);
+        // get the request parameters
+        var rawCode = request.param('code');
+        var rawState = request.param('state');
+        
+        var code = utilities.filterAlphaNumericPlus(rawCode);
+        var state = utilities.filterAlphaNumericPlus(rawState, '-');
+        
+        state=false;
+        
+        if (!code || !state) {
+            
+            // trigger error route
+            var error = {
+                stack: '',
+                message: 'invalid code or state'
+            };
+
+            next(error, request, response, next);
+            
+        }
+        
+        var data = querystring.stringify({
+            code: code,
+            client_id: configuration.jamendoApi.clientId,
+            client_secret: configuration.jamendoApi.clientSecret,
+            grant_type: configuration.jamendoApi.grantType,
+            redirect_uri: configuration.jamendoApi.redirectUri
+        });
+
+        utilities.log(data);
+
+        var options = {
+            hostname: configuration.jamendoApi.apiHost,
+            port: configuration.jamendoApi.apiPort,
+            path: configuration.jamendoApi.apiVersionPath + configuration.jamendoApi.resources.grant,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': data.length
+            }
+        };
+        
+        utilities.log(options);
+        
+        
 
     });
     

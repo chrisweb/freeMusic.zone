@@ -294,10 +294,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-compress');
 
-    // default task
-    grunt.registerTask('default', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    // default task, just lint js files
+    grunt.registerTask('default', ['jshint']);
     
-    // templates
-    grunt.registerTask('templates', ['jst']);
+    // build for production export
+    grunt.registerTask('buildprod', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    
+    // templates and css for development
+    grunt.registerTask('builddev', ['jst', 'sass', 'copy']);
 
 };

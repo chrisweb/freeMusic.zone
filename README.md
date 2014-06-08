@@ -223,16 +223,19 @@ npm install mongoose --save
 
 
 
-Fetch the dependencies
+Before you starting development:
+
+* Fetch the dependencies
 
 npm install
 
 bower install
 
+* Generate the templates and css files using grunt
 
+grunt builddev
 
-
-To run the project:
+* Start the server
 
 To run the project run this command on linux:
 NODE_ENV=development node server
@@ -242,6 +245,12 @@ $env:NODE_ENV="development"
 node server
 
 NODE_ENV can be development, staging, production
+
+* Launch grunt watch so that the templates and css files get automatically recreated after you edit them
+
+open another command line window
+
+grunt watch
 
 
 

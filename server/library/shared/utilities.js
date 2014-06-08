@@ -351,12 +351,14 @@
         
     };
     
+    // TODO: use moment.js for this
     utilities.getTimestamp = function getTimestampFunction() {
     
         return new Date().getTime();
         
     };
 
+    // TODO: use moment.js for this
     utilities.millisecondsToString = function millisecondsToStringFunction(timeInMilliseconds, translations) {
 
         if (typeof(translations) === 'undefined') {
@@ -454,6 +456,32 @@
         var uuid = s.join("");
         
         return uuid;
+        
+    };
+    
+    utilities.filterAlphaNumericPlus = function filterAlphaNumericFunctionPlus(inputString, specialCharacters) {
+        
+        if (typeof(inputString) === 'string' && inputString.length > 0) {
+            
+            var outputString;
+            
+            if (specialCharacters !== undefined) {
+                
+                var regex = RegExp('[^a-z0-9' + specialCharacters + ']', 'gi');
+                
+                outputString = inputString.replace(regex, '');
+                
+            } else {
+            
+                outputString = inputString.replace(/[^a-z0-9]/gi, '');
+                
+            }
+            
+            return outputString;
+            
+        }
+        
+        return false;
         
     };
 
