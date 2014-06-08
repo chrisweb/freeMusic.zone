@@ -11,40 +11,17 @@ var redis = require('redis');
 var configurationModule = require('../configuration/configuration.js');
 var configuration = configurationModule.get(process.env.NODE_ENV);
 
-var cachedClient = null;
-var cachedDatabases = {};
-
-/**
- * 
- * module.exports the redis module
- * 
- * @returns {redis}
- */
-module.exports.getModule = function getModuleFunction() {
-    
-    return redis;
-    
-};
-
 /**
  * 
  * get a redis client instance
  * 
- * @param {type} fromCache
- * @param {type} callbackFunction
+ * @param {type} callback
  * @returns {unresolved}
  */
-module.exports.getClient = function getClientFunction(fromCache, callbackFunction) {
+module.exports.getClient = function getClientFunction(callback) {
 
     utilities.log('[REDIS_DB] getRedisClient', 'fontColor:cyan');
 
-    // check if we have cached instance of client
-    if (fromCache !== false && cachedClient !== null) {
-        
-        return callbackFunction(false, cachedClient);
-        
-    }
-    
     var redisPort = configuration.redis.port;
     var redisHost = configuration.redis.host;
 
@@ -54,12 +31,12 @@ module.exports.getClient = function getClientFunction(fromCache, callbackFunctio
     // get redis client instance
     var redisDBClient = redis.createClient(redisPort, redisHost);
     
-    // NOTE: Your call to client.auth() should not be inside the ready handler
+    // NOTE: your call to client.auth() should not be inside the ready handler
     var redisAuth = configuration.redis.auth;
 
     if (redisAuth.length > 0) {
 
-        // This command is magical.  Client stashes the password and will issue on every connect.
+        // this command is magical, client stashes the password and will issue it on every connect
         redisDBClient.auth(redisAuth, function(error) {
             
             if (error !== null) {
@@ -86,7 +63,7 @@ module.exports.getClient = function getClientFunction(fromCache, callbackFunctio
     // if error
     redisDBClient.on('error', function(error) {
 
-        return callbackFunction('[REDIS_DB] redisDBClient on error (port: ' + redisPort + ', host: ' + redisHost + ') error: ' + error, null);
+        return callback('[REDIS_DB] redisDBClient on error (port: ' + redisPort + ', host: ' + redisHost + ') error: ' + error);
 
     });
     
@@ -97,29 +74,17 @@ module.exports.getClient = function getClientFunction(fromCache, callbackFunctio
         
         if (error) {
 
-            return callbackFunction('[REDIS_DB] redisDBClient on ready error: ' + error, null);
+            return callback('[REDIS_DB] redisDBClient on ready error: ' + error);
 
         }
         
-        // cache the client instance
-        cachedClient = redisDBClient;
-        
-        return callbackFunction(false, redisDBClient);
+        return callback(false, redisDBClient);
         
     });
     
     redisDBClient.on('reconnecting', function (error) {
         
         utilities.log('[REDIS_DB] redisDBClient on reconnecting', 'fontColor:cyan');
-
-        var redisAuth = configuration.redis.auth;
-
-        if (redisAuth.length > 0) {
-
-            // This command is magical.  Client stashes the password and will issue on every connect.
-            redisDBClient.auth('somepass');
-            
-        }
         
     });
     
@@ -137,10 +102,10 @@ module.exports.getClient = function getClientFunction(fromCache, callbackFunctio
  * 
  * @param {type} databaseIndex
  * @param {type} redisDBClient
- * @param {type} callbackFunction
+ * @param {type} callback
  * @returns {undefined}
  */
-var redisSelectDatabase = function redisSelectDatabaseFunction(databaseIndex, redisDBClient, callbackFunction) {   
+var redisSelectDatabase = function redisSelectDatabaseFunction(databaseIndex, redisDBClient, callback) {   
 
     utilities.log('[REDIS_DB] redisSelectDatabase', 'fontColor:cyan');
 
@@ -155,11 +120,11 @@ var redisSelectDatabase = function redisSelectDatabaseFunction(databaseIndex, re
 
         if (error) {
 
-            return callbackFunction('[REDIS_DB] redisDBClient select database error: ' + error);
+            return callback('[REDIS_DB] redisDBClient select database error: ' + error);
 
         }
             
-        return callbackFunction(false);
+        return callback(false);
 
     });
 
@@ -171,22 +136,12 @@ var redisSelectDatabase = function redisSelectDatabaseFunction(databaseIndex, re
  * 
  * @param {type} databaseIndex
  * @param {type} redisDBClient
- * @param {type} fromCache
- * @param {type} callbackFunction
+ * @param {type} callback
  * @returns {unresolved}
  */
-module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, redisDBClient, fromCache, callbackFunction) {
+module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, redisDBClient, callback) {
     
     utilities.log('[REDIS_DB] selectDatabase, databaseIndex: ' + databaseIndex, 'fontColor:cyan');
-    
-    // check if we have cached instance of database
-    if (fromCache !== false && typeof(cachedDatabases.databaseIndex) !== 'undefined') {
-        
-        redisDBClient = cachedDatabases.databaseIndex;
-        
-        return callbackFunction(false, redisDBClient);
-        
-    }
 
     if (typeof(redisDBClient) === 'undefined' || redisDBClient === null) {
 
@@ -194,7 +149,7 @@ module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, r
 
             if (error) {
                 
-                return callbackFunction(error, null);
+                return callback(error);
                 
             }
             
@@ -202,14 +157,11 @@ module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, r
                 
                 if (error) {
 
-                    return callbackFunction(error, null);
+                    return callback(error);
 
                 }
-                
-                // cache redis client
-                cachedDatabases.databaseIndex = redisDBClient;
-                    
-                return callbackFunction(false, redisDBClient);
+
+                return callback(false, redisDBClient);
                 
             });
             
@@ -221,14 +173,11 @@ module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, r
 
             if (error) {
 
-                return callbackFunction(error, null);
+                return callback(error);
 
             }
-            
-            // cache redis client
-            cachedDatabases.databaseIndex = redisDBClient;
 
-            return callbackFunction(false, redisDBClient);
+            return callback(false, redisDBClient);
 
         });
         
@@ -250,10 +199,6 @@ module.exports.disconnect = function disconnectFunction(redisDBClient) {
     setTimeout(function() {
 
         redisDBClient.quit();
-        
-        // clear cache variables
-        cachedClient = null;
-        cachedDatabases = {};
 
     }, 0);
 
@@ -278,10 +223,10 @@ module.exports.setExpiry = function setExpiryFunction(redisDBClient, key, ttl) {
  * 
  * @param {type} redisDBClient
  * @param {type} key
- * @param {type} callbackFunction
+ * @param {type} callback
  * @returns {undefined}
  */
-module.exports.keyExists = function keyExistsFunction(redisDBClient, key, callbackFunction) {
+module.exports.keyExists = function keyExistsFunction(redisDBClient, key, callback) {
 
     utilities.log('[REDIS_DB] keyExists, key: ' + key, 'fontColor:cyan');
 
@@ -289,11 +234,11 @@ module.exports.keyExists = function keyExistsFunction(redisDBClient, key, callba
 
         if (error) {
             
-            callbackFunction('redis exists error: ' + error, null);
+            callback('redis exists error: ' + error);
 
         }
 
-        return callbackFunction(false, existsResponse);
+        return callback(false, existsResponse);
 
     });
 
@@ -318,10 +263,10 @@ module.exports.insertString = function insertStringFunction(redisDBClient, key, 
  * 
  * @param {type} redisDBClient
  * @param {type} key
- * @param {type} callbackFunction
+ * @param {type} callback
  * @returns {undefined}
  */
-module.exports.readString = function readStringFunction(redisDBClient, key, callbackFunction) {
+module.exports.readString = function readStringFunction(redisDBClient, key, callback) {
 
     utilities.log('[REDIS_DB] readString', 'fontColor:cyan');
 
@@ -329,11 +274,11 @@ module.exports.readString = function readStringFunction(redisDBClient, key, call
         
         if (error) {
             
-            return callbackFunction('[REDIS_DB] error while retrieving redis string by key, key: ' + key + ', error: ' + error, null);
+            return callback('[REDIS_DB] error while retrieving redis string by key, key: ' + key + ', error: ' + error);
             
         }
         
-        return callbackFunction(false, string);
+        return callback(false, string);
         
     });
 
@@ -348,10 +293,10 @@ module.exports.readString = function readStringFunction(redisDBClient, key, call
  * @param {type} redisDBClient
  * @param {type} timestampKey
  * @param {type} secondsBack
- * @param {type} callbackFunction
+ * @param {type} callback
  * @returns {undefined}
  */
-module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClient, timestampKey, secondsBack, callbackFunction) {
+module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClient, timestampKey, secondsBack, callback) {
 
     utilities.log('[REDIS_DB] isTimestampValid, timestampKey: ' + timestampKey + ', secondsBack: ' + secondsBack, 'fontColor:cyan');
 
@@ -362,7 +307,7 @@ module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClien
         
         if (error) {
             
-            return callbackFunction(error, null);
+            return callback(error);
             
         }
         
@@ -372,7 +317,7 @@ module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClien
 
                 if (error) {
 
-                    return callbackFunction(error, null);
+                    return callback(error);
 
                 }
                 
@@ -387,7 +332,7 @@ module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClien
 
                 }
                 
-                return callbackFunction(false, isTimestampValid);
+                return callback(false, isTimestampValid);
                 
             });
         
@@ -395,7 +340,7 @@ module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClien
             
             isTimestampValid = false;
             
-            return callbackFunction(false, isTimestampValid);
+            return callback(false, isTimestampValid);
             
         }
 
@@ -410,10 +355,10 @@ module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClien
  * 
  * @param {type} redisDBClient
  * @param {type} key
- * @param {type} callbackFunction
+ * @param {type} callback
  * @returns {undefined}
  */
-module.exports.getCachedObjectByKey = function getCachedObjectByKeyFunction(redisDBClient, key, callbackFunction) {
+module.exports.getCachedObjectByKey = function getCachedObjectByKeyFunction(redisDBClient, key, callback) {
 
     utilities.log('[REDIS_DB] getCachedObjectByKey, key: ' + key, 'fontColor:cyan');
 
@@ -423,7 +368,7 @@ module.exports.getCachedObjectByKey = function getCachedObjectByKeyFunction(redi
         
         if (error) {
             
-            return callbackFunction('[REDIS_DB] getCachedValueByKey redisKeyExists error: ' + error, null);
+            return callback('[REDIS_DB] getCachedValueByKey redisKeyExists error: ' + error);
             
         }
         
@@ -433,7 +378,7 @@ module.exports.getCachedObjectByKey = function getCachedObjectByKeyFunction(redi
 
                 if (error) {
 
-                    return callbackFunction('[REDIS_DB] getCachedValueByKey this.readString error: ' + error, null);
+                    return callback('[REDIS_DB] getCachedValueByKey this.readString error: ' + error);
 
                 }
                 
@@ -445,17 +390,17 @@ module.exports.getCachedObjectByKey = function getCachedObjectByKeyFunction(redi
 
                 } catch (exception) {
 
-                    return callbackFunction('[REDIS_DB] getCachedValueByKey parse json error: ' + exception, null);
+                    return callback('[REDIS_DB] getCachedValueByKey parse json error: ' + exception);
 
                 }
                 
-                return callbackFunction(false, cacheObject);
+                return callback(false, cacheObject);
 
             });
             
         } else {
             
-            return callbackFunction(false, null);
+            return callback(false);
 
         }
         

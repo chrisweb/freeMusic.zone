@@ -96,7 +96,7 @@ redisModule.getClient(false, function getClientCallback(error, client) {
     
     if (!error) {
         
-        redisModule.selectDatabase(configuration.redis.databases.session, client, false, function selectDatabaseCallback(error) {
+        redisModule.selectDatabase(configuration.redis.databases.session, client, function selectDatabaseCallback(error) {
             
             if (!error) {
                 
