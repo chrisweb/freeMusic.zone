@@ -31,6 +31,9 @@ var oauthModule = require('./library/oauth');
 // redis module
 var redisModule = require('./library/redis');
 
+// user module
+var userModule = require('./library/user');
+
 // application configuration
 var configurationModule = require('./configuration/configuration');
 
@@ -62,6 +65,9 @@ var bodyParser = require('body-parser');
 var connectRedis = require('connect-redis');
 
 var configuration = configurationModule.get(process.env.NODE_ENV);
+
+// initialize the user module
+userModule.start();
 
 // instantiate expressjs
 var app = express({ env: process.env.NODE_ENV });
