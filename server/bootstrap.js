@@ -92,7 +92,7 @@ app.use(bodyParser());
 // SESSION
 var RedisStore = connectRedis(session);
 
-redisModule.getClient(false, function getClientCallback(error, client) {
+redisModule.getClient(function getClientCallback(error, client) {
     
     if (!error) {
         
@@ -195,9 +195,7 @@ redisModule.getClient(false, function getClientCallback(error, client) {
 
 var addErrorRoutes = function addErrorRoutesFunction(router) {
     
-    /**
-     * 5xx error middleware
-     */
+    // 5xx error route
     router.use(function(error, request, response, next) {
 
         utilities.log('server error: ' + JSON.stringify(error), 'fontColor:red');
@@ -241,9 +239,7 @@ var addErrorRoutes = function addErrorRoutesFunction(router) {
 
     });
 
-    /**
-     * 404 error middleware
-     */
+    // 404 error route
     router.use(function(request, response) {
 
         response.status(404);
