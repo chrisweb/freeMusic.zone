@@ -9,6 +9,8 @@
  * 
  */
 
+'use strict';
+
 // utilities module
 var utilities = require('./library/shared/utilities');
 
@@ -30,6 +32,9 @@ var oauthModule = require('./library/oauth');
 
 // redis module
 var redisModule = require('./library/redis');
+
+// mongo module
+var mongoModule = require('./library/mongo');
 
 // user module
 var userModule = require('./library/user');
@@ -67,7 +72,22 @@ var connectRedis = require('connect-redis');
 var configuration = configurationModule.get(process.env.NODE_ENV);
 
 // initialize the user module
-userModule.start();
+userModule.start(configuration);
+
+// mongodb connection
+var mongoClient = mongoModule.getClient(function mongooseConnectCallback(error) {
+    
+    if (error) {
+        
+        utilities.log('[MONGODB]' + error, 'fontColor:red');
+        
+    } else {
+        
+        utilities.log('[MONGODB] connected', 'fontColor:green');
+        
+    }
+    
+});
 
 // instantiate expressjs
 var app = express({ env: process.env.NODE_ENV });
@@ -265,22 +285,3 @@ var addErrorRoutes = function addErrorRoutesFunction(router) {
     });
     
 };
-
-/*
-var mongoose = require('mongoose');
-var fs = require('fs');
-var configuration = require('./config/config');
-
-mongoose.connect(config.db);
-var db = mongoose.connection;
-db.on('error', function () {
-    throw new Error('unable to connect to database at ' + config.db);
-});
-
-var modelsPath = __dirname + '/app/models';
-fs.readdirSync(modelsPath).forEach(function (file) {
-    if (file.indexOf('.js') >= 0) {
-        require(modelsPath + '/' + file);
-    }
-});
-*/

@@ -20,7 +20,7 @@ var configuration = configurationModule.get(process.env.NODE_ENV);
  */
 module.exports.getClient = function getClientFunction(callback) {
 
-    utilities.log('[REDIS_DB] getRedisClient', 'fontColor:cyan');
+    utilities.log('[REDIS_DB] getClient', 'fontColor:cyan');
 
     var redisPort = configuration.redis.port;
     var redisHost = configuration.redis.host;

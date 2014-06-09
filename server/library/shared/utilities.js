@@ -489,7 +489,7 @@
     if (typeof(module) === 'object' && typeof(module.exports) === 'object') {
         module.exports = utilities;
     } else if (typeof(define) === 'function' && define.amd) {
-        define('utilities', [], function() {
+        define('library.utilities', [], function() {
             return utilities;
         });
     }

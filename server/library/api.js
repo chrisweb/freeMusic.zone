@@ -26,8 +26,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
         var jamendo = new Jamendo({
             client_id : configuration.jamendoApi.clientId,
-            protocol  : 'http',
-            version   : 'v3.0',
+            protocol  : configuration.jamendoApi.protocol,
+            version   : configuration.jamendoApi.version,
             debug     : false,
             rejectUnauthorized: false
         });

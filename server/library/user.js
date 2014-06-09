@@ -9,12 +9,71 @@ var Jamendo = require('jamendo');
 // library event (eventsManager)
 var eventsManager = require('./event');
 
-module.exports.start = function initialize() {
+// user model
+var UserModel = require('../models/user');
+
+module.exports.start = function initialize(configuration) {
     
-    eventsManager.on('userOauth', function(userOauthData) {
+    eventsManager.on('userOauth', function(userOauthData, request) {
         
-        utilities.log('   on userOauth');
-        utilities.log(userOauthData);
+        utilities.log('[USER] on userOauth');
+        utilities.log('userOauthData: ', userOauthData);
+        
+        // get user personal info using token
+        var jamendo = new Jamendo({
+            client_id : configuration.jamendoApi.clientId,
+            protocol  : configuration.jamendoApi.protocol,
+            version   : configuration.jamendoApi.version,
+            debug     : false,
+            rejectUnauthorized: false
+        });
+
+        jamendo.users({ access_token: userOauthData.token }, function(error, userDataAPI) {
+            
+            //utilities.log('user data from API: ', data);
+            
+            if (userDataAPI.headers.error_message !== '') {
+                    
+                utilities.log('getting user data using the jamendo API failed: ', data.headers.error_message, 'fontColor:red');
+                
+            } else if (userDataAPI.headers.warnings !== '') {
+                    
+                utilities.log('getting user data using the jamendo API failed: ', data.headers.warnings, 'fontColor:red');
+                
+            } else if (error) {
+                
+                utilities.log('getting user data using the jamendo API failed: ', error, 'fontColor:red');
+                
+            } else {
+                
+                // check if user exists in database
+                var userModel = new UserModel();
+                
+                var userData = userModel.getOne(userDataAPI.id, function getOneUserCallback(error, userDataDB) {
+                    
+                    if (!error) {
+                        
+                        if (userDataDB === null) {
+                            
+                            // user does not yet exist, save data in db
+                            userModel.saveOne();
+                            
+                        }
+                        
+                        // put user data into session
+                        request.session.user = {
+                            
+                        };
+                        
+                    }
+                    
+                });
+                
+                
+                
+            }
+            
+        });
         
     });
     

@@ -19,7 +19,7 @@
 define([
     'library.utilities',
     'library.eventsManager',
-    'models.user',
+    'models.User',
     'moment'
 ], function (utilities, eventsManager, UserModel, moment) {
     

@@ -1,3 +1,5 @@
+'use strict';
+
 // nodejs util
 var util = require('util');
 

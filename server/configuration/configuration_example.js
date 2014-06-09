@@ -52,8 +52,11 @@ module.exports.get = function getConfiguration(environment) {
              */
             configuration.mongodb = {
                 host: '127.0.0.1',
+                port: 27017,
+                user: 'sgdgds',
+                password: '4gs65g64sd4',
                 database: {
-                    name: 'playlist_guru'
+                    name: 'database_name'
                 }
             };
             

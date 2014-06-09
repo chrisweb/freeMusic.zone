@@ -10,7 +10,7 @@
 define([
     'library.utilities',
     'underscore',
-    'model'
+    'library.model'
 ], function (utilities, _, model) {
     
     'use strict';

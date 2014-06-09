@@ -101,11 +101,17 @@ backbone debugger: https://chrome.google.com/webstore/detail/backbone-debugger/b
 
 -------------------
 
-To create the project I did:
 
-in your console type
 
-cd C:\Users\chris\Documents\GitHub\playlist_guru
+
+
+client (bower)
+
+open your console
+
+in your console type (path to project root):
+
+cd /PROJECT_ROOT_PATH
 
 npm install -g bower
 
@@ -147,17 +153,26 @@ bower install qunit --save-dev
 
 bower install momentjs --save
 
-bower install modernizr --save
-
 bower install animate.css --save
 
-server
+bower install velocity --save
 
-npm
 
-create a package json:
+
+
+server (npm)
+
+open your console
+
+in your console type (path to project root):
+
+cd /PROJECT_ROOT_PATH
+
+create a package json (to start a new project):
 
 npm init
+
+to install vendor node modules:
 
 install server / backend libraries:
 
@@ -179,8 +194,16 @@ npm install redis --save
 
 npm install connect-redis --save
 
+npm install mongoose --save
+
+if intsalling mongoose on windows fails, install visual studio (express) 2012 (or 2013) and use this command:
+npm install mongoose --save--msvs_version=2012
+
+
 
 the development dependencies:
+
+npm install -g grunt-cli (grunt cli installed globally)
 
 npm install jshint-stylish --save-dev
 

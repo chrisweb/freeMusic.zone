@@ -25,7 +25,7 @@ define([
     'configuration',
     'library.router',
     'library.container',
-    'layout',
+    'library.layout',
     'library.eventsManager',
     'library.player.core',
     'library.tracksCache',

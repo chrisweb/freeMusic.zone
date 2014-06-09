@@ -91,9 +91,9 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
         //utilities.log(data);
 
         var options = {
-            hostname: configuration.jamendoApi.apiHost,
-            port: configuration.jamendoApi.apiPort,
-            path: configuration.jamendoApi.apiVersionPath + configuration.jamendoApi.resources.grant,
+            hostname: configuration.jamendoApi.host,
+            port: configuration.jamendoApi.port,
+            path: '/' + configuration.jamendoApi.version + configuration.jamendoApi.resources.grant,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -124,24 +124,24 @@ var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, requ
     var requestUrl = '';
 
     // protocol
-    requestUrl += 'https://';
+    requestUrl += configuration.jamendoApi.protocol + '://';
 
     // host
-    requestUrl += configuration.jamendoApi.apiHost;
+    requestUrl += configuration.jamendoApi.host;
 
     // port
     if (
-        typeof(configuration.jamendoApi.apiPort) !== 'undefined' &&
-        configuration.jamendoApi.apiPort !== '' &&
-        configuration.jamendoApi.apiPort !== 80
+        typeof(configuration.jamendoApi.port) !== 'undefined' &&
+        configuration.jamendoApi.port !== '' &&
+        configuration.jamendoApi.port !== 80
     ) {
 
-        requestUrl += ':' + configuration.jamendoApi.apiPort;
+        requestUrl += ':' + configuration.jamendoApi.port;
 
     }
 
     // api version and authorize resource path
-    requestUrl += configuration.jamendoApi.apiVersionPath;
+    requestUrl += '/' + configuration.jamendoApi.version;
     requestUrl += configuration.jamendoApi.resources.authorize;
 
     // parameters
@@ -193,7 +193,7 @@ var getOauthToken = function getOauthTokenFunction(data, options, request, respo
                     refreshToken: result.refresh_token
                 };
                 
-                eventsManager.emit('userOauth', userOauthData);
+                eventsManager.emit('userOauth', userOauthData, request);
 
             } else {
 
