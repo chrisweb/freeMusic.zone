@@ -34,13 +34,11 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
     
     oauthRouter.get('/redirect', function(request, response, next) {
         
-        // send a response back to the client
-        response.render('oauth', { message: 'oauth connect success' });
-        
         // get the request parameters
         var rawCode = request.param('code');
         var rawState = request.param('state');
         
+        // check if the code and state are valid
         var code = utilities.filterAlphaNumericPlus(rawCode);
         var state = utilities.filterAlphaNumericPlus(rawState, '-');
         
@@ -54,7 +52,33 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
 
             next(error, request, response, next);
             
+            return false;
+            
         }
+
+        // validate the state
+        if (request.session.state !== state) {
+            
+            // trigger error route
+            var error = {
+                stack: '',
+                message: 'invalid state'
+            };
+
+            // clear state value in session
+            request.session.state = '';
+
+            next(error, request, response, next);
+            
+            return false;
+            
+        }
+        
+        // clear state value in session
+        request.session.state = '';
+                
+        // send a response back to the client
+        response.render('oauth', { message: 'oauth connect success' });
         
         var data = querystring.stringify({
             code: code,

@@ -5,8 +5,9 @@ define([
     'container',
     'backbone',
     'jquery',
-    'configuration'
-], function (_, utilities, Controller, container, Backbone, $, configurationModule) {
+    'configuration',
+    'library.user'
+], function (_, utilities, Controller, container, Backbone, $, configurationModule, user) {
     
     'use strict';
     
@@ -22,32 +23,42 @@ define([
         
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
             
-            var that = this;
+            var isLogged = user.getAttribute('isLogged');
+            
+            if (!isLogged) {
+            
+                var that = this;
 
-            this.getOauthUrl(function getOauthUrlCallback(error, dataJson) {
+                this.getOauthUrl(function getOauthUrlCallback(error, dataJson) {
+
+                    if (!error) {
+
+                        var oauthUrl = dataJson.url;
+
+                        // chat message input form
+                        require(['views/components/login'], function(LoginView) {
+
+                            var loginView = new LoginView({ oauthUrl: oauthUrl });
+
+                            container.add('main', loginView);
+
+                            that.dispatch();
+
+                        });
+
+                    } else {
+
+                        utilities.log('[CONTROLLER HOMEPAGE] getOauthUrl error', error, 'fontColor:red');
+
+                    }
+
+                });
                 
-                if (!error) {
-                    
-                    var oauthUrl = dataJson.url;
-                    
-                    // chat message input form
-                    require(['views/components/login'], function(LoginView) {
-
-                        var loginView = new LoginView({ oauthUrl: oauthUrl });
-
-                        container.add('main', loginView);
-
-                        that.dispatch();
-
-                    });
-                    
-                } else {
-                    
-                    utilities.log('[CONTROLLER HOMEPAGE] getOauthUrl error', error, 'fontColor:red');
-                    
-                }
+            } else {
                 
-            });
+                // TODO: if user is already logged
+                
+            }
 
         },
         

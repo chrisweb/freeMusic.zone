@@ -10,8 +10,8 @@ define([
     'eventsManager',
     'player.core',
     'tracksCache',
-    'headerNavigation',
-    'leftNavigation'
+    'library.plugin.headerNavigation',
+    'library.plugin.leftNavigation'
 ], function (_, Backbone, $, utilities, configuration, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {
 
     'use strict';

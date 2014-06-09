@@ -19,31 +19,32 @@ require.config({
         'routes': 'configuration/routes',
 
         // server shared
-        'utilities': '../../../server/library/shared/utilities',
+        'library.utilities': '../../../server/library/shared/utilities',
         
         // client jst
         'templates': 'templates/templates',
         
         // client library
-        'player.core': 'library/player/core',
-        'player.ui': 'library/player/ui',
-        'views.loader': 'library/view/loader',
-        'collection': 'library/collection',
-        'container': 'library/container',
-        'controller': 'library/controller',
-        'eventsManager': 'library/eventsManager',
-        'layout': 'library/layout',
-        'model': 'library/model',
-        'router': 'library/router',
-        'tracksCache': 'library/tracksCache',
-        'view': 'library/view',
+        'library.player.core': 'library/player/core',
+        'library.player.ui': 'library/player/ui',
+        'library.views.loader': 'library/view/loader',
+        'library.collection': 'library/collection',
+        'library.container': 'library/container',
+        'library.controller': 'library/controller',
+        'library.eventsManager': 'library/eventsManager',
+        'library.layout': 'library/layout',
+        'library.model': 'library/model',
+        'library.router': 'library/router',
+        'library.tracksCache': 'library/tracksCache',
+        'library.view': 'library/view',
+        'library.user': 'library/user',
         
         // plugins
-        'headerNavigation': 'library/plugin/headerNavigation',
-        'leftNavigation': 'library/plugin/leftNavigation',
+        'library.plugin.headerNavigation': 'library/plugin/headerNavigation',
+        'library.plugin.leftNavigation': 'library/plugin/leftNavigation',
         
         // library jquery plugins
-        'caretToggle': 'library/jquery/plugin/caretToggle',
+        'library.jquery.plugin.caretToggle': 'library/jquery/plugin/caretToggle',
         
         // collections
         'collections.TracksCache': 'collections/TracksCache',
@@ -51,13 +52,14 @@ require.config({
         
         // models
         'models.Track': 'models/Track',
+        'models.User': 'models/User',
         
         // vendor
         'jquery': '../../../bower_components/jquery/dist/jquery',
         'backbone': '../../../bower_components/backbone/backbone',
         'underscore': '../../../bower_components/underscore/underscore',
         'SoundManager': '../../../bower_components/SoundManager2/script/soundmanager2',
-        'moment': '../../../bower_components/moment/moment',
+        'moment': '../../../bower_components/moment/moment'
         
         // vendor modernizr
         //'moment': '../../../bower_components/moment/moment',

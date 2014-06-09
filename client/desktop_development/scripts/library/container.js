@@ -8,7 +8,7 @@
 
 /**
  * 
- * views container
+ * views container (singleton)
  * 
  * @param {type} utilities
  * @param {type} Backbone
@@ -30,7 +30,7 @@ define([
     var ContainerSingleton = function ContainerSingletonFunction() {
         
         if (instance !== null) {
-            throw new Error("Cannot instantiate more than one MySingleton, use MySingleton.getInstance()");
+            throw new Error('singleton has already been instantiated, use getInstance()');
         }
         
         this.containers = {};
@@ -108,7 +108,11 @@ define([
     var getInstance = function getInstanceFunction() {
         
         if (instance === null) {
+            
+            utilities.log('[USER PLUGIN] initialized...');
+            
             instance = new ContainerSingleton();
+            
         }
         
         return instance;

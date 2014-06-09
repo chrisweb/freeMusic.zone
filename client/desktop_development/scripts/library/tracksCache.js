@@ -13,7 +13,8 @@
  * @param {type} utilities
  * @param {type} eventsManager
  * @param {type} TracksCacheCollection
- * @returns {undefined}
+ * @param {type} moment
+ * @returns {_L17.Anonym$2}
  */
 define([
     'utilities',
