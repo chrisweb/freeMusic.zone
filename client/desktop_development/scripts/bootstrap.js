@@ -1,15 +1,34 @@
+/**
+ * 
+ * application bootstrap
+ * 
+ * @param {type} _
+ * @param {type} Backbone
+ * @param {type} $
+ * @param {type} utilities
+ * @param {type} configuration
+ * @param {type} router
+ * @param {type} container
+ * @param {type} layout
+ * @param {type} eventsManager
+ * @param {type} Player
+ * @param {type} TracksCacheManager
+ * @param {type} HeaderNavigation
+ * @param {type} LeftNavigation
+ * @returns {_L18.Anonym$5}
+ */
 define([
     'underscore',
     'backbone',
     'jquery',
-    'utilities',
+    'library.utilities',
     'configuration',
-    'router',
-    'container',
+    'library.router',
+    'library.container',
     'layout',
-    'eventsManager',
-    'player.core',
-    'tracksCache',
+    'library.eventsManager',
+    'library.player.core',
+    'library.tracksCache',
     'library.plugin.headerNavigation',
     'library.plugin.leftNavigation'
 ], function (_, Backbone, $, utilities, configuration, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {

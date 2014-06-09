@@ -19,8 +19,8 @@
 define([
     'underscore',
     'backbone',
-    'utilities',
-    'container'
+    'library.utilities',
+    'library.container'
 ], function (_, Backbone, utilities, container) {
     
     'use strict';

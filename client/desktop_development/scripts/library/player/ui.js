@@ -8,11 +8,14 @@
 
 /**
  * 
+ * player ui
+ * 
+ * @param {type} utilities
  * @returns {_L14.Anonym$1}
  */
 define([
-    'utilities'
-], function () {
+    'library.utilities'
+], function (utilities) {
     
     'use strict';
 

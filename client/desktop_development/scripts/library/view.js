@@ -10,16 +10,19 @@
  * 
  * base view
  * 
+ * @param {type} utilities
  * @param {type} Backbone
  * @param {type} _
+ * @param {type} $
+ * @param {type} Container
  * @returns {unresolved}
  */
 define([
-    'utilities',
+    'library.utilities',
     'backbone',
     'underscore',
     'jquery',
-    'container'
+    'library.container'
 ], function(utilities, Backbone, _, $, Container) {
 
     'use strict';

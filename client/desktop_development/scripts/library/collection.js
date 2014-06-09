@@ -15,7 +15,7 @@
  * @returns {unresolved}
  */
 define([
-    'utilities',
+    'library.utilities',
     'backbone'
 ], function (utilities, Backbone) {
     

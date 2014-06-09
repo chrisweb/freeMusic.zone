@@ -17,8 +17,8 @@
  * @returns {_L17.Anonym$2}
  */
 define([
-    'utilities',
-    'eventsManager',
+    'library.utilities',
+    'library.eventsManager',
     'collections.TracksCache',
     'moment'
 ], function (utilities, eventsManager, TracksCacheCollection, moment) {

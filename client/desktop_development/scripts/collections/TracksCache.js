@@ -2,15 +2,16 @@
  * 
  * tracks collection
  * 
+ * @param {type} utilities
  * @param {type} _
  * @param {type} collection
  * @param {type} TrackModel
  * @returns {unresolved}
  */
 define([
-    'utilities',
+    'library.utilities',
     'underscore',
-    'collection',
+    'library.collection',
     'models.Track'
 ], function (utilities, _, collection, TrackModel) {
     

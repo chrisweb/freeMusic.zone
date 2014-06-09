@@ -1,8 +1,19 @@
+/**
+ * 
+ * track list view
+ * 
+ * @param {type} utilities
+ * @param {type} $
+ * @param {type} _
+ * @param {type} view
+ * @param {type} JST
+ * @returns {unresolved}
+ */
 define([
-    'utilities',
+    'library.utilities',
     'jquery',
     'underscore',
-    'view',
+    'library.view',
     'templates'
 ], function (utilities, $, _, view, JST) {
     

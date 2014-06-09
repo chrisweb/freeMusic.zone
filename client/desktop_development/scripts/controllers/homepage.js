@@ -1,8 +1,22 @@
+/**
+ * 
+ * homepage controller
+ * 
+ * @param {type} _
+ * @param {type} utilities
+ * @param {type} Controller
+ * @param {type} container
+ * @param {type} Backbone
+ * @param {type} $
+ * @param {type} configurationModule
+ * @param {type} user
+ * @returns {unresolved}
+ */
 define([
     'underscore',
-    'utilities',
-    'controller',
-    'container',
+    'library.utilities',
+    'library.controller',
+    'library.container',
     'backbone',
     'jquery',
     'configuration',

@@ -1,11 +1,24 @@
+/**
+ * 
+ * login view
+ * 
+ * @param {type} $
+ * @param {type} _
+ * @param {type} Backbone
+ * @param {type} JST
+ * @param {type} utilities
+ * @param {type} configurationModule
+ * @param {type} view
+ * @returns {unresolved}
+ */
 define([
     'jquery',
     'underscore',
     'backbone',
     'templates',
-    'utilities',
+    'library.utilities',
     'configuration',
-    'view'
+    'library.view'
 ], function ($, _, Backbone, JST, utilities, configurationModule, view) {
     
     'use strict';

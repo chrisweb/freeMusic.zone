@@ -1,35 +1,54 @@
+/**
+ * 
+ * remote controll controller
+ * 
+ * @param {type} $
+ * @param {type} _
+ * @param {type} utilities
+ * @param {type} Controller
+ * @param {type} container
+ * @param {type} eventsManager
+ * @param {type} configurationModule
+ * @param {type} tracksCacheManager
+ * @returns {_L13.Anonym$2}
+ */
 define([
     'jquery',
     'underscore',
-    'utilities',
-    'controller',
-    'container',
-    'eventsManager',
+    'library.utilities',
+    'library.controller',
+    'library.container',
+    'library.eventsManager',
     'configuration',
-    'tracksCache'
-], function ($, _, utilities, controller, container, eventsManager, configurationModule, tracksCacheManager) {
+    'library.tracksCache'
+], function ($, _, utilities, Controller, container, eventsManager, configurationModule, tracksCacheManager) {
     
     'use strict';
 
-    var indexAction = function indexActionFunction() {
+    var RemoteControlController = Controller.extend({
         
-        utilities.log('[MAIN] controller: homepage,  action: index', 'fontColor:blue');
-        
-        // chat message input form
-        require(['views/components/chatBar'], function(ChatBarView) {
+        onInitialize: function() {
             
-            var chatBarView = new ChatBarView();
+            utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] initializing ...', 'fontColor:blue');
             
-            container.add('main', chatBarView);
+        },
+        indexAction: function indexActionFunction() {
 
-        });
-        
-        
-        
-    };
+            utilities.log('[MAIN] controller: homepage,  action: index', 'fontColor:blue');
 
-    return {
-        index: indexAction
-    };
+            // chat message input form
+            require(['views/components/chatBar'], function(ChatBarView) {
+
+                var chatBarView = new ChatBarView();
+
+                container.add('main', chatBarView);
+
+            });
+        
+        }
+        
+    });
+
+    return RemoteControlController;
     
 });

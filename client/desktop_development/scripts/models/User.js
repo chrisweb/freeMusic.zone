@@ -8,7 +8,7 @@
  * @returns {unresolved}
  */
 define([
-    'utilities',
+    'library.utilities',
     'underscore',
     'model'
 ], function (utilities, _, model) {

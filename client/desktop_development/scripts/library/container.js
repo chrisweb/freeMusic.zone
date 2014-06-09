@@ -17,7 +17,7 @@
  * @returns {_L17.Anonym$2}
  */
 define([
-    'utilities',
+    'library.utilities',
     'backbone',
     'underscore',
     'jquery'

@@ -16,7 +16,7 @@
  * @returns {_L16.Anonym$2}
  */
 define([
-    'utilities',
+    'library.utilities',
     'backbone',
     'routes'
 ], function (utilities, Backbone, Routes) {

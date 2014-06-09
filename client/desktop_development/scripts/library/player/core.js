@@ -19,12 +19,12 @@
  * @returns {_L19.Anonym$4}
  */
 define([
-    'utilities',
+    'library.utilities',
     'configuration',
-    'eventsManager',
+    'library.eventsManager',
     'backbone',
     'SoundManager',
-    'tracksCache'
+    'library.tracksCache'
 ], function(utilities, configurationModule, eventsManager, Backbone, SoundManager, tracksCacheManager) {
 
     'use strict';

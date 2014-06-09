@@ -1,10 +1,22 @@
+/**
+ * 
+ * header navigation view
+ * 
+ * @param {type} $
+ * @param {type} _
+ * @param {type} JST
+ * @param {type} utilities
+ * @param {type} View
+ * @param {type} eventsManager
+ * @returns {unresolved}
+ */
 define([
     'jquery',
     'underscore',
     'templates',
-    'utilities',
-    'view',
-    'eventsManager'
+    'library.utilities',
+    'library.view',
+    'library.eventsManager'
 ], function ($, _, JST, utilities, View, eventsManager) {
     
     'use strict';

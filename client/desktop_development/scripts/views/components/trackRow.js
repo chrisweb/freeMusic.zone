@@ -1,5 +1,7 @@
 /**
  * 
+ * track row view
+ * 
  * @param {type} $
  * @param {type} _
  * @param {type} view
@@ -11,10 +13,10 @@
 define([
     'jquery',
     'underscore',
-    'view',
+    'library.view',
     'templates',
-    'utilities',
-    'eventsManager'
+    'library.utilities',
+    'library.eventsManager'
 ], function ($, _, view, JST, utilities, eventsManager) {
     
     'use strict';

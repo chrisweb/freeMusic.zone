@@ -5,7 +5,8 @@
  * 
  * http://requirejs.org/
  * 
- * @param {type} param
+ * require configuration
+ * 
  */
 require.config({
     baseUrl: 'desktop/client/desktop_development/scripts',
@@ -68,9 +69,17 @@ require.config({
     
 });
 
+/**
+ * 
+ * main require
+ * 
+ * @param {type} bootstrap
+ * @param {type} utilities
+ * @returns {undefined}
+ */
 require([
     'bootstrap',
-    'utilities'
+    'library.utilities'
 ], function (bootstrap, utilities) {
     
     utilities.logSpecial = false;

@@ -1,10 +1,22 @@
+/**
+ * 
+ * left navigation view
+ * 
+ * @param {type} $
+ * @param {type} _
+ * @param {type} JST
+ * @param {type} utilities
+ * @param {type} View
+ * @param {type} eventsManager
+ * @returns {unresolved}
+ */
 define([
     'jquery',
     'underscore',
     'templates',
-    'utilities',
-    'view',
-    'eventsManager',
+    'library.utilities',
+    'library.view',
+    'library.eventsManager',
     'caretToggle'
 ], function ($, _, JST, utilities, View, eventsManager) {
     

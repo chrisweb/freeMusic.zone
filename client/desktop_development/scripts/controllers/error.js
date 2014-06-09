@@ -1,25 +1,42 @@
+/**
+ * 
+ * error controller
+ * 
+ * @param {type} $
+ * @param {type} utilities
+ * @param {type} Controller
+ * @returns {unresolved}
+ */
 define([
     'jquery',
-    'utilities'
-], function ($, utilities) {
+    'library.utilities',
+    'library.controller'
+], function ($, utilities, Controller) {
     
     'use strict';
-
-    var notfoundAction = function notfoundActionFunction() {
+    
+    var ErrorController = Controller.extend({
         
-        utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'fontColor:blue');
+        onInitialize: function() {
             
-        require(['views/components/notfound'], function(notfoundView) {
-
-            // put the search field partial into the main section of the layout
-            notfoundView.insertInto('section#main');
-
-        });
+            utilities.log('[ERROR CONTROLLER] initializing ...', 'fontColor:blue');
+            
+        },
+        notfoundAction: function notfoundActionFunction() {
         
-    };
+            utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'fontColor:blue');
 
-    return {
-        notfound: notfoundAction
-    };
+            require(['views/components/notfound'], function(notfoundView) {
+
+                // put the search field partial into the main section of the layout
+                notfoundView.insertInto('section#main');
+
+            });
+
+        }
+        
+    });
+
+    return ErrorController;
     
 });

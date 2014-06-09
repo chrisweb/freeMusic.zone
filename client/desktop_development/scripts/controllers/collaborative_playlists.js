@@ -1,112 +1,135 @@
+/**
+ * 
+ * collaborative playlists controller
+ * 
+ * @param {type} $
+ * @param {type} _
+ * @param {type} utilities
+ * @param {type} Controller
+ * @param {type} container
+ * @param {type} eventsManager
+ * @param {type} configurationModule
+ * @param {type} tracksCacheManager
+ * @returns {_L13.Anonym$7}
+ */
 define([
     'jquery',
     'underscore',
-    'utilities',
-    'controller',
-    'container',
-    'eventsManager',
+    'library.utilities',
+    'library.controller',
+    'library.container',
+    'library.eventsManager',
     'configuration',
-    'tracksCache'
-], function ($, _, utilities, controller, container, eventsManager, configurationModule, tracksCacheManager) {
+    'library.tracksCache'
+], function ($, _, utilities, Controller, container, eventsManager, configurationModule, tracksCacheManager) {
     
     'use strict';
 
-    var indexAction = function indexActionFunction() {
+    var CollaborativePlaylistsController = Controller.extend({
         
-        utilities.log('[MAIN] controller: homepage,  action: index', 'fontColor:blue');
+        onInitialize: function() {
+            
+            utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] initializing ...', 'fontColor:blue');
+            
+        },
+        indexAction: function indexActionFunction() {
         
-        // chat message input form
-        require([
-            'views/components/chatBar'
-        ], function(ChatBarView) {
-            
-            var chatBarView = new ChatBarView();
-            
-            container.add('main', chatBarView);
+            utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] action: index', 'fontColor:blue');
 
-        });
-        
-        // chat messages list
-        require([
-            'views/components/chatMessagesList',
-            'views/components/chatMessageRow',
-            'models.ChatMessage',
-            'collections.ChatMessages'
-        ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {
-            
-            
-            
-        });
-        
-        // add the search bar to the main section of the layout
-        require([
-            'views/components/searchBar'
-        ], function(SearchBarView) {
-            
-            var searchBarView = new SearchBarView();
-            
-            container.add('main', searchBarView);
+            // chat message input form
+            require([
+                'views/components/chatBar'
+            ], function(ChatBarView) {
 
-        });
-        
-        // search results
-        require([
-            'views/components/tracksList',
-            'views/components/trackRow',
-            'models.Track',
-            'collections.TracksSearchResult'
-        ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {
-            
-            // initialize tracks search results collection
-            var tracksSearchResultCollection = new TracksSearchResultCollection();
+                var chatBarView = new ChatBarView();
 
-            // initialize the tracks list view
-            var tracksListView = new TracksListView({
-                collection: tracksSearchResultCollection,
-                ModelView: TrackRowView
+                container.add('main', chatBarView);
+
             });
 
-            container.add('main', tracksListView);
-            
-            // listen for search events
-            eventsManager.on('search:query', function(parameters) {
+            // chat messages list
+            require([
+                'views/components/chatMessagesList',
+                'views/components/chatMessageRow',
+                'models.ChatMessage',
+                'collections.ChatMessages'
+            ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {
 
-                handleSearch(parameters.queryString, function handleSearchCallback(error, results) {
 
-                    tracksSearchResultCollection.reset();
 
-                    if (!error) {
+            });
 
-                        _.each(results, function(value) {
+            // add the search bar to the main section of the layout
+            require([
+                'views/components/searchBar'
+            ], function(SearchBarView) {
 
-                            // initialize a new trqck model
-                            var trackModel = new TrackModel(value);
-                            
-                            // add the track to the cache
-                            tracksCacheManager.addTrack(trackModel);
+                var searchBarView = new SearchBarView();
 
-                            // add the track to the search result collection
-                            tracksSearchResultCollection.add(trackModel);
+                container.add('main', searchBarView);
 
-                        });
+            });
 
-                    } else {
+            // search results
+            require([
+                'views/components/tracksList',
+                'views/components/trackRow',
+                'models.Track',
+                'collections.TracksSearchResult'
+            ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {
 
-                        //TODO: handle the error
+                // initialize tracks search results collection
+                var tracksSearchResultCollection = new TracksSearchResultCollection();
 
-                        utilities.log('errorThrown: ' + error);
+                // initialize the tracks list view
+                var tracksListView = new TracksListView({
+                    collection: tracksSearchResultCollection,
+                    ModelView: TrackRowView
+                });
 
-                    }
+                container.add('main', tracksListView);
+
+                // listen for search events
+                eventsManager.on('search:query', function(parameters) {
+
+                    handleSearch(parameters.queryString, function handleSearchCallback(error, results) {
+
+                        tracksSearchResultCollection.reset();
+
+                        if (!error) {
+
+                            _.each(results, function(value) {
+
+                                // initialize a new trqck model
+                                var trackModel = new TrackModel(value);
+
+                                // add the track to the cache
+                                tracksCacheManager.addTrack(trackModel);
+
+                                // add the track to the search result collection
+                                tracksSearchResultCollection.add(trackModel);
+
+                            });
+
+                        } else {
+
+                            //TODO: handle the error
+
+                            utilities.log('errorThrown: ' + error);
+
+                        }
+
+                    });
 
                 });
 
-            });
-            
-            container.dispatch();
+                container.dispatch();
 
-        });
+            });
+
+        }
         
-    };
+    });
     
     var jqXHR;
     
@@ -152,8 +175,6 @@ define([
         
     };
 
-    return {
-        index: indexAction
-    };
+    return CollaborativePlaylistsController;
     
 });

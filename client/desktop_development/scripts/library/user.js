@@ -17,8 +17,8 @@
  * @returns {_L17.Anonym$1}
  */
 define([
-    'utilities',
-    'eventsManager',
+    'library.utilities',
+    'library.eventsManager',
     'models.user',
     'moment'
 ], function (utilities, eventsManager, UserModel, moment) {
