@@ -119,9 +119,6 @@ if (process.env.NODE_ENV === 'development') {
 // add the body parser middleware
 app.use(bodyParser());
 
-// TODO: error route 50x
-// TODO: not found route 404
-
 // SESSION
 var RedisStore = connectRedis(session);
 

@@ -90,11 +90,12 @@ module.exports.get = function getConfiguration(environment) {
              * jamendo api / oauth
              */
             configuration.jamendoApi = {
-                clientId: 'egr5gre+5g6r5',
-                clientSecret: 'bfd95bf5bf59bfd5bfd95bfd5f5bf5bfd65bf6',
-                apiHost: 'api.jamendo.com',
-                apiVersionPath: '/v3.0',
-                apiPort: 443,
+                clientId: 'ew56wge5gwe',
+                clientSecret: 'd4dh54h6r64d6f465hdf4hd4hf56fd',
+                protocol: 'https',
+                host: 'api.jamendo.com',
+                version: 'v3.0',
+                port: 443,
                 scope: 'music',
                 grantType: 'authorization_code',
                 redirectUri: 'http://127.0.0.1:35000/oauth/redirect',
