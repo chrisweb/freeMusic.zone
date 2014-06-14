@@ -27,6 +27,9 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 // api module
 var apiModule = require('./library/api');
 
+// underscore module
+var _ = require('underscore');
+
 // oauth module
 var oauthModule = require('./library/oauth');
 
@@ -74,8 +77,10 @@ var configuration = configurationModule.get(process.env.NODE_ENV);
 // initialize the user module
 userModule.start(configuration);
 
+var mongoClient;
+
 // mongodb connection
-var mongoClient = mongoModule.getClient(function mongooseConnectCallback(error) {
+mongoModule.getClient(function mongooseConnectCallback(error, mongooseConnection) {
     
     if (error) {
         
@@ -84,6 +89,8 @@ var mongoClient = mongoModule.getClient(function mongooseConnectCallback(error) 
     } else {
         
         utilities.log('[MONGODB] connected', 'fontColor:green');
+        
+        mongoClient = mongooseConnection;
         
     }
     
@@ -118,9 +125,13 @@ app.use(bodyParser());
 // SESSION
 var RedisStore = connectRedis(session);
 
+var redisClients = [];
+
 redisModule.getClient(function getClientCallback(error, client) {
     
     if (!error) {
+        
+        redisClients.push(client);
         
         redisModule.selectDatabase(configuration.redis.databases.session, client, function selectDatabaseCallback(error) {
             
@@ -217,6 +228,29 @@ redisModule.getClient(function getClientCallback(error, client) {
         
     }
     
+});
+
+// close db connections on shutdown
+process.on('SIGINT', function() {
+
+    mongoModule.disconnect(mongoClient, function () {
+        
+        _.each(redisClients, function(redisClient) {
+            
+            redisModule.disconnect(redisClient, function() {
+                
+                
+                
+            });
+            
+        });
+
+        utilities.log('[BOOTSTRAP] process is shutting down...');
+
+        process.exit(0);
+
+    });
+
 });
 
 var addErrorRoutes = function addErrorRoutesFunction(router) {

@@ -104,7 +104,7 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
         //utilities.log(options);
         
         // exchange the code for a token
-        getOauthToken(data, options, request, response, next);
+        getOauthToken(data, options, configuration, request, response, next);
 
     });
     
@@ -156,7 +156,7 @@ var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, requ
 
 };
 
-var getOauthToken = function getOauthTokenFunction(data, options, request, response, next) {
+var getOauthToken = function getOauthTokenFunction(data, options, configuration, request, response, next) {
 
     var oauthRequest = https.request(options, function(oauthResponse) {
 
@@ -190,7 +190,8 @@ var getOauthToken = function getOauthTokenFunction(data, options, request, respo
                 var userOauthData = {
                     token: result.access_token,
                     expiry: result.expires_in,
-                    refreshToken: result.refresh_token
+                    refreshToken: result.refresh_token,
+                    scope: configuration.jamendoApi.scope
                 };
                 
                 eventsManager.emit('userOauth', userOauthData, request);

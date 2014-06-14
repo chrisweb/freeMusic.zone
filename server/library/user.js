@@ -17,7 +17,6 @@ module.exports.start = function initialize(configuration) {
     eventsManager.on('userOauth', function(userOauthData, request) {
         
         utilities.log('[USER] on userOauth');
-        utilities.log('userOauthData: ', userOauthData);
         
         // get user personal info using token
         var jamendo = new Jamendo({
@@ -28,6 +27,7 @@ module.exports.start = function initialize(configuration) {
             rejectUnauthorized: false
         });
 
+        // get the user data (the id is needed to check if user exists in db)
         jamendo.users({ access_token: userOauthData.token }, function(error, userDataAPI) {
             
             //utilities.log('user data from API: ', data);
@@ -49,27 +49,94 @@ module.exports.start = function initialize(configuration) {
                 // check if user exists in database
                 var userModel = new UserModel();
                 
-                var userData = userModel.getOne(userDataAPI.id, function getOneUserCallback(error, userDataDB) {
+                var userResult = userDataAPI.results[0];
+                
+                var query = { 
+                    id: userResult.id
+                };
+                
+                userModel.exists(query, function getOneUserCallback(error, userExists) {
                     
                     if (!error) {
                         
-                        if (userDataDB === null) {
+                        if (!userExists) {
+                            
+                            //utilities.log('userOauthData: ', userOauthData);
+                            //utilities.log('userDataAPI: ', userDataAPI);
+                            
+                            var userData = {
+                                nickname: userResult.dispname,
+                                createdAt: new Date(userResult.creationdate),
+                                language: userResult.lang,
+                                avatar: userResult.image,
+                                id: parseInt(userResult.id),
+                                oauth: {
+                                    access_token: userOauthData.token,
+                                    expires_in: userOauthData.expiry,
+                                    scope: userOauthData.scope,
+                                    refresh_token: userOauthData.refreshToken
+                                }
+                            };
                             
                             // user does not yet exist, save data in db
-                            userModel.saveOne();
+                            userModel.saveOne(userData, function saveUserCallback(error, model) {
+                                
+                                if (!error) {
+
+                                    // put user data into session
+                                    request.session.user = model;
+                                    
+                                } else {
+                                    
+                                    utilities.log('error saving a user: ', error, 'fontColor:red');
+                                    
+                                }
+                                
+                            });
+                            
+                        } else {
+                            
+                            //utilities.log('userDataDB: ', userDataDB);
+                            
+                            var userId = parseInt(userResult.id);
+                            
+                            var userDataToUpdate = {
+                                nickname: userResult.dispname,
+                                language: userResult.lang,
+                                avatar: userResult.image,
+                                oauth: {
+                                    access_token: userOauthData.token,
+                                    expires_in: userOauthData.expiry,
+                                    scope: userOauthData.scope,
+                                    refresh_token: userOauthData.refreshToken
+                                }
+                            };
+                            
+                            // update user data in db
+                            userModel.updateOne(userId, userDataToUpdate, function updateUserCallback(error, model) {
+                                
+                                if (!error) {
+
+                                    // put user data into session
+                                    request.session.user = model;
+                                    
+                                } else {
+                                    
+                                    utilities.log('error updating a user: ', error, 'fontColor:red');
+                                    
+                                }
+                                
+                            });
                             
                         }
                         
-                        // put user data into session
-                        request.session.user = {
-                            
-                        };
+                    } else {
+                        
+                        utilities.log('error fetching a user: ', error, 'fontColor:red');
                         
                     }
                     
                 });
-                
-                
                 
             }
             
@@ -78,64 +145,3 @@ module.exports.start = function initialize(configuration) {
     });
     
 };
-
-
-
-
-/*
-
-// get user infos through jamendo api (username / id)
-            that.jamendo.users({
-                access_token: result.access_token
-            },
-            function(error, data) {
-
-                utilities.log('oauth result data object: ');
-                utilities.log(data);
-
-                if (!error) {
-
-                    var user = { 
-                        nickname: data.results[0].name,
-                        id: data.results[0].id,
-                        createdAt: data.results[0].creationdate,
-                        language: data.results[0].lang,
-                        avatar: data.results[0].image
-                    };
-
-                    user.oauth = result;
-
-                    if (typeof appRequest.session !== 'undefined') {
-
-                        // put user object in session
-                        appRequest.session.user = user;
-
-                        // check if the user exists, if so update it
-                        // else save the user in the mongodb database
-                        appModels.user.saveOne(user);
-
-                        appResponse.render('oauth', { message: 'oauth connect success' });
-
-                    } else {
-
-                        error = { status: 500, stack: '', message: 'undefined session' };
-
-                        utilities.log('undefined session, redis may be down: ' + error);
-
-                        appNext(error, appRequest, appResponse, appNext);
-
-                    }
-
-                } else {
-
-                    error = { status: oauthResponse.statusCode, stack: '', message: result.error };
-
-                    utilities.log('oauth request failed, status: ' + error);
-
-                    appNext(error, appRequest, appResponse, appNext);
-
-                }
-
-            });
-
- */

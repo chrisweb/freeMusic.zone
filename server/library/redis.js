@@ -190,15 +190,20 @@ module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, r
  * disconnect redis database
  * 
  * @param {type} redisDBClient
+ * @param {type} callback
  * @returns {undefined}
  */
-module.exports.disconnect = function disconnectFunction(redisDBClient) {
+module.exports.disconnect = function disconnectFunction(redisDBClient, callback) {
 
     utilities.log('[REDIS_DB] disconnect', 'fontColor:cyan');
 
     setTimeout(function() {
 
-        redisDBClient.quit();
+        redisDBClient.quit(function() {
+            
+            callback();
+            
+        });
 
     }, 0);
 

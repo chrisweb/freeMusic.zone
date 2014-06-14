@@ -13,7 +13,7 @@ var configuration = configurationModule.get(process.env.NODE_ENV);
 
 /**
  * 
- * get a redis client instance
+ * open a mongodb connection
  * 
  * @param {type} callback
  * @returns {unresolved}
@@ -51,7 +51,7 @@ module.exports.getClient = function getClientFunction(callback) {
     
     mongooseConnection.on('open', function () {
         
-        callback(false);
+        callback(false, mongooseConnection);
         
     });
     
@@ -61,6 +61,34 @@ module.exports.getClient = function getClientFunction(callback) {
         
     });
 
-    
+    mongooseConnection.on('disconnect', function () {
+        
+        utilities.log('[MONGO_DB] mongodb disconnect');
+        
+    });
+
+};
+
+/**
+ * 
+ * disconnect mongo database
+ * 
+ * @param {type} mongooseConnection
+ * @param {type} callback
+ * @returns {undefined}
+ */
+module.exports.disconnect = function disconnectFunction(mongooseConnection, callback) {
+
+    utilities.log('[MONGO_DB] disconnect', 'fontColor:cyan');
+
+    setTimeout(function() {
+
+        mongooseConnection.close(function() {
+            
+            callback();
+            
+        });
+
+    }, 0);
 
 };
