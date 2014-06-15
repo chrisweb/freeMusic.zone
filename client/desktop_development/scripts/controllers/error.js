@@ -17,9 +17,13 @@ define([
     
     var ErrorController = Controller.extend({
         
-        onInitialize: function() {
+        onInitialize: function(options, configuration, router) {
             
             utilities.log('[ERROR CONTROLLER] initializing ...', 'fontColor:blue');
+            
+            this.options = options;
+            this.configuration = configuration;
+            this.router = router;
             
         },
         notfoundAction: function notfoundActionFunction() {

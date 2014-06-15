@@ -8,9 +8,9 @@
  * @param {type} Controller
  * @param {type} container
  * @param {type} eventsManager
- * @param {type} configurationModule
+ * @param {type} user
  * @param {type} tracksCacheManager
- * @returns {_L13.Anonym$7}
+ * @returns {unresolved}
  */
 define([
     'jquery',
@@ -19,17 +19,21 @@ define([
     'library.controller',
     'library.container',
     'library.eventsManager',
-    'configuration',
+    'library.user',
     'library.tracksCache'
-], function ($, _, utilities, Controller, container, eventsManager, configurationModule, tracksCacheManager) {
+], function ($, _, utilities, Controller, container, eventsManager, user, tracksCacheManager) {
     
     'use strict';
 
     var CollaborativePlaylistsController = Controller.extend({
         
-        onInitialize: function() {
+        onInitialize: function(options, configuration, router) {
             
             utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] initializing ...', 'fontColor:blue');
+            
+            this.options = options;
+            this.configuration = configuration;
+            this.router = router;
             
         },
         indexAction: function indexActionFunction() {

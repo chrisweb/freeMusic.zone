@@ -2,40 +2,40 @@
  * 
  * homepage controller
  * 
+ * @param {type} $
  * @param {type} _
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} Backbone
- * @param {type} $
- * @param {type} configurationModule
- * @param {type} user
  * @param {type} eventsManager
+ * @param {type} user
  * @returns {unresolved}
  */
 define([
+    'jquery',
     'underscore',
     'library.utilities',
     'library.controller',
     'library.container',
-    'backbone',
-    'jquery',
-    'configuration',
-    'library.user',
-    'library.eventsManager'
-], function (_, utilities, Controller, container, Backbone, $, configurationModule, user, eventsManager) {
+    'library.eventsManager',
+    'library.user'
+], function ($, _, utilities, Controller, container, eventsManager, user) {
     
     'use strict';
     
     var HomepageController = Controller.extend({
         
-        onInitialize: function() {
+        onInitialize: function(options, configuration, router) {
             
             utilities.log('[HOMEPAGE CONTROLLER] initializing ...', 'fontColor:blue');
             
+            this.options = options;
+            this.configuration = configuration;
+            this.router = router;
+            
             eventsManager.on('oauth:connected', function oauthConnected() {
                 
-                Backbone.history.navigate('desktop/homepage/welcome', true);
+                router.navigate('desktop/homepage/welcome', {trigger: true });
                 
             });
             
@@ -105,10 +105,8 @@ define([
         
         getOauthUrl: function getOauthUrlFunction(callback) {
             
-            var configuration = configurationModule.get();
-            
             var jqXHR = $.ajax({
-                url: configuration.server.path + '/oauth/url',
+                url: this.configuration.server.path + '/oauth/url',
                 type: 'GET',
                 dataType: 'json'
             });

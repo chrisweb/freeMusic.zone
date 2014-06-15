@@ -7,7 +7,7 @@
  * @param {type} $
  * @param {type} utilities
  * @param {type} configuration
- * @param {type} router
+ * @param {type} Router
  * @param {type} container
  * @param {type} layout
  * @param {type} eventsManager
@@ -31,7 +31,7 @@ define([
     'library.tracksCache',
     'library.plugin.headerNavigation',
     'library.plugin.leftNavigation'
-], function (_, Backbone, $, utilities, configuration, router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {
+], function (_, Backbone, $, utilities, configuration, Router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {
 
     'use strict';
     
@@ -49,13 +49,15 @@ define([
         
         utilities.log('[BOOTSTRAP] initializeRouter', 'fontColor:blue');
         
-        var applicationRouter = router.start();
+        var router = Router.start();
 
-        applicationRouter.on('route:renderHomepage', function() {
+        router.on('route:renderHomepage', function() {
+            
+            var options = {};
             
             require(['controllers/homepage'], function(HomepageController) {
                 
-                var homepageController = new HomepageController();
+                var homepageController = new HomepageController(options, configuration, router);
                 
                 homepageController.indexAction();
                 
@@ -63,7 +65,7 @@ define([
 
         });
         
-        applicationRouter.on('route:controllerActionDispatcher', function(controllerName, actionName) {
+        router.on('route:controllerActionDispatcher', function(controllerName, actionName) {
             
             //utilities.log('route:controllerActionDispatcher, controller: ' + controllerName + ', action: ' + actionName);
             
@@ -79,11 +81,13 @@ define([
             // remove everything that is not alpha numeric
             controllerName.replace(/[^a-zA-Z0-9]/g, '');
             actionName.replace(/[^a-zA-Z0-9]/g, '');
+            
+            var options = {};
 
             // load the controller and call the action
             require(['controllers/' + controllerName], function(Controller) {
                 
-                var controller = new Controller();
+                var controller = new Controller(options, configuration, router);
 
                 controller[actionName + 'Action']();
                 
@@ -91,7 +95,7 @@ define([
 
         });
         
-        applicationRouter.on('route:render404', function() {
+        router.on('route:render404', function() {
 
             require(['controllers/error'], function(ErrorController) {
                 

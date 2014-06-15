@@ -28,6 +28,8 @@ define([
     var chrisweb = {};
 
     chrisweb.Controller = function ControllerFunction() {
+        
+        //utilities.log('arguments: ', arguments);
 
         this.initialize.apply(this, arguments);
 
@@ -35,17 +37,19 @@ define([
 
     _.extend(chrisweb.Controller.prototype, Backbone.Events, {
 
-        initialize: function controllerInitializeFunction(options) {
+        initialize: function controllerInitializeFunction(options, configuration, router) {
 
             utilities.log('[CHRISWEB CONTROLLER] initializing ...', 'fontColor:blue');
 
             this.options = options || {};
+            this.configuration = configuration.get();
+            this.router = router;
 
             // if oninitialize exists
             if (this.onInitialize) {
 
                 // execute it now
-                this.onInitialize(this.options);
+                this.onInitialize(this.options, this.configuration, this.router);
 
             }
 

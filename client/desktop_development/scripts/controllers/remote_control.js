@@ -1,6 +1,6 @@
 /**
  * 
- * remote controll controller
+ * remote control controller
  * 
  * @param {type} $
  * @param {type} _
@@ -8,9 +8,8 @@
  * @param {type} Controller
  * @param {type} container
  * @param {type} eventsManager
- * @param {type} configurationModule
- * @param {type} tracksCacheManager
- * @returns {_L13.Anonym$2}
+ * @param {type} user
+ * @returns {unresolved}
  */
 define([
     'jquery',
@@ -19,17 +18,20 @@ define([
     'library.controller',
     'library.container',
     'library.eventsManager',
-    'configuration',
-    'library.tracksCache'
-], function ($, _, utilities, Controller, container, eventsManager, configurationModule, tracksCacheManager) {
+    'library.user'
+], function ($, _, utilities, Controller, container, eventsManager, user) {
     
     'use strict';
 
     var RemoteControlController = Controller.extend({
         
-        onInitialize: function() {
+        onInitialize: function(options, configuration, router) {
             
-            utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] initializing ...', 'fontColor:blue');
+            utilities.log('[REMOTE CONTROL CONTROLLER] initializing ...', 'fontColor:blue');
+            
+            this.options = options;
+            this.configuration = configuration;
+            this.router = router;
             
         },
         indexAction: function indexActionFunction() {
