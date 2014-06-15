@@ -33,12 +33,6 @@ define([
             this.configuration = configuration;
             this.router = router;
             
-            eventsManager.on('oauth:connected', function oauthConnected() {
-                
-                router.navigate('desktop/homepage/welcome', {trigger: true });
-                
-            });
-            
         },
         
         indexAction: function indexActionFunction() {
@@ -134,16 +128,6 @@ define([
         }
         
     });
-    
-    // the oauth iframe will call this from within the iframe on successfull
-    // connection
-    window.connected = function() {
-        
-        utilities.log('oauth connected');
-        
-        eventsManager.trigger('oauth:connected');
-        
-    };
 
     return HomepageController;
     

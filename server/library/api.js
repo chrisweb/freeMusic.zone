@@ -80,6 +80,30 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
 	});
     
+    apiRouter.get('/user', function(request, response, next) {
+        
+        //utilities.log('session user: ', request.session.user);
+        
+        var userSessionData = request.session.user;
+        
+        if (userSessionData === undefined) {
+            
+            var defaultUserData = {
+                isLogged: false
+            };
+        
+            response.status(200);
+            response.json(defaultUserData);
+            
+        } else {
+            
+            response.status(200);
+            response.json(userSessionData);
+            
+        }
+        
+    });
+    
     app.use('/api', apiRouter);
 
 };

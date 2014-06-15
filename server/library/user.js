@@ -14,9 +14,14 @@ var UserModel = require('../models/user');
 
 module.exports.start = function initialize(configuration) {
     
-    eventsManager.on('userOauth', function(userOauthData, request) {
+    eventsManager.on('userOauth', function(parameters) {
         
         utilities.log('[USER] on userOauth');
+        
+        var userOauthData = parameters.userOauthData;
+        var request = parameters.request;
+        var response = parameters.response;
+        var next = parameters.next;
         
         // get user personal info using token
         var jamendo = new Jamendo({
@@ -82,13 +87,20 @@ module.exports.start = function initialize(configuration) {
                             userModel.saveOne(userData, function saveUserCallback(error, model) {
                                 
                                 if (!error) {
+                                    
+                                    model.isLogged = true;
 
                                     // put user data into session
                                     request.session.user = model;
                                     
+                                    // send a response back to the client
+                                    response.render('oauth', { message: 'oauth connect success' });
+                                    
                                 } else {
                                     
                                     utilities.log('error saving a user: ', error, 'fontColor:red');
+                                    
+                                    next(error, request, response, next);
                                     
                                 }
                                 
@@ -116,13 +128,20 @@ module.exports.start = function initialize(configuration) {
                             userModel.updateOne(userId, userDataToUpdate, function updateUserCallback(error, model) {
                                 
                                 if (!error) {
+                                    
+                                    model.isLogged = true;
 
                                     // put user data into session
                                     request.session.user = model;
                                     
+                                    // send a response back to the client
+                                    response.render('oauth', { message: 'oauth connect success' });
+                                    
                                 } else {
                                     
                                     utilities.log('error updating a user: ', error, 'fontColor:red');
+                                    
+                                    next(error, request, response, next);
                                     
                                 }
                                 
@@ -133,6 +152,8 @@ module.exports.start = function initialize(configuration) {
                     } else {
                         
                         utilities.log('error fetching a user: ', error, 'fontColor:red');
+                        
+                        next(error, request, response, next);
                         
                     }
                     

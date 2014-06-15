@@ -33,23 +33,35 @@ define([
             throw new Error('singleton has already been instantiated, use getInstance()');
         }
         
-        this.userModel = new UserModel();
+        this.model = new UserModel();
         
     };
     
     UserSingleton.prototype = {
 
+        fetchUserData: function fetchUserDataFunction() {
+            
+            this.model.fetch();
+            
+        },
         getAttribute: function getAttributeFunction(attributeName) {
 
-            var attributeValue = this.userModel.get(attributeName);
+            var attributeValue = this.model.get(attributeName);
             
             return attributeValue;
 
         },
         setAttribute: function setAttributeFunction(attributeName, attributeValue) {
 
-            this.userModel.get(attributeName, attributeValue);
+            this.model.set(attributeName, attributeValue);
 
+        },
+        isLogged: function isLoggedFunction() {
+            
+            var isLogged = this.model.get('isLogged');
+            
+            return isLogged;
+            
         }
         
     };

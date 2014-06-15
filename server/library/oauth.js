@@ -76,9 +76,6 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
         
         // clear state value in session
         request.session.state = '';
-                
-        // send a response back to the client
-        response.render('oauth', { message: 'oauth connect success' });
         
         var data = querystring.stringify({
             code: code,
@@ -194,7 +191,7 @@ var getOauthToken = function getOauthTokenFunction(data, options, configuration,
                     scope: configuration.jamendoApi.scope
                 };
                 
-                eventsManager.emit('userOauth', userOauthData, request);
+                eventsManager.emit('userOauth', { 'userOauthData': userOauthData, 'request': request, 'response': response, 'next': next });
 
             } else {
 
@@ -227,7 +224,7 @@ var getOauthToken = function getOauthTokenFunction(data, options, configuration,
 
                 utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error, 'fontColor:red');
 
-                appNext(error, request, response, next);
+                next(error, request, response, next);
 
             }
 
@@ -239,7 +236,7 @@ var getOauthToken = function getOauthTokenFunction(data, options, configuration,
 
             utilities.log('oauth request failed: ' + e.message, 'fontColor:red');
 
-            appNext(error, request, response, next);
+            next(error, request, response, next);
 
         });
         

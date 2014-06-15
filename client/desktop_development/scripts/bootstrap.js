@@ -15,7 +15,8 @@
  * @param {type} TracksCacheManager
  * @param {type} HeaderNavigation
  * @param {type} LeftNavigation
- * @returns {_L18.Anonym$5}
+ * @param {type} user
+ * @returns {_L19.Anonym$5}
  */
 define([
     'underscore',
@@ -30,8 +31,9 @@ define([
     'library.player.core',
     'library.tracksCache',
     'library.plugin.headerNavigation',
-    'library.plugin.leftNavigation'
-], function (_, Backbone, $, utilities, configuration, Router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation) {
+    'library.plugin.leftNavigation',
+    'library.user'
+], function (_, Backbone, $, utilities, configuration, Router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation, user) {
 
     'use strict';
     
@@ -109,6 +111,8 @@ define([
             pushState: true
         });
         
+        return router;
+        
     };
     
     var initializeLayout = function initializeLayoutFunction() {
@@ -135,6 +139,35 @@ define([
         
     };
     
+    var initializeUser = function initializeUserFunction() {
+        
+        utilities.log('[BOOTSTRAP] initializeUser', 'fontColor:blue');
+        
+        // fetch user data from server
+        user.fetchUserData();
+        
+        var isLogged = user.getAttribute('isLogged');
+        
+        utilities.log('isLogged: ', isLogged);
+        
+        eventsManager.on('router:preRoute', function bootstrapPreRoute(parameters) {
+            
+            utilities.log(parameters);
+            
+        });
+        
+        // the oauth iframe will call this from within the iframe on successfull
+        // connection
+        window.connected = function() {
+
+            utilities.log('oauth connected');
+
+            eventsManager.trigger('oauth:connected');
+
+        };
+        
+    };
+    
     var initializeHeaderNavigation = function initializeHeaderNavigationFunction() {
         
         utilities.log('[BOOTSTRAP] initializeHeaderNavigation', 'fontColor:blue');
@@ -153,24 +186,36 @@ define([
     
     var run = function runFunction() {
 
+        // pre dom load
+
+
+        // on dom load
         $(function() {
+            
+                    // initialize user before router as pre-route event triggers
+        // a check to verify if user is logged in
+        initializeUser();
+
+        initializeRouter();
             
             initializeApplication();
         
             initializeLayout();
-            
-            initializeRouter();
-            
-            // TODO: initialize these onLogin:
-            //initializePlayer();
-            
-            //initializeTracksCacheManager();
-            
-            //initializeHeaderNavigation();
-            
-            //initializeLeftNavigation();
 
             eventsManager.trigger('application:loaded');
+            
+        });
+        
+        // on user connected
+        eventsManager.on('oauth:connected', function bootstrapOauthConnected() {
+            
+            initializePlayer();
+            
+            initializeTracksCacheManager();
+            
+            initializeHeaderNavigation();
+            
+            initializeLeftNavigation();
             
         });
         

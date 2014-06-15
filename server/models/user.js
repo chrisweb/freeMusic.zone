@@ -85,6 +85,8 @@ userModel.prototype.saveOne = function saveOneFunction(data, callback) {
     
     this.Model.create(data, function saveCallback(error, model) {
         
+        //utilities.log('create model: ', model);
+        
         if (error) {
             
             utilities.log('[USER MODEL] save failed', error, 'fontColor:red');
@@ -125,7 +127,9 @@ userModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataTo
     var query = { id: jamendoUserId };
     var options = { multi: false };
     
-    this.Model.update(query, dataToUpdate, options, function(error, model) {
+    this.Model.findOneAndUpdate(query, dataToUpdate, options, function(error, model) {
+        
+        //utilities.log('update model: ', model);
         
         if (error) {
             

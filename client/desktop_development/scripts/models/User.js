@@ -16,7 +16,8 @@ define([
     'use strict';
 
     var UserModel = model.extend({
-            
+        
+        url: '/api/user',
         onInitialize: function() {
             
             utilities.log('[USER MODEL] (' + this.cid + ') initializing ...', 'fontColor:blue');
