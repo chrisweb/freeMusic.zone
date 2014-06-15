@@ -65,6 +65,8 @@ define([
         
         applicationRouter.on('route:controllerActionDispatcher', function(controllerName, actionName) {
             
+            //utilities.log('route:controllerActionDispatcher, controller: ' + controllerName + ', action: ' + actionName);
+            
             // if the action is not defined use the default value from
             // configuration
             if ($.type(actionName) === 'undefined') {
@@ -77,11 +79,13 @@ define([
             // remove everything that is not alpha numeric
             controllerName.replace(/[^a-zA-Z0-9]/g, '');
             actionName.replace(/[^a-zA-Z0-9]/g, '');
-            
+
             // load the controller and call the action
-            require(['controllers/' + controllerName], function(controller) {
+            require(['controllers/' + controllerName], function(Controller) {
                 
-                controller[actionName]();
+                var controller = new Controller();
+
+                controller[actionName + 'Action']();
                 
             });
 
@@ -91,7 +95,7 @@ define([
 
             require(['controllers/error'], function(ErrorController) {
                 
-                ErrorController.notfound();
+                ErrorController.notfoundAction();
                 
             });
 

@@ -57,9 +57,7 @@ define([
                 oauthIFrame.show();
                 
             });
-            
-            
-            
+                        
         }
         
     });

@@ -9,7 +9,7 @@
  * 
  */
 require.config({
-    baseUrl: 'desktop/client/desktop_development/scripts',
+    baseUrl: '/desktop/client/desktop_development/scripts',
     paths: {
 
         // client core

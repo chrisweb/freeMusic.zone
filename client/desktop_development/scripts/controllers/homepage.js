@@ -10,6 +10,7 @@
  * @param {type} $
  * @param {type} configurationModule
  * @param {type} user
+ * @param {type} eventsManager
  * @returns {unresolved}
  */
 define([
@@ -20,8 +21,9 @@ define([
     'backbone',
     'jquery',
     'configuration',
-    'library.user'
-], function (_, utilities, Controller, container, Backbone, $, configurationModule, user) {
+    'library.user',
+    'library.eventsManager'
+], function (_, utilities, Controller, container, Backbone, $, configurationModule, user, eventsManager) {
     
     'use strict';
     
@@ -30,6 +32,12 @@ define([
         onInitialize: function() {
             
             utilities.log('[HOMEPAGE CONTROLLER] initializing ...', 'fontColor:blue');
+            
+            eventsManager.on('oauth:connected', function oauthConnected() {
+                
+                Backbone.history.navigate('desktop/homepage/welcome', true);
+                
+            });
             
         },
         
@@ -49,7 +57,7 @@ define([
 
                         var oauthUrl = dataJson.url;
 
-                        // chat message input form
+                        // get the login view
                         require(['views/components/login'], function(LoginView) {
 
                             var loginView = new LoginView({ oauthUrl: oauthUrl });
@@ -74,6 +82,25 @@ define([
                 
             }
 
+        },
+        
+        welcomeAction: function welcomeActionFunction() {
+        
+            utilities.log('[CONTROLLER HOMEPAGE] action: welcome', 'fontColor:blue');
+            
+            var that = this;
+            
+            // get the login view
+            require(['views/components/welcome'], function(WelcomeView) {
+
+                var welcomeView = new WelcomeView();
+
+                container.add('main', welcomeView);
+
+                that.dispatch();
+
+            });
+            
         },
         
         getOauthUrl: function getOauthUrlFunction(callback) {
@@ -109,6 +136,16 @@ define([
         }
         
     });
+    
+    // the oauth iframe will call this from within the iframe on successfull
+    // connection
+    window.connected = function() {
+        
+        utilities.log('oauth connected');
+        
+        eventsManager.trigger('oauth:connected');
+        
+    };
 
     return HomepageController;
     
