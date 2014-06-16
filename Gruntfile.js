@@ -262,6 +262,27 @@ module.exports = function(grunt) {
             }
         },
         
+        ffmpeg: {
+            video1: {
+                files: [{
+                    expand: true,
+                    cwd: 'prototypes/video-requirejs/videos/original',
+                    src: ['*.avi', '*.flv', '*.mp4'],
+                    dest: 'prototypes/video-requirejs/videos/build',
+                    ext: '.mp4'
+                }]
+            },
+            video2: {
+                files: [{
+                    expand: true,
+                    cwd: 'prototypes/video-requirejs/videos/original',
+                    src: ['*.avi', '*.flv', '*.mp4'],
+                    dest: 'prototypes/video-requirejs/videos/build',
+                    ext: '.mp4'
+                }]
+            }
+        },
+        
         // watches files for changes and runs tasks based on the changed files
         // https://github.com/gruntjs/grunt-contrib-watch
         watch: {
@@ -296,6 +317,9 @@ module.exports = function(grunt) {
 
     // default task, just lint js files
     grunt.registerTask('default', ['jshint']);
+    
+    // videos conversion
+    grunt.registerTask('videos', ['ffmpeg']);
     
     // build for production export
     grunt.registerTask('buildprod', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);

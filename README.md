@@ -231,6 +231,8 @@ npm install grunt-contrib-jst --save-dev
 
 npm install grunt-contrib-compress --save-dev
 
+npm install grunt-ffmpeg --save-dev
+
 
 
 npm install socket.io --save
