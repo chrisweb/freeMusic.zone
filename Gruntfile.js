@@ -278,7 +278,7 @@ module.exports = function(grunt) {
                     cwd: 'prototypes/video-requirejs/videos/original',
                     src: ['*.avi', '*.flv', '*.mp4'],
                     dest: 'prototypes/video-requirejs/videos/build',
-                    ext: '.mp4'
+                    ext: '.webm'
                 }]
             }
         },
@@ -314,6 +314,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-ffmpeg');
 
     // default task, just lint js files
     grunt.registerTask('default', ['jshint']);
