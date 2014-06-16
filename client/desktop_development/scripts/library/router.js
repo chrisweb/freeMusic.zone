@@ -14,7 +14,8 @@
  * @param {type} Backbone
  * @param {type} Routes
  * @param {type} eventsManager
- * @returns {_L17.Anonym$6}
+ * @param {type} user
+ * @returns {_L18.Anonym$8}
  */
 define([
     'library.utilities',
@@ -38,6 +39,26 @@ define([
 
             },
             routes: Routes,
+            
+            // this can be removed as soon as the backbone update got released
+            route: function(route, name, callback) {
+                if (!_.isRegExp(route)) route = this._routeToRegExp(route);
+                if (_.isFunction(name)) {
+                    callback = name;
+                    name = '';
+                }
+                if (!callback) callback = this[name];
+                var router = this;
+                Backbone.history.route(route, function(fragment) {
+                    var args = router._extractParameters(route, fragment);
+                    if (router.execute(callback, args, name) !== false) {
+                        router.trigger.apply(router, ['route:' + name].concat(args));
+                        router.trigger('route', name, args);
+                        Backbone.history.trigger('route', router, name, args);
+                    }
+                });
+                return this;
+            },
             execute: function routerExecute(callback, args, name) {
                 
                 //utilities.log('router on execute');
