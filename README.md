@@ -231,7 +231,7 @@ npm install grunt-contrib-jst --save-dev
 
 npm install grunt-contrib-compress --save-dev
 
-npm install grunt-ffmpeg --save-dev
+npm install fluent-ffmpeg --save-dev
 
 
 
@@ -311,3 +311,18 @@ to debug grunt, type:
 grunt --verbose
 
 
+
+convert the videos
+
+on linux use this command:
+FFMPEG_PATH="C:\ffmpeg\bin\ffmpeg" FFPROBE_PATH="C:\ffmpeg\bin\ffprobe" node video_convertor
+
+on windows using the command line:
+set FFMPEG_PATH=production
+set FFPROBE_PATH=production
+node video_convertor
+
+on windows using the power shell:
+$env:FFMPEG_PATH="C:\ffmpeg\bin\ffmpeg.exe"
+$env:FFPROBE_PATH="C:\ffmpeg\bin\ffprobe.exe"
+node video_convertor
