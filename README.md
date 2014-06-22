@@ -233,6 +233,8 @@ npm install grunt-contrib-compress --save-dev
 
 npm install fluent-ffmpeg --save-dev
 
+npm install aws-sdk --save-dev
+
 
 
 npm install socket.io --save
@@ -326,3 +328,14 @@ on windows using the power shell:
 $env:FFMPEG_PATH="C:\ffmpeg\bin\ffmpeg.exe"
 $env:FFPROBE_PATH="C:\ffmpeg\bin\ffprobe.exe"
 node video_convertor
+
+
+
+amazon aws
+node.js aws sdk documentation
+http://aws.amazon.com/de/sdkfornodejs/
+
+
+
+elastic load balancer API
+http://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/Welcome.html
