@@ -57,7 +57,7 @@ var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
 fluentFFMPEG.fromFormat('mp4');
 
 // Set output format
-fluentFFMPEG.toFormat('webm');
+fluentFFMPEG.toFormat('mp4');
 
 fluentFFMPEG.on('error', function(err) {
     console.log('An error occurred: ' + err.message);
