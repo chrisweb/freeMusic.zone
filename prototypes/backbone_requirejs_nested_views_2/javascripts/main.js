@@ -32,17 +32,15 @@ require([
         //console.log(ViewA);
         //console.log(ViewB);
         
-        var viewA = new ViewA();
+        var viewB = new ViewB();
+        
+        var viewA = new ViewA({ nestedViews: [viewB] });
         
         container.add('#page', viewA);
         
+        // this does not work as container does not know order in which to load
+        // views, viewB will get loaded before view A
         container.dispatch();
-        
-        var viewB = new ViewB();
-        
-        container.add('.viewB', viewB);
-        
-        container.dispatch('.viewB');
         
     });
     
