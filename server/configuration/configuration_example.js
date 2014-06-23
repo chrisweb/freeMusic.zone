@@ -104,6 +104,12 @@ module.exports.get = function getConfiguration(environment) {
                     authorize: '/oauth/authorize'
                 }
             };
+            
+            configuration.aws = {
+                'accessKeyId': 'FJFJFJFJFJKF',
+                'secretAccessKey': 'UIEGFIUGFEIUGFEIUGFEIUGFEIU',
+                'region': 'us-west-1'
+            };
 
             break;
 
