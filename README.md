@@ -53,7 +53,8 @@ tweet2jam
 * chat on the right side
 * listen to your playlists
 
-
+just4fun
+web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API
 
 
 Next todos:
