@@ -55,9 +55,14 @@ tweet2jam
 
 just4fun
 web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API
+change the favicon to animated gif if sound is played and turn of (set back to default icon) when no sound (song) is played, like: https://github.com/tommoor/tinycon
+play "system" sounds on some actions, like user gets new notification, on click on button, on error ... like realoperating system
 
 
 Next todos:
+* make api really restfull, no cookie, stateless
+* setup aws
+* run twitter harvester to fill db
 * search queries cache on server with redis
 * track infos cache on server with redis
 * a controller module that can be extended and is architectured like the backbone view or backbone model modules
