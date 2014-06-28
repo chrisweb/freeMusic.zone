@@ -192,6 +192,8 @@ npm install underscore --save
 
 npm install errorhandler --save
 
+npm install winston --save
+
 npm install cookie-parser --save
 
 npm install express-session --save

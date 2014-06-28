@@ -48,6 +48,18 @@ var configurationModule = require('./configuration/configuration');
 // ejs vendor module
 var ejs = require('ejs');
 
+// winston vendor module
+var winston = require('winston');
+
+winston.add(winston.transports.File, {
+    filename: 'logs/error.log',
+    json: false,
+    maxFiles: 20,
+    maxsize: 20971520 // 20MB
+});
+
+winston.remove(winston.transports.Console);
+
 // expressjs vendor module
 // http://expressjs.com/4x/api.html
 var express = require('express');
@@ -248,6 +260,17 @@ process.on('SIGINT', function() {
 
     });
 
+});
+
+//
+process.on('uncaughtException', function(error) {
+    
+    winston.error(error.message);
+    
+    utilities.log(error.stack, 'fontColor:red');
+    
+    shutdown(1);
+    
 });
 
 var addErrorRoutes = function addErrorRoutesFunction(router) {

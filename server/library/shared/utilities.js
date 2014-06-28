@@ -31,33 +31,6 @@
     
     utilities.logVerbose = true;
     
-    // nodejs or browser mode, if windows is undefined it is nodejs mode
-    if (typeof(window) === 'undefined') {
-        
-        // get the "winston" nodejs file logger vendor module
-        /*var winston = require('winston');
-        
-        var errorLogfilePath = __dirname + '/../../application/logs/application.log';
-
-        var winstonErrorFile = new winston.transports.File({
-            filename: __dirname + errorLogfilePath,
-            json: false,
-            maxFiles: 20,
-            maxsize: 20971520 // 20MB
-        });
-        
-        errorLogger = new winston.Logger({
-            transports: [
-                winstonErrorFile
-            ],
-            exceptionHandlers: [
-                winstonErrorFile
-            ],
-            exitOnError: true
-        });*/
-        
-    }
-    
     utilities.htmlLog = function htmlLogFunction(logObjects, logObjectsLength, logFontColor, logBackgroundColor) {
 
         // TODO: fix: if logging start before domload some messages get lost
@@ -96,7 +69,7 @@
     
     utilities.fileLog = function fileLogFunction(data, type) {
         
-        errorLogger.log(type.toLowerCase(), JSON.stringify(data, null, 4));
+        winston.error();
         
     };
 
