@@ -36,6 +36,13 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 
 }
 
+// in development mode log everything in log file by default
+if (process.env.NODE_ENV === 'development') {
+    
+    utilities.logSpecial = true;
+    
+}
+
 // api module
 var apiModule = require('./library/api');
 
