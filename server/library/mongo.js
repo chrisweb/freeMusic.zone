@@ -80,15 +80,23 @@ module.exports.getClient = function getClientFunction(callback) {
 module.exports.disconnect = function disconnectFunction(mongooseConnection, callback) {
 
     utilities.log('[MONGO_DB] disconnect', 'fontColor:cyan');
+    
+    if (mongooseConnection !== undefined) {
 
-    setTimeout(function() {
+        setTimeout(function() {
 
-        mongooseConnection.close(function() {
-            
-            callback();
-            
-        });
+            mongooseConnection.close(function() {
 
-    }, 0);
+                callback(false);
+
+            });
+
+        }, 0);
+        
+    } else {
+        
+        callback('mongooseConnection is undefined');
+        
+    }
 
 };

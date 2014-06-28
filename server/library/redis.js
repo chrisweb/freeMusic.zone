@@ -196,16 +196,24 @@ module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, r
 module.exports.disconnect = function disconnectFunction(redisDBClient, callback) {
 
     utilities.log('[REDIS_DB] disconnect', 'fontColor:cyan');
+    
+    if (redisDBClient !== undefined) {
 
-    setTimeout(function() {
+        setTimeout(function() {
 
-        redisDBClient.quit(function() {
-            
-            callback();
-            
-        });
+            redisDBClient.quit(function() {
 
-    }, 0);
+                callback(false);
+
+            });
+
+        }, 0);
+        
+    } else {
+        
+        callback('redisDBClient is undefined');
+        
+    }
 
 };
 
