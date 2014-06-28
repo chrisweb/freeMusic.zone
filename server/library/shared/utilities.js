@@ -67,9 +67,24 @@
             
     };
     
-    utilities.fileLog = function fileLogFunction(data, type) {
+    utilities.fileLog = function fileLogFunction(logObjects, logObjectsLength, logFontColor) {
         
-        winston.error();
+        var winston = require('winston');
+        
+        for (var i = 0; i < logObjectsLength; i++) {
+            
+            switch(logFontColor) {
+                case 'red':
+                    winston.error(logObjects[i]);
+                    break;
+                case 'yellow':
+                    winston.warn(logObjects[i]);
+                    break;
+                default:
+                    winston.info(logObjects[i]);
+            }
+            
+        }
         
     };
 
@@ -118,11 +133,11 @@
                 
             }
             
-            // log to file
-            if (typeof(utilities.logSpecial) !== 'undefined'
-            && utilities.logSpecial === true) {
+            // log to file if logSpecial is enabled or if the fontColor is red
+            if ((typeof(utilities.logSpecial) !== 'undefined'
+            && utilities.logSpecial === true) || logFontColor === 'red') {
 
-                this.fileLog(logObjects, logObjectsLength);
+                this.fileLog(logObjects, logObjectsLength, logFontColor);
 
             }
 
@@ -151,7 +166,7 @@
                 
             }
 
-            // log to html
+            // log to html if logSpecial is enabled
             if (typeof(utilities.logSpecial) !== 'undefined'
             && utilities.logSpecial === true) {
 
@@ -225,16 +240,27 @@
     
     var getServerColors = function getServerColorsFunction(logFontColor, logBackgroundColor) {
         
-        var colors = {};
+        var backgroundColors = {};
 
-        colors.red = '\u001b[31m';
-        colors.green = '\u001b[32m';
-        colors.yellow = '\u001b[33m';
-        colors.blue = '\u001b[34m';
-        colors.magenta = '\u001b[35m';
-        colors.cyan = '\u001b[36m';
-        colors.white = '\u001b[37m';
-        colors.black = '\u001b[40m';
+        backgroundColors.black = '\u001b[40m';
+        backgroundColors.red = '\u001b[41m';
+        backgroundColors.green = '\u001b[42m';
+        backgroundColors.yellow = '\u001b[43m';
+        backgroundColors.blue = '\u001b[44m';
+        backgroundColors.magenta = '\u001b[45m';
+        backgroundColors.cyan = '\u001b[46m';
+        backgroundColors.white = '\u001b[47m';
+        
+        var foregroundColors = {};
+
+        foregroundColors.black = '\u001b[30m';
+        foregroundColors.red = '\u001b[31m';
+        foregroundColors.green = '\u001b[32m';
+        foregroundColors.yellow = '\u001b[33m';
+        foregroundColors.blue = '\u001b[34m';
+        foregroundColors.magenta = '\u001b[35m';
+        foregroundColors.cyan = '\u001b[36m';
+        foregroundColors.white = '\u001b[37m';
         
         var fontColor;
         var backgroundColor;
@@ -243,13 +269,13 @@
         if (typeof(logFontColor) === 'undefined'
         || logFontColor === 'default') {
             
-            fontColor = colors['white'];
+            fontColor = foregroundColors['white'];
             
         } else {
             
-            if (typeof(colors[logFontColor]) !== 'undefined') {
+            if (typeof(foregroundColors[logFontColor]) !== 'undefined') {
             
-                fontColor = colors[logFontColor];
+                fontColor = foregroundColors[logFontColor];
                 
             } else {
                 
@@ -263,13 +289,13 @@
         if (typeof(logBackgroundColor) === 'undefined'
         || logBackgroundColor === 'default') {
             
-            backgroundColor = colors['black'];
+            backgroundColor = backgroundColors['black'];
             
         } else {
             
-            if (typeof(colors[logBackgroundColor]) !== 'undefined') {
+            if (typeof(backgroundColors[logBackgroundColor]) !== 'undefined') {
             
-                backgroundColor = colors[logBackgroundColor];
+                backgroundColor = backgroundColors[logBackgroundColor];
                 
             } else {
                 

@@ -11,6 +11,18 @@
 
 'use strict';
 
+// winston vendor module
+var winston = require('winston');
+
+winston.add(winston.transports.File, {
+    filename: 'logs/error.log',
+    json: false,
+    maxFiles: 20,
+    maxsize: 20971520 // 20MB
+});
+
+winston.remove(winston.transports.Console);
+
 // utilities module
 var utilities = require('./library/shared/utilities');
 
@@ -20,7 +32,7 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
     //process.env.NODE_ENV = 'production';
     process.env.NODE_ENV = 'development';
     
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red');
+    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red', 'backgroundColor:white');
 
 }
 
@@ -47,18 +59,6 @@ var configurationModule = require('./configuration/configuration');
 
 // ejs vendor module
 var ejs = require('ejs');
-
-// winston vendor module
-var winston = require('winston');
-
-winston.add(winston.transports.File, {
-    filename: 'logs/error.log',
-    json: false,
-    maxFiles: 20,
-    maxsize: 20971520 // 20MB
-});
-
-winston.remove(winston.transports.Console);
 
 // expressjs vendor module
 // http://expressjs.com/4x/api.html
@@ -129,7 +129,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // add the body parser middleware
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 // SESSION
 var RedisStore = connectRedis(session);
@@ -242,13 +245,23 @@ redisModule.getClient(function getClientCallback(error, client) {
 // close db connections on shutdown
 process.on('SIGINT', function() {
 
-    mongoModule.disconnect(mongoClient, function () {
+    mongoModule.disconnect(mongoClient, function (error) {
+        
+        if (error) {
+            
+            utilities.log('mongodb disconnect: ' + error, 'fontColor:red');
+            
+        }
         
         _.each(redisClients, function(redisClient) {
             
-            redisModule.disconnect(redisClient, function() {
+            redisModule.disconnect(redisClient, function(error) {
                 
-                
+                if (error) {
+                    
+                    utilities.log('redis disconnect: ' + error, 'fontColor:red');
+                    
+                }
                 
             });
             
@@ -265,11 +278,9 @@ process.on('SIGINT', function() {
 //
 process.on('uncaughtException', function(error) {
     
-    winston.error(error.message);
+    utilities.log(error.message, error.stack, 'fontColor:red');
     
-    utilities.log(error.stack, 'fontColor:red');
-    
-    shutdown(1);
+    process.exit(1);
     
 });
 
