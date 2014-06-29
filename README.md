@@ -57,6 +57,7 @@ just4fun
 web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API
 change the favicon to animated gif if sound is played and turn of (set back to default icon) when no sound (song) is played, like: https://github.com/tommoor/tinycon
 play "system" sounds on some actions, like user gets new notification, on click on button, on error ... like realoperating system
+use media attribute and page visibility APIs: http://daniemon.com/blog/two-favourite-underused-html5-media-features/
 
 
 Next todos:
