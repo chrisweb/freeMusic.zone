@@ -9,7 +9,7 @@
  */
 
 // utilities module
-var utilities = require('./server/library/shared/utilities');
+var utilities = require('../server/library/shared/utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof (process.env.NODE_ENV) === 'undefined') {
@@ -22,7 +22,7 @@ if (typeof (process.env.NODE_ENV) === 'undefined') {
 }
 
 // get configuration
-var configurationModule = require('./server/configuration/configuration');
+var configurationModule = require('../server/configuration/configuration');
 
 var configuration = configurationModule.get(process.env.NODE_ENV);
 

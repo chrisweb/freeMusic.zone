@@ -1,0 +1,27 @@
+#cloud-config
+#playlist_guru
+
+runcmd:
+ - cd /var
+ - sudo mkdir www
+ - cd www
+ - sudo mkdir playlist_guru
+ - cd playlist_guru
+
+ - groupadd www
+ - [ sh, -c, "usermod -a -G www ec2-user" ]
+
+ - [ sh, -c, "chown -R root:www /var/www" ]
+ - chmod 2775 /var/www
+
+ - [ sh, -c, "chown -R root:www /var/www/playlist_guru" ]
+ - chmod 2775 /var/www/playlist_guru
+
+ - [ sudo, git, -i, /home/ec2-user/.ssh/deploy_key, "git@github.com:chrisweb/playlist_guru.git" ]
+ - sudo npm install
+ - sudo bower install
+ - node server
+
+final_message: "The system is finally up, after $UPTIME seconds"
+
+# vim:syntax=yaml expandtab
