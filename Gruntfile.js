@@ -298,7 +298,9 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['jshint']);
     
     // build for production export
-    grunt.registerTask('buildprod', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildprod', ['jst', 'requirejs', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    
+    grunt.registerTask('buildbeta', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
     // templates and css for development
     grunt.registerTask('builddev', ['jst', 'sass', 'copy']);
