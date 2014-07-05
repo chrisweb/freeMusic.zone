@@ -1,7 +1,12 @@
 #cloud-config
 #playlist_guru
 
+# Upgrade the instance on first boot
+package_upgrade: true
+
 runcmd:
+ - [ wget, "http://slashdot.org", -O, /tmp/index.html ]
+
  - cd /var
  - sudo mkdir www
  - cd www
