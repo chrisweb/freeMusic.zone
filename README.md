@@ -55,9 +55,18 @@ tweet2jam
 
 just4fun
 web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API
+https://github.com/TalAter/annyang/blob/master/annyang.js
 change the favicon to animated gif if sound is played and turn of (set back to default icon) when no sound (song) is played, like: https://github.com/tommoor/tinycon
 play "system" sounds on some actions, like user gets new notification, on click on button, on error ... like realoperating system
 use media attribute and page visibility APIs: http://daniemon.com/blog/two-favourite-underused-html5-media-features/
+pointer events for mobile (and desktop) http://www.polymer-project.org/platform/pointer-events.html
+shadow dom improved views with shadow dom: http://www.polymer-project.org/platform/shadow-dom.html
+custom animations using bounce js: http://bouncejs.com/
+grid loading for playlists or jamendo news: http://tympanus.net/Tutorials/SamsungGrid/index2.html
+preview play button, loading then play: http://tympanus.net/Tutorials/CircularProgressButton/
+login button that morphs into login box: http://tympanus.net/Development/ButtonComponentMorph/
+charts, hot to colder with colors: http://jerrygarcia.com/
+video with design over it, example: http://www.tyoulipsisters.com/
 
 
 Next todos:
