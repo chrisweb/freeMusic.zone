@@ -67,6 +67,7 @@ preview play button, loading then play: http://tympanus.net/Tutorials/CircularPr
 login button that morphs into login box: http://tympanus.net/Development/ButtonComponentMorph/
 charts, hot to colder with colors: http://jerrygarcia.com/
 video with design over it, example: http://www.tyoulipsisters.com/
+open / close navigation styles: http://hilapeleg.io/2014/06/01/hackernews-redesign/
 
 
 Next todos:
