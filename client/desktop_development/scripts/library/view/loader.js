@@ -30,7 +30,7 @@ define([
 
         require(views, function() {
             
-            callback(arguments);
+            callback.apply(this, arguments);
             
         });
         

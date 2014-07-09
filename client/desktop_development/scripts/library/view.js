@@ -18,11 +18,11 @@
  * @returns {unresolved}
  */
 define([
-    'library.utilities',
+    'vendor.chrisweb.utilities',
     'backbone',
     'underscore',
     'jquery',
-    'library.container'
+    'vendor.chrisweb.container'
 ], function(utilities, Backbone, _, $, Container) {
 
     'use strict';
@@ -34,6 +34,14 @@ define([
             utilities.log('[CHRISWEB VIEW] initializing ...');
 
             this.options = options || {};
+            
+            // collection children views, usefull when collection view gets
+            // destroyed and we want to take some action on sub views
+            this.collectionModelViews = {};
+            
+            // list of reference view by model. Usefull to delete all view
+            // reference when a model is remove from the collection
+            this.referenceModelView = {};
             
             var renderedTemplate;
             
@@ -60,6 +68,20 @@ define([
                 throw 'view can not set element of template with more or less then one root element';
                 
             }
+            
+            if (this.collection !== undefined) {
+                
+                this.listenTo(this.collection, 'add', this.addModel);
+                this.listenTo(this.collection, 'remove', this.removeModel);
+                this.listenTo(this.collection, 'reset', this.clear);
+                
+            }
+            
+            if (this.model !== undefined) {
+                
+                this.listenTo(this.model, 'destroy', this.close);
+                
+            }
 
             // if oninitialize exists
             if (this.onInitialize) {
@@ -72,8 +94,16 @@ define([
         },
         render: function() {
             
-            this.$el.html(this.htmlize());
-            
+            this.htmlize();
+
+            // if onRender exists
+            if (this.onRender) {
+                
+                // execute it now
+                this.onRender();
+                
+            }
+
             return this;
             
         },
@@ -81,41 +111,67 @@ define([
 
             var renderedTemplate;
 
-            // put the template into the view element
-            if (this.model !== undefined) {
-
-                // model template
-                renderedTemplate = this.template(this.getModelAsJson());
-            
-            } else if (this.collection !== undefined) {
+             // put the template into the view element
+            if (this.collection !== undefined) {
             
                 // main collection template
-                renderedTemplate = this.template();
+                if (this.model !== undefined) {
+                    renderedTemplate = this.template(this.getModelAsJson());
+                } else {
+                    renderedTemplate = this.template();
+                }
 
                 // for each model of the collection append a modelView to collection dom
-                var modelViews = [];
-
                 var that = this;
                 
                 if (this.collection.models.length > 0) {
+                    
+                    if (that.options.ModelView !== undefined) {
                 
-                    var ModelView = that.options.ModelView;
+                        var ModelView = that.options.ModelView;
+                        
+                    } else {
+                        
+                        throw 'a collection view needs a ModelView passed on instantiation through the options';
+                        
+                    }
+                    
+                    var modelViewsAsHtml = [];
 
-                    _.each(this.collection.models, function(value) {
+                    _.each(this.collection.models, function(model) {
 
-                        var modelView = new ModelView({ model: value });
+                        var modelView = new ModelView({ model: model, parentView: that });
+                        
+                        that.collectionModelViews[model.cid] = modelView;
+                        
+                        var $html = modelView.create();
 
-                        modelViews.push(modelView.create());
+                        that.referenceModelView[model.cid] = {$html:$html};
+                        
+                        modelViewsAsHtml.push($html);
 
                     });
 
-                    var renderedTemplateCache = $(renderedTemplate);
+                    var $renderedTemplateCache = $(renderedTemplate);
 
-                    renderedTemplateCache.find('.list').html(modelViews);
+                    if ($renderedTemplateCache.hasClass('list')) {
+                        
+                        $renderedTemplateCache.append(modelViewsAsHtml);
+                        
+                    } else {
+                    
+                        $renderedTemplateCache.find('.list').append(modelViewsAsHtml);
+                        
+                    }
 
-                    renderedTemplate = renderedTemplateCache[0];
+                    renderedTemplate = $renderedTemplateCache[0];
                     
                 }
+
+            } else if (this.model !== undefined) {
+
+                // model template
+                renderedTemplate = this.template(this.getModelAsJson());
 
             } else {
                 
@@ -123,10 +179,8 @@ define([
                 renderedTemplate = this.template();
                 
             }
-            
-            var renderedTemplateHtmlWithoutRoot = $(renderedTemplate).first().html();
 
-            this.$el.html(renderedTemplateHtmlWithoutRoot);
+            this.setElement($(renderedTemplate));
             
         },
         getModelAsJson: function() {
@@ -157,12 +211,37 @@ define([
         },
         close: function() {
 
+            if (this.collectionModelViews !== null) {
+                
+                _.each(this.collectionModelViews, function closeModelViews(modelView) {
+
+                    modelView.close();
+                    
+                });
+                
+                this.collectionModelViews = {};
+                
+            }
+
             // remove the view from dom and stop listening to events that were
             // added with listenTo or that were added to the events declaration
             this.remove();
             
             // unbind events triggered from within views using backbone events
             this.unbind();
+            
+            if (this.model !== undefined) {
+                
+                //this.model.destroy();//sure?? you want destroy model server-side because of view close??
+                //this.model.trigger('destroy', this.model, this.model.collection, {});
+                
+            }
+            
+            if (this.collection !== undefined) {
+                
+                // TODO: ...
+                
+            }
             
             // if there is a onClose function ...
             if (this.onClose) {
@@ -182,16 +261,48 @@ define([
             
             var ModelView = this.options.ModelView;
 
-            var modelView = new ModelView({ model: model });
+            var modelView = new ModelView({ model: model, parentView: this });
 
-            this.$el.find('.list').append(modelView.create());
+            var $element = modelView.create();
+
+            this.referenceModelView[model.cid] = {$html:$element, container: modelView};
+
+            this.$el.find('.list').append($element);
             
             Container.add(this.options.listId, modelView);
             
+            this.collectionModelViews[model.cid] = modelView;
+            
         },
-        clear: function() {
+        /*clear: function() {
             
             Container.clear(this.options.listId);
+            
+            this.referenceModelView = {};
+            
+        },*/
+        removeModel: function removeModelFunction(model) {
+            
+            var view = this.referenceModelView[model.cid];
+            
+            if (view === undefined) {
+                return view;
+            }
+            
+            if (view.container !== undefined) {
+                Container.remove(this.options.listId, view.container);
+                view.container.close();
+                //close ?
+            }
+            if (view.$html !== undefined) {
+                view.$html.remove();
+            }
+            
+            delete this.referenceModelView[model.cid];
+            
+            delete this.collectionModelViews[model.cid];
+            
+            return view;
             
         }
 

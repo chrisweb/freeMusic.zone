@@ -35,23 +35,25 @@ define([
         
         this.containers = {};
         
+        this.bodyElement = $('body');
+        
     };
     
     ContainerSingleton.prototype = {
-
-        dispatch: function dispatchFunction(containerId) {
+        
+        dispatch: function dispatchFunction(containerSelector) {
 
             utilities.log('[CONTAINER] VIEWS DISPATCH');
 
-            if (containerId === undefined) {
+            if (containerSelector === undefined) {
 
-                _.each(this.containers, function(views, containerId) {
+                _.each(this.containers, function(views, containerSelector) {
 
                     _.each(views, function(view) {
 
                         var viewHtml = view.create();
 
-                        $('body').find('#' + containerId).append(viewHtml);
+                        this.bodyElement.find(containerSelector).append(viewHtml);
 
                     });
 
@@ -59,13 +61,13 @@ define([
 
             } else {
 
-                var views = this.containers[containerId];
+                var views = this.containers[containerSelector];
 
                 _.each(views, function(view) {
 
                     var viewHtml = view.create();
 
-                    $('body').find('#' + containerId).append(viewHtml);
+                    this.bodyElement.find(containerSelector).append(viewHtml);
 
                 });
 
@@ -75,23 +77,43 @@ define([
 
         },
 
-        add: function addFunction(containerId, view) {
+        add: function addFunction(containerSelector, view) {
 
-            utilities.log('[CONTAINER] VIEWS ADD');
+            utilities.log('[CONTAINER] ADD VIEW');
 
-            if (this.containers[containerId] === undefined) {
+            if (this.containers[containerSelector] === undefined) {
 
-                this.containers[containerId] = [];
+                this.containers[containerSelector] = [];
 
             }
 
-            this.containers[containerId].push(view);
+            this.containers[containerSelector].push(view);
+
+        },
+        
+        remove: function removeFunction(containerSelector, view) {
+
+            utilities.log('[CONTAINER] REMOVE VIEW');
+
+            if (this.containers[containerSelector] === undefined) {
+
+                return;
+
+            }
+            
+            var indexOf = this.containers[containerSelector].indexOf(view);
+            
+            if (indexOf > -1) {
+                
+                this.containers[containerSelector].splice(indexOf, 1);
+                
+            }
 
         },
 
-        clear: function clearFunction(containerId) {
+        clear: function clearFunction(containerSelector) {
 
-            var views = this.containers[containerId];
+            var views = this.containers[containerSelector];
 
             _.each(views, function(view) {
 
