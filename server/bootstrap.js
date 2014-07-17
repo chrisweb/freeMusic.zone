@@ -15,7 +15,7 @@
 var winston = require('winston');
 
 winston.add(winston.transports.File, {
-    filename: 'logs/error.log',
+    filename: __dirname + '/../logs/error.log',
     json: false,
     maxFiles: 20,
     maxsize: 20971520 // 20MB
