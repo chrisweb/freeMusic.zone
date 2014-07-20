@@ -9,7 +9,6 @@
  * @param {type} configuration
  * @param {type} Router
  * @param {type} container
- * @param {type} layout
  * @param {type} eventsManager
  * @param {type} Player
  * @param {type} TracksCacheManager
@@ -26,14 +25,13 @@ define([
     'configuration',
     'library.router',
     'library.container',
-    'library.layout',
     'library.eventsManager',
     'library.player.core',
     'library.tracksCache',
     'library.plugin.headerNavigation',
     'library.plugin.leftNavigation',
     'library.user'
-], function (_, Backbone, $, utilities, configuration, Router, container, layout, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation, user) {
+], function (_, Backbone, $, utilities, configuration, Router, container, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation, user) {
 
     'use strict';
     
@@ -115,14 +113,6 @@ define([
         
     };
     
-    var initializeLayout = function initializeLayoutFunction() {
-        
-        utilities.log('[BOOTSTRAP] initializeLayout', 'fontColor:blue');
-
-        layout.create();
-        
-    };
-    
     var initializePlayer = function initializePlayerFunction() {
         
         utilities.log('[BOOTSTRAP] initializePlayer', 'fontColor:blue');
@@ -199,8 +189,6 @@ define([
         initializeRouter();
             
             initializeApplication();
-        
-            initializeLayout();
 
             eventsManager.trigger('application:loaded');
             

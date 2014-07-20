@@ -146,6 +146,32 @@ module.exports = function(grunt) {
         
         // TODO: remove comments, vendor prefixes?
         
+        // replaces the font name in sass files to bust browser cache of fonts
+        // https://github.com/outaTiME/grunt-replace
+        replace: {
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                            match: 'version',
+                            replacement: '<%= packageJson.version %>'
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= config.desktop.development.stylesheets.path %>/main.scss'],
+                        rename: function (destination, source) {
+                            return destination + source.replace('.scss', '-<%= packageJson.version %>.scss');
+                        },
+                        dest: '<%= config.desktop.development.stylesheets.path %>/'
+                    }
+                ]
+            }
+        },
+        
         // compiles sass to css and generate the necessary files
         // https://github.com/gruntjs/grunt-contrib-sass
         sass: {
@@ -154,13 +180,12 @@ module.exports = function(grunt) {
                 precision: 10
             },
             dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= config.desktop.development.stylesheets.path %>',
-                    src: ['main.scss'],
-                    dest: '<%= config.desktop.build.stylesheets.path %>',
-                    ext: '.css'
-                }]
+                files: [
+                    {
+                        src: ['<%= config.desktop.development.stylesheets.path %>/main-<%= packageJson.version %>.scss'],
+                        dest: '<%= config.desktop.build.stylesheets.path %>/main.css'
+                    }
+                ]
             }
         },
         
@@ -220,7 +245,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: '<%= config.desktop.development.bootstrap.path %>/fonts/',
                         src: ['**'],
-                        dest: '<%= config.desktop.build.fonts.path %>/'
+                        dest: '<%= config.desktop.build.fonts.path %>/<%= packageJson.version %>/'
                     }
                 ]
             },
@@ -230,7 +255,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: '<%= config.desktop.development.fontawesome.path %>/fonts/',
                         src: ['**'],
-                        dest: '<%= config.desktop.build.fonts.path %>/fontawesome/'
+                        dest: '<%= config.desktop.build.fonts.path %>/fontawesome/<%= packageJson.version %>/'
                     }
                 ]
             }
@@ -293,16 +318,17 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-replace');
 
     // default task, just lint js files
     grunt.registerTask('default', ['jshint']);
     
     // build for production export
-    grunt.registerTask('buildprod', ['jst', 'requirejs', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildprod', ['jst', 'requirejs', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
-    grunt.registerTask('buildbeta', ['jshint', 'jst', 'requirejs', 'qunit', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildbeta', ['jshint', 'jst', 'requirejs', 'qunit', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
     // templates and css for development
-    grunt.registerTask('builddev', ['jst', 'sass', 'copy']);
+    grunt.registerTask('builddev', ['jst', 'replace', 'sass', 'copy']);
 
 };

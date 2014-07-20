@@ -254,6 +254,8 @@ npm install fluent-ffmpeg --save-dev
 
 npm install aws-sdk --save-dev
 
+npm install grunt-replace --save-dev
+
 
 
 npm install socket.io --save

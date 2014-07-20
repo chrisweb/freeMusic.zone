@@ -33,7 +33,6 @@ require.config({
         'library.container': 'library/container',
         'library.controller': 'library/controller',
         'library.eventsManager': 'library/eventsManager',
-        'library.layout': 'library/layout',
         'library.model': 'library/model',
         'library.router': 'library/router',
         'library.tracksCache': 'library/tracksCache',
