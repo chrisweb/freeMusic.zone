@@ -1,0 +1,14 @@
+/* moved the bootstrap glyphicons font to another folder, overwriting icons font path before loading bootstrap */
+$icon-font-path: '../fonts/bootstrap/@@version/';
+
+/* import twitter bootstrap */
+@import "bootstrap";
+
+/* moved the font-awesome font to another folder, owerwriting icons font path before loading font-awesome */
+$fa-font-path: '../fonts/fontawesome/@@version';
+
+/* import font-awesome */
+@import "font-awesome";
+
+/* import playlist guru custom css bootstrap */
+@import "theme";
