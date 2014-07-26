@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="prototype">
+    <head>
+        <title>angular.js sample app</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <!-- <script src="javascripts/vendor/angular.js/src/Angular.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <script src="javascripts/application.js"></script>
+    </head>
+    <body>
+        <div ng-controller="MainCntl">
+            Choose:
+            <a href="test/Moby">test/Moby</a> |
+            <a href="test/Moby/ch/1">test/Moby/ch/1</a> |
+            <a href="test/Gatsby">test/Gatsby</a> |
+            <a href="test/Gatsby/ch/4?key=value">test/Gatsby/ch/4?key=value</a> |
+            <a href="test/Scarlet">test/Scarlet</a><br/>
+
+            <div ng-view></div>
+            <hr />
+
+            <pre>$location.path() = {{$location.path()}}</pre>
+            <pre>$route.current.templateUrl = {{$route.current.templateUrl}}</pre>
+            <pre>$route.current.params = {{$route.current.params}}</pre>
+            <pre>$route.current.scope.name = {{$route.current.scope.name}}</pre>
+            <pre>$routeParams = {{$routeParams}}</pre>
+        </div>
+    </body>
+</html>

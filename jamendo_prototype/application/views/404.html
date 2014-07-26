@@ -1,0 +1,8 @@
+<%- header %>
+<div class="alert alert-error">
+    404 Page not found<br>
+    <% if (environment === 'development') { %>
+        URL: <%= url %>
+    <% } %>
+</div>
+<%- footer %>
