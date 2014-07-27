@@ -1,0 +1,42 @@
+﻿http://openmymind.net/2012/4/4/You-Really-Should-Log-Client-Side-Error/
+
+window.onerror = function(errorMsg, url, lineNumber) {
+    console.log('Uncaught error ' + errorMsg + ' in ' + url + ', line ' + lineNumber);
+};
+
+window on error will also log all erors of third party code
+
+try {
+  /*
+   * your application code here
+   *
+   */
+  throw new Error('oops');
+} catch (e) {
+  console.log(e);
+}
+
+In order to get stack traces, you need to wrap your code in a try/catch block
+
+Otherwise the error hits window.onerror handler and will only contain the error message, line number, and column number
+
+
+
+Interesting opensource projects to build own client javascript error tracker:
+https://github.com/stacktracejs/stacktrace.js
+https://github.com/occ/TraceKit
+
+opensource error tracking backend (with optional paid hosting):
+https://github.com/getsentry/sentry
+
+sentry javascript clients:
+https://github.com/getsentry/sentry/blob/master/docs/client/index.rst
+
+paid javascript error tracking as a service:
+https://bugsnag.com/
+http://trackjs.com/
+https://www.bugsense.com/
+
+clients of paid services:
+https://github.com/bugsnag/bugsnag-js
+https://github.com/airbrake/airbrake-js
