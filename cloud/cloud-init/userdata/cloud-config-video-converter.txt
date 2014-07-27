@@ -35,9 +35,6 @@ runcmd:
  - npm install -g bower
  # install dependencies
  - npm install
- - bower install
- # start nodejs server
- - node /var/www/freeMusic.zone/server
 
 final_message: "The system is finally up, after $UPTIME seconds"
 
