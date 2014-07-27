@@ -1,1 +1,1 @@
-module.exports = require('./application/bootstrap-0.0.1.js');
+module.exports = require('./server/bootstrap.js');

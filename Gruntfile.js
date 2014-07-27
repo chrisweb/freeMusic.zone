@@ -1,85 +1,115 @@
 module.exports = function(grunt) {
 
     'use strict';
-    
-    // this replaces all the grunt.loadNpmTasks, by automatically loading
-    // all packages listed in the devDependencies of the package.json
-    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-    // Project configuration.
+    // grunt
     grunt.initConfig({
         
-        pkg: grunt.file.readJSON('package.json'),
+        packageJson: grunt.file.readJSON('package.json'),
+        bowerJson: grunt.file.readJSON('bower.json'),
         
-        // js hint
-        // ! run this first, if linting fails the script will abort
-        // https://github.com/gruntjs/grunt-contrib-jshint
-        // https://github.com/jquery/jquery/blob/master/Gruntfile.js
-        // ! js hint options: http://www.jshint.com/docs/options/
-
-        jshint: {
-            src: [
-                'Gruntfile.js',
-                'audio-data-analyzer.js',
-                'mapreduce_cron.js',
-                'server.js',
-                'twitter_harvester.js',
-                'application/*.js',
-                'application/**/*.js',
-                'library/**/*.js',
-                'public_development/javascripts/application/*.js',
-                'public_development/javascripts/application/**/*.js',
-                'public_development/javascripts/library/*.js'
-            ],
-            grunt: {
-                options: {
-					jshintrc: '.jshintrc',
-					reporter: require('jshint-stylish')
-				},
-                globals: {
-                    require: true,
-                    define: true,
-                    requirejs: true,
-                    describe: true,
-                    expect: true,
-                    it: true,
-                    module: true,
-                    process: true,
-                    __dirname: true,
-                    exports: true,
-                    emit: true,
-                    console: true
+        config: {
+            desktop: {
+                development: {
+                    root: 'client/desktop_development',
+                    stylesheets: {
+                        path: '<%= config.desktop.development.root %>/stylesheets'
+                    },
+                    scripts: {
+                        path: '<%= config.desktop.development.root %>/scripts',
+                        templates: {
+                            path: '<%= config.desktop.development.scripts.path %>/templates'
+                        }
+                    },
+                    bootstrap: {
+                        path: 'bower_components/bootstrap-sass-official/vendor/assets'
+                    },
+                    fontawesome: {
+                        path: 'bower_components/fontawesome'
+                    },
+                    requirejs: {
+                        path: 'bower_components/requirejs'
+                    },
+                    images: {
+                        path: '<%= config.desktop.development.root %>/images'
+                    }
+                },
+                build: {
+                    root: 'client/desktop_build',
+                    stylesheets: {
+                        path: '<%= config.desktop.build.root %>/stylesheets'
+                    },
+                    scripts: {
+                        path: '<%= config.desktop.build.root %>/scripts'
+                    },
+                    images: {
+                        path: '<%= config.desktop.build.root %>/images'
+                    },
+                    fonts: {
+                        path: '<%= config.desktop.build.root %>/fonts'
+                    }
+                }
+            },
+            server: {
+                root: 'server',
+                templates: {
+                    path: '<%= config.server.root %>/templates'
+                }
+            },
+            test: {
+                client: {
+                    root: 'test/client'
                 }
             }
         },
         
-        // less
-        // https://github.com/gruntjs/grunt-contrib-less
-        // https://github.com/twbs/bootstrap/blob/master/Gruntfile.js
+        // js hint
+        // ! run this first, if linting fails the script will abort
+        // https://github.com/gruntjs/grunt-contrib-jshint
+        // ! js hint options: http://www.jshint.com/docs/options/
+        // templates directory gets ignored as templates get build by
+        // grunt-contrib-jst which creates files that don't follow our rules
+        jshint: {
+            src: [
+                'Gruntfile.js',
+                '<%= config.desktop.development.scripts.path %>/*.js',
+                '<%= config.desktop.development.scripts.path %>/**/*.js',
+                '!<%= config.desktop.development.scripts.path %>/templates/*.js'
+            ],
+            options: {
+                jshintrc: '.jshintrc',
+                reporter: require('jshint-stylish')
+            }
+        },
+        
+        // jst templates file
+        // https://github.com/gruntjs/grunt-contrib-jst/
+        jst: {
+            compile: {
+                options: {
+                    amd: true,
+                    processName: function(filepath) {
+                        return filepath.slice(filepath.indexOf('/')+1, filepath.lastIndexOf('.'));
+                    }
+                },
+                files: {
+                    '<%= config.desktop.development.scripts.templates.path %>/templates.js': ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs']
+                }
+            }
+        },
 
-        // css lint?
-        // https://github.com/gruntjs/grunt-contrib-csslint
-        
-        // images minification
-        // imagemin
-        
         // require js
         // https://github.com/gruntjs/grunt-contrib-requirejs
-
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: './public_development/javascripts',
-                    mainConfigFile: './public_development/javascripts/main-0.0.1.js',
-                    dir: './public/javascripts',
+                    baseUrl: '<%= config.desktop.development.scripts.path %>',
+                    mainConfigFile: '<%= config.desktop.development.scripts.path %>/main.js',
+                    name: 'main',
+                    out: '<%= config.desktop.build.scripts.path %>/main.js',
                     findNestedDependencies: true,
-                    fileExclusionRegExp: /^\./,
-                    inlineText: true,
-                    modules:[
-                        {
-                            name: 'main-0.0.1'
-                        }
-                    ],
+                    optimize: 'uglify2',
+                    useStrict: false, // TODO: set to true for build if enough support by browsers
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
 
@@ -95,51 +125,210 @@ module.exports = function(grunt) {
             }
         },
 
-        // optimize images?
+        // TODO: optimize images? svgmin?
         // https://github.com/gruntjs/grunt-contrib-imagemin
-
-        // copy files
-        // https://github.com/gruntjs/grunt-contrib-copy
-
-        // html5 lint
-        // https://github.com/alicoding/grunt-lint5
+        // read: http://www.html5rocks.com/en/tutorials/tooling/supercharging-your-gruntfile/
         
-        htmlhint: {
-            build: {
+
+        // TODO: html5 (templates) lint?
+        // https://github.com/alicoding/grunt-lint5
+
+        // QUnit
+        // https://github.com/gruntjs/grunt-contrib-qunit
+        // http://api.qunitjs.com/
+        // https://qunitjs.com/cookbook/ 
+        qunit: {
+            all: ['<%= config.test.client.root %>/**/*.html']
+        },
+        
+        // TODO: css lint?
+        // https://github.com/gruntjs/grunt-contrib-csslint
+        
+        // TODO: remove comments, vendor prefixes?
+        
+        // replaces the font name in sass files to bust browser cache of fonts
+        // https://github.com/outaTiME/grunt-replace
+        replace: {
+            dist: {
                 options: {
-                    'tag-pair': true,
-                    'tagname-lowercase': true,
-                    'attr-lowercase': true,
-                    'attr-value-double-quotes': true,
-                    'doctype-first': true,
-                    'spec-char-escape': true,
-                    'id-unique': true,
-                    'head-script-disabled': true,
-                    'style-disabled': true
+                    patterns: [
+                        {
+                            match: 'version',
+                            replacement: '<%= packageJson.version %>'
+                        }
+                    ]
                 },
-                src: ['application/views/*.html']
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['<%= config.desktop.development.stylesheets.path %>/main.scss'],
+                        rename: function (destination, source) {
+                            return destination + source.replace('.scss', '-<%= packageJson.version %>.scss');
+                        },
+                        dest: '<%= config.desktop.development.stylesheets.path %>/'
+                    }
+                ]
             }
         },
         
-        // watchers
-        watch: {
-            js: {
-                files: '<%= jshint.src %>',
-                tasks: ['jshint']
+        // compiles sass to css and generate the necessary files
+        // https://github.com/gruntjs/grunt-contrib-sass
+        sass: {
+            options: {
+                unixNewlines: true,
+                precision: 10
             },
-            html: {
-                files: ['index.html'],
-                tasks: ['htmlhint']
+            dist: {
+                files: [
+                    {
+                        src: ['<%= config.desktop.development.stylesheets.path %>/main-<%= packageJson.version %>.scss'],
+                        dest: '<%= config.desktop.build.stylesheets.path %>/main.css'
+                    }
+                ]
             }
-            /*css: {}*/
+        },
+        
+        // TODO: autoprefixer? after sass
+                
+        // css minification
+        // https://github.com/gruntjs/grunt-contrib-cssmin
+        cssmin: {
+            maincss: {
+                options: {
+                    banner: '/* <%= packageJson.name %> <%= packageJson.version %>  css */'
+                },
+                files: {
+                    '<%= config.desktop.build.stylesheets.path %>/main.min.css': '<%= config.desktop.build.stylesheets.path %>/main.css'
+                }
+            }
+        },
+        
+        // uglify requirejs
+        // https://github.com/gruntjs/grunt-contrib-uglify
+        uglify: {
+            requirejs: {
+                files: {
+                    '<%= config.desktop.build.scripts.path %>/require.min.js': '<%= config.desktop.development.requirejs.path %>/require.js'
+                }
+            }
+        },
+        
+        // copy files
+        // https://github.com/gruntjs/grunt-contrib-copy
+        copy: {
+            favicon: {
+                expand: true,
+                cwd: '<%= config.desktop.development.root %>/',
+                src: 'favicon.ico',
+                dest: '<%= config.desktop.build.root %>/'
+            },
+            robotstxt: {
+                expand: true,
+                cwd: '<%= config.desktop.development.root %>/',
+                src: 'robots.txt',
+                dest: '<%= config.desktop.build.root %>/'
+            },
+            images: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.desktop.development.images.path %>/',
+                        src: ['**'],
+                        dest: '<%= config.desktop.build.images.path %>/'
+                    }
+                ]
+            },
+            glyphiconsfont: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.desktop.development.bootstrap.path %>/fonts/',
+                        src: ['**'],
+                        dest: '<%= config.desktop.build.fonts.path %>/<%= packageJson.version %>/'
+                    }
+                ]
+            },
+            fontawesomefont: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.desktop.development.fontawesome.path %>/fonts/',
+                        src: ['**'],
+                        dest: '<%= config.desktop.build.fonts.path %>/fontawesome/<%= packageJson.version %>/'
+                    }
+                ]
+            }
+        },
+        
+        // gzip compression of javascript and css builds
+        // https://github.com/gruntjs/grunt-contrib-compress
+        compress: {
+            maincss: {
+                options: {
+                    mode: 'gzip'
+                },
+                src: '<%= config.desktop.build.stylesheets.path %>/main.min.css',
+                dest: '<%= config.desktop.build.stylesheets.path %>/main.min.css'
+            },
+            mainjs: {
+                options: {
+                    mode: 'gzip'
+                },
+                src: '<%= config.desktop.build.scripts.path %>/main.js',
+                dest: '<%= config.desktop.build.scripts.path %>/main.js'
+            },
+            requirejs: {
+                options: {
+                    mode: 'gzip'
+                },
+                src: '<%= config.desktop.build.scripts.path %>/require.min.js',
+                dest: '<%= config.desktop.build.scripts.path %>/require.min.js'
+            }
+        },
+        
+        // watches files for changes and runs tasks based on the changed files
+        // https://github.com/gruntjs/grunt-contrib-watch
+        watch: {
+            sass: {
+                files: ['<%= config.desktop.development.stylesheets.path %>/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'],
+                tasks: ['sass:dist']
+            },
+            jst: {
+                files: ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs'],
+                tasks: ['jst']
+            },
+            configFiles: {
+                files: ['Gruntfile.js'],
+                options: {
+                    reload: true
+                }
+            }
         }
 
     });
 
-    // Default task.
-    grunt.registerTask('default', ['jshint', 'htmlhint', 'requirejs']);
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-qunit');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-jst');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-replace');
+
+    // default task, just lint js files
+    grunt.registerTask('default', ['jshint']);
     
-    // task for only hinting js and html
-    grunt.registerTask('onlyhint', ['jshint', 'htmlhint']);
+    // build for production export
+    grunt.registerTask('buildprod', ['jst', 'requirejs', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    
+    grunt.registerTask('buildbeta', ['jshint', 'jst', 'requirejs', 'qunit', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    
+    // templates and css for development
+    grunt.registerTask('builddev', ['jst', 'replace', 'sass', 'copy']);
 
 };

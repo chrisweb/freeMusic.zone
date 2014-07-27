@@ -25,5 +25,9 @@
 	"nonew": true,
 	"sub": true,
 	"boss": true,
-	"eqnull": true
+	"eqnull": true,
+    "globals": {
+        "require": true,
+        "define": true
+    }
 }

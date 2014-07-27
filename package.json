@@ -1,54 +1,62 @@
 {
-  "name": "jam_prototype",
+  "name": "freeMusic.zone",
   "version": "0.0.1",
-  "description": "nodejs and backbone protype that reads tweets using the twitter api related to jamendo to indentify most tweeted tracks ids and then create a playlist (jamendo twitter charts)",
-  "main": "server.js",
-  "dependencies": {
-    "cron": "~1.0.3",
-    "mongoose": "~3.8.6",
-    "jamendo-from-twitter": "~0.1.0",
-    "ejs": "~0.8.5",
-    "redis": "~0.10.0",
-    "socket.io": "~0.9.16",
-    "winston": "~0.7.2",
-    "async": "~0.2.10",
-    "connect-redis": "~1.4.6",
-    "jamendo": "~0.3.1",
-    "express": "~3.4.8",
-    "underscore": "~1.5.2",
-    "es6-promise": "~0.1.1"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-cli": "0.1.13",
-    "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-contrib-jshint": "~0.8.0",
-    "jshint-stylish": "~0.1.5",
-    "grunt-contrib-watch": "~0.5.3",
-    "matchdep": "~0.3.0",
-    "grunt-htmlhint": "~0.4.0"
-  },
+  "description": "freeMusic zone",
+  "main": "index.js",
   "scripts": {
-    "test": "",
-    "start": "node server.js"
+    "test": "grunt"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chrisweb/jam_prototype.git"
+    "url": "https://github.com/chrisweb/freeMusic.zone.git"
   },
   "keywords": [
-    "jamendo",
-    "twitter",
-    "tweet",
-    "nodejs",
-    "backbone"
+    "playlist",
+    "freeMusic",
+    "free",
+    "music",
+    "audio",
+    "zone"
   ],
   "author": "chrisweb",
   "license": "MIT",
-  "readmeFilename": "README.md",
-  "gitHead": "401350bdbdbe761d6146ae7081b94c788b6c692a",
+  "bugs": {
+    "url": "https://github.com/chrisweb/freeMusic.zone/issues"
+  },
+  "homepage": "https://github.com/chrisweb/freeMusic.zone",
+  "dependencies": {
+    "body-parser": "~1.5.1",
+    "connect-redis": "^2.0.0",
+    "cookie-parser": "^1.3.2",
+    "ejs": "~1.0.0",
+    "errorhandler": "^1.1.1",
+    "express": "~4.7.1",
+    "express-session": "^1.7.1",
+    "jamendo": "~0.3.4",
+    "mongoose": "^3.8.14",
+    "redis": "^0.11.0",
+    "underscore": "~1.6.0",
+    "winston": "^0.7.3"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.0.9",
+    "fluent-ffmpeg": "^2.0.0-rc1",
+    "grunt": "~0.4.5",
+    "grunt-contrib-compress": "~0.10.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-cssmin": "~0.10.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-jst": "~0.6.0",
+    "grunt-contrib-qunit": "~0.5.2",
+    "grunt-contrib-requirejs": "~0.4.4",
+    "grunt-contrib-sass": "~0.7.3",
+    "grunt-contrib-uglify": "~0.5.1",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-replace": "^0.7.8",
+    "jshint-stylish": "~0.4.0",
+    "rjs-build-analysis": "~0.0.3"
+  },
   "engines": {
-    "node": ">=0.10.26"
+    "node": ">=0.10.29"
   }
 }

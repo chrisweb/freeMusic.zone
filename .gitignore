@@ -7,21 +7,26 @@ lib-cov
 *.pid
 *.gz
 
+.DS_Store
+
+pids
+logs
+results
+
+npm-debug.log
 Thumbs.db
 desktop.ini
 
 node_modules
-pids
-results
+bower_components
+yeoman
 nbproject
+.sass-cache
+
+desktop_build
+mobile_build
+tablet_build
+
+tracks
 
 configuration.js
-configuration*.js
-
-tracks/
-nbproject/
-public/
-
-prototypes/drag_n_drop_player/javascripts/vendor/SoundManager2/
-prototypes/soundmanager2/javascripts/vendor/SoundManager2/
-prototypes/soundmanager2/javascripts/vendor/jquery/
