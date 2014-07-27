@@ -1,1 +1,0 @@
-[http://msdn.microsoft.com/en-us/library/windows/apps/hh465424.aspx]

@@ -1,1 +1,0 @@
-[https://developer.apple.com/library/ios/design/index.html]
