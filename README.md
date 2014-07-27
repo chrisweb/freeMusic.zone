@@ -1,6 +1,8 @@
 [![Dependencies](https://david-dm.org/chrisweb/freeMusic.zone.png)](https://david-dm.org/chrisweb/freeMusic.zone)
 [![Dependencies](https://david-dm.org/chrisweb/freeMusic.zone/dev-status.png)](https://david-dm.org/chrisweb/freeMusic.zone)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![Build Status](https://travis-ci.org/chrisweb/freeMusic.zone.svg?branch=master)](https://travis-ci.org/chrisweb/freeMusic.zone)
+[![Coverage Status](https://coveralls.io/repos/chrisweb/freeMusic.zone/badge.png)](https://coveralls.io/r/chrisweb/freeMusic.zone)
 
 # freeMusic.zone
 

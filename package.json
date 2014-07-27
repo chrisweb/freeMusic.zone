@@ -4,7 +4,7 @@
   "description": "freeMusic zone",
   "main": "server.js",
   "scripts": {
-    "test": "grunt"
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -53,6 +53,7 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-replace": "^0.7.8",
     "jshint-stylish": "~0.4.0",
+    "mocha": "^1.21.1",
     "rjs-build-analysis": "~0.0.3"
   },
   "engines": {

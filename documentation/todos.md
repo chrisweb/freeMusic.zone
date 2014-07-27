@@ -4,7 +4,11 @@ Put all the todos in the github issues section?
 
 Add travis ci build check? https://travis-ci.org/
 
+Write tests using mocha and should
+
 Use hiredis? https://github.com/redis/hiredis-node
+
+Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMusic.zone and nodejs istanbul
 
 ## Next todos
 
