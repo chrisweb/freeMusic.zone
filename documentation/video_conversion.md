@@ -12,9 +12,21 @@ If you also want to use amazon aws, you can use the cloud-config userdata script
 
 I have installed the video convertor on an amazon aws instance.
 
-Open your FTP tool (I use Filezilla) and then 
+Open your FTP tool (I use Filezilla).
 
+Create a new server.
+Put the ec2 instances "public dns" (something.eu-west-1.compute.amazonaws.com) address into the host field.
+As protocol chose SFTP.
+Choose as logon type normal.
+In the user field add "ec2-user", you don't need to enter a password.
 
+Now open Edit (Preferences) > Settings > Connection > SFTP.
+Click "Add key file".
+Browse to the location of your .pem file and select it. Filezilla will automatically convert it to a ppk file.
+
+That's it, now you can connect to the ec2 instance and upload the videos into the videos directory.
+
+### Launch the conversion script
 
 To convert the starting page videos
 

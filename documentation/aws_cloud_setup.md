@@ -4,7 +4,8 @@ The cloud-init configuration script (aws userdata) can be found in the cloud/clo
 
 The cloud infrastructure diagrams can be found in the cloud/infrastructure directory.
 
-amazon aws
+### amazon aws documentation
+
 node.js aws sdk documentation
 http://aws.amazon.com/de/sdkfornodejs/
 
