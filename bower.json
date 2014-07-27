@@ -1,15 +1,19 @@
 {
-  "name": "playlist.guru",
+  "name": "freeMusic.zone",
   "version": "0.0.1",
-  "homepage": "https://github.com/chrisweb/playlist_guru",
+  "homepage": "https://github.com/chrisweb/freeMusic.zone",
   "authors": [
     "chrisweb"
   ],
-  "description": "playlist guru",
+  "description": "freeMusic zone",
   "main": "main.js",
   "keywords": [
     "playlist",
-    "guru"
+    "freeMusic",
+    "free",
+    "music",
+    "audio",
+    "zone"
   ],
   "license": "MIT",
   "private": true,
@@ -23,15 +27,12 @@
   "dependencies": {
     "underscore": "~1.6.0",
     "backbone": "~1.1.2",
-    "jquery": "~2.1.1",
+    "jquery": "~2.1.2-pre",
     "requirejs": "~2.1.14",
-    "bootstrap-sass-official": "~3.1.1",
+    "bootstrap-sass-official": "~3.2.0",
     "SoundManager2": "https://github.com/scottschiller/SoundManager2.git#V2.97a.20131201+DEV",
     "fontawesome": "~4.1.0",
     "moment": "~2.7.0",
     "modernizr": "master"
-  },
-  "devDependencies": {
-    "qunit": "~1.14.0"
   }
 }

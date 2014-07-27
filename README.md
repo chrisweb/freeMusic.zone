@@ -1,4 +1,4 @@
-[![Dependencies](https://david-dm.org/chrisweb/playlist_guru.png)](https://david-dm.org/chrisweb/freeMusic.zone)
+[![Dependencies](https://david-dm.org/chrisweb/freeMusic.zone.png)](https://david-dm.org/chrisweb/freeMusic.zone)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 # freeMusic.zone
