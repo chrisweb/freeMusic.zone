@@ -2,6 +2,10 @@
 
 Put all the todos in the github issues section?
 
+Add travis ci build check? https://travis-ci.org/
+
+Use hiredis? https://github.com/redis/hiredis-node
+
 ## Next todos
 
 * make api really restfull, (no cookie?), stateless
