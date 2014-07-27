@@ -39,7 +39,6 @@
     "winston": "^0.7.3"
   },
   "devDependencies": {
-    "aws-sdk": "^2.0.9",
     "fluent-ffmpeg": "^2.0.0-rc1",
     "grunt": "~0.4.5",
     "grunt-contrib-compress": "~0.10.0",
