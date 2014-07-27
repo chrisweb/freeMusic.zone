@@ -2,7 +2,7 @@
   "name": "freeMusic.zone",
   "version": "0.0.1",
   "description": "freeMusic zone",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "grunt"
   },
