@@ -27,4 +27,6 @@ desktop_build
 mobile_build
 tablet_build
 
+tracks
+
 configuration.js
