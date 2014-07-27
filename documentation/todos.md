@@ -8,6 +8,13 @@ Use hiredis? https://github.com/redis/hiredis-node
 
 ## Next todos
 
+* aws video converter setup
+* aws mongodb
+* aws redis
+* aws twitter harvester (with forever) setup and tests
+* put ribs.js (with bower) and chrisweb-utilities (with npm) back into project
+* aws music analyzer test
+
 * make api really restfull, (no cookie?), stateless
 * setup aws
 * search queries cache on server with redis
