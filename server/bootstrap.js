@@ -43,6 +43,17 @@ if (process.env.NODE_ENV === 'development') {
     
 }
 
+try {
+
+    // application configuration
+    var configurationModule = require('./configuration/configuration');
+    
+} catch(exception) {
+    
+    throw 'You have not set up the configuration file, please read the documentation/development_setup document';
+    
+}
+
 // api module
 var apiModule = require('./library/api');
 
@@ -60,9 +71,6 @@ var mongoModule = require('./library/mongo');
 
 // user module
 var userModule = require('./library/user');
-
-// application configuration
-var configurationModule = require('./configuration/configuration');
 
 // ejs vendor module
 var ejs = require('ejs');
