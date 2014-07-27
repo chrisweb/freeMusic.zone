@@ -6,6 +6,9 @@
  * 
  * http://aws.amazon.com/de/sdkfornodejs/
  * 
+ * To use this you first need to install the amazon-aws package
+ * http://aws.amazon.com/de/sdkfornodejs/
+ * 
  */
 
 // utilities module
