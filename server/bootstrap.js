@@ -1,6 +1,6 @@
 /**
  * 
- * Playlist Guru
+ * Server Bootstrap
  * 
  * Copyright 2014 weber chris and other contributors
  * Released under the MIT license
