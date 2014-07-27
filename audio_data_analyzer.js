@@ -5,9 +5,6 @@
  * 
  */
 
-// utilities module
-var utilities = require('./library/shared/utilities-0.0.3');
-
 // nodejs http
 var http = require('http');
 
@@ -20,7 +17,7 @@ var childProcess = require('child_process');
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
 
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to PRODUCTION', 'red');
+    console.log('PROCESS ENV NOT FOUND, setting it by default to PRODUCTION', 'red');
 
     process.env.NODE_ENV = 'production';
 
