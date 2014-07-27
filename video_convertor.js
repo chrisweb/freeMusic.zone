@@ -12,6 +12,7 @@ var FluentFFMPEG = require('fluent-ffmpeg');
 
 utilities.log('[VIDEO CONVERTOR] starting');
 
+// windows only
 if (typeof(process.env.FFMPEG_PATH) === 'undefined') {
 
     process.env.FFMPEG_PATH = 'C:\ffmpeg\bin\ffmpeg.exe';
@@ -28,8 +29,8 @@ if (typeof(process.env.FFPROBE_PATH) === 'undefined') {
 
 }
 
-var videoSource = '/Users/chris_000/Documents/GitHub/playlist_guru/prototypes/video-requirejs/videos/original/clouds.mp4';
-var videoOutput = '/Users/chris_000/Documents/GitHub/playlist_guru/prototypes/video-requirejs/videos/build/clouds.mp4';
+var videoSource = './videos/concert_dancing.mov';
+var videoOutput = './videos/concert_dancing.mp4';
 
 // webm conversion
 var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
