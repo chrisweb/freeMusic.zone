@@ -1,7 +1,5 @@
 /**
- * asynchronous audio data analyzer ffmpeg wrapper using node-pcm
- * 
- * MIT Licensed, see License.txt
+ * experiment to visualize music
  * 
  */
 
