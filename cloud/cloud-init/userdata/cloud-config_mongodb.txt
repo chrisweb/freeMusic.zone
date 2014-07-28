@@ -1,0 +1,31 @@
+#cloud-config (mongodb)
+#freeMusic.zone
+
+# Upgrade the instance on first boot
+package_upgrade: true
+
+# install git package
+packages:
+ - git
+
+# create groups
+groups:
+  - www
+
+# create user
+users:
+  - default
+  - name: mongodb
+    gecos: MongoDB User
+    system: true
+    groups: mongodb
+
+runcmd:
+ # install mongodb
+ - yum install nodejs npm -y --enablerepo=epel
+
+final_message: "The system is finally up, after $UPTIME seconds"
+
+output: {all: '| tee -a /var/log/cloud-init-output.log'}
+
+# vim:syntax=yaml expandtab

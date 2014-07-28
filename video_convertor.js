@@ -36,7 +36,7 @@ var videoOutput = './videos/concert_dancing.mp4';
 var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
 
 // Specify input format
-fluentFFMPEG.fromFormat('mp4');
+fluentFFMPEG.fromFormat('mov');
 
 // Set output format
 fluentFFMPEG.toFormat('webm');
@@ -55,7 +55,7 @@ fluentFFMPEG.saveToFile(videoOutput);
 var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
 
 // Specify input format
-fluentFFMPEG.fromFormat('mp4');
+fluentFFMPEG.fromFormat('mov');
 
 // Set output format
 fluentFFMPEG.toFormat('mp4');

@@ -1,4 +1,4 @@
-#cloud-config
+#cloud-config (if project is in private repository / ssh key)
 #freeMusic.zone
 
 # Upgrade the instance on first boot
