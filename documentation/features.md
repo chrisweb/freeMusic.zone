@@ -10,6 +10,7 @@
 * remote, use the app on a tablet or phone as a remote for another session of the app on a desktop or tv, login into both apps with same account, pub sub sync the state of both apps for that account
 * video paylist, playlist to youtube, create a playlist of jamendo tracks, then a script checks if those videos exist on youtube and create a videos playlist based on the jamendo playlist
 * drive playlist, google drive download / backup, download tracks directly into your google drive account or backup entire playlists
+* hot or not for songs, like or dislike it (add to playlist), swipe for next song
 
 ## Nice to have, but probably not enough time
 
