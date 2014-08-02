@@ -76,3 +76,6 @@
 * charts, hot to colder with colors: http://jerrygarcia.com/
 * video with design over it, example: http://www.tyoulipsisters.com/
 * open / close navigation styles: http://hilapeleg.io/2014/06/01/hackernews-redesign/
+* html5 web audio api http://www.html5rocks.com/en/tutorials/webaudio/intro/
+* javascript audio waveform https://developer.tizen.org/documentation/articles/advanced-web-audio-api-usage + http://www.html5audio.org/2012/10/interactive-navigable-audio-visualization-using-webaudio-api-and-canvas.html
+* detect beats using web audio api: http://tech.beatport.com/2014/web-audio/beat-detection-using-web-audio/
