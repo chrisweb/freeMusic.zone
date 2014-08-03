@@ -4,10 +4,6 @@
 # Upgrade the instance on first boot
 package_upgrade: true
 
-# install git package
-packages:
- - git
-
 # create groups
 groups:
   - www
@@ -22,9 +18,11 @@ users:
 
 runcmd:
  # install redis
- - yum install nodejs npm -y --enablerepo=epel
+ - yum install redis -y --enablerepo=epel
+ # TODO: configure redis
+ # TODO: launch redis
 
-final_message: "The system is finally up, after $UPTIME seconds"
+final_message: "The redis server is finally up, after $UPTIME seconds"
 
 output: {all: '| tee -a /var/log/cloud-init-output.log'}
 

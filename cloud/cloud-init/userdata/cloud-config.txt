@@ -30,6 +30,8 @@ runcmd:
  - [ chown, -R, "root:www", "/var/www/freeMusic.zone" ]
  # install nodejs
  - yum install nodejs npm -y --enablerepo=epel
+ # install sass and set path
+
  # install grunt and bower
  - npm install -g grunt-cli
  - npm install -g bower
@@ -39,7 +41,7 @@ runcmd:
  # start nodejs server
  - node /var/www/freeMusic.zone/server
 
-final_message: "The system is finally up, after $UPTIME seconds"
+final_message: "The nodejs server is finally up, after $UPTIME seconds"
 
 output: {all: '| tee -a /var/log/cloud-init-output.log'}
 

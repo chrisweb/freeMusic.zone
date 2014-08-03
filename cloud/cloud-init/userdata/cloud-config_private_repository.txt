@@ -50,7 +50,7 @@ runcmd:
  # start nodejs server
  - node /var/www/freeMusic.zone/server
 
-final_message: "The system is finally up, after $UPTIME seconds"
+final_message: "The nodejs server is finally up, after $UPTIME seconds"
 
 output: {all: '| tee -a /var/log/cloud-init-output.log'}
 

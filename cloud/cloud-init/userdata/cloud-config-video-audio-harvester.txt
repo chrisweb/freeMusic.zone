@@ -7,6 +7,16 @@ package_upgrade: true
 # install git package
 packages:
  - git
+ - make
+ - pkgconfig
+ - gcc
+ - libXext-devel
+ - libXfixes-devel
+ - zlib-devel
+ - libvorbis
+ - libogg
+ - libvpx
+ - yasm
 
 # create groups
 groups:
@@ -35,14 +45,44 @@ runcmd:
  - npm install -g bower
  # install dependencies
  - npm install
- # install ffmpeg
- - sudo yum install git make yasm pkgconfig libXext-devel libXfixes-devel x264-devel zlib-devel
- - git clone https://github.com/FFmpeg/FFmpeg.git
- - ./FFmpeg/configure --enable-nonfree --enable-gpl --enable-libx264 --enable-x11grab --enable-zlib
- - ./FFmpeg/make
+ # install libfaac
 
-final_message: "The system is finally up, after $UPTIME seconds"
+ # install ffmpeg
+
+ # install ffmpeg
+
+
+
+final_message: "The media server is finally up, after $UPTIME seconds"
 
 output: {all: '| tee -a /var/log/cloud-init-output.log'}
 
 # vim:syntax=yaml expandtab
+
+
+
+
+
+wget http://sourceforge.net/projects/faac/files/faac-src/faac-1.28/faac-1.28.tar.gz
+tar -xvf faac-1.28.tar.gz
+cd faac-1.28
+./configure
+make
+make install
+
+
+git clone git://git.videolan.org/x264.git
+cd x264
+./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-static 
+make
+make install
+
+
+git clone git://source.ffmpeg.org/ffmpeg.git
+cd ffmpeg
+git checkout master
+PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig"
+export PKG_CONFIG_PATH
+./configure --prefix="$HOME/ffmpeg_build" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib" --bindir="$HOME/bin" --extra-libs=-ldl --enable-version3 --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libvpx --enable-libfaac --enable-libmp3lame --enable-libtheora --enable-libvorbis --enable-libx264 --enable-libvo-aacenc --enable-libxvid --disable-ffplay --enable-gpl --enable-postproc --enable-nonfree --enable-avfilter --enable-pthreads 
+make
+make install
