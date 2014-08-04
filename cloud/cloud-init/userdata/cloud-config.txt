@@ -4,9 +4,11 @@
 # Upgrade the instance on first boot
 package_upgrade: true
 
-# install git package
+# install packages
 packages:
  - git
+ - ruby
+ - rubygems
 
 # create groups
 groups:
@@ -31,7 +33,8 @@ runcmd:
  # install nodejs
  - yum install nodejs npm -y --enablerepo=epel
  # install sass and set path
-
+ - gem install sass
+ - PATH=${PATH}:/var/lib/gems/1.8/bin
  # install grunt and bower
  - npm install -g grunt-cli
  - npm install -g bower
