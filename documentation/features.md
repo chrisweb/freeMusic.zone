@@ -78,4 +78,4 @@
 * html5 web audio api http://www.html5rocks.com/en/tutorials/webaudio/intro/
 * javascript audio waveform https://developer.tizen.org/documentation/articles/advanced-web-audio-api-usage + http://www.html5audio.org/2012/10/interactive-navigable-audio-visualization-using-webaudio-api-and-canvas.html
 * detect beats using web audio api: http://tech.beatport.com/2014/web-audio/beat-detection-using-web-audio/
-* create a nice app introduction using: introJS: https://github.com/usablica/intro.js or boostraptour:  https://github.com/sorich87/bootstrap-tour
+* create a nice app introduction using: introJS: https://github.com/usablica/intro.js or boostraptour:  https://github.com/sorich87/bootstrap-tour or joyride: https://github.com/zurb/joyride
