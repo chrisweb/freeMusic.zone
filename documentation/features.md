@@ -62,8 +62,7 @@
 
 ### just4fun
 
-* web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API
-* https://github.com/TalAter/annyang/blob/master/annyang.js
+* web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API + https://github.com/TalAter/annyang/blob/master/annyang.js
 * change the favicon to animated gif if sound is played and turn of (set back to default icon) when no sound (song) is played, like: https://github.com/tommoor/tinycon
 * play "system" sounds on some actions, like user gets new notification, on click on button, on error ... like realoperating system
 * use media attribute and page visibility APIs: http://daniemon.com/blog/two-favourite-underused-html5-media-features/
@@ -79,3 +78,4 @@
 * html5 web audio api http://www.html5rocks.com/en/tutorials/webaudio/intro/
 * javascript audio waveform https://developer.tizen.org/documentation/articles/advanced-web-audio-api-usage + http://www.html5audio.org/2012/10/interactive-navigable-audio-visualization-using-webaudio-api-and-canvas.html
 * detect beats using web audio api: http://tech.beatport.com/2014/web-audio/beat-detection-using-web-audio/
+* create a nice app introduction using: introJS: https://github.com/usablica/intro.js or boostraptour:  https://github.com/sorich87/bootstrap-tour
