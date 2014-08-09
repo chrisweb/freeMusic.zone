@@ -35,10 +35,8 @@ runcmd:
  # get the project from github using the deploy key
  - ssh-agent bash -c 'ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git@github.com:chrisweb/freeMusic.zone.git /var/www/freeMusic.zone'
  # give the www group access to our project directory
- - [ chmod, 755, "/var/www" ]
- - [ chmod, 755, "/var/www/freeMusic.zone" ]
  - [ chown, -R, "root:www", "/var/www" ]
- - [ chown, -R, "root:www", "/var/www/freeMusic.zone" ]
+ - [ chmod, -R, 775, "/var/www" ]
  # install nodejs
  - yum install nodejs npm -y --enablerepo=epel
  # install grunt and bower
