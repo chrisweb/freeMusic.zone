@@ -5,32 +5,122 @@
 package_upgrade: true
 
 # add the rpmforge repository to /etc/yum.repos.d
+# use centos 6.5 repo not 7, because there is no libdc1394 in centos 7
+# dependencies list: http://pkgs.org/centos-6/rpmfusion-free-updates-x86_64/ffmpeg-libs-0.10.11-1.el6.x86_64.rpm.html
 yum_repos:
+  centos:
+    baseurl: http://mirror.centos.org/centos/6.5/os/x86_64
+    enabled: true
+    failovermethod: priority
+    gpgcheck: true
+    gpgkey: http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+    name: CentOS os
+    priority: 20
+  centosextras:
+    baseurl: http://mirror.centos.org/centos/6.5/extras/x86_64
+    enabled: true
+    failovermethod: priority
+    gpgcheck: true
+    gpgkey: http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+    name: CentOS extras
+    priority: 20
+  centosplus:
+    baseurl: http://mirror.centos.org/centos/6.5/centosplus/x86_64
+    enabled: true
+    failovermethod: priority
+    gpgcheck: true
+    gpgkey: http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+    name: CentOS centosplus
+    priority: 20
+  centosupdates:
+    baseurl: http://mirror.centos.org/centos/6.5/updates/x86_64
+    enabled: true
+    failovermethod: priority
+    gpgcheck: true
+    gpgkey: http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-6
+    name: CentOS updates
+    priority: 20
+  epel2:
+    name: epel2
+    #baseurl: http://download.fedoraproject.org/pub/epel/6/$basearch
+    mirrorlist: https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch
+    failovermethod: priority
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+    priority: 30
+  rpmfusion-free:
+    name: rpmfusionfree
+    mirrorlist: "http://mirrors.rpmfusion.org/mirrorlist?repo=free-el-6&arch=$basearch"
+    priority: 40
+    gpgkey: https://raw.githubusercontent.com/marcgibbons/puppet-rpmfusion/master/files/RPM-GPG-KEY-rpmfusion-free-el-6
+    failovermethod: priority
+    enabled: 1
+    gpgcheck: 1
+  rpmfusion-free-updates:
+    name: rpmfusionfreeupdates
+    mirrorlist: "http://mirrors.rpmfusion.org/mirrorlist?repo=free-el-updates-released-6&arch=$basearch"
+    priority: 40
+    gpgkey: https://raw.githubusercontent.com/marcgibbons/puppet-rpmfusion/master/files/RPM-GPG-KEY-rpmfusion-free-el-6
+    failovermethod: priority
+    enabled: 1
+    gpgcheck: 1
+  rpmfusion-nonfree:
+    name: rpmfusionnonfree
+    mirrorlist: "http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-el-6&arch=$basearch"
+    priority: 40
+    gpgkey: http://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-el-6
+    failovermethod: priority
+    enabled: 1
+    gpgcheck: 1
+  rpmfusion-nonfree-updates:
+    name: rpmfusionnonfreeupdates
+    mirrorlist: "http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-el-updates-released-6&arch=$basearch"
+    priority: 40
+    gpgkey: http://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-el-6
+    failovermethod: priority
+    enabled: 1
+    gpgcheck: 1
   rpmforge:
+    mirrorlist: http://apt.sw.be/redhat/el6/en/mirrors-rpmforge
     baseurl: http://apt.sw.be/redhat/el6/en/x86_64/rpmforge
     enabled: true
     failovermethod: priority
     gpgcheck: true
     gpgkey: http://apt.sw.be/RPM-GPG-KEY.dag.txt
     name: Extra Packages from repoforge
+    priority: 50
 
 # install packages (make and pkgconfig qre not listed as they got already installed)
 packages:
  - git
  - gcc
- - libXext-devel
- - libXfixes-devel
- - zlib-devel
+ - celt
+ - yasm
+ - schroedinger
+ - openal-soft
+# - mesa-dri-drivers
+ - mesa-dri-filesystem
+ - libass
  - libvorbis
  - libogg
+ - libtheora
  - libvpx
- - yasm
- - x264
+ - libv4l
+ - libva
+ - libcdio
  - libdc1394
  - libdc1394-devel
- - faac-devel
+ - faad2
+ - x264-libs
+ - pulseaudio-libs
+ - libcdio
+ - SDL
+ - gsm
  - faac
+ - faac-devel
  - ffmpeg
+ - ffmpeg-devel
 
 # create groups
 groups:
@@ -46,7 +136,7 @@ users:
 
 runcmd:
  # get the project from github using the deploy key
- - ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git@github.com:chrisweb/freeMusic.zone.git /var/www/freeMusic.zone
+ - ssh-agent bash -c 'ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git://github.com/chrisweb/freeMusic.zone.git /var/www/freeMusic.zone'
  # give the www group access to our project directory
  - [ chmod, 755, "/var/www" ]
  - [ chmod, 755, "/var/www/freeMusic.zone" ]

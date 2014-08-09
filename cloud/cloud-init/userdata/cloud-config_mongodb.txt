@@ -6,12 +6,13 @@ package_upgrade: true
 
 # add the 10gen repository to /etc/yum.repos.d
 yum_repos:
-  rpmforge:
+  10gen:
     baseurl: http://downloads-distro.mongodb.org/repo/redhat/os/x86_64
     enabled: true
     failovermethod: priority
     gpgcheck: false
     name: 10gen repository for mongodb
+    priority: 20
 
 # install packages
 packages:
