@@ -12,7 +12,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
-* aws video converter setup
+* DONE: aws video converter setup
 * aws mongodb
 * aws redis
 * aws twitter harvester (with forever) setup and tests
