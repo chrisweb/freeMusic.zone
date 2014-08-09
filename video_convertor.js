@@ -6,7 +6,7 @@
  */
 
 // utilities module
-var utilities = require('./server/library/shared/utilities');
+var utilities = require('./bower_components/chrisweb-utilities/utilities');
 
 var FluentFFMPEG = require('fluent-ffmpeg');
 
