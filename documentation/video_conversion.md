@@ -33,7 +33,7 @@ To convert the "homepage" videos
 go into the root directory of the project "/var/www/freeMusic.zone"
 
 on linux use this command:
-FFMPEG_PATH="C:\ffmpeg\bin\ffmpeg" FFPROBE_PATH="C:\ffmpeg\bin\ffprobe" node video_convertor
+sudo FFMPEG_PATH="C:\ffmpeg\bin\ffmpeg" FFPROBE_PATH="C:\ffmpeg\bin\ffprobe" node video_convertor
 
 on windows using the command line:
 set FFMPEG_PATH=production
