@@ -34,13 +34,16 @@ runcmd:
  - yum install nodejs npm -y --enablerepo=epel
  # install sass and set path
  - gem install sass
- - PATH=${PATH}:/var/lib/gems/1.8/bin
+ - export PATH=${PATH}:/var/lib/gems/1.8/bin
  # install grunt and bower
  - npm install -g grunt-cli
  - npm install -g bower
  # install dependencies
+ - cd /var/www/freeMusic.zone
+ - npm config set color false
  - npm install
- - bower install
+# install bower dependencies (run with the "allow-root" option as cloud init uses sudo)
+ - bower install --no-color --allow-root
  # start nodejs server
  - node /var/www/freeMusic.zone/server
 
