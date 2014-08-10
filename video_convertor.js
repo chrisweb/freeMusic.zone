@@ -52,11 +52,11 @@ for (var i in files) {
 
             if (error) {
 
-                console.log('error while deleting: ' + files[i] + ', error: ' + error, 'fontColor:red');
+                utilities.log('error while deleting: ' + files[i] + ', error: ' + error, 'fontColor:red');
 
             } else {
 
-                console.log('deleted: ' + files[i], 'fontColor:green');
+                utilities.log('deleted: ' + files[i], 'fontColor:green');
 
             }
 
