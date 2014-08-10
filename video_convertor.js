@@ -16,7 +16,7 @@ var fs = require('fs');
 
 var path = require('path');
 
-utilities.log('[VIDEO CONVERTOR] starting');
+utilities.log('[VIDEO CONVERTOR]');
 
 // windows only
 if (typeof(process.env.FFMPEG_PATH) === 'undefined') {
@@ -35,7 +35,7 @@ if (typeof(process.env.FFPROBE_PATH) === 'undefined') {
 
 }
 
-var videoDirectory = './videos';
+var videoDirectory = 'videos';
 
 var files = fs.readdirSync(videoDirectory);
 
@@ -46,9 +46,14 @@ for (var i in files) {
     if (path.extname(files[i]) === '.mov') {
 
         var videoSource = videoDirectory + '/' + files[i];
+        
+        utilities.log('videoSource: ' + videoSource);
 
         var videoOutputWebm = videoDirectory + '/hompage-video_' + i + '.webm';
         var videoOutputMpeg = videoDirectory + '/hompage-video_' + i + '.mp4';
+        
+        utilities.log('videoOutputWebm: ' + videoOutputWebm);
+        utilities.log('videoOutputMpeg: ' + videoOutputMpeg);
         
         var fluentCommand = new Fluent();
         
@@ -74,7 +79,9 @@ for (var i in files) {
                     //.fps(29.7)
                     
         fluentCommand.on('start', function(commandLine) {
+            
             utilities.log('Spawned Ffmpeg with command: ' + commandLine, 'fontColor:green');
+            
         });
         
         fluentCommand.on('codecData', function(data) {
@@ -98,11 +105,15 @@ for (var i in files) {
         });
 
         fluentCommand.on('error', function(err) {
+            
             utilities.log('An error occurred: ' + err.message, 'fontColor:red');
+            
         });
 
         fluentCommand.on('end', function() {
+            
             utilities.log('Processing finished !');
+            
         });
 
         fluentCommand.run();
