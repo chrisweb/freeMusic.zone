@@ -37,9 +37,35 @@ if (typeof(process.env.FFPROBE_PATH) === 'undefined') {
 
 var videoDirectory = 'videos';
 
+var fluentCommand = new Fluent();
+
+// remove previous versions of the videos
 var files = fs.readdirSync(videoDirectory);
 
-var fluentCommand = new Fluent();
+for (var i in files) {
+    
+    if (path.extname(files[i]) === '.mp4' || path.extname(files[i]) === '.webm') {
+    
+        fs.unlink(files[i], function (error) {
+
+            if (error) {
+
+                console.log('error while deleting: ' + files[i] + ', error: ' + error);
+
+            } else {
+
+                console.log('deleted: ' + files[i]);
+
+            }
+
+        });
+        
+    }
+    
+}
+
+// encode the videos
+var files = fs.readdirSync(videoDirectory);
 
 for (var i in files) {
 
@@ -50,17 +76,17 @@ for (var i in files) {
         utilities.log('videoSource: ' + videoSource);
 
         var videoOutputWebm = videoDirectory + '/hompage-video_' + i + '.webm';
-        var videoOutputMpeg = videoDirectory + '/hompage-video_' + i + '.mp4';
+        var videoOutputMp4 = videoDirectory + '/hompage-video_' + i + '.mp4';
         
         utilities.log('videoOutputWebm: ' + videoOutputWebm);
-        utilities.log('videoOutputMpeg: ' + videoOutputMpeg);
+        utilities.log('videoOutputMp4: ' + videoOutputMp4);
         
         var fluentCommand = new Fluent();
         
         // video input
         fluentCommand.input(videoSource)
                     // specify input format
-                    .inputFormat('mov')
+                    //.inputFormat('mov')
                     // disable audio as we dont need it for the intro videos
                     .noAudio();
                     // specify output frame rate
@@ -68,13 +94,13 @@ for (var i in files) {
                     
         // second output as webm
         fluentCommand.outputFormat('webm') // set output format
-                    .output(videoOutputWebm)
+                    .output(videoOutputWebm);
                     // specify output frame rate
                     //.fps(29.7)
         
-        // first ouput as mpeg
+        // first ouput as mp4
         fluentCommand.outputFormat('mp4') // set output format
-                    .output(videoOutputMpeg)
+                    .output(videoOutputMp4);
                     // specify output frame rate
                     //.fps(29.7)
                     
@@ -86,7 +112,6 @@ for (var i in files) {
         
         fluentCommand.on('codecData', function(data) {
             
-            utilities.log('codecData:');
             utilities.log('codecData:');
             
             utilities.log('format: ' + data.format);
