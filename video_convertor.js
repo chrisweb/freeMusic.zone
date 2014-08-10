@@ -45,16 +45,18 @@ var files = fs.readdirSync(videoDirectory);
 for (var i in files) {
     
     if (path.extname(files[i]) === '.mp4' || path.extname(files[i]) === '.webm') {
+        
+        var videoPath = videoDirectory + '/' + files[i];
     
-        fs.unlink(files[i], function (error) {
+        fs.unlink(videoPath, function (error) {
 
             if (error) {
 
-                console.log('error while deleting: ' + files[i] + ', error: ' + error);
+                console.log('error while deleting: ' + files[i] + ', error: ' + error, 'fontColor:red');
 
             } else {
 
-                console.log('deleted: ' + files[i]);
+                console.log('deleted: ' + files[i], 'fontColor:green');
 
             }
 
