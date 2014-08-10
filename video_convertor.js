@@ -3,12 +3,18 @@
  * 
  * MIT Licensed, see License.txt
  * 
+ * https://github.com/fluent-ffmpeg/node-fluent-ffmpeg
+ * 
  */
 
 // utilities module
 var utilities = require('./bower_components/chrisweb-utilities/utilities');
 
-var FluentFFMPEG = require('fluent-ffmpeg');
+var Fluent = require('fluent-ffmpeg');
+
+var fs = require('fs');
+
+var path = require('path');
 
 utilities.log('[VIDEO CONVERTOR] starting');
 
@@ -31,11 +37,9 @@ if (typeof(process.env.FFPROBE_PATH) === 'undefined') {
 
 var videoDirectory = './videos';
 
-var fs = require('fs');
-
 var files = fs.readdirSync(videoDirectory);
 
-var path = require('path');
+var fluentCommand = new Fluent();
 
 for (var i in files) {
 
@@ -43,47 +47,41 @@ for (var i in files) {
 
         var videoSource = videoDirectory + '/' + files[i];
 
-        // webm conversion
         var videoOutputWebm = videoDirectory + '/hompage-video_' + i + '.webm';
-        
-        var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
-
-        // Specify input format
-        fluentFFMPEG.fromFormat('mov');
-
-        // Set output format
-        fluentFFMPEG.toFormat('webm');
-
-        fluentFFMPEG.on('error', function(err) {
-            console.log('An error occurred: ' + err.message);
-        });
-
-        fluentFFMPEG.on('end', function() {
-            console.log('Processing finished !');
-        });
-
-        fluentFFMPEG.saveToFile(videoOutputWebm);
-
-        // mp4 conversion
         var videoOutputMpeg = videoDirectory + '/hompage-video_' + i + '.mp4';
         
-        var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
+        var fluentCommand = new Fluent();
+        
+        // video input
+        fluentCommand.input(videoSource)
+                    // specify input format
+                    .inputFormat('mov')
+                    // disable audio as we dont need it for the intro videos
+                    .noAudio();
+                    // specify output frame rate
+                    //.fps(29.7)
+                    
+        // second output as webm
+        fluentCommand.outputFormat('webm') // set output format
+                    .output(videoOutputWebm)
+                    // specify output frame rate
+                    //.fps(29.7)
+        
+        // first ouput as mpeg
+        fluentCommand.outputFormat('mp4') // set output format
+                    .output(videoOutputMpeg)
+                    // specify output frame rate
+                    //.fps(29.7)
 
-        // Specify input format
-        fluentFFMPEG.fromFormat('mov');
-
-        // Set output format
-        fluentFFMPEG.toFormat('mp4');
-
-        fluentFFMPEG.on('error', function(err) {
+        fluentCommand.on('error', function(err) {
             console.log('An error occurred: ' + err.message);
         });
 
-        fluentFFMPEG.on('end', function() {
+        fluentCommand.on('end', function() {
             console.log('Processing finished !');
         });
 
-        fluentFFMPEG.saveToFile(videoOutputMpeg);
+        fluentCommand.run();
 
     }
 
