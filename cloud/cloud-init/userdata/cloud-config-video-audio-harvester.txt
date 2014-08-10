@@ -93,34 +93,29 @@ yum_repos:
 
 # install packages (make and pkgconfig qre not listed as they got already installed)
 packages:
+# amazon repo
  - git
  - gcc
- - celt
  - yasm
- - schroedinger
- - openal-soft
-# - mesa-dri-drivers
- - mesa-dri-filesystem
- - libass
- - libvorbis
  - libogg
- - libtheora
+ - lobogg-devel
+ - libvorbis
+ - libvorbis-devel
  - libvpx
- - libv4l
- - libva
- - libcdio
- - libdc1394
- - libdc1394-devel
- - faad2
+ - libvpx-devel
+# centos repo
+ - libtheora
+ - libtheora-devel
+# rpmfusion-free-updates repo
+ - lame
+ - lame-devel
+ - lame-mp3x
+ - x264
  - x264-libs
- - pulseaudio-libs
- - libcdio
- - SDL
- - gsm
+ - x264-devel
+# rpmforge repo
  - faac
  - faac-devel
- - ffmpeg
- - ffmpeg-devel
 
 # create groups
 groups:
@@ -135,6 +130,17 @@ users:
     groups: www
 
 runcmd:
+ # install ffmpeg
+ - git clone --depth 1 git://source.ffmpeg.org/ffmpeg /ffmpeg_sources
+ - cd /ffmpeg_sources
+ - PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig"
+ - export PKG_CONFIG_PATH
+ - ./configure --prefix="$HOME/ffmpeg_build" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib" --bindir="$HOME/bin" --extra-libs=-ldl --enable-gpl --enable-nonfree --enable-libfaac --enable-libmp3lame --enable-libvorbis --enable-libtheora --enable-libvpx --enable-libx264
+ - make
+ - make install
+ - make distclean
+ - hash -r
+ - . ~/.bash_profile
  # get the project from github using the deploy key
  - ssh-agent bash -c 'ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git://github.com/chrisweb/freeMusic.zone.git /var/www/freeMusic.zone'
  # add the ec2 user to the www group
@@ -147,9 +153,12 @@ runcmd:
  # install grunt and bower
  - npm install -g grunt-cli
  - npm install -g bower
- # install dependencies
+ # install npm dependencies
+ - cd /var/www/freeMusic.zone
+ - npm config set color false
  - npm install
- - bower install
+# install bower dependencies (run with the "allow-root" option as cloud init uses sudo)
+ - bower install --no-color --allow-root
 
 final_message: "The media server is finally up, after $UPTIME seconds"
 
