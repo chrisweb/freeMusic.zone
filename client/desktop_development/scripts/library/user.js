@@ -17,8 +17,8 @@
  * @returns {_L17.Anonym$1}
  */
 define([
-    'library.utilities',
-    'library.eventsManager',
+    'chrisweb.utilities',
+    'ribs.eventsManager',
     'models.User',
     'moment'
 ], function (utilities, eventsManager, UserModel, moment) {

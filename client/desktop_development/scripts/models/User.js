@@ -8,9 +8,9 @@
  * @returns {unresolved}
  */
 define([
-    'library.utilities',
+    'chrisweb.utilities',
     'underscore',
-    'library.model'
+    'ribs.model'
 ], function (utilities, _, model) {
     
     'use strict';

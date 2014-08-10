@@ -9,8 +9,8 @@
  */
 define([
     'jquery',
-    'library.utilities',
-    'library.controller'
+    'chrisweb.utilities',
+    'ribs.controller'
 ], function ($, utilities, Controller) {
     
     'use strict';

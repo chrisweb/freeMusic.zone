@@ -10,10 +10,10 @@
  * @returns {unresolved}
  */
 define([
-    'library.utilities',
+    'chrisweb.utilities',
     'jquery',
     'underscore',
-    'library.view',
+    'ribs.view',
     'templates'
 ], function (utilities, $, _, view, JST) {
     

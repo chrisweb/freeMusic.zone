@@ -16,9 +16,9 @@ define([
     'underscore',
     'backbone',
     'templates',
-    'library.utilities',
+    'chrisweb.utilities',
     'configuration',
-    'library.view'
+    'ribs.view'
 ], function ($, _, Backbone, JST, utilities, configurationModule, view) {
     
     'use strict';

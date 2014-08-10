@@ -9,9 +9,9 @@
  * @returns {unresolved}
  */
 define([
-    'library.utilities',
+    'chrisweb.utilities',
     'underscore',
-    'library.collection',
+    'ribs.collection',
     'models.Track'
 ], function (utilities, _, collection, TrackModel) {
     

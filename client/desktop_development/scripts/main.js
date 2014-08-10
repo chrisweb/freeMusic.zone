@@ -25,8 +25,8 @@ require.config({
         // client library
         'library.player.core': 'library/player/core',
         'library.player.ui': 'library/player/ui',
-        'library.views.loader': 'library/view/loader',
         'library.user': 'library/user',
+        'ribs.tracksCache': 'library/tracksCache',
         
         // plugins
         'library.plugin.headerNavigation': 'library/plugin/headerNavigation',
@@ -60,8 +60,8 @@ require.config({
         'ribs.eventsManager': '../../../bower_components/ribs.js/src/eventsManager',
         'ribs.model': '../../../bower_components/ribs.js/src/model',
         'ribs.router': '../../../bower_components/ribs.js/src/router',
-        'ribs.tracksCache': '../../../bower_components/ribs.js/src/tracksCache',
-        'ribs.view': '../../../bower_components/ribs.js/src/view'
+        'ribs.view': '../../../bower_components/ribs.js/src/view',
+        'ribs.viewsloader': '../../../bower_components/ribs.js/src/viewsloader'
         
     }
     
@@ -77,7 +77,7 @@ require.config({
  */
 require([
     'bootstrap',
-    'library.utilities'
+    'chrisweb.utilities'
 ], function (bootstrap, utilities) {
     
     utilities.logSpecial = false;

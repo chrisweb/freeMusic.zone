@@ -16,9 +16,9 @@
  * @returns {_L16.Anonym$2}
  */
 define([
-    'library.utilities',
+    'chrisweb.utilities',
     'backbone',
-    'library.container'
+    'ribs.container'
 ], function (utilities, Backbone, container) {
     
     'use strict';

@@ -14,7 +14,7 @@
  * @returns {_L14.Anonym$1}
  */
 define([
-    'library.utilities'
+    'chrisweb.utilities'
 ], function (utilities) {
     
     'use strict';

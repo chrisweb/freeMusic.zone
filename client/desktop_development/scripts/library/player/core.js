@@ -19,9 +19,9 @@
  * @returns {_L19.Anonym$4}
  */
 define([
-    'library.utilities',
+    'chrisweb.utilities',
     'configuration',
-    'library.eventsManager',
+    'ribs.eventsManager',
     'backbone',
     'SoundManager',
     'library.tracksCache'

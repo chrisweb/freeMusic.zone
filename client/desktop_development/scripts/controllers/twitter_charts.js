@@ -14,10 +14,10 @@
 define([
     'jquery',
     'underscore',
-    'library.utilities',
-    'library.controller',
-    'library.container',
-    'library.eventsManager',
+    'chrisweb.utilities',
+    'ribs.controller',
+    'ribs.container',
+    'ribs.eventsManager',
     'library.user'
 ], function ($, _, utilities, Controller, container, eventsManager, user) {
     

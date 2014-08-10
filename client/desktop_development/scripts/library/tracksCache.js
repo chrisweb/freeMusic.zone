@@ -17,8 +17,8 @@
  * @returns {_L17.Anonym$2}
  */
 define([
-    'library.utilities',
-    'library.eventsManager',
+    'chrisweb.utilities',
+    'ribs.eventsManager',
     'collections.TracksCache',
     'moment'
 ], function (utilities, eventsManager, TracksCacheCollection, moment) {

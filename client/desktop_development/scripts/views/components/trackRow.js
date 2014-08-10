@@ -13,10 +13,10 @@
 define([
     'jquery',
     'underscore',
-    'library.view',
+    'ribs.view',
     'templates',
-    'library.utilities',
-    'library.eventsManager'
+    'chrisweb.utilities',
+    'ribs.eventsManager'
 ], function ($, _, view, JST, utilities, eventsManager) {
     
     'use strict';
