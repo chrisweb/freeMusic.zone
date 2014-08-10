@@ -72,13 +72,37 @@ for (var i in files) {
                     .output(videoOutputMpeg)
                     // specify output frame rate
                     //.fps(29.7)
+                    
+        fluentCommand.on('start', function(commandLine) {
+            utilities.log('Spawned Ffmpeg with command: ' + commandLine, 'fontColor:green');
+        });
+        
+        fluentCommand.on('codecData', function(data) {
+            
+            utilities.log('codecData:');
+            utilities.log('codecData:');
+            
+            utilities.log('format: ' + data.format);
+            utilities.log('duration: ' + data.duration);
+            utilities.log('audio: ' + data.audio);
+            utilities.log('audio_details: ' + data.audio_details);
+            utilities.log('video: ' + data.video);
+            utilities.log('video_details: ' + data.video_details);
+            
+        });
+        
+        fluentCommand.on('progress', function(progress) {
+            
+            utilities.log('Processing: ' + progress.percent + '% done');
+            
+        });
 
         fluentCommand.on('error', function(err) {
-            console.log('An error occurred: ' + err.message);
+            utilities.log('An error occurred: ' + err.message, 'fontColor:red');
         });
 
         fluentCommand.on('end', function() {
-            console.log('Processing finished !');
+            utilities.log('Processing finished !');
         });
 
         fluentCommand.run();
