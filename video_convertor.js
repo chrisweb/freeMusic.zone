@@ -37,8 +37,6 @@ if (typeof(process.env.FFPROBE_PATH) === 'undefined') {
 
 var videoDirectory = 'videos';
 
-var fluentCommand = new Fluent();
-
 // remove previous versions of the videos
 var files = fs.readdirSync(videoDirectory);
 
@@ -78,7 +76,7 @@ for (var i in files) {
         utilities.log('videoSource: ' + videoSource);
         
         // get some metadata
-        ffmpeg.ffprobe(videoSource, function(metadata, error) {
+        Fluent.ffprobe(videoSource, function(metadata, error) {
             
             if (error) {
                 
