@@ -1,7 +1,7 @@
 'use strict';
 
 // utilities module
-var utilities = require('./shared/utilities');
+var utilities = require('./bower_components/chrisweb-utilities/utilities');
 
 // load the jamendo api wrapper module
 var Jamendo = require('jamendo');

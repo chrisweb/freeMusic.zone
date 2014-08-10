@@ -20,7 +20,7 @@ require.config({
         'routes': 'configuration/routes',
 
         // server shared
-        'library.utilities': '../../../server/library/shared/utilities',
+        'library.utilities': '../../../bower_components/chrisweb-utilities/utilities',
         
         // client jst
         'templates': 'templates/templates',

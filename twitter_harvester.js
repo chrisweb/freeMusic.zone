@@ -8,7 +8,7 @@
 var async = require('async');
 
 // utilities module
-var utilities = require('./library/shared/utilities-0.0.3');
+var utilities = require('./bower_components/chrisweb-utilities/utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {

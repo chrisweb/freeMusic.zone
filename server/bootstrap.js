@@ -24,7 +24,7 @@ winston.add(winston.transports.File, {
 winston.remove(winston.transports.Console);
 
 // utilities module
-var utilities = require('./library/shared/utilities');
+var utilities = require('./bower_components/chrisweb-utilities/utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
