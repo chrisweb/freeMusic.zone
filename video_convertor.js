@@ -74,19 +74,6 @@ for (var i in files) {
         var videoSource = videoDirectory + '/' + files[i];
         
         utilities.log('videoSource: ' + videoSource);
-        
-        // get some metadata
-        Fluent.ffprobe(videoSource, function(metadata, error) {
-            
-            if (error) {
-                
-                utilities.log('inspect metadata error: ' + error.message, 'fontColor:red');
-                
-            }
-
-            console.log(require('util').inspect(metadata, false, null), 'fontColor:green');
-
-        });
 
         var videoOutputWebm = videoDirectory + '/hompage-video_' + i + '.webm';
         var videoOutputMp4 = videoDirectory + '/hompage-video_' + i + '.mp4';
@@ -95,27 +82,16 @@ for (var i in files) {
         utilities.log('videoOutputMp4: ' + videoOutputMp4);
         
         var fluent = Fluent(videoSource)
-        
-        // video input
-        //.input(videoSource)
-        // specify input format
-        //.inputFormat('mov')
-        // disable audio as we dont need it for the intro videos
+
         .noAudio()
-        // specify output frame rate
-        //.fps(29.7)
-                    
+        
         // second output as webm
         .outputFormat('webm') // set output format
         .output(videoOutputWebm)
-        // specify output frame rate
-        //.fps(29.7)
         
         // first ouput as mp4
         .outputFormat('mp4') // set output format
         .output(videoOutputMp4)
-        // specify output frame rate
-        //.fps(29.7)
                     
         .on('start', function(commandLine) {
             
