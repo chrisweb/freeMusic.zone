@@ -131,9 +131,10 @@ for (var i in files) {
             
         });
 
-        fluentCommand.on('error', function(err) {
+        fluentCommand.on('error', function(error) {
             
-            utilities.log('An error occurred: ' + err.message, 'fontColor:red');
+            utilities.log(error);
+            utilities.log('An error occurred: ' + error.message, 'fontColor:red');
             
         });
 
