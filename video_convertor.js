@@ -29,43 +29,62 @@ if (typeof(process.env.FFPROBE_PATH) === 'undefined') {
 
 }
 
-var videoSource = './videos/concert_dancing.mov';
-var videoOutput = './videos/concert_dancing.mp4';
+var videoDirectory = './videos';
 
-// webm conversion
-var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
+var fs = require('fs');
 
-// Specify input format
-fluentFFMPEG.fromFormat('mov');
+var files = fs.readdirSync(videoDirectory);
 
-// Set output format
-fluentFFMPEG.toFormat('webm');
+var path = require('path');
 
-fluentFFMPEG.on('error', function(err) {
-    console.log('An error occurred: ' + err.message);
-});
+for (var i in files) {
 
-fluentFFMPEG.on('end', function() {
-    console.log('Processing finished !');
-});
+    if (path.extname(files[i]) === '.mov') {
 
-fluentFFMPEG.saveToFile(videoOutput);
+        var videoSource = videoDirectory + '/' + files[i];
 
-// mp4 conversion
-var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
+        // webm conversion
+        var videoOutputWebm = videoDirectory + '/hompage-video_' + i + '.webm';
+        
+        var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
 
-// Specify input format
-fluentFFMPEG.fromFormat('mov');
+        // Specify input format
+        fluentFFMPEG.fromFormat('mov');
 
-// Set output format
-fluentFFMPEG.toFormat('mp4');
+        // Set output format
+        fluentFFMPEG.toFormat('webm');
 
-fluentFFMPEG.on('error', function(err) {
-    console.log('An error occurred: ' + err.message);
-});
+        fluentFFMPEG.on('error', function(err) {
+            console.log('An error occurred: ' + err.message);
+        });
 
-fluentFFMPEG.on('end', function() {
-    console.log('Processing finished !');
-});
+        fluentFFMPEG.on('end', function() {
+            console.log('Processing finished !');
+        });
 
-fluentFFMPEG.saveToFile(videoOutput);
+        fluentFFMPEG.saveToFile(videoOutputWebm);
+
+        // mp4 conversion
+        var videoOutputMpeg = videoDirectory + '/hompage-video_' + i + '.mp4';
+        
+        var fluentFFMPEG = new FluentFFMPEG({ source: videoSource });
+
+        // Specify input format
+        fluentFFMPEG.fromFormat('mov');
+
+        // Set output format
+        fluentFFMPEG.toFormat('mp4');
+
+        fluentFFMPEG.on('error', function(err) {
+            console.log('An error occurred: ' + err.message);
+        });
+
+        fluentFFMPEG.on('end', function() {
+            console.log('Processing finished !');
+        });
+
+        fluentFFMPEG.saveToFile(videoOutputMpeg);
+
+    }
+
+}
