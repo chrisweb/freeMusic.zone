@@ -18,9 +18,6 @@ require.config({
         // client configuration
         'configuration': 'configuration/configuration',
         'routes': 'configuration/routes',
-
-        // server shared
-        'library.utilities': '../../../bower_components/chrisweb-utilities/utilities',
         
         // client jst
         'templates': 'templates/templates',
@@ -29,14 +26,6 @@ require.config({
         'library.player.core': 'library/player/core',
         'library.player.ui': 'library/player/ui',
         'library.views.loader': 'library/view/loader',
-        'library.collection': 'library/collection',
-        'library.container': 'library/container',
-        'library.controller': 'library/controller',
-        'library.eventsManager': 'library/eventsManager',
-        'library.model': 'library/model',
-        'library.router': 'library/router',
-        'library.tracksCache': 'library/tracksCache',
-        'library.view': 'library/view',
         'library.user': 'library/user',
         
         // plugins
@@ -59,10 +48,20 @@ require.config({
         'backbone': '../../../bower_components/backbone/backbone',
         'underscore': '../../../bower_components/underscore/underscore',
         'SoundManager': '../../../bower_components/SoundManager2/script/soundmanager2',
-        'moment': '../../../bower_components/moment/moment'
+        'moment': '../../../bower_components/moment/moment',
         
-        // vendor modernizr
-        //'moment': '../../../bower_components/moment/moment',
+        // chrisweb-utilities
+        'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities',
+        
+        // ribs.js
+        'ribs.collection': '../../../bower_components/ribs.js/src/collection',
+        'ribs.container': '../../../bower_components/ribs.js/src/container',
+        'ribs.controller': '../../../bower_components/ribs.js/src/controller',
+        'ribs.eventsManager': '../../../bower_components/ribs.js/src/eventsManager',
+        'ribs.model': '../../../bower_components/ribs.js/src/model',
+        'ribs.router': '../../../bower_components/ribs.js/src/router',
+        'ribs.tracksCache': '../../../bower_components/ribs.js/src/tracksCache',
+        'ribs.view': '../../../bower_components/ribs.js/src/view'
         
     }
     
