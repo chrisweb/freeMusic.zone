@@ -48,7 +48,7 @@ for (var i in files) {
         
         var videoPath = videoDirectory + '/' + files[i];
     
-        fs.unlink(videoPath, function (error) {
+        fs.unlinkSync(videoPath, function (error) {
 
             if (error) {
 
