@@ -24,7 +24,7 @@ winston.add(winston.transports.File, {
 winston.remove(winston.transports.Console);
 
 // utilities module
-var utilities = require('./bower_components/chrisweb-utilities/utilities');
+var utilities = require('../bower_components/chrisweb-utilities/utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
@@ -180,8 +180,9 @@ redisModule.getClient(function getClientCallback(error, client) {
                         // so whenhen the user closes the browser the cookie (and session) will be removed
                         maxAge: null
                     },
-                    store: redisStore
-
+                    store: redisStore,
+                    saveUninitialized: true,
+                    resave: true
                 }));
                 
                 // start api

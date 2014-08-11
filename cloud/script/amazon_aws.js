@@ -12,7 +12,7 @@
  */
 
 // utilities module
-var utilities = require('./bower_components/chrisweb-utilities/utilities');
+var utilities = require('../../bower_components/chrisweb-utilities/utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof (process.env.NODE_ENV) === 'undefined') {
