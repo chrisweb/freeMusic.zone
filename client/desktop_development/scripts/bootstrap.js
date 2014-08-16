@@ -23,7 +23,7 @@ define([
     'jquery',
     'chrisweb.utilities',
     'configuration',
-    'ribs.router',
+    'library.router',
     'ribs.container',
     'ribs.eventsManager',
     'library.player.core',

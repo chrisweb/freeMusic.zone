@@ -27,6 +27,7 @@ require.config({
         'library.player.ui': 'library/player/ui',
         'library.user': 'library/user',
         'library.tracksCache': 'library/tracksCache',
+        'library.router': 'library/router',
         
         // plugins
         'library.plugin.headerNavigation': 'library/plugin/headerNavigation',
