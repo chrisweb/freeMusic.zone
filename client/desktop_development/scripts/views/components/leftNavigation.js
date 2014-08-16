@@ -17,7 +17,7 @@ define([
     'chrisweb.utilities',
     'ribs.view',
     'ribs.eventsManager',
-    'caretToggle'
+    'library.jquery.plugin.caretToggle'
 ], function ($, _, JST, utilities, View, eventsManager) {
     
     'use strict';

@@ -43,7 +43,7 @@ define([
 
                 var chatBarView = new ChatBarView();
 
-                container.add('main', chatBarView);
+                container.add('#main', chatBarView);
 
             });
         

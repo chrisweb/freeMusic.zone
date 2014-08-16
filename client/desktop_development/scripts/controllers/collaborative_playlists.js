@@ -47,7 +47,7 @@ define([
 
                 var chatBarView = new ChatBarView();
 
-                container.add('main', chatBarView);
+                container.add('#main', chatBarView);
 
             });
 
@@ -70,7 +70,7 @@ define([
 
                 var searchBarView = new SearchBarView();
 
-                container.add('main', searchBarView);
+                container.add('#main', searchBarView);
 
             });
 
@@ -91,7 +91,7 @@ define([
                     ModelView: TrackRowView
                 });
 
-                container.add('main', tracksListView);
+                container.add('#main', tracksListView);
 
                 // listen for search events
                 eventsManager.on('search:query', function(parameters) {
