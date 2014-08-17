@@ -85,10 +85,7 @@ for (var i in files) {
         
         utilities.log('videoOutputWebm: ' + videoOutputWebm);
         utilities.log('videoOutputMp4: ' + videoOutputMp4);
-        
-        // get the amount of cores for the threads option
-        var numberOfCPUs = os.cpus().length;
-        
+
         var fluent = Fluent(videoSource)
 
         // output option(s) webm
@@ -110,9 +107,9 @@ for (var i in files) {
 
         // thumbnail
         .takeScreenshots({
-            count: 1,
-            timemarks: ['1'],
-            filename: 'hompage-thumbnail_' + i
+            count: 3,
+            timemarks: ['1', '2', '3'],
+            filename: 'hompage-thumbnail_' + i + '%i'
         }, videoDirectory)
                     
         .on('start', function(commandLine) {
