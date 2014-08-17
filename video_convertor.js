@@ -4,6 +4,8 @@
  * MIT Licensed, see License.txt
  * 
  * https://github.com/fluent-ffmpeg/node-fluent-ffmpeg
+ * https://www.virag.si/2012/01/webm-web-video-encoding-tutorial-with-ffmpeg-0-9/
+ * https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/
  * 
  */
 
@@ -84,17 +86,34 @@ for (var i in files) {
         utilities.log('videoOutputWebm: ' + videoOutputWebm);
         utilities.log('videoOutputMp4: ' + videoOutputMp4);
         
+        // get the amount of cores for the threads option
+        var numberOfCPUs = os.cpus().length;
+        
         var fluent = Fluent(videoSource)
 
+        // output option(s) webm
         .noAudio()
+        .withOutputOption('-quality', 'good')
         
         // output as webm
         .outputFormat('webm')
-        .output(videoOutputWebm)
+        .output(videoOutputWebm, { end: true })
+
+        // output option(s) mp4
+        .noAudio()
+        .withOutputOption('-vprofile', 'main') // high, main, baseline
+        .withOutputOption('-preset', 'slow') // ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow, placebo
         
         // ouput as mp4
         .outputFormat('mp4')
         .output(videoOutputMp4)
+
+        // thumbnail
+        .takeScreenshots({
+            count: 1,
+            timemarks: ['1'],
+            filename: 'hompage-thumbnail_' + i
+        }, videoDirectory)
                     
         .on('start', function(commandLine) {
             
