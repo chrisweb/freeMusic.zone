@@ -103,6 +103,8 @@ packages:
  - libvorbis-devel
  - libvpx
  - libvpx-devel
+ - zlib
+ - zlib-devel
 # centos repo
  - libtheora
  - libtheora-devel

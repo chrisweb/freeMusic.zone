@@ -94,7 +94,7 @@ for (var i in files) {
 
         // output option(s) webm
         .noAudio()
-        .withOutputOption('-quality', 'good') // best, good, rt
+        .withOutputOption('-quality', 'best') // best, good, rt
         
         // ouput as mp4
         .output(videoOutputMp4)
@@ -104,13 +104,7 @@ for (var i in files) {
         .noAudio()
         .withOutputOption('-vprofile', 'main') // high, main, baseline
         .withOutputOption('-preset', 'slow') // ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow, placebo
-
-        // thumbnail
-        .takeScreenshots({
-            count: 3,
-            timemarks: ['1', '2', '3'],
-            filename: 'hompage-thumbnail_' + i + '%i'
-        }, videoDirectory)
+        .withOutputOption('-pix_fmt', 'yuv420p')
                     
         .on('start', function(commandLine) {
             
@@ -213,6 +207,62 @@ var videoToGif = function videoToGifFunction(videoDirectory, videoSource) {
     .on('end', function() {
 
         utilities.log('gif encoding finished !');
+
+        makeThumbnail(videoDirectory, videoSource);
+
+    })
+
+    .run();
+    
+};
+
+var makeThumbnail = function makeThumbnailFunction(videoDirectory, videoSource) {
+    
+    // take a thumbnail
+    var fluent = Fluent(videoSource)
+
+    .takeScreenshots({
+        count: 1,
+        timemarks: ['2'],
+        filename: 'hompage-thumbnail_' + i + '_' + '%i'
+    }, videoDirectory)
+
+    .on('start', function(commandLine) {
+
+        utilities.log('spawned ffmpeg with command: ' + commandLine, 'fontColor:green');
+
+    })
+
+    .on('codecData', function(data) {
+
+        utilities.log('codecData:');
+
+        utilities.log('format: ' + data.format);
+        utilities.log('duration: ' + data.duration);
+        utilities.log('audio: ' + data.audio);
+        utilities.log('audio_details: ' + data.audio_details);
+        utilities.log('video: ' + data.video);
+        utilities.log('video_details: ' + data.video_details);
+
+    })
+
+    .on('progress', function(progress) {
+
+        utilities.log('processing: ' + progress.percent + '% done');
+
+    })
+
+    .on('error', function(error, stdout, stderr) {
+
+        utilities.log(stdout);
+        utilities.log(stderr);
+        utilities.log('an error occurred: ' + error.message, 'fontColor:red');
+
+    })
+
+    .on('end', function() {
+
+        utilities.log('thumbnail finished !');
 
     })
 
