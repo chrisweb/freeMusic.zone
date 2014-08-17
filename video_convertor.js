@@ -90,7 +90,7 @@ for (var i in files) {
 
         // output option(s) webm
         .noAudio()
-        .withOutputOption('-quality', 'good')
+        .withOutputOption('--best') // best, good, rt
         
         // output as webm
         .outputFormat('webm')

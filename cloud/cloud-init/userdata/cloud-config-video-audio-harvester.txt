@@ -135,7 +135,7 @@ runcmd:
  - cd /ffmpeg_sources
  - PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig"
  - export PKG_CONFIG_PATH
- - ./configure --prefix="$HOME/ffmpeg_build" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib" --bindir="$HOME/bin" --extra-libs=-ldl --enable-gpl --enable-nonfree --enable-libfaac --enable-libmp3lame --enable-libvorbis --enable-libtheora --enable-libvpx --enable-libx264
+ - ./configure --prefix="$HOME/ffmpeg_build" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib" --bindir="$HOME/bin" --extra-libs=-ldl --enable-gpl --enable-nonfree --enable-zlib --enable-libfaac --enable-libmp3lame --enable-libvorbis --enable-libtheora --enable-libvpx --enable-libx264
  - make
  - make install
  - make distclean
