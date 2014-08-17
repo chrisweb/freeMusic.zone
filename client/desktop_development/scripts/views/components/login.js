@@ -9,6 +9,9 @@
  * @param {type} utilities
  * @param {type} configurationModule
  * @param {type} view
+ * @param {type} eventsManager
+ * @param {type} libraryUser
+ * @param {type} videoPlayer
  * @returns {unresolved}
  */
 define([
@@ -18,8 +21,11 @@ define([
     'templates',
     'chrisweb.utilities',
     'configuration',
-    'ribs.view'
-], function ($, _, Backbone, JST, utilities, configurationModule, view) {
+    'ribs.view',
+    'ribs.eventsManager',
+    'library.user',
+    'library.videoPlayer'
+], function ($, _, Backbone, JST, utilities, configurationModule, view, eventsManager, libraryUser, videoPlayer) {
     
     'use strict';
     
@@ -28,6 +34,32 @@ define([
         onInitialize: function() {
             
             utilities.log('[LOGIN PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            
+            var that = this;
+            
+            eventsManager.on('oauth:connected', function loginOauthConnected() {
+
+                // hide the oauth iframe
+                that.$el.find('iframe.jamendo').addClass('hidden');
+            
+                // show the loading
+                that.$el.find('.loading').removeClass('hidden');
+                
+                // fetch the user data from server
+                libraryUser.fetchUserData(function userFetchedCallback(error) {
+                
+                    if (!error) {
+
+                        eventsManager.trigger('ouath:isLogged', { isLogged: libraryUser.isLogged() });
+
+                    } 
+                
+                });
+                
+            });
+            
+            // start the login view background video
+            videoPlayer.start(this.$el);
             
         },
         
@@ -42,19 +74,19 @@ define([
             
             event.preventDefault();
 
-            this.$el.find('form.login').hide();
+            this.$el.find('form.login').addClass('hidden');
             
-            this.$el.find('loading').show();
+            this.$el.find('.loading').removeClass('hidden');
             
-            var oauthIFrame = this.$el.find('.jamendo');
+            var oauthIFrame = this.$el.find('iframe.jamendo');
+            
+            oauthIFrame.attr('src', this.options.oauthUrl);
             
             var that = this;
             
             oauthIFrame.ready(function oauthIFrameReady() {
-                
-                oauthIFrame.attr('src', that.options.oauthUrl);
             
-                oauthIFrame.show();
+                oauthIFrame.removeClass('hidden');
                 
             });
                         

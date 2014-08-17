@@ -30,7 +30,7 @@ define([
             
             var leftNavigationView = new LeftNavigationView();
             
-            container.add('#left_aside', leftNavigationView);
+            container.add('#left', leftNavigationView);
             
             container.dispatch();
 

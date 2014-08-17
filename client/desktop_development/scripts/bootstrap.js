@@ -49,7 +49,7 @@ define([
         
         utilities.log('[BOOTSTRAP] initializeRouter', 'fontColor:blue');
         
-        var router = Router.start();
+        var router = Router.getRrouter();
 
         router.on('route:renderHomepage', function() {
             
@@ -67,7 +67,7 @@ define([
         
         router.on('route:controllerActionDispatcher', function(controllerName, actionName) {
             
-            //utilities.log('route:controllerActionDispatcher, controller: ' + controllerName + ', action: ' + actionName);
+            utilities.log('route:controllerActionDispatcher, controller: ' + controllerName + ', action: ' + actionName);
             
             // if the action is not defined use the default value from
             // configuration
@@ -105,11 +105,16 @@ define([
 
         });
         
+        // event triggered before a route
+        eventsManager.on('router:preRoute', function bootstrapPreRoute(parameters) {
+            
+            utilities.log(parameters);
+            
+        });
+        
         Backbone.history.start({
             pushState: true
         });
-        
-        return router;
         
     };
     
@@ -140,14 +145,10 @@ define([
         
         utilities.log('isLogged: ', isLogged);
         
-        eventsManager.on('router:preRoute', function bootstrapPreRoute(parameters) {
-            
-            utilities.log(parameters);
-            
-        });
-        
-        // the oauth iframe will call this from within the iframe on successfull
-        // connection
+        // the oauth page that is in the iframe will trigger the "connected"
+        // event from within the iframe on successfull oauth connection, we
+        // listen for that event and trigger an app event to inform the app
+        // that the oauth process has come to an end
         window.connected = function() {
 
             utilities.log('oauth connected');
@@ -176,17 +177,14 @@ define([
     
     var run = function runFunction() {
 
-        // pre dom load
-
-
         // on dom load
         $(function() {
             
-                    // initialize user before router as pre-route event triggers
-        // a check to verify if user is logged in
-        initializeUser();
+            // initialize user before router as pre-route event triggers
+            // a check to verify if user is logged in
+            initializeUser();
 
-        initializeRouter();
+            initializeRouter();
             
             initializeApplication();
 
@@ -194,16 +192,28 @@ define([
             
         });
         
-        // on user connected
-        eventsManager.on('oauth:connected', function bootstrapOauthConnected() {
-            
+        // on user connected with oauth, as soon as the user is connected
+        // using his jamendo account we can remove the login page and open
+        // the welcome page
+        eventsManager.on('oauth:isLogged', function bootstrapOauthConnected() {
+
+            // initialize the audio player
             initializePlayer();
             
+            // initialize the tracks manager
             initializeTracksCacheManager();
             
+            // initialize the top navigation
             initializeHeaderNavigation();
             
+            // initialize the left navigation but keep it hidden until the
+            // user requests it
             initializeLeftNavigation();
+            
+            var router = Router.getRrouter();
+            
+            // navigate to the welcome page
+            router.navigate('desktop/homepage/welcome', {trigger: true});
             
         });
         

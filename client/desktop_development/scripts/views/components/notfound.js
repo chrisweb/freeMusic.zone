@@ -41,7 +41,6 @@ define([
         // render
         render: function() {
 
-            // put the searcj template into the section#main
             this.$el.html(this.template);
             
             // enables chainability

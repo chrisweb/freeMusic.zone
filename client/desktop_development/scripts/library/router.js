@@ -69,7 +69,7 @@ define([
         
     };
     
-    var getRrouter = function instantiateFuntion() {
+    var getRrouterInstance = function instantiateFuntion() {
 
         if (router === undefined) {
             
@@ -84,7 +84,7 @@ define([
     };
 
     return {
-        start: getRrouter
+        getRrouter: getRrouterInstance
     };
     
 });

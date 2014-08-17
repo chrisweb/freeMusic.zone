@@ -56,7 +56,7 @@ define([
 
                             var loginView = new LoginView({ oauthUrl: oauthUrl });
 
-                            container.add('#main', loginView);
+                            container.add('#core', loginView);
 
                             that.dispatch();
 
@@ -89,7 +89,7 @@ define([
 
                 var welcomeView = new WelcomeView();
 
-                container.add('#main', welcomeView);
+                container.add('#core', welcomeView);
 
                 that.dispatch();
 

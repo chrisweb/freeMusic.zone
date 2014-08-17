@@ -15,29 +15,25 @@ html, body, #container {
 
 #left {
     float: left;
-    position: absolute;
     height: 100%;
-    display: none;
 }
 
-#center {
-    float: right;
-    position: relative;
+#core {
     height: 100%;
     width: 100%;
 }
 
 #right {
-    display: none;
-}
-
-#left_aside {
+    float: right;
     height: 100%;
 }
 
-#main {
-    height: 100%;
-    width: 100%;
+#header {
+    
+}
+
+#footer {
+    
 }
 
 /* BUTTONS */
@@ -191,14 +187,8 @@ nav#left_navigation .remote {
 }
 
 .connect iframe.jamendo {
-    display: none;
     width: 300px;
     height: 450px;
     overflow: hidden;
     margin: auto;
-}
-
-/* loading animation default hidden */
-.loading {
-    display: none;
 }

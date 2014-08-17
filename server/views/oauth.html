@@ -12,6 +12,11 @@
         <link rel="stylesheet" href="/desktop/client/desktop_build/stylesheets/main.css">
 
         <script>
+            
+            // this is important, this page will get called inside of the
+            // iframe on successfull oauth connect, but we need to inform
+            // the app outside of the iframe that the oauth process has
+            // come to an end so that the app can load the next screen
             window.onload = function() {
  
                 parent.connected();

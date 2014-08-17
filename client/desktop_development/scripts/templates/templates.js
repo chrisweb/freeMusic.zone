@@ -2,16 +2,6 @@ define(function(){
 
 this["JST"] = this["JST"] || {};
 
-this["JST"]["templates/layout"] = function(obj) {
-obj || (obj = {});
-var __t, __p = '', __e = _.escape;
-with (obj) {
-__p += '<div id="container">\r\n    <div id="left">\r\n        <aside id="left_aside"></aside>\r\n    </div>\r\n    <div id="center">\r\n        <header id="header"></header>\r\n        <section id="main"></section>\r\n        <footer id="footer"></footer>\r\n    </div>\r\n</div>';
-
-}
-return __p
-};
-
 this["JST"]["templates/partials/header_navigation"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
@@ -36,7 +26,7 @@ this["JST"]["templates/partials/login"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<section class="connect">\r\n    \r\n    <form class="login">\r\n      <fieldset>\r\n        <legend>Login with your jamendo account</legend>\r\n        <button type="submit" class="btn btn-default">Login</button>\r\n      </fieldset>\r\n    </form>\r\n\r\n    <span class="loading">Loading ...</span>\r\n    \r\n    <iframe src="" class="jamendo" scrolling="no"></iframe>\r\n    \r\n</section>';
+__p += '<section class="connect">\r\n    \r\n    <form class="login">\r\n      <fieldset>\r\n        <legend>Login with your jamendo account</legend>\r\n        <button type="submit" class="btn btn-default">Login</button>\r\n      </fieldset>\r\n    </form>\r\n\r\n    <span class="loading hidden">Loading ...</span>\r\n    \r\n    <iframe src="" class="jamendo hidden" scrolling="no"></iframe>\r\n    \r\n</section>';
 
 }
 return __p

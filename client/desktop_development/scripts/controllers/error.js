@@ -33,7 +33,7 @@ define([
             require(['views/components/notfound'], function(notfoundView) {
 
                 // put the search field partial into the main section of the layout
-                notfoundView.insertInto('section#main');
+                notfoundView.insertInto('#core');
 
             });
 
