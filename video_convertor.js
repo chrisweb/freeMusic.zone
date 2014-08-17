@@ -64,6 +64,8 @@ for (var i in files) {
     
 }
 
+//process.exit(code=0);
+
 // encode the videos
 var files = fs.readdirSync(videoDirectory);
 
@@ -85,13 +87,84 @@ for (var i in files) {
 
         .noAudio()
         
-        // second output as webm
-        .outputFormat('webm') // set output format
+        // output as webm
+        .outputFormat('webm')
         .output(videoOutputWebm)
         
-        // first ouput as mp4
-        .outputFormat('mp4') // set output format
+        // ouput as mp4
+        .outputFormat('mp4')
         .output(videoOutputMp4)
+                    
+        .on('start', function(commandLine) {
+            
+            utilities.log('Spawned Ffmpeg with command: ' + commandLine, 'fontColor:green');
+            
+        })
+        
+        .on('codecData', function(data) {
+            
+            utilities.log('codecData:');
+            
+            utilities.log('format: ' + data.format);
+            utilities.log('duration: ' + data.duration);
+            utilities.log('audio: ' + data.audio);
+            utilities.log('audio_details: ' + data.audio_details);
+            utilities.log('video: ' + data.video);
+            utilities.log('video_details: ' + data.video_details);
+            
+        })
+        
+        .on('progress', function(progress) {
+            
+            utilities.log('Processing: ' + progress.percent + '% done');
+            
+        })
+
+        .on('error', function(error, stdout, stderr) {
+            
+            utilities.log(stdout);
+            utilities.log(stderr);
+            utilities.log('An error occurred: ' + error.message, 'fontColor:red');
+            
+        })
+
+        .on('end', function() {
+            
+            utilities.log('Processing finished !');
+            
+        })
+
+        .run();
+
+    }
+
+}
+
+// convert the videos to animated gifs
+var files = fs.readdirSync(videoDirectory);
+
+for (var i in files) {
+
+    if (path.extname(files[i]) === '.mov') {
+
+        var videoSource = videoDirectory + '/' + files[i];
+        
+        utilities.log('videoSource: ' + videoSource);
+
+        var videoOutputGif = videoDirectory + '/hompage-video_' + i + '.gif';
+        
+        utilities.log('videoOutputGif: ' + videoOutputGif);
+        
+        var fluent = Fluent(videoSource)
+
+        // output options
+        .noAudio()
+        .fps(10)
+        .size('320x?')
+        
+        // output as gif
+        .outputFormat('gif')
+        .output(videoOutputGif)
                     
         .on('start', function(commandLine) {
             
