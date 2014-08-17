@@ -42,7 +42,7 @@ var files = fs.readdirSync(videoDirectory);
 
 for (var i in files) {
     
-    if (path.extname(files[i]) === '.mp4' || path.extname(files[i]) === '.webm') {
+    if (path.extname(files[i]) === '.mp4' || path.extname(files[i]) === '.webm' || path.extname(files[i]) === '.gif') {
         
         var videoPath = videoDirectory + '/' + files[i];
     
