@@ -88,22 +88,22 @@ for (var i in files) {
 
         var fluent = Fluent(videoSource)
 
+        // output as webm
+        .output(videoOutputWebm)
+        .outputFormat('webm')
+
         // output option(s) webm
         .noAudio()
-        .withOutputOption('--best') // best, good, rt
+        .withOutputOption('-quality', 'good') // best, good, rt
         
-        // output as webm
-        .outputFormat('webm')
-        .output(videoOutputWebm, { end: true })
+        // ouput as mp4
+        .output(videoOutputMp4)
+        .outputFormat('mp4')
 
         // output option(s) mp4
         .noAudio()
         .withOutputOption('-vprofile', 'main') // high, main, baseline
         .withOutputOption('-preset', 'slow') // ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow, placebo
-        
-        // ouput as mp4
-        .outputFormat('mp4')
-        .output(videoOutputMp4)
 
         // thumbnail
         .takeScreenshots({
