@@ -77,6 +77,7 @@ for (var i in files) {
         
         utilities.log('videoSource: ' + videoSource);
 
+        // webm an mp4 conversion
         var videoOutputWebm = videoDirectory + '/hompage-video_' + i + '.webm';
         var videoOutputMp4 = videoDirectory + '/hompage-video_' + i + '.mp4';
         
@@ -97,7 +98,7 @@ for (var i in files) {
                     
         .on('start', function(commandLine) {
             
-            utilities.log('Spawned Ffmpeg with command: ' + commandLine, 'fontColor:green');
+            utilities.log('spawned ffmpeg with command: ' + commandLine, 'fontColor:green');
             
         })
         
@@ -116,7 +117,7 @@ for (var i in files) {
         
         .on('progress', function(progress) {
             
-            utilities.log('Processing: ' + progress.percent + '% done');
+            utilities.log('processing: ' + progress.percent + '% done');
             
         })
 
@@ -124,13 +125,15 @@ for (var i in files) {
             
             utilities.log(stdout);
             utilities.log(stderr);
-            utilities.log('An error occurred: ' + error.message, 'fontColor:red');
+            utilities.log('an error occurred: ' + error.message, 'fontColor:red');
             
         })
 
         .on('end', function() {
             
-            utilities.log('Processing finished !');
+            utilities.log('webm and mp4 encoding finished!');
+    
+            videoToGif(videoDirectory, videoSource);
             
         })
 
@@ -140,73 +143,63 @@ for (var i in files) {
 
 }
 
-// convert the videos to animated gifs
-var files = fs.readdirSync(videoDirectory);
+var videoToGif = function videoToGifFunction(videoDirectory, videoSource) {
 
-for (var i in files) {
+    // convert the videos to animated gifs
+    var videoOutputGif = videoDirectory + '/hompage-video_' + i + '.gif';
 
-    if (path.extname(files[i]) === '.mov') {
+    utilities.log('videoOutputGif: ' + videoOutputGif);
 
-        var videoSource = videoDirectory + '/' + files[i];
-        
-        utilities.log('videoSource: ' + videoSource);
+    var fluent = Fluent(videoSource)
 
-        var videoOutputGif = videoDirectory + '/hompage-video_' + i + '.gif';
-        
-        utilities.log('videoOutputGif: ' + videoOutputGif);
-        
-        var fluent = Fluent(videoSource)
+    // output options
+    .noAudio()
+    .fps(10)
+    .size('320x?')
 
-        // output options
-        .noAudio()
-        .fps(10)
-        .size('320x?')
-        
-        // output as gif
-        .outputFormat('gif')
-        .output(videoOutputGif)
-                    
-        .on('start', function(commandLine) {
-            
-            utilities.log('Spawned Ffmpeg with command: ' + commandLine, 'fontColor:green');
-            
-        })
-        
-        .on('codecData', function(data) {
-            
-            utilities.log('codecData:');
-            
-            utilities.log('format: ' + data.format);
-            utilities.log('duration: ' + data.duration);
-            utilities.log('audio: ' + data.audio);
-            utilities.log('audio_details: ' + data.audio_details);
-            utilities.log('video: ' + data.video);
-            utilities.log('video_details: ' + data.video_details);
-            
-        })
-        
-        .on('progress', function(progress) {
-            
-            utilities.log('Processing: ' + progress.percent + '% done');
-            
-        })
+    // output as gif
+    .outputFormat('gif')
+    .output(videoOutputGif)
 
-        .on('error', function(error, stdout, stderr) {
-            
-            utilities.log(stdout);
-            utilities.log(stderr);
-            utilities.log('An error occurred: ' + error.message, 'fontColor:red');
-            
-        })
+    .on('start', function(commandLine) {
 
-        .on('end', function() {
-            
-            utilities.log('Processing finished !');
-            
-        })
+        utilities.log('spawned ffmpeg with command: ' + commandLine, 'fontColor:green');
 
-        .run();
+    })
 
-    }
+    .on('codecData', function(data) {
 
-}
+        utilities.log('codecData:');
+
+        utilities.log('format: ' + data.format);
+        utilities.log('duration: ' + data.duration);
+        utilities.log('audio: ' + data.audio);
+        utilities.log('audio_details: ' + data.audio_details);
+        utilities.log('video: ' + data.video);
+        utilities.log('video_details: ' + data.video_details);
+
+    })
+
+    .on('progress', function(progress) {
+
+        utilities.log('processing: ' + progress.percent + '% done');
+
+    })
+
+    .on('error', function(error, stdout, stderr) {
+
+        utilities.log(stdout);
+        utilities.log(stderr);
+        utilities.log('an error occurred: ' + error.message, 'fontColor:red');
+
+    })
+
+    .on('end', function() {
+
+        utilities.log('gif encoding finished !');
+
+    })
+
+    .run();
+    
+};
