@@ -17,11 +17,37 @@ require.config({
 });
 
 require([
-    
-], function () {
+    'jquery'
+], function($) {
 
     'use strict';
 
-    
+    var $button = $('button');
+
+    $button.on('click', function(event) {
+        
+        event.preventDefault();
+        
+        playPause();
+        
+    });
+
+    var playPause = function playPauseFunction() {
+
+        var $video = $('video');
+        
+        var video = $video.get(0);
+
+        if (video.paused) {
+
+            video.play();
+
+        } else {
+
+            video.pause();
+
+        }
+
+    };
     
 });
