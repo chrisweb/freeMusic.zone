@@ -74,66 +74,7 @@ define([
         
         var router = Router.getRrouter();
 
-        router.on('route:renderHomepage', function() {
-            
-            var options = {};
-            
-            require(['controllers/homepage'], function(HomepageController) {
-                
-                var homepageController = new HomepageController(options, configuration, router);
-                
-                homepageController.indexAction();
-                
-            });
-
-        });
         
-        router.on('route:controllerActionDispatcher', function(controllerName, actionName) {
-            
-            utilities.log('route:controllerActionDispatcher, controller: ' + controllerName + ', action: ' + actionName);
-            
-            // if the action is not defined use the default value from
-            // configuration
-            if ($.type(actionName) === 'undefined') {
-                
-                actionName = configuration.client.defaults.action;
-                
-            }
-            
-            // filter symbols of action and controller name
-            // remove everything that is not alpha numeric
-            controllerName.replace(/[^a-zA-Z0-9]/g, '');
-            actionName.replace(/[^a-zA-Z0-9]/g, '');
-            
-            var options = {};
-
-            // load the controller and call the action
-            require(['controllers/' + controllerName], function(Controller) {
-                
-                var controller = new Controller(options, configuration, router);
-
-                controller[actionName + 'Action']();
-                
-            });
-
-        });
-        
-        router.on('route:render404', function() {
-
-            require(['controllers/error'], function(ErrorController) {
-                
-                ErrorController.notfoundAction();
-                
-            });
-
-        });
-        
-        // event triggered before a route
-        eventsManager.on('router:preRoute', function bootstrapPreRoute(parameters) {
-            
-            utilities.log(parameters);
-            
-        });
         
         Backbone.history.start({
             pushState: true
@@ -167,18 +108,6 @@ define([
         var isLogged = user.getAttribute('isLogged');
         
         utilities.log('isLogged: ', isLogged);
-        
-        // the oauth page that is in the iframe will trigger the "connected"
-        // event from within the iframe on successfull oauth connection, we
-        // listen for that event and trigger an app event to inform the app
-        // that the oauth process has come to an end
-        window.connected = function() {
-
-            utilities.log('oauth connected');
-
-            eventsManager.trigger('oauth:connected');
-
-        };
         
     };
     
