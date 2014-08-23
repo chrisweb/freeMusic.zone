@@ -35,6 +35,7 @@
     "moment": "~2.7.0",
     "modernizr": "master",
     "chrisweb-utilities": "https://github.com/chrisweb/chrisweb-utilities.js.git#master",
-    "ribs.js": "https://github.com/chrisweb/ribs.js.git#master"
+    "ribs.js": "https://github.com/chrisweb/ribs.js.git#master",
+    "almond": "0.3.0"
   }
 }

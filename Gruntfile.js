@@ -27,8 +27,8 @@ module.exports = function(grunt) {
                     fontawesome: {
                         path: 'bower_components/fontawesome'
                     },
-                    requirejs: {
-                        path: 'bower_components/requirejs'
+                    almond: {
+                        path: 'bower_components/almond'
                     },
                     images: {
                         path: '<%= config.desktop.development.root %>/images'
@@ -105,10 +105,27 @@ module.exports = function(grunt) {
                 options: {
                     baseUrl: '<%= config.desktop.development.scripts.path %>',
                     mainConfigFile: '<%= config.desktop.development.scripts.path %>/main.js',
-                    name: 'main',
+                    include: '<%= config.desktop.development.scripts.path %>/main.js',
+                    name: '<%= config.desktop.development.almond.path %>/almond',
                     out: '<%= config.desktop.build.scripts.path %>/main.js',
                     findNestedDependencies: true,
                     optimize: 'uglify2',
+                    uglify2: {
+                        //Example of a specialized config. If you are fine
+                        //with the default options, no need to specify
+                        //any of these properties.
+                        output: {
+                            beautify: true
+                        },
+                        compress: {
+                            sequences: false,
+                            global_defs: {
+                                DEBUG: false
+                            }
+                        },
+                        warnings: false,
+                        mangle: false
+                    },
                     useStrict: false, // TODO: set to true for build if enough support by browsers
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
@@ -203,17 +220,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        
-        // uglify requirejs
-        // https://github.com/gruntjs/grunt-contrib-uglify
-        uglify: {
-            requirejs: {
-                files: {
-                    '<%= config.desktop.build.scripts.path %>/require.min.js': '<%= config.desktop.development.requirejs.path %>/require.js'
-                }
-            }
-        },
-        
+
         // copy files
         // https://github.com/gruntjs/grunt-contrib-copy
         copy: {
@@ -235,7 +242,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: '<%= config.desktop.development.images.path %>/',
                         src: ['**'],
-                        dest: '<%= config.desktop.build.images.path %>/'
+                        dest: '<%= config.desktop.build.images.path %>/<%= packageJson.version %>/'
                     }
                 ]
             },
@@ -269,21 +276,14 @@ module.exports = function(grunt) {
                     mode: 'gzip'
                 },
                 src: '<%= config.desktop.build.stylesheets.path %>/main.min.css',
-                dest: '<%= config.desktop.build.stylesheets.path %>/main.min.css'
+                dest: '<%= config.desktop.build.stylesheets.path %>/main-<%= packageJson.version %>.min.css'
             },
             mainjs: {
                 options: {
                     mode: 'gzip'
                 },
-                src: '<%= config.desktop.build.scripts.path %>/main.js',
-                dest: '<%= config.desktop.build.scripts.path %>/main.js'
-            },
-            requirejs: {
-                options: {
-                    mode: 'gzip'
-                },
-                src: '<%= config.desktop.build.scripts.path %>/require.min.js',
-                dest: '<%= config.desktop.build.scripts.path %>/require.min.js'
+                src: '<%= config.desktop.build.scripts.path %>/main.min.js',
+                dest: '<%= config.desktop.build.scripts.path %>/main-<%= packageJson.version %>.min.js'
             }
         },
         
