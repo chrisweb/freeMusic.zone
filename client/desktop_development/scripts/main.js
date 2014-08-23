@@ -52,9 +52,6 @@ require.config({
         'SoundManager': '../../../bower_components/SoundManager2/script/soundmanager2',
         'moment': '../../../bower_components/moment/moment',
         
-        // chrisweb-utilities
-        'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities',
-        
         // ribs.js
         'ribs.collection': '../../../bower_components/ribs.js/src/collection',
         'ribs.container': '../../../bower_components/ribs.js/src/container',
@@ -63,7 +60,13 @@ require.config({
         'ribs.model': '../../../bower_components/ribs.js/src/model',
         'ribs.router': '../../../bower_components/ribs.js/src/router',
         'ribs.view': '../../../bower_components/ribs.js/src/view',
-        'ribs.viewsloader': '../../../bower_components/ribs.js/src/viewsloader'
+        'ribs.viewsloader': '../../../bower_components/ribs.js/src/viewsloader',
+        
+        // modernizr
+        'Modernizr': 'modernizr/build',
+        
+        // chrisweb-utilities
+        'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'
         
     }
     

@@ -15,7 +15,8 @@
  * @param {type} HeaderNavigation
  * @param {type} LeftNavigation
  * @param {type} user
- * @returns {_L19.Anonym$5}
+ * @param {type} modernizr
+ * @returns {_L19.Anonym$6}
  */
 define([
     'underscore',
@@ -30,8 +31,24 @@ define([
     'library.tracksCache',
     'library.plugin.headerNavigation',
     'library.plugin.leftNavigation',
-    'library.user'
-], function (_, Backbone, $, utilities, configuration, Router, container, eventsManager, Player, TracksCacheManager, HeaderNavigation, LeftNavigation, user) {
+    'library.user',
+    'Modernizr'
+], function (
+    _,
+    Backbone,
+    $,
+    utilities,
+    configuration,
+    Router,
+    container,
+    eventsManager,
+    Player,
+    TracksCacheManager,
+    HeaderNavigation,
+    LeftNavigation,
+    user,
+    modernizr
+) {
 
     'use strict';
     
@@ -41,7 +58,13 @@ define([
         
         utilities.log('[BOOTSTRAP] initializeApplication', 'fontColor:blue');
         
-        // TODO: modernizr checks
+        // modernizr
+        // video tag support
+        if (modernizr.video) {
+            
+            utilities.log('video tag support success', 'fontColor:green', 'backgroundColor:yellow');
+            
+        }
         
     };
     
