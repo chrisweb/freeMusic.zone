@@ -12,15 +12,17 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
-* DONE: aws video converter setup
+* create waveform js to display waveform data
+* create responsive jquery ui dialog
+* create javascript to server global error logging library
 * aws mongodb
 * aws redis
 * aws twitter harvester (with forever) setup and tests
-* put ribs.js (with bower) and chrisweb-utilities (with npm) back into project
 * aws music analyzer test
 
+## Other todos (damn that's a lot of todos ;) )
+
 * make api really restfull, (no cookie?), stateless
-* setup aws
 * search queries cache on server with redis
 * track infos cache on server with redis
 * a controller module that can be extended and is architectured like the backbone view or backbone model modules
@@ -34,7 +36,54 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * client side error logging tool
 * socket io chat (one room per playlist)
 * list of playlists (homepage) sort by (popularity / date)
-* playlist detail
-* run twitter harvester to fill db
+* playlist detail page
+* run twitter harvester (aws) to fill db
 * twitter stream listener to mongodb (tweet a track id and playlist id followed by #music to increase tracks score)
 * jamendo api calls and oauth connect
+* responsive images http://dev.opera.com/articles/native-responsive-images/
+* write client and server code tests using mocha
+* improve existing documentation
+
+## done todos
+
+* DONE: start a new project on github, add license, gitignore, gitattributes and readme file ... that the easiest part ;)
+* DONE: install nodejs and setup package json for project
+* DONE: add mongoose, express and redis client to server bootstrap (using npm)
+* DONE: add grunt to project via package json and create initial gruntfile
+* DONE: add bower to project for client dependencies and create initial bower json
+* DONE: add AMD versions of backbone, underscore and jQuery to project using bower
+* DONE: create client main.js using requirejs and include backbone, underscore and jQuery
+* DONE: use grunt to create the a client js build with requirejs
+* DONE: add twitter bootstrap
+* DONE: add sass to css convertor to grunt
+* DONE: add css minification to grunt
+* DONE: add css and js gzipping to grunt
+* DONE: create collection of scripts that extend backbone functionality (ribs modules)
+* DONE: ribs views script should be capable to use templates where all the html is in the templates and no html in the code (because backbone initializes root element of views in code)
+* DONE: create an utilities.js file to log messges to server and client console with colors support
+* DONE: add copy script to grunt to copy assests like images and fonts from development into production directory
+* DONE: to bust the browser cache of fonts use package json version number, rename fonts using grunt and automatically replace new fontname in scss files
+* DONE: html5 canvas 3D cubes (my music world) prototype, every playlist is cube on the map and the height depends on the active users
+* DONE: client side browser music visualization prototype using audiocontext (html5 audio api)
+* DONE: aws video converter server with ffmpeg (with png / web / mp4 libs) setup
+* DONE: drag and drop song onto player prototype
+* DONE: put ribs.js and chrisweb utilities on github as seperate projects
+* DONE: put ribs.js (with bower) and chrisweb-utilities (with npm) back into project
+* DONE: twitter harvester to get jamendo tracks related tweets
+* DONE: save tweets into mongodb
+* DONE: add nodejs express router
+* DONE: create redis connection library for nodejs server script
+* DONE: create nodejs mongodb connection library
+* DONE: use redis to save express sessions
+* DONE: tweets map reduce script that based creates charts of jamendo tracks based on the amount of times somebody tweeted about them during a defined period of time
+* DONE: replace production client build loading by almond instead of using requirejs
+* DONE: create backbone view / model / collection prototypes to quickly learn the basics
+* DONE: write a nodejs video convertor script to transform the mov video into a webm and mp4 video (using fluent ffmpeg)
+* DONE: add video thumbnail and video to gif to video convertor
+* DONE: create fullscreen background video prototype
+* DONE: videos dont autoplay on mobile, create video  to animated gif prototype
+* DONE: setup backbone, create basic models, views, collections and a router
+* DONE: create server side audio data analyzer to get the pcm data from songs needed for waveforms
+* DONE: create a right navigation menu prototype (menu with 3D effect opening on click)
+* DONE: write some initial documentation
+* DONE: use grunt to transform ejs templates and put all of them into single jst file
