@@ -150,13 +150,7 @@ module.exports = function(grunt) {
         // TODO: html5 (templates) lint?
         // https://github.com/alicoding/grunt-lint5
 
-        // QUnit
-        // https://github.com/gruntjs/grunt-contrib-qunit
-        // http://api.qunitjs.com/
-        // https://qunitjs.com/cookbook/ 
-        qunit: {
-            all: ['<%= config.test.client.root %>/**/*.html']
-        },
+        // TODO: Mocha testing
         
         // TODO: css lint?
         // https://github.com/gruntjs/grunt-contrib-csslint
