@@ -25,14 +25,14 @@
     "tests"
   ],
   "dependencies": {
-    "underscore": "~1.6.0",
+    "underscore": "~1.7.0",
     "backbone": "~1.1.2",
     "jquery": "~2.1.1",
-    "requirejs": "~2.1.14",
+    "requirejs": "~2.1.15",
     "bootstrap-sass-official": "~3.2.0",
     "SoundManager2": "https://github.com/scottschiller/SoundManager2.git#V2.97a.20131201+DEV",
-    "fontawesome": "~4.1.0",
-    "moment": "~2.7.0",
+    "fontawesome": "~4.2.0",
+    "moment": "~2.8.3",
     "modernizr": "master",
     "chrisweb-utilities": "https://github.com/chrisweb/chrisweb-utilities.js.git#master",
     "ribs.js": "https://github.com/chrisweb/ribs.js.git#master",
