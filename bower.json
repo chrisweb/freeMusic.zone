@@ -30,12 +30,13 @@
     "jquery": "~2.1.1",
     "requirejs": "~2.1.15",
     "bootstrap-sass-official": "~3.2.0",
-    "SoundManager2": "https://github.com/scottschiller/SoundManager2.git#V2.97a.20131201+DEV",
+    "chrisweb-web-audio-api-player": "https://github.com/chrisweb/web-audio-api-player.git#master",
     "fontawesome": "~4.2.0",
     "moment": "~2.8.3",
     "modernizr": "master",
     "chrisweb-utilities": "https://github.com/chrisweb/chrisweb-utilities.js.git#master",
     "ribs.js": "https://github.com/chrisweb/ribs.js.git#master",
-    "almond": "0.3.0"
+    "almond": "0.3.0",
+    "modernizr": "https://github.com/Modernizr/Modernizr.git#master"
   }
 }

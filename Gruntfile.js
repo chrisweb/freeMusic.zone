@@ -24,6 +24,9 @@ module.exports = function(grunt) {
                     bootstrap: {
                         path: 'bower_components/bootstrap-sass-official/vendor/assets'
                     },
+                    modernizr: {
+                        path: 'bower_components/modernizr'
+                    },
                     fontawesome: {
                         path: 'bower_components/fontawesome'
                     },
@@ -126,7 +129,7 @@ module.exports = function(grunt) {
                         warnings: false,
                         mangle: false
                     },
-                    useStrict: false, // TODO: set to true for build if enough support by browsers
+                    useStrict: true,
                     done: function(done, output) {
                         var duplicates = require('rjs-build-analysis').duplicates(output);
 
@@ -151,6 +154,7 @@ module.exports = function(grunt) {
         // https://github.com/alicoding/grunt-lint5
 
         // TODO: Mocha testing
+        // https://github.com/pghalliday/grunt-mocha-test
         
         // TODO: css lint?
         // https://github.com/gruntjs/grunt-contrib-csslint
@@ -305,7 +309,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -320,7 +323,7 @@ module.exports = function(grunt) {
     // build for production export
     grunt.registerTask('buildprod', ['jst', 'requirejs', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
-    grunt.registerTask('buildbeta', ['jshint', 'jst', 'requirejs', 'qunit', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildbeta', ['jshint', 'jst', 'requirejs', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
     // templates and css for development
     grunt.registerTask('builddev', ['jst', 'replace', 'sass', 'copy']);
