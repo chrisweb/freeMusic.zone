@@ -24,9 +24,6 @@ module.exports = function(grunt) {
                     bootstrap: {
                         path: 'bower_components/bootstrap-sass-official/vendor/assets'
                     },
-                    modernizr: {
-                        path: 'bower_components/modernizr'
-                    },
                     fontawesome: {
                         path: 'bower_components/fontawesome'
                     },
@@ -104,7 +101,7 @@ module.exports = function(grunt) {
         // require js
         // https://github.com/gruntjs/grunt-contrib-requirejs
         requirejs: {
-            compile: {
+            app_build: {
                 options: {
                     baseUrl: '<%= config.desktop.development.scripts.path %>',
                     mainConfigFile: '<%= config.desktop.development.scripts.path %>/main.js',

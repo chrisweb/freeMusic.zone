@@ -49,7 +49,6 @@ require.config({
         'jquery': '../../../bower_components/jquery/dist/jquery',
         'backbone': '../../../bower_components/backbone/backbone',
         'underscore': '../../../bower_components/underscore/underscore',
-        'SoundManager': '../../../bower_components/SoundManager2/script/soundmanager2',
         'moment': '../../../bower_components/moment/moment',
         
         // ribs.js
@@ -63,7 +62,12 @@ require.config({
         'ribs.viewsloader': '../../../bower_components/ribs.js/src/viewsloader',
         
         // modernizr
-        'Modernizr': 'modernizr/build',
+        'modernizrTestsLoader': 'library/modernizr/loader',
+        'Modernizr': 'library/modernizr/core',
+        'createElement': 'library/modernizr/createElement',
+        
+        // modernizr detects
+        'audio': '../../../bower_components/modernizr/feature-detects/audio',
         
         // chrisweb-utilities
         'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'

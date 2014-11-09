@@ -9,7 +9,11 @@
  * @param {type} container
  * @param {type} eventsManager
  * @param {type} user
+ * @param {type} modernizrTestsLoader
+ * @param {type} Modernizr
+ * 
  * @returns {unresolved}
+ * 
  */
 define([
     'jquery',
@@ -18,8 +22,11 @@ define([
     'ribs.controller',
     'ribs.container',
     'ribs.eventsManager',
-    'library.user'
-], function ($, _, utilities, Controller, container, eventsManager, user) {
+    'library.user',
+    'modernizrTestsLoader',
+    'Modernizr'
+    
+], function ($, _, utilities, Controller, container, eventsManager, user, modernizrTestsLoader, Modernizr) {
     
     'use strict';
     
@@ -39,7 +46,17 @@ define([
         
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
             
-            var isLogged = user.getAttribute('isLogged');
+            modernizrTestsLoader([
+                'audio'
+            ], function() {
+                
+                var testResponse = Modernizr.runTest('audio');
+                
+                console.log(testResponse);
+                
+            });
+            
+            /*var isLogged = user.getAttribute('isLogged');
             
             if (!isLogged) {
             
@@ -74,7 +91,7 @@ define([
                 
                 // TODO: if user is already logged
                 
-            }
+            }*/
 
         },
         
