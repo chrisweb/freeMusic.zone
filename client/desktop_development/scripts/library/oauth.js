@@ -1,11 +1,17 @@
+/**
+ * 
+ * oauth
+ * 
+ * @param {type} utilities
+ * @param {type} eventsManager
+ * 
+ * @returns {oauth_L9.oauthAnonym$1}
+ */
 define([
     'chrisweb.utilities',
-    'configuration',
     'ribs.eventsManager',
-    'backbone',
-    'SoundManager',
-    'library.tracksCache'
-], function(utilities, configurationModule, eventsManager, Backbone, SoundManager, tracksCacheManager) {
+    
+], function(utilities, eventsManager) {
 
     'use strict';
     

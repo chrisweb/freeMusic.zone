@@ -29,15 +29,6 @@ define([
                         action: 'index'
                     }
                 };
-                
-                configuration.soundmanager = {
-                    flash: {
-                        url: '/flash/soundmanager/',
-                        version: 9
-                    },
-                    debugMode: false,
-                    preferFlash: false // prefer HTML5 mode where supported
-                };
 
                 break;
 
@@ -55,15 +46,6 @@ define([
                     defaults: {
                         action: 'index'
                     }
-                };
-                
-                configuration.soundmanager = {
-                    flash: {
-                        url: '/flash/soundmanager/',
-                        version: 9
-                    },
-                    debugMode: true,
-                    preferFlash: false // prefer HTML5 mode where supported
                 };
                     
                 break;
