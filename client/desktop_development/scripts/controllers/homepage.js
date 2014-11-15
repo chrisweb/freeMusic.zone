@@ -47,12 +47,42 @@ define([
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
             
             modernizrTestsLoader([
-                'audio'
+                'detect.audio',
+                'detect.webaudio',
+                'detect.video',
+                'detect.videoautoplay',
+                //'detect.canvas',
+                //'detect.history',
+                //'detect.websockets'
             ], function() {
                 
-                var testResponse = Modernizr.runTest('audio');
+                var audioTestResponse = Modernizr.runTest('audio');
                 
-                console.log(testResponse);
+                console.log(audioTestResponse);
+                
+                var webaudioTestResponse = Modernizr.runTest('webaudio');
+                
+                console.log(webaudioTestResponse);
+                
+                var videoTestResponse = Modernizr.runTest('video');
+                
+                console.log(videoTestResponse);
+                
+                var videoautoplayTestResponse = Modernizr.runTest('videoautoplay');
+                
+                console.log(videoautoplayTestResponse);
+                
+                /*var canvasTestResponse = Modernizr.runTest('canvas');
+                
+                console.log(canvasTestResponse);
+                
+                var historyTestResponse = Modernizr.runTest('history');
+                
+                console.log(historyTestResponse);
+                
+                var websocketsTestResponse = Modernizr.runTest('websockets');
+                
+                console.log(websocketsTestResponse);*/
                 
             });
             

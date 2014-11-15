@@ -67,7 +67,13 @@ require.config({
         'createElement': 'library/modernizr/createElement',
         
         // modernizr detects
-        'audio': '../../../bower_components/modernizr/feature-detects/audio',
+        'detect.audio': '../../../bower_components/modernizr/feature-detects/audio',
+        'detect.webaudio': '../../../bower_components/modernizr/feature-detects/audio/webaudio',
+        'detect.video': '../../../bower_components/modernizr/feature-detects/video',
+        'detect.videoautoplay': '../../../bower_components/modernizr/feature-detects/video/autoplay',
+        'detect.canvas': '../../../bower_components/modernizr/feature-detects/canvas',
+        'detect.history': '../../../bower_components/modernizr/feature-detects/history',
+        'detect.websockets': '../../../bower_components/modernizr/feature-detects/websockets',
         
         // chrisweb-utilities
         'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'

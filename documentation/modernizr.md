@@ -2,6 +2,9 @@
 
 ## features
 
+audio to detect the support of codecs (https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats)
+* audio
+
 the player uses the "web audio api" (http://caniuse.com/#feat=audio-api)
 * audio_webaudio_api
 
