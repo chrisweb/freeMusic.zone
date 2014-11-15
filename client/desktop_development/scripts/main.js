@@ -65,15 +65,17 @@ require.config({
         'modernizrTestsLoader': 'library/modernizr/loader',
         'Modernizr': 'library/modernizr/core',
         'createElement': 'library/modernizr/createElement',
+        'docElement': 'library/modernizr/docElement',
+        'addTest': 'library/modernizr/addTest',
         
         // modernizr detects
-        'detect.audio': '../../../bower_components/modernizr/feature-detects/audio',
-        'detect.webaudio': '../../../bower_components/modernizr/feature-detects/audio/webaudio',
-        'detect.video': '../../../bower_components/modernizr/feature-detects/video',
-        'detect.videoautoplay': '../../../bower_components/modernizr/feature-detects/video/autoplay',
-        'detect.canvas': '../../../bower_components/modernizr/feature-detects/canvas',
-        'detect.history': '../../../bower_components/modernizr/feature-detects/history',
-        'detect.websockets': '../../../bower_components/modernizr/feature-detects/websockets',
+        'test/audio': '../../../bower_components/modernizr/feature-detects/audio',
+        'test/webaudio': '../../../bower_components/modernizr/feature-detects/audio/webaudio',
+        'test/video': '../../../bower_components/modernizr/feature-detects/video',
+        'test/videoautoplay': '../../../bower_components/modernizr/feature-detects/video/autoplay',
+        'test/canvas': '../../../bower_components/modernizr/feature-detects/canvas',
+        'test/history': '../../../bower_components/modernizr/feature-detects/history',
+        'test/websockets': '../../../bower_components/modernizr/feature-detects/websockets',
         
         // chrisweb-utilities
         'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'

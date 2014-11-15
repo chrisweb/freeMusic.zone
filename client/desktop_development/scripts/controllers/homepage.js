@@ -47,42 +47,18 @@ define([
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
             
             modernizrTestsLoader([
-                'detect.audio',
-                'detect.webaudio',
-                'detect.video',
-                'detect.videoautoplay',
-                //'detect.canvas',
-                //'detect.history',
-                //'detect.websockets'
+                'test/audio',
+                'test/webaudio',
+                'test/video',
+                'test/videoautoplay',
+                //'test/canvas',
+                //'test/history',
+                //'test/websockets'
             ], function() {
                 
-                var audioTestResponse = Modernizr.runTest('audio');
+                var testsResults = Modernizr.runTests(['audio', 'webaudio', 'video', 'videoautoplay', 'canvas', 'history', 'websockets']);
                 
-                console.log(audioTestResponse);
-                
-                var webaudioTestResponse = Modernizr.runTest('webaudio');
-                
-                console.log(webaudioTestResponse);
-                
-                var videoTestResponse = Modernizr.runTest('video');
-                
-                console.log(videoTestResponse);
-                
-                var videoautoplayTestResponse = Modernizr.runTest('videoautoplay');
-                
-                console.log(videoautoplayTestResponse);
-                
-                /*var canvasTestResponse = Modernizr.runTest('canvas');
-                
-                console.log(canvasTestResponse);
-                
-                var historyTestResponse = Modernizr.runTest('history');
-                
-                console.log(historyTestResponse);
-                
-                var websocketsTestResponse = Modernizr.runTest('websockets');
-                
-                console.log(websocketsTestResponse);*/
+                console.log(testsResults);
                 
             });
             
