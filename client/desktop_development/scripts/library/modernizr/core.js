@@ -29,9 +29,9 @@ define([
         
     };
     
-    Modernizr.prototype.addTest = function addTestFunction(testsName, testFunction, autorun, callback) {
+    Modernizr.prototype.addTest = function addTestFunction(testName, testFunction, autorun, callback) {
         
-        this._tests[testsName] = testFunction;
+        this._tests[testName] = testFunction;
         
         // if autorun isn't false run test asap
         // modernizr did always run tests asap, so we make it now optional to
@@ -42,11 +42,11 @@ define([
             
             if (callback === undefined) {
                 
-                return this.runTest(testsName);
+                return this.runTest(testName);
                 
             } else {
             
-                this.runTest(testsName, callback);
+                this.runTest(testName, callback);
                 
             }
             
@@ -61,9 +61,11 @@ define([
         
     };
     
-    var timeoutHandler;
+    var runTestTimeoutHandler;
     
     Modernizr.prototype.runTest = function runTestFunction(testName, callback) {
+        
+        var testResult;
         
         // async tests are not available imediatly
         if (testName in this._tests) {
@@ -72,11 +74,11 @@ define([
             // a function
             if (typeof this._tests[testName] === 'function') {
                         
-                var testResult = this._tests[testName]();
+                testResult = this._tests[testName]();
                 
             } else {
                 
-                var testResult = this._tests[testName];
+                testResult = this._tests[testName];
                 
             }
             
@@ -84,41 +86,52 @@ define([
             
             // TODO: this is a hack as the original tests of modernizr dont
             // accept callbacks for asynchronous tests, if the tests get
-            // updated this can be removed
-            if (typeof timeoutHandler !== 'undefined') {
+            // updated to use callback, this can be removed
+            if (typeof runTestTimeoutHandler !== 'undefined') {
                 
-                clearTimeout(timeoutHandler);
+                clearTimeout(runTestTimeoutHandler);
                 
             }
             
             var that = this;
             
-            timeoutHandler = setTimeout(function() {
+            runTestTimeoutHandler = setTimeout(function() {
                 
                 that.runTest(testName, callback);
                 
             }, 200);
             
+            // as it is an asynchrnous test we don't have an answer yet and
+            // return undefined, so the user has to check again at a later time
+            // if the response is still undefined or has been set
+            // TODO: get rid of this!!!
+            return;
+            
         }
         
-        // add test result to Modernizr
-        // TODO: remove this feature, as it is problematic for asynchronous
-        // tests anyway
-        this.testName = testResult;
+        if (testResult !== undefined) {
         
-        // TODO: all tests should be async and have a callback if they dont
-        // emit an event on the modernizr object using the test name and result
-        // the user should not have to bother is a test is async or not, just
-        // handle all tests the same way
-        if (callback === undefined) {
-        
-            //throw 'error: add a callback as second parameter of this function';
-        
-            return testResult;
-            
-        } else {
-            
-            callback(false, testResult);
+            // add test result to Modernizr
+            // TODO: remove this feature, as it is problematic for asynchronous
+            // tests anyway (I see no way to keep this and make the detections
+            // asynchronous)
+            this[testName] = testResult;
+
+            // TODO: all tests should be async and have a callback if they dont
+            // emit an event on the modernizr object using the test name and result
+            // the user should not have to bother is a test is async or not, just
+            // handle all tests the same way
+            if (callback === undefined) {
+
+                //throw 'error: add a callback as second parameter of this function';
+
+                return testResult;
+
+            } else {
+
+                callback(false, testResult);
+
+            }
             
         }
         
@@ -134,6 +147,8 @@ define([
         
         var testsLength = testsNamesArray.length;
         
+        var testsAmount = testsLength;
+        
         var testsResults = {};
         
         var i;
@@ -142,25 +157,46 @@ define([
             
             var testName = testsNamesArray[i];
             
-            // TODO: see todo in function runTest above
-            if (callback === undefined) {
+            var didWeFindAtLeastOneError = false;
             
-                testsResults[testName] = this.runTest(testName);
-                
-            } else {
-                
-                // TODO: multiple asynchronous tests
-                //this.runTest(testName, function () {
-                //    
-                //    
-                //    
-                //});
-                
-            }
+            var testCallback = function(error, response) {
+ 
+                var contextTestName = this;
+ 
+                // check if the test result is not already in the list
+                if (!(contextTestName in testsResults)) {
+ 
+                    if (!error) {
+
+                        testsResults[contextTestName] = response;
+
+                    } else {
+
+                        testsResults[contextTestName] = {
+                            error: error
+                        };
+
+                        didWeFindAtLeastOneError = true;
+
+                    }
+
+                    --testsAmount;
+                    
+                }
+
+                if (testsAmount === 0) {
+
+                    // call master callback as all tests have reported their
+                    // results back
+                    callback(didWeFindAtLeastOneError, testsResults);
+
+                }
+                    
+            };
+            
+            this.runTest(testName, testCallback.bind(testName));
             
         }
-        
-        return testsResults;
         
     };
     

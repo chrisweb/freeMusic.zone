@@ -8,7 +8,7 @@ define([
 
     var addTest = function addTestFunction() {
         
-        Modernizr.addTest(arguments);
+        Modernizr.addTest.apply(Modernizr, arguments);
         
     };
     

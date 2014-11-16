@@ -51,14 +51,18 @@ define([
                 'test/webaudio',
                 'test/video',
                 'test/videoautoplay',
-                //'test/canvas',
-                //'test/history',
-                //'test/websockets'
+                'test/canvas',
+                'test/history',
+                'test/websockets'
             ], function() {
                 
-                var testsResults = Modernizr.runTests(['audio', 'webaudio', 'video', 'videoautoplay', 'canvas', 'history', 'websockets']);
-                
-                console.log(testsResults);
+                Modernizr.runTests(['audio', 'webaudio', 'video', 'videoautoplay', 'canvas', 'history', 'websockets'], function(error, testsResults) {
+                    
+                    console.log(error);
+                    
+                    console.log(testsResults);
+                    
+                });
                 
             });
             
