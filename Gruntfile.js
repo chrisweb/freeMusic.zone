@@ -9,60 +9,80 @@ module.exports = function(grunt) {
         bowerJson: grunt.file.readJSON('bower.json'),
         
         config: {
-            desktop: {
-                development: {
-                    root: 'client/desktop_development',
-                    stylesheets: {
-                        path: '<%= config.desktop.development.root %>/stylesheets'
-                    },
-                    scripts: {
-                        path: '<%= config.desktop.development.root %>/scripts',
-                        templates: {
-                            path: '<%= config.desktop.development.scripts.path %>/templates'
-                        }
-                    },
+			client: {
+				desktop: {
+					development: {
+						root: 'client/desktop_development',
+						stylesheets: {
+							path: '<%= config.client.desktop.development.root %>/stylesheets'
+						},
+						fonts: {
+							path: '<%= config.client.desktop.development.root %>/fonts'
+						},
+						scripts: {
+							path: '<%= config.client.desktop.development.root %>/scripts',
+							templates: {
+								path: '<%= config.client.desktop.development.scripts.path %>/templates'
+							}
+						},
+						images: {
+							path: '<%= config.client.desktop.development.root %>/images'
+						}
+					},
+					build: {
+						root: 'client/desktop_build',
+						stylesheets: {
+							path: '<%= config.client.desktop.build.root %>/stylesheets'
+						},
+						scripts: {
+							path: '<%= config.client.desktop.build.root %>/scripts'
+						},
+						images: {
+							path: '<%= config.client.desktop.build.root %>/images'
+						},
+						fonts: {
+							path: '<%= config.client.desktop.build.root %>/fonts'
+						}
+					}
+				},
+				vendor: {
                     bootstrap: {
-                        path: 'bower_components/bootstrap-sass-official/vendor/assets'
+                        path: 'bower_components/bootstrap-sass-official/assets'
                     },
                     fontawesome: {
                         path: 'bower_components/fontawesome'
                     },
                     almond: {
                         path: 'bower_components/almond'
-                    },
-                    images: {
-                        path: '<%= config.desktop.development.root %>/images'
                     }
-                },
-                build: {
-                    root: 'client/desktop_build',
-                    stylesheets: {
-                        path: '<%= config.desktop.build.root %>/stylesheets'
-                    },
-                    scripts: {
-                        path: '<%= config.desktop.build.root %>/scripts'
-                    },
-                    images: {
-                        path: '<%= config.desktop.build.root %>/images'
-                    },
-                    fonts: {
-                        path: '<%= config.desktop.build.root %>/fonts'
-                    }
-                }
-            },
+				}
+			},
             server: {
                 root: 'server',
                 templates: {
                     path: '<%= config.server.root %>/templates'
-                }
+                },
+				views: {
+					path: '<%= config.server.root %>/views'
+				}
             },
             test: {
                 client: {
                     root: 'test/client'
                 }
-            }
+            },
+			'sass_source': 'auto',
+			'environment': 'development'
         },
         
+		// grunt git info (git revision)
+		// https://github.com/damkraw/grunt-gitinfo
+		gitinfo: {
+			options: {
+				cwd: './'
+			}
+		},
+		
         // js hint
         // ! run this first, if linting fails the script will abort
         // https://github.com/gruntjs/grunt-contrib-jshint
@@ -72,9 +92,9 @@ module.exports = function(grunt) {
         jshint: {
             src: [
                 'Gruntfile.js',
-                '<%= config.desktop.development.scripts.path %>/*.js',
-                '<%= config.desktop.development.scripts.path %>/**/*.js',
-                '!<%= config.desktop.development.scripts.path %>/templates/*.js'
+                '<%= config.client.desktop.development.scripts.path %>/*.js',
+                '<%= config.client.desktop.development.scripts.path %>/**/*.js',
+                '!<%= config.client.desktop.development.scripts.path %>/templates/*.js'
             ],
             options: {
                 jshintrc: '.jshintrc',
@@ -93,7 +113,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    '<%= config.desktop.development.scripts.templates.path %>/templates.js': ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs']
+                    '<%= config.client.desktop.development.scripts.templates.path %>/templates.js': ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs']
                 }
             }
         },
@@ -103,11 +123,11 @@ module.exports = function(grunt) {
         requirejs: {
             app_build: {
                 options: {
-                    baseUrl: '<%= config.desktop.development.scripts.path %>',
-                    mainConfigFile: '<%= config.desktop.development.scripts.path %>/main.js',
-                    include: '<%= config.desktop.development.scripts.path %>/main.js',
-                    name: '<%= config.desktop.development.almond.path %>/almond',
-                    out: '<%= config.desktop.build.scripts.path %>/main.js',
+                    baseUrl: '<%= config.client.desktop.development.scripts.path %>',
+                    mainConfigFile: '<%= config.client.desktop.development.scripts.path %>/main.js',
+                    include: '<%= config.client.desktop.development.scripts.path %>/main.js',
+                    name: '<%= config.client.desktop.development.almond.path %>/almond',
+                    out: '<%= config.client.desktop.build.scripts.path %>/<%= gitinfo.local.branch.current.lastCommitNumber %>/main.js',
                     findNestedDependencies: true,
                     optimize: 'uglify2',
                     uglify2: {
@@ -161,12 +181,13 @@ module.exports = function(grunt) {
         // replaces the font name in sass files to bust browser cache of fonts
         // https://github.com/outaTiME/grunt-replace
         replace: {
-            dist: {
+            desktop_sass: {
                 options: {
                     patterns: [
                         {
                             match: 'version',
-                            replacement: '<%= packageJson.version %>'
+                            //replacement: '<%= packageJson.version %>'
+							replacement: '<%= gitinfo.local.branch.current.lastCommitNumber %> %>'
                         }
                     ]
                 },
@@ -174,28 +195,57 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['<%= config.desktop.development.stylesheets.path %>/main.scss'],
+                        src: ['<%= config.client.desktop.development.stylesheets.path %>/main@@version.scss'],
                         rename: function (destination, source) {
-                            return destination + source.replace('.scss', '-<%= packageJson.version %>.scss');
+							//return destination + source.replace('.scss', '-<%= packageJson.version %>.scss');
+                            return destination + source.replace('@@version.scss', '.scss');
                         },
-                        dest: '<%= config.desktop.development.stylesheets.path %>/'
+                        dest: '<%= config.client.desktop.development.stylesheets.path %>/'
                     }
                 ]
-            }
+            },
+			desktop_html_version: {
+                options: {
+                    patterns: [
+                        {
+                            match: 'version',
+                            replacement: '<%= gitinfo.local.branch.current.lastCommitNumber %>'
+                        },
+                        {
+                            match: 'environment',
+                            replacement: '<%= config.environment %>'
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        src: '<%= config.server.views.path %>/desktop@@version.html',
+                        dest: '<%= config.server.views.path %>/desktop.html'
+                    }
+                ]
+			}
         },
         
         // compiles sass to css and generate the necessary files
         // https://github.com/gruntjs/grunt-contrib-sass
         sass: {
             options: {
-                unixNewlines: true,
-                precision: 10
+				unixNewlines: true,
+				trace: true,
+				quiet: false,
+				stopOnError: true,
+				precision: 10,
+				sourcemap: '<%= config.sass_source %>'
             },
-            dist: {
+            desktop: {
                 files: [
                     {
-                        src: ['<%= config.desktop.development.stylesheets.path %>/main-<%= packageJson.version %>.scss'],
-                        dest: '<%= config.desktop.build.stylesheets.path %>/main.css'
+						nonull: true,
+						expand: true,
+						cwd: '<%= config.client.desktop.development.stylesheets.path %>/',
+						src: ['main.scss'],
+						dest: '<%= config.client.desktop.build.stylesheets.path %>/<%= gitinfo.local.branch.current.lastCommitNumber %>/',
+						ext: '.css'
                     }
                 ]
             }
@@ -211,7 +261,7 @@ module.exports = function(grunt) {
                     banner: '/* <%= packageJson.name %> <%= packageJson.version %>  css */'
                 },
                 files: {
-                    '<%= config.desktop.build.stylesheets.path %>/main.min.css': '<%= config.desktop.build.stylesheets.path %>/main.css'
+                    '<%= config.client.desktop.build.stylesheets.path %>/main-<%= gitinfo.local.branch.current.lastCommitNumber %>.min.css': '<%= config.client.desktop.build.stylesheets.path %>/main-<%= gitinfo.local.branch.current.lastCommitNumber %>.css'
                 }
             }
         },
@@ -221,43 +271,44 @@ module.exports = function(grunt) {
         copy: {
             favicon: {
                 expand: true,
-                cwd: '<%= config.desktop.development.root %>/',
+                cwd: '<%= config.client.desktop.development.root %>/',
                 src: 'favicon.ico',
-                dest: '<%= config.desktop.build.root %>/'
+                dest: '<%= config.client.desktop.build.root %>/'
             },
             robotstxt: {
                 expand: true,
-                cwd: '<%= config.desktop.development.root %>/',
+                cwd: '<%= config.client.desktop.development.root %>/',
                 src: 'robots.txt',
-                dest: '<%= config.desktop.build.root %>/'
+                dest: '<%= config.client.desktop.build.root %>/'
             },
+			// TODO: add also a watch on the images folder, if an image changes we need to change the images path in the configuration.js with replace
             images: {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= config.desktop.development.images.path %>/',
+                        cwd: '<%= config.client.desktop.development.images.path %>/',
                         src: ['**'],
-                        dest: '<%= config.desktop.build.images.path %>/<%= packageJson.version %>/'
+                        dest: '<%= config.client.desktop.build.images.path %>/<%= packageJson.version %>/'
                     }
                 ]
             },
-            glyphiconsfont: {
+            glyphiconsfont_desktop: {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= config.desktop.development.bootstrap.path %>/fonts/',
+                        cwd: '<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/',
                         src: ['**'],
-                        dest: '<%= config.desktop.build.fonts.path %>/<%= packageJson.version %>/'
+                        dest: '<%= config.client.desktop.build.fonts.path %>/bootstrap/<%= gitinfo.local.branch.current.lastCommitNumber %>/'
                     }
                 ]
             },
-            fontawesomefont: {
+            fontawesomefont_desktop: {
                 files: [
                     {
                         expand: true,
-                        cwd: '<%= config.desktop.development.fontawesome.path %>/fonts/',
+                        cwd: '<%= config.client.vendor.fontawesome.path %>/fonts/',
                         src: ['**'],
-                        dest: '<%= config.desktop.build.fonts.path %>/fontawesome/<%= packageJson.version %>/'
+                        dest: '<%= config.client.desktop.build.fonts.path %>/fontawesome/<%= gitinfo.local.branch.current.lastCommitNumber %>/'
                     }
                 ]
             }
@@ -270,15 +321,15 @@ module.exports = function(grunt) {
                 options: {
                     mode: 'gzip'
                 },
-                src: '<%= config.desktop.build.stylesheets.path %>/main.min.css',
-                dest: '<%= config.desktop.build.stylesheets.path %>/main-<%= packageJson.version %>.min.css'
+                src: '<%= config.client.desktop.build.stylesheets.path %>/main-<%= gitinfo.local.branch.current.lastCommitNumber %>.min.css',
+                dest: '<%= config.client.desktop.build.stylesheets.path %>/main-<%= gitinfo.local.branch.current.lastCommitNumber %>.min.css.gz'
             },
             mainjs: {
                 options: {
                     mode: 'gzip'
                 },
-                src: '<%= config.desktop.build.scripts.path %>/main.min.js',
-                dest: '<%= config.desktop.build.scripts.path %>/main-<%= packageJson.version %>.min.js'
+                src: '<%= config.client.desktop.build.scripts.path %>/main.min.js',
+                dest: '<%= config.client.desktop.build.scripts.path %>/main-<%= gitinfo.local.branch.current.lastCommitNumber %>.min.js.gz'
             }
         },
         
@@ -286,14 +337,32 @@ module.exports = function(grunt) {
         // https://github.com/gruntjs/grunt-contrib-watch
         watch: {
             sass: {
-                files: ['<%= config.desktop.development.stylesheets.path %>/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/*.scss', '<%= config.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'],
-                tasks: ['sass:dist']
+                files: [
+					'<%= config.client.desktop.development.stylesheets.path %>/*.scss',
+					'<%= config.client.desktop.development.bootstrap.path %>/stylesheets/*.scss',
+					'<%= config.client.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'
+				],
+                tasks: ['sass:desktop']
             },
             jst: {
                 files: ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs'],
                 tasks: ['jst']
             },
-            configFiles: {
+			fonts: {
+                files: [
+					'<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.eot',
+					'<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.svg',
+					'<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.ttf',
+					'<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.woff',
+					
+					'<%= config.client.vendor.fontawesome.path %>/fonts/*.eot',
+					'<%= config.client.vendor.fontawesome.path %>/fonts/*.svg',
+					'<%= config.client.vendor.fontawesome.path %>/fonts/*.ttf',
+					'<%= config.client.vendor.fontawesome.path %>/fonts/*.woff'
+				],
+                tasks: ['updatefonts']
+			},
+            watchReload: {
                 files: ['Gruntfile.js'],
                 options: {
                     reload: true
@@ -313,16 +382,64 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-replace');
+	grunt.loadNpmTasks('grunt-gitinfo');
+	
+	// update the fonts, takes the fonts in the original directory and then copies them into a directory which name is the latest git revision number
+	// this a maintenance task that needs to run after a font has been updated, either the bootstrap or the fontawesome font, watch will execute this task if the fonts change
+	grunt.registerTask('updatefonts', ['gitinfo', 'copy:glyphiconsfont_desktop', 'copy:fontawesomefont_desktop', 'development-replace', 'sass:desktop']);
+	
+	// regroups all the development copy tasks
+	grunt.registerTask('copy_desktop', ['copy:glyphiconsfont_desktop', 'copy:fontawesomefont_desktop', 'copy:favicon', 'copy:robotstxt', 'copy:favicon']);
 
+	// this task just changes the sass configuration for production builds by disbaling the source maps generation
+    grunt.registerTask('production-sass', 'change configuration values for production sass', function() {
+        
+        // no source maps for prod
+        grunt.config.set('config.sass_source', 'none');
+        
+        grunt.task.run('sass');
+        
+    });
+	
+	// development replace
+    grunt.registerTask('development-replace', 'set the environment variable to development in desktop.html', function() {
+        
+        // no source maps for prod
+        grunt.config.set('config.environment', 'development');
+        
+        grunt.task.run('replace');
+        
+    });
+	
+	// beta replace
+    grunt.registerTask('beta-replace', 'set the environment variable to beta in desktop.html', function() {
+        
+        // no source maps for prod
+        grunt.config.set('config.environment', 'beta');
+        
+        grunt.task.run('replace');
+        
+    });
+	
+	// production replace
+    grunt.registerTask('production-replace', 'set the environment variable to production in desktop.html', function() {
+        
+        // no source maps for prod
+        grunt.config.set('config.environment', 'production');
+        
+        grunt.task.run('replace');
+        
+    });
+	
     // default task, just lint js files
     grunt.registerTask('default', ['jshint']);
     
     // build for production export
-    grunt.registerTask('buildprod', ['jst', 'requirejs', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildprod', ['gitinfo', 'production-replace', 'jst', 'requirejs', 'production-sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
-    grunt.registerTask('buildbeta', ['jshint', 'jst', 'requirejs', 'replace', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildbeta', ['gitinfo', 'beta-replace', 'jshint', 'jst', 'requirejs', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
     
     // templates and css for development
-    grunt.registerTask('builddev', ['jst', 'replace', 'sass', 'copy']);
+    grunt.registerTask('builddev', ['gitinfo', 'development-replace', 'jst', 'sass:desktop', 'copy_desktop']);
 
 };

@@ -25,9 +25,6 @@ module.exports.getClient = function getClientFunction(callback) {
     var redisPort = configuration.redis.port;
     var redisHost = configuration.redis.host;
 
-    // TODO: does redis have a pool like mongodb, can we define its size
-    // TODO: does redis auto reconnect like mongodb, can we set that option
-
     // get redis client instance
     var redisDBClient = redis.createClient(redisPort, redisHost);
     

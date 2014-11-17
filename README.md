@@ -4,6 +4,15 @@
 [![Build Status](https://travis-ci.org/chrisweb/freeMusic.zone.svg?branch=master)](https://travis-ci.org/chrisweb/freeMusic.zone)
 [![Coverage Status](https://coveralls.io/repos/chrisweb/freeMusic.zone/badge.png)](https://coveralls.io/r/chrisweb/freeMusic.zone)
 
+<pre>                             
+                       __  __           _      
+    ____              |  \/  |         (_)     
+   / __/_______  ___  | \  / |_   _ ___ _  ___   _______  _  _ ___ 
+  / /_/ ___/ _ \/ _ \ | |\/| | | | / __| |/ __| |_  / _ \| \| | __|
+ / __/ /  /  __/  __/ | |  | | |_| \__ \ | (__   / / (_) | .` | _| 
+/_/ /_/   \___/\___/  |_|  |_|\__,_|___/_|\___| /___\___/|_|\_|___|
+</pre>
+
 # freeMusic.zone
 
 This project is "just" a prototype right now.
