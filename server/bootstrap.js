@@ -220,7 +220,15 @@ redisModule.getClient(function getClientCallback(error, client) {
 
                     utilities.log('/desktop, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
 
-                    response.render('desktop');
+                    if (app.get('env') === 'development') {
+
+                        response.render('desktop_development');
+                    
+                    } else {
+                        
+                        response.render('desktop_build');
+                        
+                    }
 
                 });
                 

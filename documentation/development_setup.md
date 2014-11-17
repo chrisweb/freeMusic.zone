@@ -98,7 +98,7 @@ To build the development files:
 
 grunt builddev
 
-To build the beta files:
+To build the beta files later on use this command:
 
 grunt buildbeta
 
