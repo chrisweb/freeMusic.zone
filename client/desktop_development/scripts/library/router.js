@@ -14,7 +14,9 @@
  * @param {type} ribsRouter
  * @param {type} ribsEventsManager
  * @param {type} routes
- * @param {type} user
+ * @param {type} UserLibrary
+ * @param {type} configuration
+ * 
  * @returns {_L18.Anonym$8}
  */
 define([
@@ -24,7 +26,8 @@ define([
     'routes',
     'library.user',
     'configuration'
-], function (utilities, ribsRouter, ribsEventsManager, routes, user, configuration) {
+    
+], function (utilities, ribsRouter, ribsEventsManager, routes, UserLibrary, configuration) {
     
     'use strict';
 
@@ -44,15 +47,29 @@ define([
 
                 // pre-route event
                 ribsEventsManager.trigger('router:preRoute', { 'arguments': args, 'name': name });
+                
+                // for any page the user visits he needs to be loggged in
+                // except the homepage
+                // so we check if the user isn't already on the homepage
+                if (name !== 'renderHomepage') {
 
-                if (!user.isLogged() && (args.length !== 1 && args[0] !== null)) {
+                    UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
 
-                    this.navigate('desktop', { trigger: true });
+                        // if the user is not yet logged in, redirect him to
+                        // the homepage
+                        if (!isLogged) {
 
-                    return false;
+                            this.navigate('desktop', { trigger: true });
 
+                            return;
+
+                        }
+
+                    });
+                    
                 }
 
+                // execute the routing
                 if (callback) {
 
                     callback.apply(this, args);
@@ -61,7 +78,7 @@ define([
 
                 // post route event
                 ribsEventsManager.trigger('router:postRoute', { 'arguments': args, 'name': name });
-
+               
             }
             
         });
@@ -135,7 +152,7 @@ define([
         
     };
     
-    var getRrouterInstance = function instantiateFuntion() {
+    var getInstance = function getInstanceFuntion() {
 
         if (router === undefined) {
             
@@ -143,16 +160,16 @@ define([
             
             router = new Router();
             
+            startListening(router);
+            
         }
-        
-        startListening(router);
-        
+
         return router;
         
     };
 
     return {
-        getRrouter: getRrouterInstance
+        getInstance: getInstance
     };
     
 });

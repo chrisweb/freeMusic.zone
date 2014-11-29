@@ -13,13 +13,19 @@
  * @param {type} utilities
  * @param {type} Backbone
  * @param {type} container
+ * 
  * @returns {_L16.Anonym$2}
  */
 define([
     'chrisweb.utilities',
     'backbone',
     'ribs.container'
-], function (utilities, Backbone, container) {
+    
+], function (
+    utilities,
+    Backbone,
+    container
+) {
     
     'use strict';
     
@@ -39,7 +45,7 @@ define([
     };
 
     return {
-        start: initialize
+        initialize: initialize
     };
     
 });

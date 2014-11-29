@@ -12,13 +12,20 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
-* create waveform js to display waveform data
-* create responsive jquery ui dialog
+* rename all the plugin start methods into initialize
+* add callbacks to all the plugin initialization methods, to be used in the bootstrap
+* run the plugin intialization methods in parallel, when all callbacks have been returned call the event application:start
+* add a check if the user is logged in, if not redirect him to the homepage
+* add a login box (to the homepage) using jamendo oauth to the homepage (put the oauth token into mongodb)
+* add a fullscreen background video to the client homepage
+* create a user model (client side) to store all the user data (for the lifetime of a session)
+* create a user library module to manage a user
+* create a mechanism that checks if the user has refresh token and if so use it to automatically log the user in
 * create javascript to server global error logging library
-* aws mongodb
-* aws redis
-* aws twitter harvester (with forever) setup and tests
-* aws music analyzer test
+* create a navigation bar for the app
+* add the jamendo twitter charts page to the app
+* fetch the charts from server and display them in the client
+* add a play button (player bar) to play the the songs listed int he charts
 
 ## Other todos (damn that's a lot of todos ;) )
 
@@ -39,10 +46,18 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * playlist detail page
 * run twitter harvester (aws) to fill db
 * twitter stream listener to mongodb (tweet a track id and playlist id followed by #music to increase tracks score)
-* jamendo api calls and oauth connect
+* jamendo api calls library
 * responsive images http://dev.opera.com/articles/native-responsive-images/
 * write client and server code tests using mocha
 * improve existing documentation
+* aws mongodb
+* aws redis
+* aws twitter harvester (with forever) setup and tests
+* aws music analyzer test
+
+## Todos that are on hold right now (as not required for this project)
+* create responsive jquery ui dialog
+* put the modernizr modifications into a seperate repository by forking the original project, finish the rewrite of the core for all parts that are not used by this project (check out the modernizr documentation.md for more about this task)
 
 ## done todos
 
@@ -83,7 +98,9 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: create fullscreen background video prototype
 * DONE: videos dont autoplay on mobile, create video  to animated gif prototype
 * DONE: setup backbone, create basic models, views, collections and a router
-* DONE: create server side audio data analyzer to get the pcm data from songs needed for waveforms
+* DONE: create server side audio data analyzer to get the pcm data from songs needed for waveforms (https://github.com/chrisweb/waveform-data-generator)
 * DONE: create a right navigation menu prototype (menu with 3D effect opening on click)
 * DONE: write some initial documentation
 * DONE: use grunt to transform ejs templates and put all of them into single jst file
+* DONE: create waveform js to display waveform data (https://github.com/chrisweb/waveform-visualizer)
+* DONE: rewrite some parts of modernizr core to be able to load the required detections with AMD instead of having to generate builds for the development version of the project

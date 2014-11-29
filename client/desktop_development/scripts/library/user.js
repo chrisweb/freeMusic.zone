@@ -56,11 +56,25 @@ define([
             this.model.set(attributeName, attributeValue);
 
         },
-        isLogged: function isLoggedFunction() {
+        isLogged: function isLoggedFunction(callback) {
             
-            var isLogged = this.model.get('isLogged');
+            // if the user model does not yet exist
             
-            return isLogged;
+            // first check if the user has session cookie, if he doesn't he
+            // is not logged in for sure and we don't need to ask the server
+            
+            // if he has a cookie, ask the server is his session is still active
+            
+            // fetch the user data from server
+            
+            
+            //var isLogged = this.model.get('isLogged');
+            
+            var error = false;
+            
+            var isLogged = false;
+            
+            callback(error, isLogged);
             
         }
         
@@ -80,6 +94,8 @@ define([
         
     };
 
-    return getInstance();
+    return {
+        getInstance: getInstance
+    };
     
 });

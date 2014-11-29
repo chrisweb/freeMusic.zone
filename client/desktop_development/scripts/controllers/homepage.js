@@ -8,7 +8,7 @@
  * @param {type} Controller
  * @param {type} container
  * @param {type} eventsManager
- * @param {type} user
+ * @param {type} UserLibrary
  * @param {type} modernizrTestsLoader
  * @param {type} Modernizr
  * 
@@ -26,7 +26,7 @@ define([
     'modernizrTestsLoader',
     'Modernizr'
     
-], function ($, _, utilities, Controller, container, eventsManager, user, modernizrTestsLoader, Modernizr) {
+], function ($, _, utilities, Controller, container, eventsManager, UserLibrary, modernizrTestsLoader, Modernizr) {
     
     'use strict';
     
@@ -46,7 +46,20 @@ define([
         
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
             
-            modernizrTestsLoader([
+            UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
+
+                // if the user is not yet logged in, display the login box
+                if (!isLogged) {
+
+                    console.log('TODO: show login box');
+
+                }
+
+            });
+            
+            
+            
+            /*modernizrTestsLoader([
                 'test/audio',
                 'test/webaudio',
                 'test/video',
@@ -64,7 +77,7 @@ define([
                     
                 });
                 
-            });
+            });*/
             
             /*var isLogged = user.getAttribute('isLogged');
             

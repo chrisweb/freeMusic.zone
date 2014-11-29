@@ -33,6 +33,8 @@ require.config({
         // plugins
         'library.plugin.headerNavigation': 'library/plugin/headerNavigation',
         'library.plugin.leftNavigation': 'library/plugin/leftNavigation',
+        'library.plugin.user': 'library/plugin/user',
+        'library.plugin.router': 'library/plugin/router',
         
         // library jquery plugins
         'library.jquery.plugin.caretToggle': 'library/jquery/plugin/caretToggle',
