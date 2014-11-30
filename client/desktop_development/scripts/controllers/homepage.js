@@ -53,6 +53,10 @@ define([
 
                     console.log('TODO: show login box');
 
+                } else {
+                    
+                    router.navigate('desktop/homepage/welcome', { trigger: true });
+                    
                 }
 
             });

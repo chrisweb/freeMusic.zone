@@ -349,13 +349,15 @@ module.exports = function (grunt) {
             sass: {
                 files: [
                     '<%= config.client.desktop.development.stylesheets.path %>/*.scss',
-                    '<%= config.client.desktop.development.bootstrap.path %>/stylesheets/*.scss',
-                    '<%= config.client.desktop.development.bootstrap.path %>/stylesheets/**/*.scss'
+                    '<%= config.client.desktop.development.stylesheets.path %>/**/*.scss'
                 ],
-                tasks: ['sass:desktop']
+                tasks: ['gitinfo', 'sass:desktop']
             },
             jst: {
-                files: ['<%= config.server.templates.path %>/*.ejs', '<%= config.server.templates.path %>/**/*.ejs'],
+                files: [
+                    '<%= config.server.templates.path %>/*.ejs',
+                    '<%= config.server.templates.path %>/**/*.ejs'
+                ],
                 tasks: ['jst']
             },
             fonts: {

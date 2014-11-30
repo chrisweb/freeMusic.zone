@@ -42,8 +42,6 @@ define([
                 if (!error) {
 
                     if (testResult) {
-            
-                        var router = RouterLibrary.getInstance();
                         
                         // always do the history start after initializing the
                         // router or the first route event wont get triggered
@@ -53,7 +51,7 @@ define([
 
                         if (callback !== undefined) {
 
-                            callback(false, router);
+                            callback(false, RouterLibrary);
                             
                         }
                         

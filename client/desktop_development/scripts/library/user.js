@@ -94,8 +94,6 @@ define([
         
     };
 
-    return {
-        getInstance: getInstance
-    };
+    return getInstance();
     
 });
