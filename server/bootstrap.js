@@ -235,7 +235,7 @@ redisModule.getClient(function getClientCallback(error, client) {
                             splashScreenId: splashScreenId,
                             splashScreenThumbnailName: 'hompage-thumbnail',
                             splashScreenVideoName: 'hompage-video',
-                            splashScreenPath: 'client/desktop_development/images/splashScreen'
+                            splashScreenPath: '/desktop/client/desktop_development/images/splashScreen'
                         });
                     
                     } else {
@@ -254,13 +254,16 @@ redisModule.getClient(function getClientCallback(error, client) {
 
                 app.use('/desktop', desktopRouter);
 
-                app.use('/', function(request, response) {
+                /*app.use('/', function(request, response) {
 
                     utilities.log('/ redirect, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
 
                     response.redirect(301, '/desktop');
 
-                });
+                });*/
+                
+                // add error handling last
+                addErrorRoutes(desktopRouter);
 
                 // START SERVER
                 app.set('port', process.env.PORT || configuration.server.port);
@@ -329,16 +332,29 @@ process.on('uncaughtException', function(error) {
 
 var addErrorRoutes = function addErrorRoutesFunction(router) {
     
+    // 404 error route
+    router.use(function(request, response, next) {
+
+        response.status(404);
+
+        utilities.log('404 middleware catch by: ' + request.url, 'fontColor:red');
+
+        if (request.accepts('html')) {
+
+            response.render('404', { environment: process.env.NODE_ENV, url: request.originalUrl, message: '404 page not found' });
+
+        } else if (request.accepts('json')) {
+
+            response.send({ code: '404', url: request.originalUrl, message: '404 page not found' });
+
+        }
+
+    });
+    
     // 5xx error route
     router.use(function(error, request, response, next) {
 
         utilities.log('server error: ' + JSON.stringify(error), 'fontColor:red');
-
-        if (error.status === 404) {
-            
-            return next();
-            
-        }
 
         utilities.log('5xx middleware catch by: ' + request.url, 'fontColor:yellow');
 
@@ -368,25 +384,6 @@ var addErrorRoutes = function addErrorRoutesFunction(router) {
                 response.send({ code: error.status, stack: '', message: error.message });
                 
             }
-
-        }
-
-    });
-
-    // 404 error route
-    router.use(function(request, response) {
-
-        response.status(404);
-
-        utilities.log('404 middleware catch by: ' + request.url, 'fontColor:red');
-
-        if (request.accepts('html')) {
-
-            response.render('404', { environment: process.env.NODE_ENV, url: request.originalUrl, message: '404 page not found' });
-
-        } else if (request.accepts('json')) {
-
-            response.send({ code: '404', url: request.originalUrl, message: '404 page not found' });
 
         }
 
