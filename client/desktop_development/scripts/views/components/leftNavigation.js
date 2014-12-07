@@ -7,7 +7,8 @@
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
- * @param {type} eventsManager
+ * @param {type} EventsManager
+ * 
  * @returns {unresolved}
  */
 define([
@@ -16,9 +17,10 @@ define([
     'templates',
     'chrisweb.utilities',
     'ribs.view',
-    'ribs.eventsManager',
+    'library.EventsManager',
+    
     'library.jquery.plugin.caretToggle'
-], function ($, _, JST, utilities, View, eventsManager) {
+], function ($, _, JST, utilities, View, EventsManager) {
     
     'use strict';
 
@@ -30,7 +32,7 @@ define([
             
             this.options = options || {};
             
-            eventsManager.on('menu:toggle', this.toggleMenu, this);
+            EventsManager.on(EventsManager.constants.MENU_TOGGLE, this.toggleMenu, this);
             
         },
 

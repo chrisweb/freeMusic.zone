@@ -3,15 +3,15 @@
  * oauth
  * 
  * @param {type} utilities
- * @param {type} eventsManager
+ * @param {type} EventsManager
  * 
  * @returns {oauth_L9.oauthAnonym$1}
  */
 define([
     'chrisweb.utilities',
-    'ribs.eventsManager',
+    'library.EventsManager'
     
-], function(utilities, eventsManager) {
+], function(utilities, EventsManager) {
 
     'use strict';
     
@@ -25,7 +25,7 @@ define([
 
             utilities.log('oauth connected');
 
-            eventsManager.trigger('oauth:connected');
+            EventsManager.trigger(EventsManager.constants.OAUTH_CONNECTED);
 
         };
         

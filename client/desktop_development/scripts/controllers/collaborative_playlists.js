@@ -7,7 +7,7 @@
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} eventsManager
+ * @param {type} EventsManager
  * @param {type} user
  * @param {type} tracksCacheManager
  * @returns {unresolved}
@@ -16,12 +16,12 @@ define([
     'jquery',
     'underscore',
     'chrisweb.utilities',
-    'ribs.controller',
+    'library.controller',
     'ribs.container',
-    'ribs.eventsManager',
+    'library.eventsManager',
     'library.user',
     'library.tracksCache'
-], function ($, _, utilities, Controller, container, eventsManager, user, tracksCacheManager) {
+], function ($, _, utilities, Controller, container, EventsManager, user, tracksCacheManager) {
     
     'use strict';
 
@@ -94,7 +94,7 @@ define([
                 container.add('#core', tracksListView);
 
                 // listen for search events
-                eventsManager.on('search:query', function(parameters) {
+                EventsManager.on(EventsManager.constants.SEARCH_QUERY, function(parameters) {
 
                     handleSearch(parameters.queryString, function handleSearchCallback(error, results) {
 

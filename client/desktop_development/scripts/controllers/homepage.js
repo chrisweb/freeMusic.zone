@@ -7,7 +7,7 @@
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} eventsManager
+ * @param {type} EventsManager
  * @param {type} UserLibrary
  * @param {type} modernizrTestsLoader
  * @param {type} Modernizr
@@ -19,14 +19,14 @@ define([
     'jquery',
     'underscore',
     'chrisweb.utilities',
-    'ribs.controller',
+    'library.controller',
     'ribs.container',
-    'ribs.eventsManager',
+    'library.EventsManager',
     'library.user',
     'modernizrTestsLoader',
     'Modernizr'
     
-], function ($, _, utilities, Controller, container, eventsManager, UserLibrary, modernizrTestsLoader, Modernizr) {
+], function ($, _, utilities, Controller, container, EventsManager, UserLibrary, modernizrTestsLoader, Modernizr) {
     
     'use strict';
     

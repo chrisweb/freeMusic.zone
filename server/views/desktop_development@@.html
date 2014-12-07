@@ -10,12 +10,26 @@
         <link rel="shortcut icon" href="/desktop/client/desktop_development/favicon.ico">
         
         <link rel="stylesheet" href="/desktop/client/desktop_build/stylesheets/@@version/main.css">
+        <style>
+            .splashScreenImage {
+                background: linear-gradient(
+                    rgba(255, 255, 0, 0.255), 
+                    rgba(255, 0, 0, 0.255)
+                ),
+                url(<%= splashScreenPath %>/<%= splashScreenThumbnailName %>_1_<%= splashScreenId %>.png) no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+        </style>
+        
         <script data-main="/desktop/client/desktop_development/scripts/main" src="/desktop/bower_components/requirejs/require.js"></script>
         
         <script>window._environment = '@@environment';</script>
 
     </head>
-    <body>
+    <body class="splashScreen splashScreenImage">
         
         <noscript>
             For full functionality of this site it is necessary to enable JavaScript.
@@ -23,9 +37,7 @@
             instructions how to enable JavaScript in your web browser</a>.
         </noscript>
         
-        <div class="splashScreen">
-            <img src="<%= splashScreenPath %>/<%= splashScreenThumbnailName %>_1_<%= splashScreenId %>.png" data-freeNusicZone-plashScreenId="<%= splashScreenId %>" id="splashScreen" class="splashScreen" alt="freeMusic.zone free music zone">
-        </div>
+        <div class="splashScreenOverlay"></div>
         <section id="header"></section>
         <aside id="left"></aside>
         <section id="core"></section>

@@ -8,20 +8,22 @@
 
 /**
  * 
- * user plugin
+ * user library
  * 
  * @param {type} utilities
- * @param {type} eventsManager
+ * @param {type} EventsManager
  * @param {type} UserModel
  * @param {type} moment
+ * 
  * @returns {_L17.Anonym$1}
  */
 define([
     'chrisweb.utilities',
-    'ribs.eventsManager',
+    'library.EventsManager',
     'models.User',
     'moment'
-], function (utilities, eventsManager, UserModel, moment) {
+    
+], function (utilities, EventsManager, UserModel, moment) {
     
     'use strict';
     

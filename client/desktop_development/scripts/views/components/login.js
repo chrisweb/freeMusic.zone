@@ -9,7 +9,7 @@
  * @param {type} utilities
  * @param {type} configurationModule
  * @param {type} view
- * @param {type} eventsManager
+ * @param {type} EventsManager
  * @param {type} libraryUser
  * @param {type} videoPlayer
  * @returns {unresolved}
@@ -22,10 +22,10 @@ define([
     'chrisweb.utilities',
     'configuration',
     'ribs.view',
-    'ribs.eventsManager',
+    'library.EventsManager',
     'library.user',
     'library.videoPlayer'
-], function ($, _, Backbone, JST, utilities, configurationModule, view, eventsManager, libraryUser, videoPlayer) {
+], function ($, _, Backbone, JST, utilities, configurationModule, view, EventsManager, libraryUser, videoPlayer) {
     
     'use strict';
     
@@ -37,7 +37,7 @@ define([
             
             var that = this;
             
-            eventsManager.on('oauth:connected', function loginOauthConnected() {
+            EventsManager.on(EventsManager.constants.OAUTH_CONNECTED, function loginOauthConnected() {
 
                 // hide the oauth iframe
                 that.$el.find('iframe.jamendo').addClass('hidden');
@@ -50,7 +50,7 @@ define([
                 
                     if (!error) {
 
-                        eventsManager.trigger('ouath:isLogged', { isLogged: libraryUser.isLogged() });
+                        EventsManager.trigger(EventsManager.constants.OAUTH_ISLOGGED, { isLogged: libraryUser.isLogged() });
 
                     } 
                 

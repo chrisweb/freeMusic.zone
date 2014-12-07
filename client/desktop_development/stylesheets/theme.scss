@@ -195,24 +195,11 @@ nav#left_navigation .remote {
 
 // splashscreen
 // http://css-tricks.com/perfect-full-page-background-image/
-.splashScreen {
-    /* Set rules to fill background */
-    min-height: 100%;
-    min-width: 1024px;
-
-    /* Set up proportionate scaling */
+.splashScreenOverlay {
+    position:fixed;
+    top:0;
+    left:0;
     width: 100%;
-    height: auto;
-
-    /* Set up positioning */
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-@media screen and (max-width: 1280px) { /* Specific to this particular image */
-    .splashScreen {
-        left: 50%;
-        margin-left: -640px;   /* 50% */
-    }
+    height: 100%;
+    z-index: $splashScreenOverlayZIndex;
 }

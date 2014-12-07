@@ -7,7 +7,7 @@
  * @param {type} view
  * @param {type} JST
  * @param {type} utilities
- * @param {type} eventsManager
+ * @param {type} EventsManager
  * @returns {unresolved}
  */
 define([
@@ -16,8 +16,8 @@ define([
     'ribs.view',
     'templates',
     'chrisweb.utilities',
-    'ribs.eventsManager'
-], function ($, _, view, JST, utilities, eventsManager) {
+    'library.EventsManager'
+], function ($, _, view, JST, utilities, EventsManager) {
     
     'use strict';
     
@@ -31,7 +31,7 @@ define([
             
             if (this.model !== undefined) {
                 
-                eventsManager.trigger('trackRowView:onInitialize', { id: this.model.get('id') });
+                EventsManager.trigger(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, { id: this.model.get('id') });
                 
             }
             
@@ -43,7 +43,7 @@ define([
 
             var trackId = parseInt(this.$el.attr('data-track-id'));
             
-            eventsManager.trigger('track:play', { trackId: trackId });
+            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId });
             
             this.$el.find('.trackPreview').addClass('fa-spin');
             
@@ -53,7 +53,7 @@ define([
             
             var trackId = this.$el.attr('data-track-id');
             
-            eventsManager.trigger('track:stop', { trackId: trackId });
+            EventsManager.trigger(EventsManager.constants.TRACK_STOP, { trackId: trackId });
             
             this.$el.find('.trackPreview').removeClass('fa-spin');
             
@@ -69,7 +69,7 @@ define([
             
             if (this.model !== undefined) {
                 
-                eventsManager.trigger('trackRowView:onClose', { id: this.model.get('id') });
+                eventsManager.trigger(EventsManager.constants.TRACKROW_VIEW_ON_CLOSE, { id: this.model.get('id') });
                 
             }
             

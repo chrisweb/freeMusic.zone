@@ -12,7 +12,7 @@
  * 
  * @param {type} utilities
  * @param {type} ribsRouter
- * @param {type} ribsEventsManager
+ * @param {type} EventsManager
  * @param {type} routes
  * @param {type} UserLibrary
  * @param {type} configuration
@@ -22,12 +22,12 @@
 define([
     'chrisweb.utilities',
     'ribs.router',
-    'ribs.eventsManager',
+    'library.EventsManager',
     'routes',
     'library.user',
     'configuration'
     
-], function (utilities, ribsRouter, ribsEventsManager, routes, UserLibrary, configuration) {
+], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, configuration) {
     
     'use strict';
 
@@ -46,13 +46,14 @@ define([
             execute: function routerExecute(callback, args, name) {
 
                 // pre-route event
-                ribsEventsManager.trigger('router:preRoute', { 'arguments': args, 'name': name });
+                EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'arguments': args, 'name': name });
                 
                 // for any page the user visits he needs to be loggged in
                 // except the homepage
                 // so we check if the user isn't already on the homepage
                 if (name !== 'renderHomepage') {
 
+                    // check if the user is logged in
                     UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
 
                         // if the user is not yet logged in, redirect him to
@@ -77,7 +78,7 @@ define([
                 }
 
                 // post route event
-                ribsEventsManager.trigger('router:postRoute', { 'arguments': args, 'name': name });
+                EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'arguments': args, 'name': name });
                
             }
             
@@ -144,7 +145,7 @@ define([
         });
         
         // event triggered before a route
-        ribsEventsManager.on('router:preRoute', function bootstrapPreRoute(parameters) {
+        EventsManager.on(EventsManager.constants.ROUTER_PREROUTE, function bootstrapPreRoute(parameters) {
             
             utilities.log(parameters);
             

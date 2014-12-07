@@ -29,12 +29,18 @@ require.config({
         'library.tracksCache': 'library/tracksCache',
         'library.router': 'library/router',
         'library.videoPlayer': 'library/videoPlayer',
+        'library.eventsManager': 'library/eventsManager',
+        'library.controller': 'library/controller',
+        
+        // helpers
+        'helper.durationFormatter': 'helper/durationFormatter',
         
         // plugins
         'library.plugin.headerNavigation': 'library/plugin/headerNavigation',
         'library.plugin.leftNavigation': 'library/plugin/leftNavigation',
         'library.plugin.user': 'library/plugin/user',
         'library.plugin.router': 'library/plugin/router',
+        'library.plugin.splashScreen': 'library/plugin/splashScreen',
         
         // library jquery plugins
         'library.jquery.plugin.caretToggle': 'library/jquery/plugin/caretToggle',

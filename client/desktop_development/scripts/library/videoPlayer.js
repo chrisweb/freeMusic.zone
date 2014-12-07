@@ -3,13 +3,15 @@
  * video player (fullscreen background)
  *   
  * @param {type} utilities
- * @param {type} eventsManager
+ * @param {type} EventsManager
+ * 
  * @returns {_L7.Anonym$1}
  */
 define([
     'chrisweb.utilities',
-    'ribs.eventsManager'
-], function (utilities, eventsManager) {
+    'library.EventsManager'
+    
+], function (utilities, EventsManager) {
     
     'use strict';
 

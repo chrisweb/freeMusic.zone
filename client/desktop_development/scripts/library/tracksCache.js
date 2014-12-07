@@ -11,17 +11,17 @@
  * tracks manager
  * 
  * @param {type} utilities
- * @param {type} eventsManager
+ * @param {type} EventsManager
  * @param {type} TracksCacheCollection
  * @param {type} moment
  * @returns {_L17.Anonym$2}
  */
 define([
     'chrisweb.utilities',
-    'ribs.eventsManager',
+    'library.EventsManager',
     'collections.TracksCache',
     'moment'
-], function (utilities, eventsManager, TracksCacheCollection, moment) {
+], function (utilities, EventsManager, TracksCacheCollection, moment) {
     
     'use strict';
     
@@ -92,7 +92,7 @@ define([
         
     };
     
-    eventsManager.on('trackRowView:onInitialize', function incrementUsage(parameters) {
+    EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, function incrementUsage(parameters) {
         
         var trackModel = tracksCacheCollection.get(parameters.id);
         
@@ -100,7 +100,7 @@ define([
         
     });
     
-    eventsManager.on('trackRowView:onInitializeClose', function decrementUsage(parameters) {
+    EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_CLOSE, function decrementUsage(parameters) {
         
         var trackModel = tracksCacheCollection.get(parameters.id);
         
@@ -108,7 +108,7 @@ define([
         
     });
     
-    eventsManager.on('sound:onload', function setLoaded(parameters) {
+    EventsManager.on(EventsManager.constants.SOUND_ONLOAD, function setLoaded(parameters) {
         
         var trackModel = tracksCacheCollection.get(parameters.id);
         

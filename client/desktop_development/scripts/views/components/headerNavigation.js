@@ -7,7 +7,8 @@
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
- * @param {type} eventsManager
+ * @param {type} EventsManager
+ * 
  * @returns {unresolved}
  */
 define([
@@ -16,8 +17,9 @@ define([
     'templates',
     'chrisweb.utilities',
     'ribs.view',
-    'ribs.eventsManager'
-], function ($, _, JST, utilities, View, eventsManager) {
+    'library.EventsManager'
+    
+], function ($, _, JST, utilities, View, EventsManager) {
     
     'use strict';
 

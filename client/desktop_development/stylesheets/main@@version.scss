@@ -11,4 +11,12 @@ $fa-font-path: '../fonts/fontawesome/@@version';
 @import "font-awesome";
 
 /* import freeMusic.zone custom css bootstrap */
+@import "variables";
+
 @import "theme";
+
+// components
+@import "components/navigation-top";
+
+// views
+@import "views/welcome";
