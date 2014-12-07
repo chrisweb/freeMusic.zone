@@ -22,30 +22,28 @@ bower list
 
 ### To install client libraries
 
-bower install requirejs --save
-
 bower install underscore --save
 
 bower install backbone --save
 
 bower install jquery --save
 
+bower install requirejs --save
+
 bower install bootstrap-sass-official --save
 
-bower install https://github.com/scottschiller/SoundManager2.git#V2.97a.20131201+DEV --save
+bower install https://github.com/chrisweb/web-audio-api-player.git#master --save
 
 bower install fontawesome --save
 
-bower install modernizr --save
-
-bower install qunit --save-dev
-
-##### Not used dependencies
-
-Depencies that don't get used yet by this project but might be userfull some day:
-
 bower install momentjs --save
 
-bower install animate.css --save
+bower install https://github.com/chrisweb/chrisweb-utilities.js.git#master --save
+
+bower install https://github.com/chrisweb/ribs.js.git#master --save
+
+bower install almond --save
+
+bower install https://github.com/Modernizr/Modernizr.git#master --save
 
 bower install velocity --save

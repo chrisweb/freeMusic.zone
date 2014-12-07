@@ -36,6 +36,7 @@
     "chrisweb-utilities": "https://github.com/chrisweb/chrisweb-utilities.js.git#master",
     "ribs.js": "https://github.com/chrisweb/ribs.js.git#master",
     "almond": "0.3.0",
-    "modernizr": "https://github.com/Modernizr/Modernizr.git#master"
+    "modernizr": "https://github.com/Modernizr/Modernizr.git#master",
+    "velocity": "~1.1.0"
   }
 }

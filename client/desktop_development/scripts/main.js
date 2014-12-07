@@ -58,6 +58,8 @@ require.config({
         'backbone': '../../../bower_components/backbone/backbone',
         'underscore': '../../../bower_components/underscore/underscore',
         'moment': '../../../bower_components/moment/moment',
+        'velocity': '../../../bower_components/velocity/velocity',
+        'velocity.ui': '../../../bower_components/velocity/velocity.ui',
         
         // ribs.js
         'ribs.collection': '../../../bower_components/ribs.js/src/collection',
@@ -88,6 +90,15 @@ require.config({
         // chrisweb-utilities
         'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'
         
+    },
+    
+    shim: {
+        'velocity': {
+            deps: ['jquery']
+        },
+        'velocity-ui': {
+            deps: ['velocity']
+        }
     }
     
 });

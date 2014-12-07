@@ -43,15 +43,15 @@ define([
 
             },
             routes: routes,
-            execute: function routerExecute(callback, args, name) {
+            execute: function routerExecute(callback, routeArguments, routeName) {
 
                 // pre-route event
-                EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'arguments': args, 'name': name });
+                EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
                 
                 // for any page the user visits he needs to be loggged in
                 // except the homepage
                 // so we check if the user isn't already on the homepage
-                if (name !== 'renderHomepage') {
+                if (routeName !== 'renderHomepage') {
 
                     // check if the user is logged in
                     UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
@@ -73,12 +73,20 @@ define([
                 // execute the routing
                 if (callback) {
 
-                    callback.apply(this, args);
+                    if (routeArguments.length === 0 || (routeArguments.length === 1 && routeArguments[0] === null)) {
+
+                        callback.call(this);
+
+                    } else {
+                        
+                        callback.apply(this, routeArguments);
+                        
+                    }
 
                 }
 
                 // post route event
-                EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'arguments': args, 'name': name });
+                EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
                
             }
             
