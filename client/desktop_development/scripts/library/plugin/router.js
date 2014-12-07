@@ -48,9 +48,9 @@ define([
                         Backbone.history.start({
                             pushState: true
                         });
-
+                        
                         if (callback !== undefined) {
-
+                            
                             callback(false, RouterLibrary);
                             
                         }

@@ -219,34 +219,12 @@ redisModule.getClient(function getClientCallback(error, client) {
                 desktopRouter.use(function(request, response, next) {
 
                     utilities.log('/desktop, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
-                    
-                    // TODO: add more splash screen to choose from
-                    var splashScreenIds = [
-                        '1',
-                        '1',
-                        '1'
-                    ];
-                    
-                    var splashScreenId = splashScreenIds[Math.floor(Math.random()*splashScreenIds.length)];
 
-                    if (app.get('env') === 'development') {
-
-                        response.render('desktop_development', {
-                            splashScreenId: splashScreenId,
-                            splashScreenThumbnailName: 'hompage-thumbnail',
-                            splashScreenVideoName: 'hompage-video',
-                            splashScreenPath: '/desktop/client/desktop_development/images/splashScreen'
-                        });
-                    
-                    } else {
-                        
-                        response.render('desktop_build', {
-                            splashScreenId: splashScreenId,
-                            splashScreenThumbnailName: 'hompage-thumbnail',
-                            splashScreenVideoName: 'hompage-video'
-                        });
-                        
-                    }
+                    response.render('desktop_development', {
+                        splashScreenName: 'splashScreen',
+                        splashScreenExtension: 'png',
+                        splashScreenPath: '/desktop/client/desktop_development/images/splashScreen'
+                    });
 
                 });
                 

@@ -13,10 +13,11 @@
         <style>
             .splashScreenImage {
                 background: linear-gradient(
-                    rgba(255, 255, 0, 0.255), 
-                    rgba(255, 0, 0, 0.255)
+                    rgba(255, 0, 0, 0.2), 
+                    rgba(255, 0, 0, 0.5),
+                    rgba(255, 0, 0, 0.2)
                 ),
-                url(<%= splashScreenPath %>/<%= splashScreenThumbnailName %>_1_<%= splashScreenId %>.png) no-repeat center center fixed;
+                url(<%= splashScreenPath %>/<%= splashScreenName %>.<%= splashScreenExtension %>) no-repeat center center fixed;
                 -webkit-background-size: cover;
                 -moz-background-size: cover;
                 -o-background-size: cover;
@@ -37,7 +38,6 @@
             instructions how to enable JavaScript in your web browser</a>.
         </noscript>
         
-        <div class="splashScreenOverlay"></div>
         <section id="header"></section>
         <aside id="left"></aside>
         <section id="core"></section>

@@ -360,6 +360,12 @@ module.exports = function (grunt) {
                 ],
                 tasks: ['jst']
             },
+            views: {
+                files: [
+                    '<%= config.server.views.path %>/desktop_development@@.html'
+                ],
+                tasks: ['gitinfo', 'development-replace']
+            },
             fonts: {
                 files: [
                     '<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.eot',
