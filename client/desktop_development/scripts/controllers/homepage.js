@@ -21,7 +21,7 @@ define([
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.EventsManager',
+    'library.eventsManager',
     'library.user',
     'modernizrTestsLoader',
     'Modernizr'

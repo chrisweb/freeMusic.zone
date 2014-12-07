@@ -14,13 +14,15 @@
  * @param {type} EventsManager
  * @param {type} TracksCacheCollection
  * @param {type} moment
+ * 
  * @returns {_L17.Anonym$2}
  */
 define([
     'chrisweb.utilities',
-    'library.EventsManager',
+    'library.eventsManager',
     'collections.TracksCache',
     'moment'
+    
 ], function (utilities, EventsManager, TracksCacheCollection, moment) {
     
     'use strict';

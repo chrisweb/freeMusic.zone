@@ -9,7 +9,7 @@
  */
 define([
     'chrisweb.utilities',
-    'library.EventsManager'
+    'library.eventsManager'
     
 ], function(utilities, EventsManager) {
 

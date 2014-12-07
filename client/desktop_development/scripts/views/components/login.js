@@ -12,6 +12,7 @@
  * @param {type} EventsManager
  * @param {type} libraryUser
  * @param {type} videoPlayer
+ * 
  * @returns {unresolved}
  */
 define([
@@ -22,9 +23,10 @@ define([
     'chrisweb.utilities',
     'configuration',
     'ribs.view',
-    'library.EventsManager',
+    'library.eventsManager',
     'library.user',
     'library.videoPlayer'
+    
 ], function ($, _, Backbone, JST, utilities, configurationModule, view, EventsManager, libraryUser, videoPlayer) {
     
     'use strict';

@@ -9,6 +9,7 @@
  * @param {type} container
  * @param {type} EventsManager
  * @param {type} user
+ * 
  * @returns {unresolved}
  */
 define([
@@ -17,8 +18,9 @@ define([
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.EventsManager',
+    'library.eventsManager',
     'library.user'
+    
 ], function ($, _, utilities, Controller, container, EventsManager, user) {
     
     'use strict';

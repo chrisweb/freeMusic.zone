@@ -22,7 +22,7 @@
 define([
     'chrisweb.utilities',
     'ribs.router',
-    'library.EventsManager',
+    'library.eventsManager',
     'routes',
     'library.user',
     'configuration'

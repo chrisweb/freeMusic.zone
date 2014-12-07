@@ -19,7 +19,7 @@
  */
 define([
     'chrisweb.utilities',
-    'library.EventsManager',
+    'library.eventsManager',
     'models.User',
     'moment'
     

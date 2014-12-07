@@ -17,7 +17,7 @@ define([
     'templates',
     'chrisweb.utilities',
     'ribs.view',
-    'library.EventsManager'
+    'library.eventsManager'
     
 ], function ($, _, JST, utilities, View, EventsManager) {
     
