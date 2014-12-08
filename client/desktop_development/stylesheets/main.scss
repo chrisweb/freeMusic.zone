@@ -1,11 +1,11 @@
 /* moved the bootstrap glyphicons font to another folder, overwriting icons font path before loading bootstrap */
-$icon-font-path: '../fonts/bootstrap/330 %>/';
+$icon-font-path: '../fonts/bootstrap/331 %>/';
 
 /* import twitter bootstrap */
 @import "bootstrap";
 
 /* moved the font-awesome font to another folder, owerwriting icons font path before loading font-awesome */
-$fa-font-path: '../fonts/fontawesome/330 %>';
+$fa-font-path: '../fonts/fontawesome/331 %>';
 
 /* import font-awesome */
 @import "font-awesome";

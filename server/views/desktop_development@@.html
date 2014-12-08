@@ -12,11 +12,17 @@
         <link rel="stylesheet" href="/desktop/client/desktop_build/stylesheets/@@version/main.css">
         <style>
             .splashScreenImage {
-                background: linear-gradient(
-                    rgba(255, 0, 0, 0.2), 
-                    rgba(255, 0, 0, 0.5),
-                    rgba(255, 0, 0, 0.2)
-                ),
+                /* Chrome10+,Safari5.1+ */
+                background: -webkit-radial-gradient(center, ellipse cover, rgba(255,0,0,0.16) 0%,rgba(34,34,34,0.2) 40%,rgba(34,34,34,0.13) 100%),
+                url(<%= splashScreenPath %>/<%= splashScreenName %>.<%= splashScreenExtension %>) no-repeat center center fixed;
+                /* Opera 12+ */
+                background: -o-radial-gradient(center, ellipse cover, rgba(255,0,0,0.16) 0%,rgba(34,34,34,0.2) 40%,rgba(34,34,34,0.13) 100%),
+                url(<%= splashScreenPath %>/<%= splashScreenName %>.<%= splashScreenExtension %>) no-repeat center center fixed;
+                /* IE10+ */
+                background: -ms-radial-gradient(center, ellipse cover, rgba(255,0,0,0.16) 0%,rgba(34,34,34,0.2) 40%,rgba(34,34,34,0.13) 100%),
+                url(<%= splashScreenPath %>/<%= splashScreenName %>.<%= splashScreenExtension %>) no-repeat center center fixed;
+                /* W3C */
+                background: radial-gradient(ellipse at center, rgba(255,0,0,0.16) 0%,rgba(34,34,34,0.2) 40%,rgba(34,34,34,0.13) 100%),
                 url(<%= splashScreenPath %>/<%= splashScreenName %>.<%= splashScreenExtension %>) no-repeat center center fixed;
                 -webkit-background-size: cover;
                 -moz-background-size: cover;
