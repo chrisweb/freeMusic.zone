@@ -46,14 +46,12 @@ define([
         
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
             
+            // check if the user is logged in
             UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
 
-                // if the user is not yet logged in, display the login box
-                if (!isLogged) {
-
-                    console.log('TODO: show login box');
-
-                } else {
+                // if the user is already logged in, send him to the welcome
+                // page
+                if (isLogged) {
                     
                     router.navigate('desktop/homepage/welcome', { trigger: true });
                     
@@ -63,25 +61,65 @@ define([
             
             
             
-            /*modernizrTestsLoader([
-                'test/audio',
-                'test/webaudio',
+            modernizrTestsLoader([
                 'test/video',
-                'test/videoautoplay',
-                'test/canvas',
-                'test/history',
-                'test/websockets'
+                'test/videoautoplay'
             ], function() {
                 
-                Modernizr.runTests(['audio', 'webaudio', 'video', 'videoautoplay', 'canvas', 'history', 'websockets'], function(error, testsResults) {
+                Modernizr.runTests(['video', 'videoautoplay'], function(error, testsResults) {
                     
                     console.log(error);
                     
                     console.log(testsResults);
                     
+                    var useAnimatedGif = false;
+                    var videoExtension;
+                    
+                    if (testsResults.video.webm === 'probably') {
+                        
+                        if (testsResults.videoautoplay === true) {
+                            
+                            videoExtension = 'webm';
+                            
+                        } else {
+                            
+                            useAnimatedGif = false;
+                            
+                        }
+                        
+                    } else if (testsResults.video.h264 === 'probably') {
+                        
+                        if (testsResults.videoautoplay === true) {
+                            
+                            videoExtension = 'mp4';
+                            
+                        } else {
+                            
+                            useAnimatedGif = false;
+                            
+                        }
+                        
+                    } else {
+                        
+                        useAnimatedGif = false;
+                        
+                    }
+                    
+                    if (useAnimatedGif) {
+                        
+                        // video or autoplay are not supported, use the
+                        // animated gif
+                        
+                        
+                    } else {
+                        
+                        
+                        
+                    }
+                    
                 });
                 
-            });*/
+            });
             
             /*var isLogged = user.getAttribute('isLogged');
             

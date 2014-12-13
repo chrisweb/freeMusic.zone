@@ -4,6 +4,7 @@
  * 
  * @param {type} SplashScreenPlugin
  * @param {type} RouterPlugin
+ * @param {type} UserPlugin
  * @param {type} EventsManager
  * 
  * @returns {_L19.Anonym$6}
@@ -11,24 +12,39 @@
 define([
     'library.plugin.splashScreen',
     'library.plugin.router',
+    'library.plugin.user',
     'library.eventsManager'
     
 ], function (
     SplashScreenPlugin,
     RouterPlugin,
+    UserPlugin,
     EventsManager
 ) {
 
     'use strict';
     
     var run = function runFunction() {
-
+        
         // first initialize the splashScreen plugin
         SplashScreenPlugin.initialize();
-
-        // then we initialize the router
-        RouterPlugin.initialize();
-
+        
+        // then we initialize the router plugin
+        // the router plugin will intialize the router
+        // the pre route will check if the user is logged and redirect him to
+        // the appopriate page
+        RouterPlugin.initialize(function(error) {
+            
+            if (error) {
+                
+                // TODO: tell user he needs a browser that supports html5 history
+                
+                console.log(error);
+                
+            }
+            
+        });
+        
         // on dom load
         $(function() {
             

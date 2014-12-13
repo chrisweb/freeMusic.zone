@@ -49,17 +49,22 @@ define([
                             pushState: true
                         });
                         
+                        // initialize the router
+                        RouterLibrary.initialize();
+                        
                         if (callback !== undefined) {
                             
-                            callback(false, RouterLibrary);
+                            callback(false);
                             
                         }
                         
                     } else {
                         
-                        // TODO: tell user he needs a browser that supports html5 history
-                        
-                        console.log('history is not supported');
+                        if (callback !== undefined) {
+                            
+                            callback('history is not supported');
+                            
+                        }
                         
                     }
                     
