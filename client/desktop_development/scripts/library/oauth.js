@@ -2,20 +2,30 @@
  * 
  * oauth
  * 
+ * @param {type} $
+ * @param {type} Configuration
  * @param {type} utilities
  * @param {type} EventsManager
  * 
  * @returns {oauth_L9.oauthAnonym$1}
  */
 define([
+    'jquery',
+    'configuration',
     'chrisweb.utilities',
     'library.eventsManager'
     
-], function(utilities, EventsManager) {
+], function($, Configuration, utilities, EventsManager) {
 
     'use strict';
     
-    var initialize = function initializeOuathLibraryFunction() {
+    /**
+     * 
+     * listen for connected
+     * 
+     * @returns {undefined}
+     */
+    var listenForConnected = function () {
         
         // the oauth page that is in the iframe will trigger the "connected"
         // event from within the iframe on successfull oauth connection, we
@@ -30,9 +40,52 @@ define([
         };
         
     };
+    
+    /**
+     * 
+     * fetch the oauth url from server
+     * it contains a secret state variable that is also in the session to
+     * verify the oauth response, thats why its build on the server
+     * 
+     * @param {type} callback
+     * @returns {undefined}
+     */
+    var fetchOauthUrl = function fetchOauthUrlFunction(callback) {
+        
+        
+        var configuration = Configuration.get();
+        
+        var jqXHR = $.ajax({
+            url: configuration.server.path + '/oauth/url',
+            type: 'GET',
+            dataType: 'json'
+        });
+
+        jqXHR.done(function(dataJson, textStatus, jqXHR) {
+
+            //utilities.log(dataJson);
+            //utilities.log(textStatus);
+            //utilities.log(jqXHR);
+
+            callback(false, dataJson);
+
+        });
+
+        jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
+
+            //utilities.log(jqXHR);
+            //utilities.log(textStatus);
+            //utilities.log(errorThrown);
+
+            callback(errorThrown);
+
+        });
+
+    };
 
     return {
-        initialize: initialize
+        listenForConnected: listenForConnected,
+        fetchOauthUrl: fetchOauthUrl
     };
 
 });

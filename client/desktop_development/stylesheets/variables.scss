@@ -1,3 +1,11 @@
+// colors
+$color-highlight: rgb(255, 0, 0);
+$color-background: rgb(34, 34, 34);
+$color-text-bright: rgb(255, 255, 255);
+$color-connectCore: rgba(34, 34, 34, 0.5);
 
 // z-indexes
-$splashScreenOverlayZIndex: 10;
+$connectZIndex: 20;
+$backgroundVideoZIndex: 10;
+$splashScreenOverlayZIndex: 990;
+$progressZIndex: 1000;

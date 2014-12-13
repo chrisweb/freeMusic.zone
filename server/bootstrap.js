@@ -187,69 +187,69 @@ redisModule.getClient(function getClientCallback(error, client) {
                 
                 // start api
                 var apiRouter = express.Router();
-
+                
                 apiModule.start(configuration, app, apiRouter);
                 
                 addErrorRoutes(apiRouter);
-
+                
                 var oauthRouter = express.Router();
-
+                
                 oauthModule.start(configuration, app, oauthRouter);
                 
                 addErrorRoutes(oauthRouter);
-
+                
                 // desktop router
                 var desktopRouter = express.Router();
-
+                
                 if (app.get('env') === 'development') {
-
+                    
                     desktopRouter.use('/client/desktop_development', express.static(__dirname + '/../client/desktop_development'));
                     desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
                     desktopRouter.use('/bower_components', express.static(__dirname + '/../bower_components'));
                     desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
                     desktopRouter.use('/videos', express.static(__dirname + '/../videos'));
-
+                    
                 } else {
-
+                    
                     desktopRouter.use(express.static(__dirname + '/../client/desktop_build'));
-
+                    
                 }
-
+                
                 // always invoked
                 desktopRouter.use(function(request, response, next) {
-
+                    
                     utilities.log('/desktop, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
-
+                    
                     response.render('desktop_development', {
                         splashScreenName: 'splashScreen',
                         splashScreenExtension: 'png',
                         splashScreenPath: '/desktop/client/desktop_development/images/splashScreen'
                     });
-
+                    
                 });
                 
                 addErrorRoutes(desktopRouter);
-
+                
                 app.use('/desktop', desktopRouter);
-
+                
                 /*app.use('/', function(request, response) {
-
+                    
                     utilities.log('/ redirect, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
-
+                    
                     response.redirect(301, '/desktop');
-
+                    
                 });*/
                 
                 // add error handling last
                 addErrorRoutes(desktopRouter);
-
+                
                 // START SERVER
                 app.set('port', process.env.PORT || configuration.server.port);
-
+                
                 app.listen(app.get('port'));
-
+                
                 utilities.log('SERVER running on port: ' + app.get('port') + ', environment is: ' + app.get('env'), 'fontColor:green');
-
+                
             } else {
                 
                 utilities.log(error, 'fontColor:red');

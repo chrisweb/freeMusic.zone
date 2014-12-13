@@ -29,6 +29,13 @@ define([
     
     'use strict';
     
+    /**
+     * 
+     * public initialize router
+     * 
+     * @param {type} callback
+     * @returns {undefined}
+     */
     var initialize = function initializeFunction(callback) {
 
         utilities.log('[ROUTER PLUGIN] initializeRouter', 'fontColor:blue');

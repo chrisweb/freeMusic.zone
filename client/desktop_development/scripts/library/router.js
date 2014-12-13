@@ -15,7 +15,7 @@
  * @param {type} EventsManager
  * @param {type} routes
  * @param {type} UserLibrary
- * @param {type} configuration
+ * @param {type} Configuration
  * 
  * @returns {_L18.Anonym$8}
  */
@@ -27,7 +27,7 @@ define([
     'library.user',
     'configuration'
     
-], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, configuration) {
+], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, Configuration) {
     
     'use strict';
 
@@ -48,6 +48,8 @@ define([
                 // pre-route event
                 EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
                 
+                var that = this;
+                
                 // for any page the user visits he needs to be loggged in
                 // except the homepage
                 // so we check if the user isn't already on the homepage
@@ -60,7 +62,7 @@ define([
                         // the homepage
                         if (!isLogged) {
 
-                            this.navigate('desktop', { trigger: true });
+                            that.navigate('desktop', { trigger: true });
 
                             return;
 
@@ -73,15 +75,7 @@ define([
                 // execute the routing
                 if (callback) {
 
-                    if (routeArguments.length === 0 || (routeArguments.length === 1 && routeArguments[0] === null)) {
-
-                        callback.call(this);
-
-                    } else {
-                        
-                        callback.apply(this, routeArguments);
-                        
-                    }
+                    callback.apply(this, routeArguments);
 
                 }
 
@@ -97,6 +91,8 @@ define([
     };
     
     var startListening = function startListeningToRouteEventsFuntion(router) {
+        
+        var configuration = Configuration.get();
         
         router.on('route:renderHomepage', function() {
             

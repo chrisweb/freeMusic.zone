@@ -59,24 +59,34 @@ define([
 
         },
         isLogged: function isLoggedFunction(callback) {
-            
-            // if the user model does not yet exist
+
             
             // first check if the user has session cookie, if he doesn't he
             // is not logged in for sure and we don't need to ask the server
             
             // if he has a cookie, ask the server is his session is still active
             
-            // fetch the user data from server
+
             
+            // fetch the user data from server if the user data is not already
+            // in the model
+            if (this.model.get('id') === null) {
             
-            //var isLogged = this.model.get('isLogged');
+                this.fetchUserData();
             
-            var error = false;
+            }
             
-            var isLogged = false;
-            
-            callback(error, isLogged);
+            // the new fetch date will result in a changed model
+            this.model.on('change', function(model, response, options) {
+                
+                // check if the user is logged
+                var isLogged = model.get('isLogged');
+
+                var error = false;
+
+                callback(error, isLogged);
+                    
+            });
             
         }
         

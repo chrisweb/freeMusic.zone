@@ -15,18 +15,24 @@ define([
     
     'use strict';
 
-    var start = function startFunction($element) {
+    var initialize = function initializeFunction($element, videoFormat) {
         
         utilities.log('start video player', 'fontColor:green');
         
         var videoPlayer = '';
+
+        if (videoFormat === 'gif') {
+            
+            videoPlayer += '<div class="backgroundVideo"></div>';
+            
+        } else {
         
-        videoPlayer += '<div class="video_container">';
-        videoPlayer += '<video poster="videos/hompage-thumbnail_1_1.png" autoplay="autoplay" loop>';
-        videoPlayer += '<source src="videos/hompage-video_1.webm" type=\'video/webm;codecs="vp8, vorbis"\'/>';
-        videoPlayer += '<source src="videos/hompage-video_1.mp4" type=\'video/mp4;codecs="avc1.42E01E, mp4a.40.2"\'/>';
-        videoPlayer += '</video>';
-        videoPlayer += '</div>';
+            videoPlayer += '<video class="backgroundVideo" poster="/desktop/videos/hompage-thumbnail_1_1.png" autoplay="autoplay" loop>';
+            videoPlayer += '<source src="/desktop/videos/hompage-video_1.webm" type=\'video/webm;codecs="vp8, vorbis"\'/>';
+            videoPlayer += '<source src="/desktop/videos/hompage-video_1.mp4" type=\'video/mp4;codecs="avc1.42E01E, mp4a.40.2"\'/>';
+            videoPlayer += '</video>';
+            
+        }
         
         var $videoPlayer = $(videoPlayer);
         
@@ -35,7 +41,7 @@ define([
     };
 
     return {
-        start: start
+        initialize: initialize
     };
     
 });

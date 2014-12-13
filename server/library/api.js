@@ -89,7 +89,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         if (userSessionData === undefined) {
             
             var defaultUserData = {
-                isLogged: false
+                isLogged: false,
+                lastFetchDate: Date.now()
             };
         
             response.status(200);

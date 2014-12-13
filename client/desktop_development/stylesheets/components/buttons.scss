@@ -1,0 +1,15 @@
+
+.btn-empty {
+    
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 0px;
+    color: #fff;
+    
+    &:hover,
+    &:focus,
+    &.focus {
+        color: #fff;
+    }
+    
+}

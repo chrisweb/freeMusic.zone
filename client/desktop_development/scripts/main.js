@@ -31,6 +31,7 @@ require.config({
         'library.videoPlayer': 'library/videoPlayer',
         'library.eventsManager': 'library/eventsManager',
         'library.controller': 'library/controller',
+        'library.oauth': 'library/oauth',
         
         // helpers
         'helper.durationFormatter': 'helper/durationFormatter',

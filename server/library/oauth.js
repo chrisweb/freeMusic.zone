@@ -11,6 +11,8 @@ var eventsManager = require('./event');
 
 module.exports.start = function initialize(configuration, app, oauthRouter) {
 
+    //utilities.log(configuration);
+
     oauthRouter.use(function(request, response, next) {
 
         utilities.log('/oauth, method: ' + request.method + ', url:' + request.url + ', path:' + request.path, 'fontColor:magenta');

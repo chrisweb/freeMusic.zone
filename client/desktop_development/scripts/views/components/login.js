@@ -2,12 +2,8 @@
  * 
  * login view
  * 
- * @param {type} $
- * @param {type} _
- * @param {type} Backbone
  * @param {type} JST
  * @param {type} utilities
- * @param {type} configurationModule
  * @param {type} view
  * @param {type} EventsManager
  * @param {type} libraryUser
@@ -16,26 +12,24 @@
  * @returns {unresolved}
  */
 define([
-    'jquery',
-    'underscore',
-    'backbone',
     'templates',
     'chrisweb.utilities',
-    'configuration',
     'ribs.view',
     'library.eventsManager',
     'library.user',
     'library.videoPlayer'
     
-], function ($, _, Backbone, JST, utilities, configurationModule, view, EventsManager, libraryUser, videoPlayer) {
+], function (JST, utilities, view, EventsManager, libraryUser, videoPlayer) {
     
     'use strict';
     
     var LoginView = view.extend({
         
-        onInitialize: function() {
+        onInitialize: function(options) {
             
             utilities.log('[LOGIN PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            
+            this.options = options;
             
             var that = this;
             
@@ -60,8 +54,12 @@ define([
                 
             });
             
+        },
+        
+        onRender: function() {
+
             // start the login view background video
-            videoPlayer.start(this.$el);
+            videoPlayer.initialize(this.$el, { format: this.options.videoFormat });
             
         },
         

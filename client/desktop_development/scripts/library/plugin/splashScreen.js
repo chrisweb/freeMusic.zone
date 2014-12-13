@@ -11,20 +11,21 @@
  * splashScreen plugin
  * 
  * @param {type} EventsManager
- * @param {type} velocityUI
+ * @param {type} velocity
  * 
  * @returns {_L17.Anonym$1}
  */
 define([
     'library.eventsManager',
-    'velocity',
-    'velocity.ui'
+    'velocity'
     
-], function (EventsManager, velocity, velocityUI) {
+], function (EventsManager, velocity) {
     
     'use strict';
     
     /**
+     * 
+     * public initialize splash screen
      * 
      * @returns {undefined}
      */
@@ -33,12 +34,11 @@ define([
         EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function() {
             
             var $body = $('body');
-            var $hidden = $body.find('#hidden');
-            var $progressLoading = $hidden.find('.progress-loading');
+            var $progress = $body.find('.progress');
             
-            $progressLoading.removeClass('hidden');
+            $progress.removeClass('hidden');
         
-            var $progressBarLoading = $hidden.find('.progress-bar-loading');
+            var $progressBarLoading = $progress.find('.progress-bar-loading');
             
             $progressBarLoading
                 .velocity(
@@ -49,7 +49,7 @@ define([
                         duration: 2000,
                         easing: 'easeInCubic',
                         complete: function() {
-                            $progressLoading.addClass('hidden');
+                            $progress.addClass('hidden');
                             hideSplashScreen();
                         }
                     }
@@ -61,18 +61,16 @@ define([
     
     /**
      * 
+     * private hide splash screen
+     * 
      * @returns {undefined}
      */
     var hideSplashScreen = function hideSplashScreenFunction() {
         
         var $body = $('body');
+        var $splashScreen = $body.find('#splashScreen');
         
-        // remove the splashScreen
-        if ($body.hasClass('splashScreen')) {
-
-            $body.removeClass('splashScreen').removeClass('splashScreenImage');
-
-        }
+        $splashScreen.addClass('hidden');
         
     };
     

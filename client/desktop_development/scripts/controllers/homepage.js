@@ -2,31 +2,27 @@
  * 
  * homepage controller
  * 
- * @param {type} $
- * @param {type} _
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} EventsManager
  * @param {type} UserLibrary
  * @param {type} modernizrTestsLoader
  * @param {type} Modernizr
+ * @param {type} oauthLibrary
  * 
  * @returns {unresolved}
  * 
  */
 define([
-    'jquery',
-    'underscore',
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.eventsManager',
     'library.user',
     'modernizrTestsLoader',
-    'Modernizr'
+    'Modernizr',
+    'library.oauth'
     
-], function ($, _, utilities, Controller, container, EventsManager, UserLibrary, modernizrTestsLoader, Modernizr) {
+], function (utilities, Controller, container, UserLibrary, modernizrTestsLoader, Modernizr, oauthLibrary) {
     
     'use strict';
     
@@ -59,104 +55,39 @@ define([
 
             });
             
-            
-            
+            // check if video is supported by this browser
             modernizrTestsLoader([
                 'test/video',
                 'test/videoautoplay'
             ], function() {
                 
                 Modernizr.runTests(['video', 'videoautoplay'], function(error, testsResults) {
+
+                    var videoFormat = chooseVideoFormat(testsResults);
                     
-                    console.log(error);
-                    
-                    console.log(testsResults);
-                    
-                    var useAnimatedGif = false;
-                    var videoExtension;
-                    
-                    if (testsResults.video.webm === 'probably') {
+                    oauthLibrary.fetchOauthUrl(function(error, response) {
                         
-                        if (testsResults.videoautoplay === true) {
-                            
-                            videoExtension = 'webm';
-                            
-                        } else {
-                            
-                            useAnimatedGif = false;
-                            
-                        }
+                        var oauthUrl = response.url;
                         
-                    } else if (testsResults.video.h264 === 'probably') {
+                        // initialize the view
+                        require(['views/components/login'], function(LoginView) {
+
+                            var loginView = new LoginView({
+                                oauthUrl: oauthUrl,
+                                videoFormat: videoFormat
+                            });
+
+                            container.add('#core', loginView);
+
+                            container.dispatch('#core');
+
+                        });
                         
-                        if (testsResults.videoautoplay === true) {
-                            
-                            videoExtension = 'mp4';
-                            
-                        } else {
-                            
-                            useAnimatedGif = false;
-                            
-                        }
-                        
-                    } else {
-                        
-                        useAnimatedGif = false;
-                        
-                    }
-                    
-                    if (useAnimatedGif) {
-                        
-                        // video or autoplay are not supported, use the
-                        // animated gif
-                        
-                        
-                    } else {
-                        
-                        
-                        
-                    }
+                    });
                     
                 });
                 
             });
-            
-            /*var isLogged = user.getAttribute('isLogged');
-            
-            if (!isLogged) {
-            
-                var that = this;
-
-                this.getOauthUrl(function getOauthUrlCallback(error, dataJson) {
-
-                    if (!error) {
-
-                        var oauthUrl = dataJson.url;
-
-                        // get the login view
-                        require(['views/components/login'], function(LoginView) {
-
-                            var loginView = new LoginView({ oauthUrl: oauthUrl });
-
-                            container.add('#core', loginView);
-
-                            that.dispatch();
-
-                        });
-
-                    } else {
-
-                        utilities.log('[CONTROLLER HOMEPAGE] getOauthUrl error', error, 'fontColor:red');
-
-                    }
-
-                });
-                
-            } else {
-                
-                // TODO: if user is already logged
-                
-            }*/
 
         },
         
@@ -177,39 +108,70 @@ define([
 
             });
             
-        },
-        
-        getOauthUrl: function getOauthUrlFunction(callback) {
-            
-            var jqXHR = $.ajax({
-                url: this.configuration.server.path + '/oauth/url',
-                type: 'GET',
-                dataType: 'json'
-            });
-
-            jqXHR.done(function(dataJson, textStatus, jqXHR) {
-
-                utilities.log(dataJson);
-                utilities.log(textStatus);
-                utilities.log(jqXHR);
-                
-                callback(false, dataJson);
-
-            });
-
-            jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
-
-                utilities.log(jqXHR);
-                utilities.log(textStatus);
-                utilities.log(errorThrown);
-
-                callback(errorThrown);
-
-            });
-            
         }
         
     });
+    
+    /**
+     * 
+     * choose the video format based on the tests results
+     * 
+     * @param {type} testsResults
+     * @returns {String}
+     */
+    var chooseVideoFormat = function chooseVideoFormatFunction(testsResults) {
+
+        var videoFormat;
+
+        // is the webm format supported
+        if (testsResults.video.webm === 'probably') {
+
+            // is autoplay supported
+            if (testsResults.videoautoplay === true) {
+
+                // both webm and autoplay are supported so we will
+                // use webm videos as background
+                videoFormat = 'webm';
+
+            } else {
+
+                // webm is supported but not autoplay, so we use
+                // an animated gif instead (probably a mobile
+                // device)
+                videoFormat = 'gif';
+
+            }
+
+        // is the h264 format supported
+        } else if (testsResults.video.h264 === 'probably') {
+
+            // is autoplay supported
+            if (testsResults.videoautoplay === true) {
+
+                // both h264 and autoplay are supported so we will
+                // use h264 videos as background
+                videoFormat = 'mp4';
+
+            } else {
+
+                // h264 is supported but not autoplay, so we use
+                // an animated gif instead (probably a mobile
+                // device)
+                videoFormat = 'gif';
+
+            }
+
+        } else {
+
+            // neither webm nor h264 are supported, we use the
+            // animated gif as fallback
+            videoFormat = 'gif';
+
+        }
+        
+        return videoFormat;
+        
+    };
 
     return HomepageController;
     
