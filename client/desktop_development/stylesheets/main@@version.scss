@@ -16,7 +16,11 @@ $fa-font-path: '../fonts/fontawesome/@@version';
 @import "theme";
 
 // components
-@import "components/navigation-top";
+@import "components/navigationTop";
+@import "components/navigationLeft";
+@import "components/buttons";
+@import "components/splashScreen";
 
 // views
 @import "views/welcome";
+@import "views/login";
