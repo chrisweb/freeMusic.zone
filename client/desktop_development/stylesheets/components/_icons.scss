@@ -1,0 +1,28 @@
+//****************
+// ICONS
+//****************
+
+.icon {
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+}
+
+.icon:focus {
+    outline: 0;
+}
+
+.icon.dashed {
+    border: 2px dashed;
+}
+
+.icon.double {
+    border: 2px double;
+}
+
+.icon.dotted {
+    border: 2px dotted;
+}

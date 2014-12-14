@@ -1,18 +1,16 @@
-/* moved the bootstrap glyphicons font to another folder, overwriting icons font path before loading bootstrap */
-$icon-font-path: '../fonts/bootstrap/333 %>/';
-
-/* import twitter bootstrap */
-@import "bootstrap";
-
-/* moved the font-awesome font to another folder, owerwriting icons font path before loading font-awesome */
-$fa-font-path: '../fonts/fontawesome/333 %>';
-
-/* import font-awesome */
-@import "font-awesome";
-
-/* import freeMusic.zone custom css bootstrap */
+// custom variables
 @import "variables";
 
+// import fonts pathes
+@import "fonts-pathes";
+
+// import twitter bootstrap */
+@import "bootstrap";
+
+// import font-awesome */
+@import "font-awesome";
+
+// import freeMusic.zone custom css bootstrap
 @import "theme";
 
 // components
@@ -20,6 +18,7 @@ $fa-font-path: '../fonts/fontawesome/333 %>';
 @import "components/navigationLeft";
 @import "components/buttons";
 @import "components/splashScreen";
+@import "components/icons";
 
 // views
 @import "views/welcome";

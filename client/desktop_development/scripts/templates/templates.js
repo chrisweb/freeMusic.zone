@@ -26,7 +26,7 @@ this["JST"]["templates/partials/login"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<div class="connect">\r\n    \r\n    <div class="connectCore">\r\n    \r\n        <form class="login">\r\n          <fieldset>\r\n            <legend>Login with your jamendo account:</legend>\r\n            <button type="submit" class="btn btn-empty">Jamendo connect</button>\r\n          </fieldset>\r\n        </form>\r\n\r\n        <span class="loading hidden">Loading ...</span>\r\n\r\n        <iframe src="" class="jamendo hidden" scrolling="no" frameBorder="0"></iframe>\r\n        \r\n    </div>\r\n    \r\n</div>';
+__p += '<div class="connect">\r\n    \r\n    <div class="connectCore t">\r\n    \r\n        <div class="tr">\r\n            <div class="td">\r\n\r\n                <form class="login">\r\n                  <fieldset>\r\n                    <legend class="h1">Login with your jamendo account:</legend>\r\n                    <button type="submit" class="btn btn-lg btn-empty">Jamendo connect</button>\r\n                  </fieldset>\r\n                </form>\r\n\r\n                <span class="loading hidden">Loading ...</span>\r\n\r\n                <iframe src="" class="jamendo hidden" scrolling="no" frameBorder="0"></iframe>\r\n\r\n            </div>\r\n        </div>\r\n        \r\n    </div>\r\n    \r\n</div>';
 
 }
 return __p

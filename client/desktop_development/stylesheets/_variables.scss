@@ -1,0 +1,47 @@
+//****************
+// VARIABLES
+//****************
+
+// colors
+$color-highlight: rgb(255, 0, 0);
+$color-background: rgb(34, 34, 34);
+$color-text-bright: rgb(255, 255, 255);
+$color-connect-background: rgba(255, 0, 0, 0.5);
+$font-color-dark-background: rgb(255, 255, 255);
+$font-color-light-background: rgb(34, 34, 34);
+
+// z-indexes
+$connectZIndex: 20;
+$backgroundVideoZIndex: 10;
+$splashScreenOverlayZIndex: 990;
+$progressZIndex: 1000;
+
+// ratio
+$ratio: 1.61803398875;
+
+// line height
+$line-height-base: $ratio;
+
+// font family
+$font-family-sans-serif:  Arial, sans-serif;
+
+// font sizes
+$font-size-base: 16px;
+$font-size-extra-large: ceil(($font-size-base * ($ratio * 2))); // 42px
+$font-size-large: ceil(($font-size-base * $ratio)); // 26px
+$font-size-small: ceil(($font-size-base / $ratio)); // 10px
+$font-size-extra-small: floor(($font-size-base / ($ratio * 2))); // 6px
+
+// spaces
+$space-base: $font-size-base;
+$space-extra-large: $font-size-extra-large;
+$space-large: $font-size-large;
+$space-small: $font-size-small;
+$space-extra-small: $font-size-extra-small;
+
+// headings font size
+$font-size-h1: $font-size-extra-large;
+$font-size-h2: $font-size-large;
+$font-size-h3: $font-size-base;
+$font-size-h4: $font-size-small;
+$font-size-h5: $font-size-extra-small;

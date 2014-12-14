@@ -1,0 +1,64 @@
+//****************
+// LOGIN VIEW
+//****************
+
+.connect {
+    
+    width: 100%;
+    height: 100%;
+    
+    .connectCore {
+
+        position: relative;
+        z-index: $connectZIndex;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-color: $color-connect-background;
+        color: $font-color-dark-background;
+        
+        .td {
+            vertical-align: middle;
+        }
+        
+        legend {
+            color: $font-color-dark-background;
+            border-bottom: 0px;
+            margin-bottom: $space-large;
+        }
+
+        .btn-empty {
+            
+            background-color: transparent;
+            border-color: $font-color-dark-background;
+            color: $font-color-dark-background;
+
+            &:hover,
+            &:focus,
+            &.focus {
+                background-color: $color-connect-background;
+            }
+            
+        }
+
+        iframe.jamendo {
+            border: 0px;
+            width: 450px;
+            overflow: hidden;
+            margin: auto;
+        }
+        
+    }
+    
+    .backgroundVideo {
+        z-index: $backgroundVideoZIndex;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+    }
+    
+}

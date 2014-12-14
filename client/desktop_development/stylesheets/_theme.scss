@@ -1,0 +1,50 @@
+//****************
+// LEFT NAVIGATION
+//****************
+
+// CORE
+html, body, #container {
+    height: 100%;
+    width: 100%;
+    font-family: $font-family-sans-serif;
+}
+
+#left {
+    float: left;
+    height: 100%;
+}
+
+#core {
+    height: 100%;
+    width: 100%;
+}
+
+#right {
+    float: right;
+    height: 100%;
+}
+
+#header {
+
+}
+
+#footer {
+
+}
+
+.t {
+    
+    display: table;
+    width: 100%;
+    
+    .tr {
+        
+        display: table-row;
+
+        .td {
+            display: table-cell;
+        }
+        
+    }
+    
+}

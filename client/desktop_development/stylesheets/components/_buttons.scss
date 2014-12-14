@@ -1,0 +1,28 @@
+//****************
+// BUTTONS
+//****************
+
+.btn-empty {
+    border: {
+        radius: 0px;
+        width: 2px;
+        style: solid;
+    }
+}
+
+.btn-lg {
+    padding: $space-small $space-base;
+    line-height: $line-height-base;
+    font-size: $font-size-base;
+}
+
+.trackPreview {
+    background-color: $color-highlight;
+    box-shadow: 0 0 0 4px $color-highlight;
+    color: $color-text-bright;
+}
+
+.trackPreview:hover {
+    background-color: lighten($color-highlight, 10%);
+    box-shadow: 0 0 0 4px lighten($color-highlight, 10%);
+}
