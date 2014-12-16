@@ -3,10 +3,12 @@
 //****************
 
 // colors
-$color-highlight: rgb(255, 0, 0);
+$color-highlight: rgb(255, 0, 90);
 $color-background: rgb(34, 34, 34);
 $color-text-bright: rgb(255, 255, 255);
-$color-connect-background: rgba(255, 0, 0, 0.5);
+$color-connect-background: rgba(255, 0, 90, 0.5); // red
+//$color-connect-background: rgba(90, 255, 0, 0.5); // green
+//$color-connect-background: rgba(0, 90, 255, 0.5); // blue
 $font-color-dark-background: rgb(255, 255, 255);
 $font-color-light-background: rgb(34, 34, 34);
 

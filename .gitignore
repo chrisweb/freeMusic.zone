@@ -29,6 +29,7 @@ tablet_build
 tracks
 
 configuration.js
+templates.js
 
 desktop_development.html
 desktop_build.html

@@ -5,16 +5,13 @@
         <div class="tr">
             <div class="td">
 
-                <form class="login">
-                  <fieldset>
+                <fieldset class="login">
                     <legend class="h1">Login with your jamendo account:</legend>
-                    <button type="submit" class="btn btn-lg btn-empty">Jamendo connect</button>
-                  </fieldset>
-                </form>
-
-                <span class="loading hidden">Loading ...</span>
-
-                <iframe src="" class="jamendo hidden" scrolling="no" frameBorder="0"></iframe>
+                    <div class="btn btn-lg btn-empty" id="loginButton">
+                        <span>Jamendo connect</span>
+                        <iframe src="" class="jamendo hidden" scrolling="no" frameBorder="0"></iframe>
+                    </div>
+                </fieldset>
 
             </div>
         </div>

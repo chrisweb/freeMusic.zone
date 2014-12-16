@@ -33,6 +33,9 @@ define([
             
             var that = this;
             
+            // as soon as the user has been redirected back to the app, from
+            // the jamendo website, a page will get loaded that will trigger
+            // the oauth connected event
             EventsManager.on(EventsManager.constants.OAUTH_CONNECTED, function loginOauthConnected() {
 
                 // hide the oauth iframe
@@ -67,26 +70,31 @@ define([
         
         // view events
         events: {
-            'click .login button': 'loginClick'
+            'click .login .btn:not(.noclick)': 'loginClick'
         },
         
         loginClick: function loginClickFunction(event) {
             
             event.preventDefault();
+            
+            var $login = this.$el.find('.login');
 
-            this.$el.find('form.login').addClass('hidden');
+            var $loginButton = $login.find('#loginButton');
             
-            this.$el.find('.loading').removeClass('hidden');
+            // disqble the login button to avoid more clicks
+            $loginButton.addClass('noclick');
             
-            var oauthIFrame = this.$el.find('iframe.jamendo');
+            $loginButton.find('span').text('');
             
-            oauthIFrame.attr('src', this.options.oauthUrl);
+            $loginButton.velocity({ width: 454, height: 404, padding: '0px' }, 'easeInSine');
             
-            var that = this;
+            var $oauthIFrame = this.$el.find('iframe.jamendo');
             
-            oauthIFrame.ready(function oauthIFrameReady() {
+            $oauthIFrame.attr('src', this.options.oauthUrl);
             
-                oauthIFrame.removeClass('hidden');
+            $oauthIFrame.ready(function oauthIFrameReady() {
+                
+                $oauthIFrame.removeClass('hidden');
                 
             });
                         
