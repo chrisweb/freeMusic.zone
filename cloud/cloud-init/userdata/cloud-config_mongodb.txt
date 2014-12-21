@@ -21,19 +21,21 @@ packages:
 
 # create groups
 groups:
-  - www
+  - mongodb-group
 
 # create user
 users:
   - default
-  - name: mongodb
+  - name: mongodb-user
     gecos: MongoDB User
     system: true
-    groups: mongodb
+    groups: mongodb-group
 
 runcmd:
  # TODO: configure mongodb
- # TODO: launch mongodb
+ 
+ # restart mongodb
+ [ restart, mongodb ]
 
 final_message: "The mongodb server is finally up, after $UPTIME seconds"
 

@@ -82,6 +82,9 @@ Install sass using ruby:
 
 gem install sass
 
+!!! if you have problems with the certificate (https) us this command:
+gem install sass --source http://rubygems.org
+
 Or if it is already installed, update it to the latest version using this command:
 
 gem update sass

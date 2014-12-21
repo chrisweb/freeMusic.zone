@@ -15,9 +15,17 @@ define([
     
     'use strict';
 
+    /**
+     * 
+     * initialize
+     * 
+     * @param {type} $element
+     * @param {type} videoFormat
+     * @returns {undefined}
+     */
     var initialize = function initializeFunction($element, videoFormat) {
         
-        utilities.log('start video player', 'fontColor:green');
+        utilities.log('initializing the video player', 'fontColor:green');
         
         var videoPlayer = '';
 

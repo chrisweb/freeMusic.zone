@@ -12,7 +12,6 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
-* rename all the plugin start methods into initialize
 * add callbacks to all the plugin initialization methods, to be used in the bootstrap
 * run the plugin intialization methods in parallel, when all callbacks have been returned call the event application:start
 * add a check if the user is logged in, if not redirect him to the homepage
@@ -54,10 +53,12 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * aws redis
 * aws twitter harvester (with forever) setup and tests
 * aws music analyzer test
+* the twitter harvester code should have it's own branch so that you don't have to checkout the entire project on production machines that only need to harvest
 
-## Todos that are on hold right now (as not required for this project)
+## Todos that are on hold right now (as not required for this project or not enough time right now)
 * create responsive jquery ui dialog
 * put the modernizr modifications into a seperate repository by forking the original project, finish the rewrite of the core for all parts that are not used by this project (check out the modernizr documentation.md for more about this task)
+* create a nodejs script that setups all the cloud services using the aws api
 
 ## done todos
 
@@ -104,3 +105,4 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: use grunt to transform ejs templates and put all of them into single jst file
 * DONE: create waveform js to display waveform data (https://github.com/chrisweb/waveform-visualizer)
 * DONE: rewrite some parts of modernizr core to be able to load the required detections with AMD instead of having to generate builds for the development version of the project
+* DONE: rename all the plugin start methods into initialize

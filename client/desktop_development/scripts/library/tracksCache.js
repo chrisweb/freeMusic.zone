@@ -29,15 +29,26 @@ define([
     
     var tracksCacheCollection;
     
-    var start = function startFunction() {
+    /**
+     * 
+     * @returns {undefined}
+     */
+    var initialize = function initializeFunction() {
         
         tracksCacheCollection = new TracksCacheCollection();
         
         // sort the models of the collection by loading timestamp
         tracksCacheCollection.comparator = 'loadedAt';
         
+        startListening();
+        
     };
 
+    /**
+     * 
+     * @param {type} trackModel
+     * @returns {undefined}
+     */
     var addTrack = function addTrackFunction(trackModel) {
         
         if (tracksCacheCollection.get(trackModel.get('id')) === undefined) {
@@ -48,6 +59,11 @@ define([
         
     };
 
+    /**
+     * 
+     * @param {type} trackId
+     * @returns {unresolved}
+     */
     var fetchTrack = function fetchTrackFunction(trackId) {
  
         var trackModel = tracksCacheCollection.get(trackId);
@@ -64,8 +80,13 @@ define([
         
     };
     
-    // TODO: need to call this function somewhere at some interval
+    /**
+     * 
+     * @returns {undefined}
+     */
     var clearUnused = function clearUnusedFunction() {
+        
+        // TODO: need to call this function somewhere at some interval
         
         tracksCacheCollection.each(function(trackModel) {
             
@@ -79,6 +100,10 @@ define([
         
     };
     
+    /**
+     * 
+     * @returns {undefined}
+     */
     var soundsGarbageCollector = function soundsGarbageCollectorFunction() {
         
         var loadedSongs = tracksCacheCollection.where({ loaded: true });
@@ -94,38 +119,46 @@ define([
         
     };
     
-    EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, function incrementUsage(parameters) {
+    /**
+     * 
+     * @returns {undefined}
+     */
+    var startListening = function startListeningFunction() {
         
-        var trackModel = tracksCacheCollection.get(parameters.id);
+        EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, function incrementUsage(parameters) {
+
+            var trackModel = tracksCacheCollection.get(parameters.id);
+
+            trackModel.set('usageCounter', trackModel.get('usageCounter')+1);
+
+        });
+
+        EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_CLOSE, function decrementUsage(parameters) {
+
+            var trackModel = tracksCacheCollection.get(parameters.id);
+
+            trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
+
+        });
+
+        EventsManager.on(EventsManager.constants.SOUND_ONLOAD, function setLoaded(parameters) {
+
+            var trackModel = tracksCacheCollection.get(parameters.id);
+
+            trackModel.set('loaded', true);
+
+            var timestamp = moment().unix();
+
+            trackModel.set('loadedAt', timestamp);
+
+            soundsGarbageCollector();
+
+        });
         
-        trackModel.set('usageCounter', trackModel.get('usageCounter')+1);
-        
-    });
-    
-    EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_CLOSE, function decrementUsage(parameters) {
-        
-        var trackModel = tracksCacheCollection.get(parameters.id);
-        
-        trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
-        
-    });
-    
-    EventsManager.on(EventsManager.constants.SOUND_ONLOAD, function setLoaded(parameters) {
-        
-        var trackModel = tracksCacheCollection.get(parameters.id);
-        
-        trackModel.set('loaded', true);
-        
-        var timestamp = moment().unix();
-        
-        trackModel.set('loadedAt', timestamp);
-        
-        soundsGarbageCollector();
-        
-    });
+    };
 
     return {
-        start: start,
+        initialize: initialize,
         fetchTrack: fetchTrack,
         addTrack: addTrack,
         clearUnused: clearUnused

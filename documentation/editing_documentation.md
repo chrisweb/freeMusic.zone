@@ -1,10 +1,10 @@
 # Editing the documentation
 
-All documentation files are styled with markdown.
-
-If you don't know markdown, please read following markdown resources to get the basics: 
+All documentation files are styled with markdown
 
 ### resources
+
+If you don't know markdown, please read following markdown resources to get the basics
 
 [Markdown Basics](https://help.github.com/articles/markdown-basics)
 
