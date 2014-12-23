@@ -28,19 +28,22 @@ define([
         utilities.log('initializing the video player', 'fontColor:green');
         
         var videoPlayer = '';
+        videoPlayer += '<div class="videoContainer">';
 
         if (videoFormat === 'gif') {
             
             videoPlayer += '<div class="backgroundVideo"></div>';
             
         } else {
-        
+            
             videoPlayer += '<video class="backgroundVideo" poster="/desktop/videos/hompage-thumbnail_1_1.png" autoplay="autoplay" loop>';
             videoPlayer += '<source src="/desktop/videos/hompage-video_1.webm" type=\'video/webm;codecs="vp8, vorbis"\'/>';
             videoPlayer += '<source src="/desktop/videos/hompage-video_1.mp4" type=\'video/mp4;codecs="avc1.42E01E, mp4a.40.2"\'/>';
             videoPlayer += '</video>';
             
         }
+        
+        videoPlayer += '</div>';
         
         var $videoPlayer = $(videoPlayer);
         

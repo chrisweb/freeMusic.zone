@@ -10,8 +10,6 @@ If you also want to use amazon aws, you can use the cloud-config userdata script
 
 ### Uploading the videos
 
-I have installed the video convertor on an amazon aws instance.
-
 Open your FTP tool (I use Filezilla).
 
 Create a new server.
@@ -28,7 +26,7 @@ That's it, now you can connect to the ec2 instance and upload the videos into th
 
 ### Launch the conversion script
 
-To convert the "homepage" videos
+To convert the "homepage" videos, use a telnet/ssh client like putty to connect to your server (where you installed freeMusic.zone)
 
 go into the root directory of the project "/var/www/freeMusic.zone"
 
@@ -44,3 +42,11 @@ on windows using the power shell:
 $env:FFMPEG_PATH="C:\ffmpeg\bin\ffmpeg.exe"
 $env:FFPROBE_PATH="C:\ffmpeg\bin\ffprobe.exe"
 node video_convertor
+
+### Update the server
+
+fetch the newest version of the project from github:
+sudo git pull
+
+update the npm dependencies:
+sudo npm update
