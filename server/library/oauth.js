@@ -79,31 +79,22 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
         // clear state value in session
         request.session.state = '';
         
-        var data = querystring.stringify({
-            code: code,
-            client_id: configuration.jamendoApi.clientId,
-            client_secret: configuration.jamendoApi.clientSecret,
-            grant_type: configuration.jamendoApi.grantType,
-            redirect_uri: configuration.jamendoApi.redirectUri
-        });
-
-        //utilities.log(data);
-
-        var options = {
-            hostname: configuration.jamendoApi.host,
-            port: configuration.jamendoApi.port,
-            path: '/' + configuration.jamendoApi.version + configuration.jamendoApi.resources.grant,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': data.length
-            }
-        };
-        
-        //utilities.log(options);
-        
         // exchange the code for a token
-        getOauthToken(data, options, configuration, request, response, next);
+        getOauthToken(code, configuration, function(error, userOauthData) {
+            
+            if (!error) {
+            
+                // emit an "userOauth" event that will get catched by the
+                // user library module
+                eventsManager.emit('userOauth', { 'userOauthData': userOauthData, 'request': request, 'response': response, 'next': next });
+
+            } else {
+                
+                next(error, request, response, next);
+                
+            }
+            
+        });
 
     });
     
@@ -155,7 +146,30 @@ var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, requ
 
 };
 
-var getOauthToken = function getOauthTokenFunction(data, options, configuration, request, response, next) {
+var getOauthToken = function getOauthTokenFunction(code, configuration, callback) {
+    
+    var data = querystring.stringify({
+        code: code,
+        client_id: configuration.jamendoApi.clientId,
+        client_secret: configuration.jamendoApi.clientSecret,
+        grant_type: configuration.jamendoApi.grantType,
+        redirect_uri: configuration.jamendoApi.redirectUri
+    });
+
+    //utilities.log(data);
+
+    var options = {
+        hostname: configuration.jamendoApi.host,
+        port: configuration.jamendoApi.port,
+        path: '/' + configuration.jamendoApi.version + configuration.jamendoApi.resources.grant,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': data.length
+        }
+    };
+
+    //utilities.log(options);
 
     var oauthRequest = https.request(options, function(oauthResponse) {
 
@@ -193,7 +207,7 @@ var getOauthToken = function getOauthTokenFunction(data, options, configuration,
                     scope: configuration.jamendoApi.scope
                 };
                 
-                eventsManager.emit('userOauth', { 'userOauthData': userOauthData, 'request': request, 'response': response, 'next': next });
+                callback(false, userOauthData);
 
             } else {
 
@@ -226,7 +240,7 @@ var getOauthToken = function getOauthTokenFunction(data, options, configuration,
 
                 utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error, 'fontColor:red');
 
-                next(error, request, response, next);
+                callback(error);
 
             }
 
@@ -238,7 +252,7 @@ var getOauthToken = function getOauthTokenFunction(data, options, configuration,
 
             utilities.log('oauth request failed: ' + e.message, 'fontColor:red');
 
-            next(error, request, response, next);
+            callback(error);
 
         });
         
