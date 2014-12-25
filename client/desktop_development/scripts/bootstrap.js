@@ -2,24 +2,30 @@
  * 
  * application bootstrap
  * 
+ * @param {type} utilities
  * @param {type} SplashScreenPlugin
  * @param {type} RouterPlugin
  * @param {type} UserPlugin
  * @param {type} EventsManager
+ * @param {type} container
  * 
  * @returns {_L19.Anonym$6}
  */
 define([
+    'chrisweb.utilities',
     'library.plugin.splashScreen',
     'library.plugin.router',
     'library.plugin.user',
-    'library.eventsManager'
+    'library.eventsManager',
+    'ribs.container'
     
 ], function (
+    utilities,
     SplashScreenPlugin,
     RouterPlugin,
     UserPlugin,
-    EventsManager
+    EventsManager,
+    container
 ) {
 
     'use strict';
@@ -33,13 +39,27 @@ define([
         // the router plugin will intialize the router
         // the pre route will check if the user is logged and redirect him to
         // the appopriate page
-        RouterPlugin.initialize(function(error) {
+        RouterPlugin.initialize(function(error, unsupported) {
             
             if (error) {
                 
                 // TODO: tell user he needs a browser that supports html5 history
                 
-                console.log(error);
+                //utilities.log(error);
+                
+                require(['views/components/notsupported'], function(NotSupportedView) {
+                    
+                    var notSupportedView = new NotSupportedView({
+                        variables: {
+                            feature: unsupported.feature
+                        }
+                    });
+                    
+                    container.add('#core', notSupportedView);
+                    
+                    container.dispatch('#core');
+                    
+                });
                 
             }
             
@@ -48,7 +68,7 @@ define([
         // on dom load
         $(function() {
             
-            console.log('dom finished loading...');
+            utilities.log('dom finished loading...');
             
             EventsManager.trigger(EventsManager.constants.DOM_LOADED);
             

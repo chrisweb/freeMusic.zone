@@ -42,6 +42,18 @@ __p += '';
 return __p
 };
 
+this["JST"]["templates/partials/notsupported"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div id="wrapperOfUnsupported">\r\n\r\n    Your browser does not support "' +
+((__t = ( feature )) == null ? '' : __t) +
+'", which is a feature this app needs. All modern browsers support this feature.\r\n\r\n    <a href="https://whatbrowser.org/">Please upgrade your browser</a>\r\n\r\n</div>';
+
+}
+return __p
+};
+
 this["JST"]["templates/partials/search"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;

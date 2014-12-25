@@ -12,6 +12,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
+* use the ribs views loader instead of the require calls
 * add callbacks to all the plugin initialization methods, to be used in the bootstrap
 * run the plugin intialization methods in parallel, when all callbacks have been returned call the event application:start
 * add a check if the user is logged in, if not redirect him to the homepage

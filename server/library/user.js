@@ -75,12 +75,7 @@ module.exports.start = function initialize(configuration) {
                                 language: userResult.lang,
                                 avatar: userResult.image,
                                 id: parseInt(userResult.id),
-                                oauth: {
-                                    access_token: userOauthData.token,
-                                    expires_in: userOauthData.expiry,
-                                    scope: userOauthData.scope,
-                                    refresh_token: userOauthData.refreshToken
-                                }
+                                oauth: userOauthData
                             };
                             
                             // user does not yet exist, save data in db

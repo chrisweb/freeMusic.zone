@@ -12,13 +12,13 @@ var _ = require('underscore');
 
 /**
  * 
- * user model
+ * playlist model
  * 
- * @returns {userModel}
+ * @returns {playlistModel}
  */
-var userModel = function userModelFunction(options) {
+var playlistModel = function playlistModelFunction(options) {
     
-    var collection = 'user';
+    var collection = 'playlist';
     
     if (_.indexOf(mongoose.modelNames(), collection) === -1) {
     
@@ -62,10 +62,11 @@ var createSchema = function createSchemaFunction(options) {
         lastupdateAt: {type: Date, default: Date.now},
         id: {type: Number, trim: true, index: { unique: true }, required: true},
         oauth: {
-            token: {type: String, trim: true, required: true},
-            expiry: {type: Number, trim: true, required: true},
+            access_token: {type: String, trim: true, required: true},
+            expires_in: {type: Number, trim: true, required: true},
+            token_type: {type: String, trim: true},
             scope: {type: String, trim: true, required: true},
-            refreshToken: {type: String, trim: true, required: true}
+            refresh_token: {type: String, trim: true, required: true}
         }
     },
     defaultOptions); // return errors and 10 seconds timeout
@@ -85,7 +86,7 @@ var createSchema = function createSchemaFunction(options) {
  * @param {type} callback
  * @returns {undefined}
  */
-userModel.prototype.saveOne = function saveOneFunction(data, callback) {
+playlistModel.prototype.saveOne = function saveOneFunction(data, callback) {
     
     utilities.log('[USER MODEL] save a single object');
     
@@ -126,7 +127,7 @@ userModel.prototype.saveOne = function saveOneFunction(data, callback) {
  * @param {type} callback
  * @returns {undefined}
  */
-userModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataToUpdate, callback) {
+playlistModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataToUpdate, callback) {
     
     utilities.log('[USER MODEL] update a single object');
     
@@ -169,7 +170,7 @@ userModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataTo
  * @param {type} callback
  * @returns {undefined}
  */
-userModel.prototype.exists = function existsFunction(query, callback) {
+playlistModel.prototype.exists = function existsFunction(query, callback) {
     
     utilities.log('[USER MODEL] exists');
     
@@ -209,7 +210,7 @@ userModel.prototype.exists = function existsFunction(query, callback) {
  * @param {type} callback
  * @returns {undefined}
  */
-userModel.prototype.getOneById = function getOneFunction(id, callback) {
+playlistModel.prototype.getOneById = function getOneFunction(id, callback) {
     
     utilities.log('[USER MODEL] get one by id');
     
@@ -239,7 +240,7 @@ userModel.prototype.getOneById = function getOneFunction(id, callback) {
  * @param {type} callback
  * @returns {undefined}
  */
-userModel.prototype.getOneByQuery = function getOneFunction(query, callback) {
+playlistModel.prototype.getOneByQuery = function getOneFunction(query, callback) {
     
     utilities.log('[USER MODEL] get one by query');
     
@@ -269,7 +270,7 @@ userModel.prototype.getOneByQuery = function getOneFunction(query, callback) {
  * @param {type} callback
  * @returns {undefined}
  */
-userModel.prototype.getMultipleByQuery = function getAllFunction(query, callback) {
+playlistModel.prototype.getMultipleByQuery = function getAllFunction(query, callback) {
     
     utilities.log('[USER MODEL] get multiple by query');
     
@@ -291,4 +292,4 @@ userModel.prototype.getMultipleByQuery = function getAllFunction(query, callback
     
 };
 
-module.exports = userModel;
+module.exports = playlistModel;

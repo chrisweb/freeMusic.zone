@@ -69,7 +69,7 @@ define([
                         
                         if (callback !== undefined) {
                             
-                            callback('history is not supported');
+                            callback('history is not supported', { feature: 'history api' });
                             
                         }
                         
