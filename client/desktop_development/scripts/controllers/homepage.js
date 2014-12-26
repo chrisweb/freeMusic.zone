@@ -42,6 +42,8 @@ define([
         
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
             
+            var that = this;
+            
             // check if the user is logged in
             UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
 
@@ -49,7 +51,9 @@ define([
                 // page
                 if (isLogged) {
                     
-                    router.navigate('desktop/homepage/welcome', { trigger: true });
+                    that.router.navigate('desktop/homepage/welcome', { trigger: true });
+                    
+                    return;
                     
                 }
 
@@ -104,7 +108,7 @@ define([
 
                 container.add('#core', welcomeView);
 
-                that.dispatch();
+                container.dispatch('#core');
 
             });
             

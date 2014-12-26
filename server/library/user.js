@@ -22,6 +22,7 @@ module.exports.start = function initialize(configuration) {
         var request = parameters.request;
         var response = parameters.response;
         var next = parameters.next;
+        var errorMessage = false;
         
         // get user personal info using token
         var jamendo = new Jamendo({
@@ -38,16 +39,22 @@ module.exports.start = function initialize(configuration) {
             //utilities.log('user data from API: ', data);
             
             if (userDataAPI.headers.error_message !== '') {
+                
+                errorMessage = 'getting user data using the jamendo API failed';
                     
-                utilities.log('getting user data using the jamendo API failed: ', data.headers.error_message, 'fontColor:red');
+                utilities.log(errorMessage + ': ', data.headers.error_message, 'fontColor:red');
                 
             } else if (userDataAPI.headers.warnings !== '') {
-                    
-                utilities.log('getting user data using the jamendo API failed: ', data.headers.warnings, 'fontColor:red');
+                
+                errorMessage = 'getting user data using the jamendo API failed';
+                
+                utilities.log(errorMessage + ': ', data.headers.warnings, 'fontColor:red');
                 
             } else if (error) {
                 
-                utilities.log('getting user data using the jamendo API failed: ', error, 'fontColor:red');
+                errorMessage = 'getting user data using the jamendo API failed';
+                
+                utilities.log(errorMessage + ': ', error, 'fontColor:red');
                 
             } else {
                 
@@ -93,9 +100,9 @@ module.exports.start = function initialize(configuration) {
                                     
                                 } else {
                                     
-                                    utilities.log('error saving a user: ', error, 'fontColor:red');
+                                    errorMessage = 'error while saving the user';
                                     
-                                    next(error, request, response, next);
+                                    utilities.log(errorMessage + ': ', error, 'fontColor:red');
                                     
                                 }
                                 
@@ -111,12 +118,7 @@ module.exports.start = function initialize(configuration) {
                                 nickname: userResult.dispname,
                                 language: userResult.lang,
                                 avatar: userResult.image,
-                                oauth: {
-                                    access_token: userOauthData.token,
-                                    expires_in: userOauthData.expiry,
-                                    scope: userOauthData.scope,
-                                    refresh_token: userOauthData.refreshToken
-                                }
+                                oauth: userOauthData
                             };
                             
                             // update user data in db
@@ -134,9 +136,9 @@ module.exports.start = function initialize(configuration) {
                                     
                                 } else {
                                     
-                                    utilities.log('error updating a user: ', error, 'fontColor:red');
+                                    errorMessage = 'error while updating the user';
                                     
-                                    next(error, request, response, next);
+                                    utilities.log(errorMessage + ': ', error, 'fontColor:red');
                                     
                                 }
                                 
@@ -146,13 +148,19 @@ module.exports.start = function initialize(configuration) {
                         
                     } else {
                         
-                        utilities.log('error fetching a user: ', error, 'fontColor:red');
+                        errorMessage = 'error checking if the user exists';
                         
-                        next(error, request, response, next);
+                        utilities.log(errorMessage + ': ', error, 'fontColor:red');
                         
                     }
                     
                 });
+                
+            }
+            
+            if (errorMessage) {
+                
+                next(errorMessage, request, response, next);
                 
             }
             

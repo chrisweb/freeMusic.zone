@@ -8,6 +8,8 @@
  * @param {type} EventsManager
  * @param {type} libraryUser
  * @param {type} videoPlayer
+ * @param {type} libraryOauth
+ * @param {type} libraryRouter
  * 
  * @returns {unresolved}
  */
@@ -17,9 +19,11 @@ define([
     'ribs.view',
     'library.eventsManager',
     'library.user',
-    'library.videoPlayer'
+    'library.videoPlayer',
+    'library.oauth',
+    'library.router'
     
-], function (JST, utilities, view, EventsManager, libraryUser, videoPlayer) {
+], function (JST, utilities, view, EventsManager, libraryUser, videoPlayer, libraryOauth, libraryRouter) {
     
     'use strict';
     
@@ -37,22 +41,41 @@ define([
             // the jamendo website, a page will get loaded that will trigger
             // the oauth connected event
             EventsManager.on(EventsManager.constants.OAUTH_CONNECTED, function loginOauthConnected() {
+                
+                var $login = that.$el.find('.login');
 
-                // hide the oauth iframe
-                that.$el.find('iframe.jamendo').addClass('hidden');
-            
-                // show the loading
-                that.$el.find('.loading').removeClass('hidden');
+                var $loginButton = $login.find('#loginButton');
+                
+                var $loginLegend = $login.find('legend');
+                
+                var $oauthIFrame = that.$el.find('iframe.jamendo');
+                
+                $oauthIFrame.addClass('hidden');
+                
+                $loginButton.find('span').text('Loading...');
+                
+                $loginButton.velocity({ width: 162, height: 49, padding: '10px 16px 16px 10px' }, 'easeInSine');
                 
                 // fetch the user data from server
-                libraryUser.fetchUserData(function userFetchedCallback(error) {
-                
+                libraryUser.fetchUserData(function userFetchedCallback(error, userModel) {
+                    
                     if (!error) {
-
+                        
+                        $loginButton.find('span').text('Let\'s rock!');
+                        
+                        $loginLegend.text('Welcome ' + userModel.get('nickname'));
+                        
                         EventsManager.trigger(EventsManager.constants.OAUTH_ISLOGGED, { isLogged: libraryUser.isLogged() });
-
+                        
+                        // listen for click on "let's rock" button
+                        $loginButton.on('click', function() {
+                            
+                            libraryRouter.navigate('desktop/homepage/welcome', { trigger: true });
+                            
+                        });
+                        
                     } 
-                
+                    
                 });
                 
             });
@@ -97,6 +120,9 @@ define([
                 $oauthIFrame.removeClass('hidden');
                 
             });
+            
+            // listen for the oauth response
+            libraryOauth.listenForConnected();
                         
         }
         

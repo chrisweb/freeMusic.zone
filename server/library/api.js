@@ -98,6 +98,9 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             
         } else {
             
+            userSessionData.lastFetchDate = Date.now();
+            userSessionData.isLogged = true;
+            
             response.status(200);
             response.json(userSessionData);
             
