@@ -1,3 +1,69 @@
 //****************
 // TOP NAVIGATION
 //****************
+
+.navbar {
+    
+    margin-bottom: 0px;
+    border-radius: 0px;
+    
+    &.navbar-default {
+        background-color: $color-background;
+        border: 0px;
+    }
+    
+    .btn {
+        outline: none;
+    }
+    
+    .navbar-btn {
+        
+        border-radius: 2px;
+        color: $color-highlight;
+        background-color: transparent;
+        font-size: 18px;
+        padding: 0px 10px;
+        
+        &:hover {
+            border: 1px solid $color-text-bright;
+        }
+        
+        .caret {
+            font-size: 28px;
+        }
+        
+    }
+    
+    .navbar-brand {
+        
+        padding: 12.5px 0px;
+        margin-right: 12.5px;
+        color: $color-highlight;
+        
+        .brandFree {
+            color: $color-text-bright;
+        }
+        
+        .brandMusic {
+            color: $color-highlight;
+        }
+        
+        .brandZone {
+            color: $color-text-bright;
+        }
+        
+    }
+    
+    .container-fluid {
+        
+        .navbar-brand {
+            margin-left: 0px;
+        }
+        
+    }
+    
+    .navbar-right {
+        margin-right: 0px;
+    }
+    
+}

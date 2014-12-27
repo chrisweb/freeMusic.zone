@@ -1,12 +1,25 @@
-//****************
-// LEFT NAVIGATION
-//****************
+//*****************
+// MAIN CSS / THEME
+//*****************
 
 // CORE
 html, body, #container {
     height: 100%;
     width: 100%;
     font-family: $font-family-sans-serif;
+}
+
+body {
+    
+    -webkit-perspective: 1500px;
+	perspective: 1500px;
+	-webkit-perspective-origin: 0% 50%;
+	perspective-origin: 0% 50%;
+    
+    &.noOverflow {
+        overflow: hidden;
+    }
+    
 }
 
 #left {

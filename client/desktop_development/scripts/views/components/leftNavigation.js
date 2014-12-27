@@ -49,19 +49,19 @@ define([
         
         toggleMenu: function toggleMenuFunction(headerNavigationView) {
             
-            //utilities.log(headerNavigationView.$el);
-            
-            var $leftNavigationButton = headerNavigationView.$el.find('#left_navigation_button');
+            var $leftNavigationButton = headerNavigationView.$el.find('#leftNavigationButton');
             
             // toggle arrow of button
             var $leftNavigationButtonCaret = $leftNavigationButton.find('.caret');
             
-            //utilities.log($leftNavigationButtonCaret);
-            
             $leftNavigationButtonCaret.caretToggle();
             
-            // toggle open class of left navigation element
-            this.$el.toggleClass('open');
+            // toggle "open" class of the navigation pusher
+            var $body = $('body');
+            
+            var $navigationPusher = $body.find('#navigationPusher');
+            
+            $navigationPusher.toggleClass('open');
             
         }
         

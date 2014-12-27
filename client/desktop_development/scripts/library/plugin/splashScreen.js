@@ -31,9 +31,12 @@ define([
      */
     var initialize = function initializeFunction() {
         
-        EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function() {
+        EventsManager.once(EventsManager.constants.ROUTER_POSTROUTE, function() {
             
             var $body = $('body');
+            
+            $body.addClass('noOverflow');
+            
             var $progress = $body.find('.progress');
             
             $progress.removeClass('hidden');
@@ -68,9 +71,12 @@ define([
     var hideSplashScreen = function hideSplashScreenFunction() {
         
         var $body = $('body');
+        
+        $body.removeClass('noOverflow');
+        
         var $splashScreen = $body.find('#splashScreen');
         
-        $splashScreen.addClass('hidden');
+        $splashScreen.remove();
         
     };
     

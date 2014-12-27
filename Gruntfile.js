@@ -182,7 +182,7 @@ module.exports = function (grunt) {
                     patterns: [
                         {
                             match: 'version',
-                            replacement: '<%= gitinfo.local.branch.current.lastCommitNumber %> %>'
+                            replacement: '<%= gitinfo.local.branch.current.lastCommitNumber %>'
                         }
                     ]
                 },
@@ -353,7 +353,8 @@ module.exports = function (grunt) {
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.eot',
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.svg',
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.ttf',
-                    '<%= config.client.vendor.fontawesome.path %>/fonts/*.woff'
+                    '<%= config.client.vendor.fontawesome.path %>/fonts/*.woff',
+                    '<%= config.client.desktop.development.stylesheets.path %>/_fonts-pathes@@version.scss'
                 ],
                 tasks: ['updatefonts']
             },
@@ -366,6 +367,8 @@ module.exports = function (grunt) {
             sass_dependencies: {
                 files: [
                     '!<%= config.client.desktop.development.stylesheets.path %>/main.scss',
+                    '!<%= config.client.desktop.development.stylesheets.path %>/_fonts-pathes@@version.scss',
+                    '!<%= config.client.desktop.development.stylesheets.path %>/_fonts-pathes.scss',
                     '<%= config.client.desktop.development.stylesheets.path %>/*.scss',
                     '<%= config.client.desktop.development.stylesheets.path %>/**/*.scss'
                 ],
