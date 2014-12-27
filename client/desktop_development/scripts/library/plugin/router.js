@@ -50,15 +50,14 @@ define([
 
                     if (testResult) {
                         
+                        RouterLibrary();
+                        
                         // always do the history start after initializing the
                         // router or the first route event wont get triggered
                         Backbone.history.start({
                             pushState: true
                         });
-                        
-                        // initialize the router
-                        RouterLibrary.initialize();
-                        
+
                         if (callback !== undefined) {
                             
                             callback(false);

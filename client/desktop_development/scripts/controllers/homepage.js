@@ -5,7 +5,6 @@
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} UserLibrary
  * @param {type} modernizrTestsLoader
  * @param {type} Modernizr
  * @param {type} oauthLibrary
@@ -17,12 +16,11 @@ define([
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.user',
     'modernizrTestsLoader',
     'Modernizr',
     'library.oauth'
     
-], function (utilities, Controller, container, UserLibrary, modernizrTestsLoader, Modernizr, oauthLibrary) {
+], function (utilities, Controller, container, modernizrTestsLoader, Modernizr, oauthLibrary) {
     
     'use strict';
     
@@ -37,60 +35,45 @@ define([
             this.router = router;
             
         },
-        
+        // indexAction that gets triggered by the renderHomepage route
         indexAction: function indexActionFunction() {
         
             utilities.log('[CONTROLLER HOMEPAGE] action: index', 'fontColor:blue');
-            
-            var that = this;
-            
-            // check if the user is logged in
-            UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
 
-                // if the user is already logged in, send him to the welcome
-                // page
-                if (isLogged) {
-                    
-                    that.router.navigate('desktop/homepage/welcome', { trigger: true });
-                    
-                    return;
-                    
-                }
-
-            });
-            
             // check if video is supported by this browser
             modernizrTestsLoader([
                 'test/video',
                 'test/videoautoplay'
             ], function() {
-                
+
                 Modernizr.runTests(['video', 'videoautoplay'], function(error, testsResults) {
 
                     var videoFormat = chooseVideoFormat(testsResults);
-                    
+
                     oauthLibrary.fetchOauthUrl(function(error, response) {
-                        
+
                         var oauthUrl = response.url;
-                        
+
                         // initialize the view
-                        require(['views/components/login'], function(LoginView) {
+                        require(['views/pages/login'], function(LoginView) {
 
                             var loginView = new LoginView({
                                 oauthUrl: oauthUrl,
                                 videoFormat: videoFormat
                             });
 
+                            container.clear('#core');
+
                             container.add('#core', loginView);
 
                             container.dispatch('#core');
 
                         });
-                        
+
                     });
-                    
+
                 });
-                
+
             });
 
         },
@@ -102,9 +85,11 @@ define([
             var that = this;
             
             // get the login view
-            require(['views/components/welcome'], function(WelcomeView) {
+            require(['views/pages/welcome'], function(WelcomeView) {
 
                 var welcomeView = new WelcomeView();
+
+                container.clear('#core');
 
                 container.add('#core', welcomeView);
 

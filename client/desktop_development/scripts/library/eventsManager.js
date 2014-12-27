@@ -33,6 +33,9 @@ define([
             'OAUTH_CONNECTED': 'oauth:conntected',
             'OAUTH_ISLOGGED': 'oauth:isLogged',
             
+            // user
+            'USER_ISLOGGED': 'user:isLogged',
+            
             // search
             'SEARCH_QUERY': 'search:query',
             

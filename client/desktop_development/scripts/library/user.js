@@ -81,20 +81,38 @@ define([
         },
         isLogged: function isLoggedFunction(callback) {
 
+            var isLogged;
+
             // fetch the user data from server if the user data is not already
             // in the model
             if (this.model.get('id') === null) {
                 
                 this.fetchUserData(function(error, model) {
                     
-                    // check if the user is logged
-                    callback(false, model.get('isLogged'));
+                    isLogged = model.get('isLogged');
+                    
+                    if (callback !== undefined) {
+                    
+                        // check if the user is logged
+                        callback(false, isLogged);
+                        
+                    }
+                    
+                    EventsManager.trigger(EventsManager.constants.USER_ISLOGGED, { isLogged: isLogged });
                     
                 });
                 
             } else {
                 
-                callback(false, this.model.get('isLogged'));
+                isLogged = this.model.get('isLogged');
+                
+                if (callback !== undefined) {
+                
+                    callback(false, isLogged);
+                    
+                }
+                
+                EventsManager.trigger(EventsManager.constants.USER_ISLOGGED, { isLogged: isLogged });
                 
             }
             
@@ -116,6 +134,6 @@ define([
         
     };
 
-    return getInstance();
+    return getInstance;
     
 });

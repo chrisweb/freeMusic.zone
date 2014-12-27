@@ -16,6 +16,7 @@
  * @param {type} routes
  * @param {type} UserLibrary
  * @param {type} Configuration
+ * @param {type} Backbone
  * 
  * @returns {_L18.Anonym$8}
  */
@@ -25,28 +26,37 @@ define([
     'library.eventsManager',
     'routes',
     'library.user',
-    'configuration'
+    'configuration',
+    'backbone'
     
-], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, Configuration) {
+], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, Configuration, Backbone) {
     
     'use strict';
 
     var router;
     
-    var initialize = function initializeFunction() {
+    /**
+     * 
+     * initialize the router
+     * 
+     * @returns {unresolved}
+     */
+    var getRouter = function getRouterFunction() {
         
         var Router = ribsRouter.extend({
-
+            
             initialize: function initializeFunction() {
-
+                
                 utilities.log('[LIBRARY ROUTER] initializing ...');
-
+                
             },
             routes: routes,
-            execute: function routerExecute(callback, routeArguments, routeName) {
-
+            execute: function routerExecute(callback, routeArguments, routeName, internalCallback) {
+                
                 // pre-route event
                 EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
+                
+                var userLibrary = UserLibrary();
                 
                 var that = this;
                 
@@ -54,34 +64,64 @@ define([
                 // except the homepage
                 // so we check if the user isn't already on the homepage
                 if (routeName !== 'renderHomepage') {
-
+                    
                     // check if the user is logged in
-                    UserLibrary.isLogged(function isLoggedCallback(error, isLogged) {
-
+                    userLibrary.isLogged(function isLoggedCallback(error, isLogged) {
+                        
                         // if the user is not yet logged in, redirect him to
                         // the homepage
                         if (!isLogged) {
-
+                            
+                            // stop the dispatcher
+                            internalCallback(false);
+                            
+                            // redirect to the homapage
                             that.navigate('desktop', { trigger: true });
-
-                            return;
-
+                            
+                        } else {
+                            
+                            if (callback) callback.apply(this, routeArguments);
+                            
+                            // post route event
+                            EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
+                            
+                            internalCallback(true);
+                            
                         }
-
+                        
+                    });
+                    
+                } else {
+                    
+                    // the user wants to access the homepage, but if he is
+                    // already logged we redirect him to the welcome page
+                    userLibrary.isLogged(function isLoggedCallback(error, isLogged) {
+                        
+                        // if the user is already logged in, send him to the welcome
+                        // page
+                        if (isLogged) {
+                            
+                            // stop the dispatcher
+                            internalCallback(false);
+                            
+                            // redirect to the welcome page
+                            that.navigate('desktop/homepage/welcome', { trigger: true });
+                            
+                        } else {
+                            
+                            if (callback) callback.apply(this, routeArguments);
+                            
+                            // post route event
+                            EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
+                            
+                            internalCallback(true);
+                            
+                        }
+                        
                     });
                     
                 }
-
-                // execute the routing
-                if (callback) {
-
-                    callback.apply(this, routeArguments);
-
-                }
-
-                // post route event
-                EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
-               
+                
             }
             
         });
@@ -90,6 +130,13 @@ define([
         
     };
     
+    /**
+     * 
+     * add the event listeners
+     * 
+     * @param {type} router
+     * @returns {undefined}
+     */
     var startListening = function startListeningToRouteEventsFuntion(router) {
         
         var configuration = Configuration.get();
@@ -114,7 +161,7 @@ define([
             
             // if the action is not defined use the default value from
             // configuration
-            if ($.type(actionName) === 'undefined') {
+            if (actionName === undefined) {
                 
                 actionName = configuration.client.defaults.action;
                 
@@ -157,11 +204,17 @@ define([
         
     };
     
+    /**
+     * 
+     * get an instance (singleton)
+     * 
+     * @returns {BSONSE.BSON.require|Function.require|bson.require|bson_L1.require|Router}
+     */
     var getInstance = function getInstanceFuntion() {
 
         if (router === undefined) {
             
-            var Router = initialize();
+            var Router = getRouter();
             
             router = new Router();
             
@@ -173,6 +226,6 @@ define([
         
     };
 
-    return getInstance();
+    return getInstance;
     
 });

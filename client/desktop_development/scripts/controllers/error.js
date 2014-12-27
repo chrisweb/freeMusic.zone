@@ -30,7 +30,7 @@ define([
         
             utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'fontColor:blue');
 
-            require(['views/components/notfound'], function(notfoundView) {
+            require(['views/pages/notfound'], function(notfoundView) {
 
                 // put the search field partial into the main section of the layout
                 notfoundView.insertInto('#core');

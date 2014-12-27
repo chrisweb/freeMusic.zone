@@ -42,7 +42,7 @@ define([
 
             // chat message input form
             require([
-                'views/components/chatBar'
+                'views/components/chat/bar'
             ], function(ChatBarView) {
 
                 var chatBarView = new ChatBarView();
@@ -53,8 +53,8 @@ define([
 
             // chat messages list
             require([
-                'views/components/chatMessagesList',
-                'views/components/chatMessageRow',
+                'views/components/chat/messagesList',
+                'views/components/chat/messageRow',
                 'models.ChatMessage',
                 'collections.ChatMessages'
             ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {

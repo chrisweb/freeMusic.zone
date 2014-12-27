@@ -6,6 +6,8 @@
  * @param {type} SplashScreenPlugin
  * @param {type} RouterPlugin
  * @param {type} UserPlugin
+ * @param {type} LeftNavigationPlugin
+ * @param {type} HeaderNavigationPlugin
  * @param {type} EventsManager
  * @param {type} container
  * 
@@ -16,6 +18,8 @@ define([
     'library.plugin.splashScreen',
     'library.plugin.router',
     'library.plugin.user',
+    'library.plugin.leftNavigation',
+    'library.plugin.headerNavigation',
     'library.eventsManager',
     'ribs.container'
     
@@ -24,12 +28,23 @@ define([
     SplashScreenPlugin,
     RouterPlugin,
     UserPlugin,
+    LeftNavigationPlugin,
+    HeaderNavigationPlugin,
     EventsManager,
     container
 ) {
 
     'use strict';
     
+    // did the components already get initialized
+    var componentsAreReady = false;
+    
+    /**
+     * 
+     * run
+     * 
+     * @returns {undefined}
+     */
     var run = function runFunction() {
         
         // first initialize the splashScreen plugin
@@ -42,12 +57,10 @@ define([
         RouterPlugin.initialize(function(error, unsupported) {
             
             if (error) {
+
+                utilities.log(error);
                 
-                // TODO: tell user he needs a browser that supports html5 history
-                
-                //utilities.log(error);
-                
-                require(['views/components/notsupported'], function(NotSupportedView) {
+                require(['views/pages/notsupported'], function(NotSupportedView) {
                     
                     var notSupportedView = new NotSupportedView({
                         variables: {
@@ -73,28 +86,31 @@ define([
             EventsManager.trigger(EventsManager.constants.DOM_LOADED);
             
         });
-        
-        /*// on user connected with oauth, as soon as the user is connected
-        // using his jamendo account we can remove the login page and open
-        // the welcome page
-        EventsManager.on(EventsManager.constants.OAUTH_ISLOGGED, function bootstrapOauthConnected() {
 
-            // initialize the audio player
-            initializePlayer();
+        // on event "post route" and the UI does not already exist
+        EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function(parameters) {
             
-            // initialize the tracks manager
-            initializeTracksCacheManager();
+            if (parameters.routeName !== 'renderHomepage' && !componentsAreReady) {
+                
+                initializeComponents();
+                
+            }
             
-            // initialize the top navigation
-            initializeHeaderNavigation();
-            
-            // initialize the left navigation but keep it hidden until the
-            // user requests it
-            initializeLeftNavigation();
-            
-            
-            
-        });*/
+        });
+        
+    };
+    
+    // as soon as the user is logged in and the application components have
+    // not been initialized (ui, player, ...)
+    var initializeComponents = function() {
+        
+        componentsAreReady = true;
+        
+        // initialize the left navigation
+        LeftNavigationPlugin.initialize();
+        
+        // initialize the header navigation
+        HeaderNavigationPlugin.initialize();
         
     };
     

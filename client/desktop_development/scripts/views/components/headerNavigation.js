@@ -49,7 +49,7 @@ define([
             
             event.preventDefault();
             
-            eventsManager.trigger('menu:toggle', this);
+            //eventsManager.trigger('menu:toggle', this);
             
         }
         

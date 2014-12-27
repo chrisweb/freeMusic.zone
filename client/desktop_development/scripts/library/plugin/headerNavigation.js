@@ -11,25 +11,30 @@
  * header navigation
  * 
  * @param {type} utilities
- * @param {type} Backbone
  * @param {type} container
  * 
  * @returns {_L16.Anonym$2}
  */
 define([
     'chrisweb.utilities',
-    'backbone',
     'ribs.container'
     
 ], function (
     utilities,
-    Backbone,
     container
 ) {
     
     'use strict';
     
+    /**
+     * 
+     * initialize the header navigation
+     * 
+     * @returns {undefined}
+     */
     var initialize = function initializeFunction() {
+        
+        utilities.log('[HEADER NAVIGATION] initializing ...', 'fontColor:blue');
         
         // add the header navigation to the header element of the layout
         require(['views/components/headerNavigation'], function(HeaderNavigationView) {
@@ -38,7 +43,7 @@ define([
             
             container.add('#header', headerNavigationView);
             
-            container.dispatch();
+            container.dispatch('#header');
 
         });
         
