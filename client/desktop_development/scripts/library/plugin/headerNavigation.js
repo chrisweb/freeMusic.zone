@@ -37,9 +37,11 @@ define([
         utilities.log('[HEADER NAVIGATION] initializing ...', 'fontColor:blue');
         
         // add the header navigation to the header element of the layout
-        require(['views/components/headerNavigation'], function(HeaderNavigationView) {
+        require(['views/components/header/navigation'], function(HeaderNavigationView) {
             
             var headerNavigationView = new HeaderNavigationView();
+            
+            container.clear('#header');
             
             container.add('#header', headerNavigationView);
             

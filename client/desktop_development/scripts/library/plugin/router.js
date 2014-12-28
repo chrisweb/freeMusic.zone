@@ -10,6 +10,7 @@
  * 
  * router plugin
  * 
+ * @param {type} $
  * @param {type} utilities
  * @param {type} Backbone
  * @param {type} RouterLibrary
@@ -19,13 +20,14 @@
  * @returns {_L16.Anonym$2}
  */
 define([
+    'jquery',
     'chrisweb.utilities',
     'backbone',
     'library.router',
     'modernizrTestsLoader',
     'Modernizr'
     
-], function (utilities, Backbone, RouterLibrary, modernizrTestsLoader, Modernizr) {
+], function ($, utilities, Backbone, RouterLibrary, modernizrTestsLoader, Modernizr) {
     
     'use strict';
     
@@ -50,13 +52,15 @@ define([
 
                     if (testResult) {
                         
-                        RouterLibrary();
+                        var routerLibrary = RouterLibrary();
                         
                         // always do the history start after initializing the
                         // router or the first route event wont get triggered
                         Backbone.history.start({
                             pushState: true
                         });
+                        
+                        addLinkClickListeners(routerLibrary);
 
                         if (callback !== undefined) {
                             
@@ -77,6 +81,29 @@ define([
                 }
                 
             });
+            
+        });
+        
+    };
+    
+    /**
+     * 
+     * listen for clicks on links
+     * 
+     * @param {type} routerLibrary
+     * @returns {undefined}
+     */
+    var addLinkClickListeners = function addLinkClickListenersFunction(routerLibrary) {
+        
+        var $body = $('body');
+        
+        $body.on('click', 'a:not(.external)', function(event) {
+            
+            event.preventDefault();
+            
+            var url = $(this).attr('href');
+            
+            routerLibrary.navigate(url, { trigger: true });
             
         });
         

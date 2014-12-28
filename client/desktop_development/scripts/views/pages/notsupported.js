@@ -28,7 +28,7 @@ define([
             
         },
         
-        template: JST['templates/partials/notsupported'],
+        template: JST['templates/partials/pages/notsupported'],
         
         // view events
         events: {

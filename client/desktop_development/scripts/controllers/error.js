@@ -5,13 +5,17 @@
  * @param {type} $
  * @param {type} utilities
  * @param {type} Controller
+ * @param {type} container
+ * 
  * @returns {unresolved}
  */
 define([
     'jquery',
     'chrisweb.utilities',
-    'library.controller'
-], function ($, utilities, Controller) {
+    'library.controller',
+    'ribs.container'
+    
+], function ($, utilities, Controller, container) {
     
     'use strict';
     
@@ -30,10 +34,15 @@ define([
         
             utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'fontColor:blue');
 
-            require(['views/pages/notfound'], function(notfoundView) {
+            require(['views/pages/notfound'], function(NotfoundView) {
 
-                // put the search field partial into the main section of the layout
-                notfoundView.insertInto('#core');
+                container.clear('#core');
+
+                var notfoundView = new NotfoundView();
+
+                container.add('#left', notfoundView);
+                
+                container.dispatch('#left');
 
             });
 

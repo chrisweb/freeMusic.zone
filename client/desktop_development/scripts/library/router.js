@@ -161,7 +161,7 @@ define([
             
             // if the action is not defined use the default value from
             // configuration
-            if (actionName === undefined) {
+            if (actionName === null) {
                 
                 actionName = configuration.client.defaults.action;
                 
@@ -172,14 +172,37 @@ define([
             controllerName.replace(/[^a-zA-Z0-9]/g, '');
             actionName.replace(/[^a-zA-Z0-9]/g, '');
             
+            // transform the controller url name into the real file name
+            var controllerFileName = controllerName.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+            
             var options = {};
 
             // load the controller and call the action
-            require(['controllers/' + controllerName], function(Controller) {
+            require(['controllers/' + controllerFileName], function(Controller) {
                 
-                var controller = new Controller(options, configuration, router);
+                // check if the controller exists
+                if (Controller !== undefined) {
+                
+                    var controller = new Controller(options, configuration, router);
 
-                controller[actionName + 'Action']();
+                    // check if the action exists
+                    if (controller[actionName + 'Action'] !== undefined) {
+
+                        controller[actionName + 'Action']();
+                        
+                    } else {
+                        
+                        // action not found trigger 404
+                        router.trigger('route:render404');
+                        
+                    }
+                    
+                } else {
+                    
+                    // controller not found trigger 404
+                    router.trigger('route:render404');
+                    
+                }
                 
             });
 
@@ -189,7 +212,9 @@ define([
 
             require(['controllers/error'], function(ErrorController) {
                 
-                ErrorController.notfoundAction();
+                var errorController = new ErrorController();
+                
+                errorController.notfoundAction();
                 
             });
 

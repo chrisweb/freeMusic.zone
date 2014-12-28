@@ -31,7 +31,7 @@ define([
             
         },
         
-        template: JST['templates/partials/welcome'],
+        template: JST['templates/partials/pages/welcome'],
         
         // view events
         events: {

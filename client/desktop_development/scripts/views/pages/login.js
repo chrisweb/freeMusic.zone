@@ -67,7 +67,7 @@ define([
                         
                         $loginLegend.text('Welcome ' + userModel.get('nickname'));
                         
-                        EventsManager.trigger(EventsManager.constants.OAUTH_ISLOGGED, { isLogged: userLibrary.isLogged() });
+                        EventsManager.trigger(EventsManager.constants.OAUTH_ISLOGGED, { isLogged: userModel.get('isLogged') });
                         
                         // listen for click on "let's rock" button
                         $loginButton.on('click', function() {
@@ -93,7 +93,7 @@ define([
             
         },
         
-        template: JST['templates/partials/login'],
+        template: JST['templates/partials/pages/login'],
         
         // view events
         events: {

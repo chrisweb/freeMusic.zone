@@ -37,9 +37,11 @@ define([
         utilities.log('[LEFT NAVIGATION] initializing ...', 'fontColor:blue');
         
         // add the header navigation to the header element of the layout
-        require(['views/components/leftNavigation'], function(LeftNavigationView) {
+        require(['views/components/left/navigation'], function(LeftNavigationView) {
             
             var leftNavigationView = new LeftNavigationView();
+            
+            container.clear('#left');
             
             container.add('#left', leftNavigationView);
             

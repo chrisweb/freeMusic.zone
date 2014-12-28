@@ -4,14 +4,8 @@
 
 #leftNavigation {
 
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    visibility: hidden;
     width: 300px;
     height: 100%;
-    background: #48a770;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
     -webkit-transform: translate3d(-100%, 0, 0) rotateY(-90deg);
@@ -20,19 +14,6 @@
     transform-origin: 100% 50%;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
-
-    &:after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.2);
-        content: '';
-        opacity: 1;
-        -webkit-transition: opacity 0.5s;
-        transition: opacity 0.5s;
-    }
 
     a {
 
@@ -100,43 +81,23 @@
         transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
     }
     
+    #main {
+        padding-left: 300px;
+    }
+    
+    .navigationPusher {
+        -webkit-transform: translate3d(300px, 0, 0);
+        transform: translate3d(300px, 0, 0);
+    }
+    
 }
 
-#navigationPusher {
-    
+.navigationPusher {
+    width: 0px;
     position: relative;
-    left: 0;
-    z-index: 99;
     height: 100%;
     -webkit-transition: -webkit-transform 0.5s;
     transition: transform 0.5s;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
-    
-    &:after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 0;
-        height: 0;
-        background: rgba(0,0,0,0.2);
-        content: '';
-        opacity: 0;
-        -webkit-transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
-        transition: opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s;
-    }
-    
-    &.open {
-        -webkit-transform: translate3d(300px, 0, 0);
-        transform: translate3d(300px, 0, 0);
-    }
-    
-    &.open:after {
-        width: 100%;
-        height: 100%;
-        opacity: 1;
-        -webkit-transition: opacity 0.5s;
-        transition: opacity 0.5s;
-    }
-    
 }

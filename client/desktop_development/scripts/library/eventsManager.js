@@ -24,43 +24,47 @@ define([
     'use strict';
     
     var eventsManager = {
-        constants: {
-            
-            // application
-            'DOM_LOADED': 'application:onDOMLoad',
-            
-            // OAuth
-            'OAUTH_CONNECTED': 'oauth:conntected',
-            'OAUTH_ISLOGGED': 'oauth:isLogged',
-            
-            // user
-            'USER_ISLOGGED': 'user:isLogged',
-            
-            // search
-            'SEARCH_QUERY': 'search:query',
-            
-            // router
-            'ROUTER_PREROUTE': 'router:preRoute',
-            'ROUTER_POSTROUTE': 'router:postRoute',
-            
-            // track
-            'TRACK_PLAY': 'track:play',
-            'TRACK_STOP': 'track:stop',
-            
-            // track row
-            'TRACKROW_VIEW_ON_INITIALIZE': 'trackRowView:onInitialize',
-            'TRACKROW_VIEW_ON_CLOSE': 'trackRowView:onClose',
-            
-            // sound
-            'SOUND_ONLOAD': 'sound:onload',
-            
-            // menu
-            'MENU_TOGGLE': 'menu:toggle'
-            
-        }
+        
     };
     
     var LibraryEventsManager = _.extend(eventsManager, RibsEventsManager);
+    
+    LibraryEventsManager.constants = {
+
+        // application
+        'DOM_LOADED': 'application:onDOMLoad',
+
+        // OAuth
+        'OAUTH_CONNECTED': 'oauth:conntected',
+        'OAUTH_ISLOGGED': 'oauth:isLogged',
+
+        // user
+        'USER_ISLOGGED': 'user:isLogged',
+
+        // search
+        'SEARCH_QUERY': 'search:query',
+
+        // router
+        'ROUTER_PREROUTE': 'router:preRoute',
+        'ROUTER_POSTROUTE': 'router:postRoute',
+
+        // track
+        'TRACK_PLAY': 'track:play',
+        'TRACK_STOP': 'track:stop',
+
+        // track row
+        'TRACKROW_VIEW_ON_INITIALIZE': 'trackRowView:onInitialize',
+        'TRACKROW_VIEW_ON_CLOSE': 'trackRowView:onClose',
+
+        // sound
+        'SOUND_ONLOAD': 'sound:onload',
+
+        // menu
+        'MENU_TOGGLE': 'menu:toggle'
+
+    };
+    
+    
 
     return LibraryEventsManager;
     

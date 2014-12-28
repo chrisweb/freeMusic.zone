@@ -31,35 +31,15 @@ define([
             
         },
         
-        template: JST['templates/partials/notfound'],
+        template: JST['templates/partials/pages/notfound'],
         
         // view events
         events: {
             
-        },
-
-        // render
-        render: function() {
-
-            this.$el.html(this.template);
-            
-            // enables chainability
-            return this;
-
         }
         
     });
     
-    var insertInto = function insertIntoFunction(element) {
-        
-        var notfoundView = new NotfoundView();
-        
-        $(element).append(notfoundView.create());
-        
-    };
-    
-    return {
-        insertInto: insertInto
-    };
+    return NotfoundView;
     
 });
