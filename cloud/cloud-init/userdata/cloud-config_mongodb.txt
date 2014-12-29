@@ -32,10 +32,25 @@ users:
     groups: mongodb-group
 
 runcmd:
- # TODO: configure mongodb
- 
+ # configure mongodb
+ # TODO: disable auth (is default), then checkout the script
+ # (freeMusic.zone/cloud/script/mongodb-users.js) from github that
+ # will setup the users, edit the file and set the passwords you want, run that
+ # script to create the admin user as well as some users that will access the
+ # database with the following command:
+ # mongo mongodb-users.js
+ # then enable auth and restart the server
+ #- [ sed, -i, "s/# auth = true/auth = true/g", /etc/mongodb.conf ]
+ # TODO: is there a better way to update the configuration file???
+ - [ sed, -i, "s/httpinterface = true/httpinterface = false/g", /etc/mongodb.conf ]
+ - [ sed, -i, "s/# noscripting = true/noscripting = true/g", /etc/mongodb.conf ]
+ - [ sed, -i, "s/# notablescan = true/notablescan = true/g", /etc/mongodb.conf ]
  # restart mongodb
  [ restart, mongodb ]
+ 
+ # TODO: instead of having just one mongodb database if would be nice to have
+ # a replica set of multiple databases
+ # http://docs.mongodb.org/manual/replication/
 
 final_message: "The mongodb server is finally up, after $UPTIME seconds"
 

@@ -29,7 +29,7 @@ module.exports.getClient = function getClientFunction(callback) {
         && configuration.mongodb.password !== undefined
         && configuration.mongodb.password !== '') {
         
-        userAndPasswordPart = user + ':' + password + '@';
+        userAndPasswordPart = configuration.mongodb.user + ':' + configuration.mongodb.password + '@';
         
     }
     
