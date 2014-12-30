@@ -49,6 +49,7 @@ var createSchema = function createSchemaFunction(options) {
     var Schema = mongoose.Schema;
     var mixedType = Schema.Types.Mixed;
 
+    // return errors and 10 seconds timeout
     var schemaOptions = {
         safe: true,
         wtimeout: 10000
@@ -72,7 +73,7 @@ var createSchema = function createSchemaFunction(options) {
             refreshToken: {type: String, trim: true, required: true}
         }
     },
-    defaultOptions); // return errors and 10 seconds timeout
+    defaultOptions);
 
     // avoid that mongoose checks if indexes exist on every startup
     schema.set('autoIndex', false);
