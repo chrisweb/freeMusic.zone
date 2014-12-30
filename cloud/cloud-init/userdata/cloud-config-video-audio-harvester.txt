@@ -159,7 +159,7 @@ runcmd:
  - cd /var/www/freeMusic.zone
  - npm config set color false
  - npm install
-# install bower dependencies (run with the "allow-root" option as cloud init uses sudo)
+ # install bower dependencies (run with the "allow-root" option as cloud init uses sudo)
  - bower install --no-color --allow-root
 
 final_message: "The media server is finally up, after $UPTIME seconds"

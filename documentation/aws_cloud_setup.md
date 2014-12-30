@@ -10,7 +10,13 @@ login to amazon aws http://aws.amazon.com/
 
 ### mongodb instance
 
-Create a new EC2 instance, by clicking the "launch instance" button in your aws console
+The mongodb cloud init userdata script will create a mongodb users setup script and put it into /etc/mongodb-users-setup.js
+
+It will then use that file to create the mongodb user, when this is dont the script will edit the mongodb conf file and enable auth
+
+You need to edit the cloud/cloud-init/userdata/cloud-config_mongodb.txt and add your own passwords you want to use for the three default users it will create, then edit the server configuration (server/configuration/configuration.js) file and use the same values there
+
+Now create a new EC2 instance, by clicking the "launch instance" button in your aws console
 
 Step1: Choose Amazon Linux 64 as OS
 
@@ -18,9 +24,9 @@ Step2: Choose the instance capacity you want
 
 Step3: In "advanced details" add the mongodb server userdata that can be found in "cloud/cloud-init/userdata/cloud-config_mongodb.txt", this will setup the instance and install mongodb
 
-Now launch the instance
+Step4: Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the mongodb port you have defined and only for the IP range of your web servers
 
-When its ready, 
+Finally: launch the instance
 
 ### twitter harvester
 

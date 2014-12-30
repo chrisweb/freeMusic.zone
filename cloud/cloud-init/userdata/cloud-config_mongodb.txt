@@ -31,23 +31,67 @@ users:
     system: true
     groups: mongodb-group
 
+write_files:
+  # create the mongodb users setup file
+  - path: /etc/mongodb-users-setup.js
+    content: |
+      // create a mongodb admin
+      db.getSiblingDB("admin")
+      .createUser(
+          {
+              user: "mongoUserAdmin",
+              pwd: "PUT_A_STRONG_PASSWORD_HERE",
+              roles: [{role: "userAdminAnyDatabase", db: "admin"}]
+          }
+      );
+      // create a user with only read permissions
+      db.getSiblingDB("freemusiczone")
+      .createUser(
+          {
+              user: "mongoUserRead",
+              pwd: "PUT_A_STRONG_PASSWORD_HERE",
+              roles: [
+                  {role: "read", db: "freemusiczone"}
+              ]
+          }
+      );
+      // create a user with read/write permissions
+      db.getSiblingDB("freemusiczone")
+      .createUser(
+          {
+              user: "mongoUserReadWrite",
+              pwd: "PUT_A_STRONG_PASSWORD_HERE",
+              roles: [
+                  {role: "readWrite", db: "freemusiczone"}
+              ]
+          }
+      );
+
 runcmd:
  # configure mongodb
- # TODO: disable auth (is default), then checkout the script
- # (freeMusic.zone/cloud/script/mongodb-users.js) from github that
- # will setup the users, edit the file and set the passwords you want, run that
- # script to create the admin user as well as some users that will access the
- # database with the following command:
- # mongo mongodb-users.js
- # then enable auth and restart the server
- #- [ sed, -i, "s/# auth = true/auth = true/g", /etc/mongodb.conf ]
- # TODO: is there a better way to update the configuration file???
- - [ sed, -i, "s/httpinterface = true/httpinterface = false/g", /etc/mongodb.conf ]
- - [ sed, -i, "s/# noscripting = true/noscripting = true/g", /etc/mongodb.conf ]
- - [ sed, -i, "s/# notablescan = true/notablescan = true/g", /etc/mongodb.conf ]
+ # disable auth (is default)
+ - sed -i 's/#auth=.*/auth=false/g' /etc/mongod.conf
+ # change some configuration options
+ - sed -i 's/#httpinterface=.*/httpinterface=false/g' /etc/mongod.conf
+ - sed -i 's/#noscripting=.*/noscripting=true/g' /etc/mongod.conf
+ - sed -i 's/#notablescan=.*/notablescan=true/g' /etc/mongod.conf
+ # if you disable bind ip, remember to secure the db by putting it into a
+ # secured subnet on aws or by creating a security group for the server(s) that
+ # disallows any traffic other then the one from your web servers
+ - sed -i 's/bind_ip=127.0.0.1/#bind_ip=127.0.0.1/g' /etc/mongod.conf
+ # change the port number to whatever you want, but remember to also edit the
+ # server configuration file and add your port number there too
+ - sed -i 's/#port=27017/port=27017/g' /etc/mongod.conf
  # restart mongodb
- [ restart, mongodb ]
- 
+ - service mongod restart
+ # !!! edit the file above and set the passwords you want
+ # run the script to create the admin user as well as some users that will
+ # access the database with the following command:
+ - mongo /etc/mongodb-users-setup.js
+ # then enable auth and restart the server
+ - sed -i 's/auth=.*/auth=true/g' /etc/mongod.conf
+ # restart mongodb
+ - service mongod restart
  # TODO: instead of having just one mongodb database if would be nice to have
  # a replica set of multiple databases
  # http://docs.mongodb.org/manual/replication/

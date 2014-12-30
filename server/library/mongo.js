@@ -41,7 +41,7 @@ module.exports.getClient = function getClientFunction(callback) {
         
     }
     
-    var connectionParameters = 'mongodb://' + userAndPasswordPart + configuration.mongodb.host + portPart;
+    var connectionParameters = 'mongodb://' + userAndPasswordPart + configuration.mongodb.host + portPart + '/' + configuration.mongodb.database.name;
     
     //utilities.log('[MONGO_DB] ' + connectionParameters, 'fontColor:cyan');
     
