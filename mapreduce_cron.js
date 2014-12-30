@@ -10,10 +10,11 @@ var utilities = require('./bower_components/chrisweb-utilities/utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
-    
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to PRODUCTION', 'red');
 
-    process.env.NODE_ENV = 'production';
+    //process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'development';
+    
+    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red', 'backgroundColor:white');
 
 }
 
@@ -27,37 +28,32 @@ var configuration = configurationModule.get();
 // cron vendor module
 var cron = require('cron');
 
-// initialize mongodb connection (mongoose)
-var app = {};
+// mongo module
+var mongoModule = require('./library/mongo');
 
-app.mongoose = require('mongoose');
+var mongoClient;
 
-app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configuration.mongodb.database.name, function(error) {
+// mongodb connection
+mongoModule.getClient(function mongooseConnectCallback(error, mongooseConnection) {
     
-    if (typeof(error) !== 'undefined') {
+    if (error) {
         
-        utilities.log('mongodb connection failed, host: ' + configuration.mongodb.host + ', database: ' + configuration.mongodb.database.name + ', error: ' + error, 'red');
+        utilities.log('[MONGODB]' + error, 'fontColor:red');
         
     } else {
         
-        // enable mongoose debugging in development
-        if (environment === 'development') {
-
-            console.log('enabling mongoose debuggin');
-
-            app.mongoose.set('debug', true);
-
-        }
+        utilities.log('[MONGODB] connected', 'fontColor:green');
+        
+        mongoClient = mongooseConnection;
         
     }
     
 });
 
-
 // get the tweets mongoose model
 var TweetModel = require('./server/models/tweet');
 
-var tweetModel = new TweetModel(app);
+var tweetModel = new TweetModel();
 
 utilities.log('* * * * * initializing cron');
 
@@ -69,7 +65,7 @@ utilities.log('* * * * * initializing cron');
  */
 var oneMinuteLauncher = function() {
     
-    utilities.log('* * * * * cron job(s) get(s) executed', 'info');
+    utilities.log('* * * * * cron job(s) get(s) executed', 'fontColor:blue');
     
     var options = {};
 
@@ -77,7 +73,7 @@ var oneMinuteLauncher = function() {
 
         if (error) {
 
-            utilities.log('error: ' + error);
+            utilities.log('error: ' + error, 'fontColor:red');
             
         } else {
             
@@ -106,8 +102,27 @@ try {
 
 } catch(error) {
 
-    utilities.log('cron pattern not valid, error: ' + error, 'error');
+    utilities.log('cron pattern not valid, error: ' + error, 'fontColor:red');
     
 }
 
 job.start();
+
+// close db connections on shutdown
+process.on('SIGINT', function() {
+
+    mongoModule.disconnect(mongoClient, function (error) {
+        
+        if (error) {
+            
+            utilities.log('mongodb disconnect: ' + error, 'fontColor:red');
+            
+        }
+
+        utilities.log('[MAPREDUCE CRON] process is shutting down...');
+
+        process.exit(0);
+
+    });
+
+});

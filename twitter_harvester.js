@@ -12,10 +12,11 @@ var utilities = require('./bower_components/chrisweb-utilities/utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
-    
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to PRODUCTION', 'red');
 
-    process.env.NODE_ENV = 'production';
+    //process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = 'development';
+    
+    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red', 'backgroundColor:white');
 
 }
 
@@ -26,27 +27,23 @@ var environment = process.env.NODE_ENV;
 var configurationModule = require('./server/configuration/configuration.js');
 var configuration = configurationModule.get();
 
-// initialize mongodb connection (mongoose)
-var app = {};
+// mongo module
+var mongoModule = require('./library/mongo');
 
-app.mongoose = require('mongoose');
+var mongoClient;
 
-app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configuration.mongodb.database.name, function(error) {
+// mongodb connection
+mongoModule.getClient(function mongooseConnectCallback(error, mongooseConnection) {
     
-    if (typeof(error) !== 'undefined') {
+    if (error) {
         
-        utilities.log('mongodb connection failed, host: ' + configuration.mongodb.host + ', database: ' + configuration.mongodb.database.name + ', error: ' + error, 'red');
+        utilities.log('[MONGODB]' + error, 'fontColor:red');
         
     } else {
         
-        // enable mongoose debugging in development
-        if (environment === 'development') {
-
-            console.log('enabling mongoose debuggin');
-
-            app.mongoose.set('debug', true);
-
-        }
+        utilities.log('[MONGODB] connected', 'fontColor:green');
+        
+        mongoClient = mongooseConnection;
         
     }
     
@@ -55,7 +52,7 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
 // get the tweets mongoose model
 var TweetModel = require('./server/models/tweet');
 
-var tweetModel = new TweetModel(app);
+var tweetModel = new TweetModel();
 
 // load jamendo from twitter
 // try/catch because it is a github module and might be missing
@@ -65,7 +62,7 @@ try {
     
 } catch(exception) {
 
-    utilities.log('loading jamendo-from-twitter failed: ');
+    utilities.log('loading jamendo-from-twitter failed: ', 'fontColor:red');
 
     utilities.log(exception);
     
@@ -80,7 +77,7 @@ try {
  */
 var saveTweet = function(trackId) {
     
-    utilities.log('harvester saveTweet: ');
+    utilities.log('harvester saveTweet.. ', 'fontColor:blue');
     
     var message = this.message;
     
@@ -99,7 +96,7 @@ var saveTweet = function(trackId) {
 
     tweetModel.saveOne(twitterData, function(error) {
         
-        console.log('error: ' + error);
+        console.log('error: ' + error, 'fontColor:red');
         
     });
     
@@ -111,7 +108,7 @@ var harvester = new JamendoFromTwitter(configuration);
 // on twitter message listener ("jamendo from twitter" event)
 harvester.on('message', function(message) {
 
-    utilities.log('harvester incoming message: ');
+    utilities.log('harvester incoming message: ', 'fontColor:green');
     
     utilities.log(message.extracted);
 
@@ -123,7 +120,7 @@ harvester.on('message', function(message) {
 
             async.each(message.extracted.track_ids, saveTweet.bind(this), function(error){
                 
-                console.log('async error response: ');
+                console.log('async error response: ', 'fontColor:red');
                 
                 console.log(error);
                 
@@ -156,7 +153,7 @@ try {
     
 } catch(exception) {
 
-    console.log('twitter harvester error: ' + exception);
+    console.log('twitter harvester error: ' + exception, 'fontColor:red');
 
 }
 
@@ -170,3 +167,22 @@ try {
     console.log('twitter harvester error: ' + exception);
 
 }
+
+// close db connections on shutdown
+process.on('SIGINT', function() {
+
+    mongoModule.disconnect(mongoClient, function (error) {
+        
+        if (error) {
+            
+            utilities.log('mongodb disconnect: ' + error, 'fontColor:red');
+            
+        }
+
+        utilities.log('[TWITTER HARVESTER] process is shutting down...');
+
+        process.exit(0);
+
+    });
+
+});
