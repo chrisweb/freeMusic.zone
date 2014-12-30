@@ -23,7 +23,7 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
 var environment = process.env.NODE_ENV;
 
 // get configuration
-var configurationModule = require('./application/configurations/configuration.js');
+var configurationModule = require('./server/configuration/configuration.js');
 var configuration = configurationModule.get();
 
 // initialize mongodb connection (mongoose)
@@ -52,9 +52,8 @@ app.mongoose.connect('mongodb://' + configuration.mongodb.host + '/' + configura
     
 });
 
-
 // get the tweets mongoose model
-var TweetModel = require('./application/models/tweet');
+var TweetModel = require('./server/models/tweet');
 
 var tweetModel = new TweetModel(app);
 
