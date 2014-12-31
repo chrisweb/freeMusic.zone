@@ -32,7 +32,7 @@
     "errorhandler": "^1.3.0",
     "express": "^5.0.0",
     "express-session": "^1.9.3",
-    "jamendo": "~0.3.4",
+    "jamendo": "git://github.com/chrisweb/node-jamendo.git#master",
     "mongoose": "^3.9.7",
     "redis": "^0.12.1",
     "underscore": "~1.7.0",

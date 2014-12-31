@@ -12,47 +12,39 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
-* use the ribs views loader instead of the require calls
-* add callbacks to all the plugin initialization methods, to be used in the bootstrap
-* run the plugin intialization methods in parallel, when all callbacks have been returned call the event application:start
-* add a check if the user is logged in, if not redirect him to the homepage
-* add a login box (to the homepage) using jamendo oauth to the homepage (put the oauth token into mongodb)
-* add a fullscreen background video to the client homepage
-* create a user model (client side) to store all the user data (for the lifetime of a session)
-* create a user library module to manage a user
-* create a mechanism that checks if the user has refresh token and if so use it to automatically log the user in
+* run twitter harvester (aws) to fill db
+* twitter stream listener to mongodb (tweet one or more track id(s) and / or playlist id to increase tracks score)
+* aws twitter cron job (with forever) setup and tests
 * create javascript to server global error logging library
-* create a navigation bar for the app
+* finish the design of the top navigation bar for the app
+* finish the design of the left navigation bar for the app
 * add the jamendo twitter charts page to the app
 * fetch the charts from server and display them in the client
-* add a play button (player bar) to play the the songs listed int he charts
+* (finish player / tracksCache library) add a play button (player bar) to play the the songs listed in the charts
+* socket io chat (one room per playlist)
+* list of playlists (for collaborative module) sort by (popularity / date)
+* playlist detail page (for collaborative module)
 
 ## Other todos (damn that's a lot of todos ;) )
 
+* create a mechanism that checks if the user has refresh token and if so and if its is about to expire use it to refresh the oauth token
+* use the ribs views loader instead of the require calls
 * make api really restfull, (no cookie?), stateless
 * search queries cache on server with redis
 * track infos cache on server with redis
-* a controller module that can be extended and is architectured like the backbone view or backbone model modules
 * views el should be extracted from template and then build upon this, then remove the main element from template
 * if the view event listener selector includes the class of the root element the event won't get, which cant be found, works fine with the original backbone
-* a soundmanager player
 * create own grunt contrib jst with undefined checks, because underscore precompiled templates throw not defined error if you execute template with no data, this is a problem if in initialize you want the template html code but have no data yet
 * needs fix??? when creating a view using addModel the view ids always get increment by 2???
 * mobile support (pointer events?)
 * a cordova version for android and iOS
+* a desktop version using node webkit https://github.com/rogerwang/node-webkit
 * client side error logging tool
-* socket io chat (one room per playlist)
-* list of playlists (homepage) sort by (popularity / date)
-* playlist detail page
-* run twitter harvester (aws) to fill db
-* twitter stream listener to mongodb (tweet a track id and playlist id followed by #music to increase tracks score)
 * jamendo api calls library
 * responsive images http://dev.opera.com/articles/native-responsive-images/
 * write client and server code tests using mocha
 * improve existing documentation
-* aws mongodb
-* aws redis
-* aws twitter harvester (with forever) setup and tests
+* aws redis setup script (cloud init config)
 * aws music analyzer test
 * the twitter harvester code should have it's own branch so that you don't have to checkout the entire project on production machines that only need to harvest
 
@@ -107,3 +99,13 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: create waveform js to display waveform data (https://github.com/chrisweb/waveform-visualizer)
 * DONE: rewrite some parts of modernizr core to be able to load the required detections with AMD instead of having to generate builds for the development version of the project
 * DONE: rename all the plugin start methods into initialize
+* DONE: add a check if the user is logged in, if not redirect him to the homepage
+* DONE: add a login box (to the homepage) using jamendo oauth to the homepage (put the oauth token into mongodb)
+* DONE: add a fullscreen background video to the client homepage
+* DONE: create a user model (client side) to store all the user data (for the lifetime of a session)
+* DONE: create a user library module to manage a user
+* DONE: add a left navigation bar with a 3d opening effect
+* DONE: (in ribs.js) a controller module that can be extended and is architectured like the backbone view or backbone model modules
+* DONE: update the twitter harvester so that it uses the project mongodb library instead of doing mongodb connections on its own
+* DONE: fix regex in harvester module to extract multiple track urls from a tweet instead only last one
+* DONE: setup script for aws mongodb installation (userdata for cloud init)
