@@ -62,12 +62,12 @@ var createSchema = function createSchemaFunction(options) {
     },
     schemaOptions);
 
-	tweetSchema.index({ jamendo_unit: 1, jamendo_unit_id: 1});
+    tweetSchema.index({ jamendo_unit: 1, jamendo_unit_id: 1});
 
     // should mongoose checks if indexes exist on every startup?
     tweetSchema.set('autoIndex', true);
 
-    return schema;
+    return tweetSchema;
 
 };
 

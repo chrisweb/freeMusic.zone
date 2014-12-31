@@ -23,13 +23,13 @@ var environment = process.env.NODE_ENV;
 
 // get configuration
 var configurationModule = require('./server/configuration/configuration');
-var configuration = configurationModule.get();
+var configuration = configurationModule.get(process.env.NODE_ENV);
 
 // cron vendor module
 var cron = require('cron');
 
 // mongo module
-var mongoModule = require('./library/mongo');
+var mongoModule = require('./server/library/mongo');
 
 var mongoClient;
 

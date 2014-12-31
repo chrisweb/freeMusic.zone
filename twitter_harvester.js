@@ -25,10 +25,10 @@ var environment = process.env.NODE_ENV;
 
 // get configuration
 var configurationModule = require('./server/configuration/configuration.js');
-var configuration = configurationModule.get();
+var configuration = configurationModule.get(process.env.NODE_ENV);
 
 // mongo module
-var mongoModule = require('./library/mongo');
+var mongoModule = require('./server/library/mongo');
 
 var mongoClient;
 
@@ -81,7 +81,7 @@ var saveTweet = function(trackId) {
     
     var message = this.message;
     
-    //console.log(message);
+    //utilities.log(message);
 
     var twitterData = {
         jamendo_unit_id: trackId,
@@ -96,7 +96,7 @@ var saveTweet = function(trackId) {
 
     tweetModel.saveOne(twitterData, function(error) {
         
-        console.log('error: ' + error, 'fontColor:red');
+        utilities.log('error: ' + error, 'fontColor:red');
         
     });
     
@@ -120,9 +120,9 @@ harvester.on('message', function(message) {
 
             async.each(message.extracted.track_ids, saveTweet.bind(this), function(error){
                 
-                console.log('async error response: ', 'fontColor:red');
+                utilities.log('async error response: ', 'fontColor:red');
                 
-                console.log(error);
+                utilities.log(error);
                 
             });
             
@@ -134,9 +134,9 @@ harvester.on('message', function(message) {
 
 harvester.on('error', function(error) {
 
-    console.log('harvester on error');
+    utilities.log('harvester on error');
 
-    console.log(error.message);
+    utilities.log(error.message);
     
 });
 
@@ -153,7 +153,7 @@ try {
     
 } catch(exception) {
 
-    console.log('twitter harvester error: ' + exception, 'fontColor:red');
+    utilities.log('twitter harvester error: ' + exception, 'fontColor:red');
 
 }
 
@@ -164,7 +164,7 @@ try {
     
 } catch(exception) {
 
-    console.log('twitter harvester error: ' + exception);
+    utilities.log('twitter harvester error: ' + exception);
 
 }
 
