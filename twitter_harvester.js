@@ -114,6 +114,7 @@ harvester.on('message', function(message) {
 
     if (message.extracted.nothing === false) {
         
+        // if a track id was found save it in our database
         if (typeof(message.extracted.track_ids) !== 'undefined') {
             
             this.message = message;
@@ -127,6 +128,8 @@ harvester.on('message', function(message) {
             });
             
         }
+        
+        // TODO: if an id of an album or playlist got found ...
  
     }
 
@@ -148,6 +151,7 @@ searchOptions.track = 'jamendo OR jamen.do OR @jamendo OR #cooldiscovery OR #fre
 
 try {
     
+    // do a search to get some initial data for the db
     //harvester.executeSearch(searchOptions);
     
 } catch(exception) {
@@ -159,6 +163,8 @@ try {
 // start harvesting
 try {
     
+    // the harvester will listen to the twitter stream API and when a track
+    // gets tweeted we will fetch it and then save it in our database
     harvester.startStream(streamOptions);
     
 } catch(exception) {
