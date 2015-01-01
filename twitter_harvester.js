@@ -136,20 +136,19 @@ harvester.on('error', function(error) {
 
     utilities.log('harvester on error');
 
-    utilities.log(error.message);
+    utilities.log(error);
     
 });
 
 var streamOptions = {};
 var searchOptions = {};
 
-//streamOptions.track = 'jamendo OR jamen.do OR jamendomusic';
-streamOptions.track = 'jamendo OR jamen.do';
-searchOptions.track = 'jamendo OR jamen.do';
+streamOptions.track = ['jamendo', 'jamen.do', '@jamendo', '#cooldiscovery', '#freedownload', '#goodmusic'];
+searchOptions.track = 'jamendo OR jamen.do OR @jamendo OR #cooldiscovery OR #freedownload OR #goodmusic';
 
 try {
     
-    harvester.executeSearch(searchOptions);
+    //harvester.executeSearch(searchOptions);
     
 } catch(exception) {
 
@@ -160,7 +159,7 @@ try {
 // start harvesting
 try {
     
-    //harvester.startStream(streamOptions);
+    harvester.startStream(streamOptions);
     
 } catch(exception) {
 
