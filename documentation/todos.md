@@ -24,6 +24,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * socket io chat (one room per playlist)
 * list of playlists (for collaborative module) sort by (popularity / date)
 * playlist detail page (for collaborative module)
+* look at the source of desktop_development@@ we need a bunch of icons and slpash screens
 
 ## Other todos (damn that's a lot of todos ;) )
 
@@ -47,11 +48,13 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * aws redis setup script (cloud init config)
 * aws music analyzer test
 * the twitter harvester code should have it's own branch so that you don't have to checkout the entire project on production machines that only need to harvest
+* Use geolocation to find concerts: https://developers.google.com/web/fundamentals/device-access/user-location/
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 * create responsive jquery ui dialog
 * put the modernizr modifications into a seperate repository by forking the original project, finish the rewrite of the core for all parts that are not used by this project (check out the modernizr documentation.md for more about this task)
 * create a nodejs script that setups all the cloud services using the aws api
+* shuffle the songs when the user shakes his device https://developers.google.com/web/fundamentals/device-access/device-orientation/dev-motion
 
 ## done todos
 
@@ -109,3 +112,4 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: update the twitter harvester so that it uses the project mongodb library instead of doing mongodb connections on its own
 * DONE: fix regex in harvester module to extract multiple track urls from a tweet instead only last one
 * DONE: setup script for aws mongodb installation (userdata for cloud init)
+* DONE: checkout https://developers.google.com/web/fundamentals and include all usefull best pratices into app
