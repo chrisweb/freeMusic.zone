@@ -81,11 +81,31 @@ var createSchema = function createSchemaFunction(options) {
  */
 tweetModel.prototype.saveOne = function(data, callback) {
 
-    utilities.log('save a single object');
+    this.Model.create(data, function saveCallback(error, model) {
 
-    var tweet = new this.Model(data);
+        //utilities.log('create model: ', model);
 
-    tweet.save(callback);
+        if (error) {
+
+            utilities.log('[TWEETS MODEL] save failed', error, 'fontColor:red');
+
+            if (callback !== undefined) {
+
+                callback(error);
+
+            }
+
+        } else {
+
+            if (callback !== undefined) {
+
+                callback(false, model);
+
+            }
+
+        }
+
+    });
 
 };
 
@@ -231,7 +251,15 @@ tweetModel.prototype.mapReduceList = function(options, callback) {
     mapReduceContainer.reduce = tweetsReduce;
     mapReduceContainer.query = { twitter_tweet_date : { $gt : oneDayAgo }};
 
-    this.Model.mapReduce(mapReduceContainer, callback);
+    if (callback !== undefined) {
+
+        this.Model.mapReduce(mapReduceContainer, callback);
+        
+    } else {
+        
+        this.Model.mapReduce(mapReduceContainer);
+        
+    }
 
 };
 

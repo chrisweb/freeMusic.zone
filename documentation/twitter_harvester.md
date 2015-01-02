@@ -29,3 +29,11 @@ sudo forever list
 to stop the script, use (replace zero by the id of the script you want to kill, for [1] "use stop 1"):
 
 sudo forever stop 0
+
+to check out if tweets get added to your mongodb database use the following commands:
+
+use freemusiczone
+
+db.auth('MY_USERNAME', MY_PASSWORD')
+
+db.tweets.find()
