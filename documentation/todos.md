@@ -49,6 +49,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * aws music analyzer test
 * the twitter harvester code should have it's own branch so that you don't have to checkout the entire project on production machines that only need to harvest
 * Use geolocation to find concerts: https://developers.google.com/web/fundamentals/device-access/user-location/
+* add log rotation for the forever log files http://stackoverflow.com/questions/15231968/nodejs-forever-archive-logs
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 * create responsive jquery ui dialog
