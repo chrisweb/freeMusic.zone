@@ -201,8 +201,10 @@ var tweetsMap = function() {
 var tweetsReduce = function(jamendo_full_id, reduceVal) {
 
 	jamendo_full_id = jamendo_full_id.split('-');
+    
 	var jamendo_unit = jamendo_full_id[0];
 	var jamendo_unit_id = jamendo_full_id[1];
+    
 	var _reduceVal = {
 		id: jamendo_unit_id, 
 		unit: jamendo_unit, 
@@ -249,7 +251,15 @@ tweetModel.prototype.mapReduceList = function(options, callback) {
     
     mapReduceContainer.map = tweetsMap;
     mapReduceContainer.reduce = tweetsReduce;
+    
+    // output the mapreduce result into the tweets_charts_day collection
+    mapReduceContainer.out = { replace: 'tweets_charts_day' };
+    
+    // charts of the last 24 hours
     mapReduceContainer.query = { twitter_tweet_date : { $gt : oneDayAgo }};
+    
+    // charts of the last 7 days
+    //mapReduceContainer.query = { twitter_tweet_date : { $gt : oneWeekAgo }};
 
     if (callback !== undefined) {
 

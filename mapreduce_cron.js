@@ -59,11 +59,11 @@ utilities.log('* * * * * initializing cron');
 
 /**
  * 
- * launches all the functions every one minute
+ * launches all the functions every twenty minutes
  * 
  * @returns {undefined}
  */
-var oneMinuteLauncher = function() {
+var twentyMinutesLauncher = function twentyMinutesLauncherFunction() {
     
     utilities.log('* * * * * cron job(s) get(s) executed', 'fontColor:blue');
     
@@ -94,9 +94,10 @@ try {
     var job = new cronJob({
 
         //cronTime: '*/1 * * * * *', // execute it every 1 second
-        cronTime: '0 */1 * * * *', // execute it every 1 minutes
+        //cronTime: '0 */1 * * * *', // execute it every 1 minute
+        cronTime: '0 */20 * * * *', // execute it every 20 minutes
         //onTick: function() { utilities.log('test'); }
-        onTick: oneMinuteLauncher
+        onTick: twentyMinutesLauncher
 
     });
 
