@@ -162,7 +162,7 @@ searchOptions.track = 'jamendo OR jamen.do';
 try {
     
     // do a search to get some initial data for the db
-    harvester.executeSearch(searchOptions);
+    //harvester.executeSearch(searchOptions);
     
 } catch(exception) {
 
@@ -175,7 +175,7 @@ try {
     
     // the harvester will listen to the twitter stream API and when a track
     // gets tweeted we will fetch it and then save it in our database
-    //harvester.startStream(streamOptions);
+    harvester.startStream(streamOptions);
     
 } catch(exception) {
 
