@@ -16,7 +16,7 @@ if (typeof(process.env.NODE_ENV) === 'undefined') {
     //process.env.NODE_ENV = 'production';
     process.env.NODE_ENV = 'development';
     
-    utilities.log('PROCESS ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red', 'backgroundColor:white');
+    utilities.log('NODE_ENV NOT FOUND, setting it by default to "' + process.env.NODE_ENV.toUpperCase() + '"', 'fontColor:red', 'backgroundColor:white');
 
 }
 
