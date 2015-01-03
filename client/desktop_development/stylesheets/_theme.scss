@@ -34,18 +34,21 @@ body {
     padding-left: 0;
     -webkit-transition: padding-left 0.5s;
     transition: padding-left 0.5s;
+    z-index: $mainZIndex;
 }
 
 #left {
     position: absolute;
     height: 100%;
     left: 0;
+    z-index: $asideLeftZIndex;
 }
 
 #right {
     position: absolute;
     height: 100%;
     right: 0;
+    z-index: $asideRightZIndex;
 }
 
 #core {
@@ -55,6 +58,7 @@ body {
 
 #header {
     width: 100%;
+    z-index: $headerZIndex;
 }
 
 #footer {

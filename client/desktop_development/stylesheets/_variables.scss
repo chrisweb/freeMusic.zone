@@ -13,8 +13,12 @@ $font-color-dark-background: rgb(255, 255, 255);
 $font-color-light-background: rgb(34, 34, 34);
 
 // z-indexes
-$connectZIndex: 20;
-$backgroundVideoZIndex: 10;
+$mainZIndex: 1;
+$asideLeftZIndex: 10;
+$asideRightZIndex: 20;
+$headerZIndex: 30;
+$backgroundVideoZIndex: 40;
+$connectZIndex: 50;
 $splashScreenOverlayZIndex: 990;
 $progressZIndex: 1000;
 
