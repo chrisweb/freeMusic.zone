@@ -1,6 +1,6 @@
 /**
  * 
- * chat bar view
+ * chat bar component view
  * 
  * @param {type} $
  * @param {type} _
@@ -27,13 +27,13 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[CHAT BAR PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[CHAT BAR COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
         },
 
-        template: JST['templates/partials/components/chat/bar'],
+        template: JST['templates/components/chat/bar'],
         
         // view events
         events: {

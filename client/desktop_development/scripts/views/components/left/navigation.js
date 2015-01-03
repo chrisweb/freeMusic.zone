@@ -1,6 +1,6 @@
 /**
  * 
- * left navigation view
+ * left navigation component view
  * 
  * @param {type} $
  * @param {type} _
@@ -28,7 +28,7 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[LEFT NAVIGATION PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[LEFT NAVIGATION COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
@@ -36,7 +36,7 @@ define([
             
         },
 
-        template: JST['templates/partials/components/left/navigation'],
+        template: JST['templates/components/left/navigation'],
         
         // view events
         events: {

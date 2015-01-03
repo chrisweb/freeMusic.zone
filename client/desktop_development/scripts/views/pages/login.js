@@ -1,6 +1,6 @@
 /**
  * 
- * login view
+ * login page view
  * 
  * @param {type} JST
  * @param {type} utilities
@@ -31,7 +31,7 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[LOGIN PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[LOGIN PAGE VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options;
             
@@ -93,7 +93,7 @@ define([
             
         },
         
-        template: JST['templates/partials/pages/login'],
+        template: JST['templates/pages/login'],
         
         // view events
         events: {

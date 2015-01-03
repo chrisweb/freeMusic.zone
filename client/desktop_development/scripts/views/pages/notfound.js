@@ -1,6 +1,6 @@
 /**
  * 
- * 404 notfound view
+ * 404 notfound page view
  * 
  * @param {type} $
  * @param {type} _
@@ -27,11 +27,11 @@ define([
         
         onInitialize: function() {
             
-            utilities.log('[NOTFOUND PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[NOTFOUND PAGE VIEW] initializing ...', 'fontColor:blue');
             
         },
         
-        template: JST['templates/partials/pages/notfound'],
+        template: JST['templates/pages/notfound'],
         
         // view events
         events: {

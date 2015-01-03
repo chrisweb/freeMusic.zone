@@ -1,6 +1,6 @@
 /**
  * 
- * track list view
+ * track list component view
  * 
  * @param {type} utilities
  * @param {type} $
@@ -23,7 +23,7 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[TRACKSLIST VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[TRACK LIST COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
@@ -35,7 +35,7 @@ define([
             
         },
 
-        template: JST['templates/partials/tracksList'],
+        template: JST['templates/components/track/list'],
         
         listId: 'trackSearchResults',
         

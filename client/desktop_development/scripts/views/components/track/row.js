@@ -1,6 +1,6 @@
 /**
  * 
- * track row view
+ * track row component view
  * 
  * @param {type} $
  * @param {type} _
@@ -27,7 +27,7 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[TRACK ROW VIEW] (' + this.cid + ') initializing ...', 'fontColor:blue');
+            utilities.log('[TRACK ROW COMPONENT VIEW] (' + this.cid + ') initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
@@ -39,7 +39,7 @@ define([
             
         },
         
-        template: JST['templates/partials/trackRow'],
+        template: JST['templates/components/track/row'],
         
         trackPreviewStart: function trackPreviewStartFunction(event) {
 

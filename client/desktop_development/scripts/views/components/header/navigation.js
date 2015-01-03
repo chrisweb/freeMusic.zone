@@ -1,6 +1,6 @@
 /**
  * 
- * header navigation view
+ * header navigation component view
  * 
  * @param {type} $
  * @param {type} _
@@ -27,13 +27,13 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[HEADER NAVIGATION PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[HEADER NAVIGATION COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
         },
 
-        template: JST['templates/partials/components/header/navigation'],
+        template: JST['templates/components/header/navigation'],
         
         // view events
         events: {

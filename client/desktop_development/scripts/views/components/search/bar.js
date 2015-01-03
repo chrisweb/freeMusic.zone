@@ -1,6 +1,6 @@
 /**
  * 
- * search bar view
+ * search bar component view
  * 
  * @param {type} $
  * @param {type} _
@@ -27,13 +27,13 @@ define([
         
         onInitialize: function(options) {
             
-            utilities.log('[SEARCH BAR PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[SEARCH BAR COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
             this.options = options || {};
             
         },
 
-        template: JST['templates/partials/search/bar'],
+        template: JST['templates/components/search/bar'],
         
         // view events
         events: {

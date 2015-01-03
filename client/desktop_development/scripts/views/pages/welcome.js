@@ -1,6 +1,6 @@
 /**
  * 
- * welcome view
+ * welcome page view
  * 
  * @param {type} $
  * @param {type} _
@@ -27,11 +27,11 @@ define([
         
         onInitialize: function() {
             
-            utilities.log('[WELCOME PARTIAL VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[WELCOME PAGE VIEW] initializing ...', 'fontColor:blue');
             
         },
         
-        template: JST['templates/partials/pages/welcome'],
+        template: JST['templates/pages/welcome'],
         
         // view events
         events: {

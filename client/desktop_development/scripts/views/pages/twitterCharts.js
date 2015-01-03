@@ -1,34 +1,37 @@
 /**
  * 
- * not supported feature page view
+ * twitter charts page view
  * 
  * @param {type} $
  * @param {type} _
+ * @param {type} Backbone
  * @param {type} JST
  * @param {type} utilities
+ * @param {type} configurationModule
  * @param {type} view
- * 
- * @returns {_L12.Anonym$2}
+ * @returns {unresolved}
  */
 define([
     'jquery',
     'underscore',
+    'backbone',
     'templates',
     'chrisweb.utilities',
+    'configuration',
     'ribs.view'
-], function ($, _, JST, utilities, view) {
+], function ($, _, Backbone, JST, utilities, configurationModule, view) {
     
     'use strict';
     
-    var NotSupportedView = view.extend({
+    var TwitterChartsView = view.extend({
         
         onInitialize: function() {
             
-            utilities.log('[NOT SUPPORTED PAGE VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[TWITTER CHARTS PAGE VIEW] initializing ...', 'fontColor:blue');
             
         },
         
-        template: JST['templates/pages/notsupported'],
+        template: JST['templates/pages/welcome'],
         
         // view events
         events: {
@@ -37,6 +40,6 @@ define([
         
     });
     
-    return NotSupportedView;
+    return TwitterChartsView;
     
 });
