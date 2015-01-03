@@ -31,7 +31,7 @@ define([
             
         },
         
-        template: JST['templates/pages/welcome'],
+        template: JST['templates/pages/twitterCharts'],
         
         // view events
         events: {

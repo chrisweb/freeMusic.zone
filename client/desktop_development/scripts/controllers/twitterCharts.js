@@ -38,14 +38,18 @@ define([
         },
         indexAction: function indexActionFunction() {
         
-            utilities.log('[MAIN] controller: homepage,  action: index', 'fontColor:blue');
+            utilities.log('[TWITTER CHARTS CONTROLLER] controller: twitterCharts,  action: index', 'fontColor:blue');
 
             // chat message input form
-            require(['views/components/chatBar'], function(ChatBarView) {
+            require(['views/pages/twitterCharts'], function(TwitterChartsView) {
 
-                var chatBarView = new ChatBarView();
+                var twitterChartsView = new TwitterChartsView();
+                
+                container.clear('#core');
 
-                container.add('#core', chatBarView);
+                container.add('#core', twitterChartsView);
+                
+                container.dispatch('#core');
 
             });
         
