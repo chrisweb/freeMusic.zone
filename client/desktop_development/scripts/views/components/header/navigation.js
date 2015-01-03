@@ -47,6 +47,10 @@ define([
             
             event.preventDefault();
             
+            var $menuButton = this.$el.find('#leftNavigationButton');
+            
+            $menuButton.toggleClass('active');
+            
             EventsManager.trigger(EventsManager.constants.MENU_TOGGLE, this);
             
         }

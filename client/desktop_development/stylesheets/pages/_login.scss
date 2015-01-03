@@ -1,0 +1,102 @@
+//*****************
+// LOGIN PAGE VIEW
+//*****************
+
+.loginPage {
+    
+    width: 100%;
+    height: 100%;
+    margin-top: 0px !important;
+    padding: 0px !important;
+    
+    .loginCore {
+
+        position: relative;
+        z-index: $connectZIndex;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-color: $color-connect-background;
+        color: $font-color-for-darkest-background;
+        
+        .td {
+            vertical-align: middle;
+            width: 100%;
+            height: 100%;
+            padding: $space-large;
+        }
+        
+        legend {
+            text-align: center;
+            color: $font-color-for-darkest-background;
+            border-bottom: 0px;
+            margin-bottom: $space-large;
+        }
+
+        .btn-empty {
+            
+            background-color: transparent;
+            border-color: $font-color-for-darkest-background;
+            color: $font-color-for-darkest-background;
+
+            &:hover,
+            &:focus,
+            &.focus {
+                background-color: $color-connect-background;
+            }
+            
+        }
+
+        iframe.jamendo {
+            border: 0px;
+            width: 450px;
+            height: 400px;
+            overflow: hidden;
+            margin: auto;
+        }
+        
+        .joinTitle {
+            margin-top: $space-extra-large;
+        }
+        
+        ul {
+            list-style-type: none;
+        }
+        
+    }
+    
+    .videoContainer {
+        
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: $backgroundVideoZIndex;
+        
+        .backgroundVideo {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            width: 100% !important;
+            height: auto !important;
+        }
+        
+        // special media query for videos with 16/9 ratio, if you change the video
+        // ensure it has an aspect ratio of 16/9, if has another ratio, for example
+        // 16/10 then edit the media query below accordingly
+        @media (max-aspect-ratio: 16/9) {
+            .backgroundVideo {
+                width: auto !important;
+                height: 100% !important;
+            }
+        }
+        
+    }
+
+}

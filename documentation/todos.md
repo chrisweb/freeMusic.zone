@@ -12,6 +12,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
+* next to user icon add use name
 * run twitter harvester (aws) to fill db
 * twitter stream listener to mongodb (tweet one or more track id(s) and / or playlist id to increase tracks score)
 * aws twitter cron job (with forever) setup and tests
@@ -114,3 +115,10 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: fix regex in harvester module to extract multiple track urls from a tweet instead only last one
 * DONE: setup script for aws mongodb installation (userdata for cloud init)
 * DONE: checkout https://developers.google.com/web/fundamentals and include all usefull best pratices into app
+* DONE: navigation bar search box light gray, when focus white, search button white, on focus highlight color
+* DONE: action buttons right white color on hover highlight color
+* DONE: menu button most left then next to it the logo, between the two add seperator
+* DONE: under menu icon add word menu
+* DONE: menu icon white on open and hover color highlight
+* DONE: menu items big icon as background color dark-lighter
+* DONE: menu text special color per section on hover or active brigther color

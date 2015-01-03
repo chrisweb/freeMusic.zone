@@ -1,0 +1,18 @@
+//************
+// ALL PAGES
+//************
+
+div[class$="Page"] {
+    
+    margin-top: 55px;
+    padding: 15px;
+    
+    h1 {
+        &.title {
+            margin-top: 0px;
+            font-weight: 500;
+            line-height: 1;
+        }
+    }
+    
+}

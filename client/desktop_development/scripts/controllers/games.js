@@ -1,6 +1,6 @@
 /**
  * 
- * remote control controller
+ * games controller
  * 
  * @param {type} $
  * @param {type} _
@@ -25,11 +25,11 @@ define([
     
     'use strict';
 
-    var RemoteControlController = Controller.extend({
+    var GamesController = Controller.extend({
         
         onInitialize: function(options, configuration, router) {
             
-            utilities.log('[REMOTE CONTROL CONTROLLER] initializing ...', 'fontColor:blue');
+            utilities.log('[GAMES CONTROLLER] initializing ...', 'fontColor:blue');
             
             this.options = options;
             this.configuration = configuration;
@@ -38,16 +38,16 @@ define([
         },
         indexAction: function indexActionFunction() {
 
-            utilities.log('[REMOTE CONTROL CONTROLLER] controller: homepage,  action: index', 'fontColor:blue');
+            utilities.log('[GAMES CONTROLLER] controller: homepage,  action: index', 'fontColor:blue');
 
             // chat message input form
-            require(['views/components/chatBar'], function(RemoteControlView) {
+            require(['views/pages/games'], function(GamesView) {
 
-                var remoteControlView = new RemoteControlView();
+                var gamesView = new GamesView();
                 
                 container.clear('#core');
 
-                container.add('#core', remoteControlView);
+                container.add('#core', gamesView);
                 
                 container.dispatch('#core');
 
@@ -57,6 +57,6 @@ define([
         
     });
 
-    return RemoteControlController;
+    return GamesController;
     
 });

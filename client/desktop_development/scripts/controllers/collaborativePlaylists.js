@@ -43,15 +43,15 @@ define([
             // chat message input form
             require([
                 'views/components/chat/bar'
-            ], function(ChatBarView) {
+            ], function(CollaborativePlaylistsView) {
 
+                var collaborativePlaylistsView = new CollaborativePlaylistsView();
+                
                 container.clear('#core');
 
-                var chatBarView = new ChatBarView();
-
-                container.add('#left', chatBarView);
+                container.add('#core', collaborativePlaylistsView);
                 
-                container.dispatch('#left');
+                container.dispatch('#core');
 
             });
             

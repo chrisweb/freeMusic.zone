@@ -8,7 +8,7 @@
     border-radius: 0px;
     
     &.navbar-default {
-        background-color: $color-background;
+        background-color: $color-background-dark;
         border: 0px;
     }
     
@@ -18,30 +18,53 @@
     
     .navbar-btn {
         
+        margin: 5.5px 0px 0px 0px;
         border-radius: 2px;
-        color: $color-highlight;
         background-color: transparent;
-        font-size: 18px;
-        padding: 0px 10px;
+        color: $font-color-for-darkest-background;
+        font-size: 10px;
         
         &:hover {
-            border: 1px solid $color-text-bright;
+            color: $color-highlight;
         }
         
-        .caret {
+        i {
             font-size: 28px;
         }
         
     }
     
+    #leftNavigationButton {
+        
+        margin: 0px 15px 0px 0px;
+        float: left;
+        outline: 0;
+        
+        i.fa {
+            display: block;
+        }
+        
+        &.active {
+            color: $color-highlight;
+        }
+        
+    }
+    
+    .seperatorVertical {
+        float: left;
+        margin: 3px 15px 3px 0px;
+        height: 49px;
+    }
+    
     .navbar-brand {
         
+        float: left;
         padding: 12.5px 0px;
         margin-right: 12.5px;
         color: $color-highlight;
         
         .brandFree {
-            color: $color-text-bright;
+            color: $font-color-for-darkest-background;
         }
         
         .brandMusic {
@@ -49,7 +72,7 @@
         }
         
         .brandZone {
-            color: $color-text-bright;
+            color: $font-color-for-darkest-background;
         }
         
     }
@@ -62,8 +85,75 @@
         
     }
     
+    .navbar-form {
+        
+        margin-top: 13.5px;
+    
+        .form-group {
+
+            .input-group-sm {
+
+                .input-sm {
+                    
+                    color: $font-color-for-light-background;
+                    background-color: $color-background-light;
+                    border: 1px solid $font-color-for-light-background;
+                    border-radius: 2px;
+                    font-size: 14px;
+                    
+                    &:focus {
+                        background-color: $color-background-lightest;
+                        color: $color-highlight;
+                        border: 1px solid $color-highlight;
+                    }
+                    
+                    &::-webkit-input-placeholder {
+                       color: $font-color-for-light-background;
+                    }
+                    
+                    &:-moz-placeholder { /* Firefox 18- */
+                       color: $font-color-for-light-background;
+                    }
+                    
+                    &::-moz-placeholder {  /* Firefox 19+ */
+                       color: $font-color-for-light-background;
+                    }
+                    
+                    &:-ms-input-placeholder {  
+                       color: $font-color-for-light-background;
+                    }
+                    
+                }
+
+                .input-group-btn {
+
+                    .btn {
+
+                        background-color: transparent;
+                        color: $font-color-for-darkest-background;
+                        border: $color-background-light;
+
+                        &:hover {
+                            color: $color-highlight;
+                        }
+
+                    }
+
+                }
+                
+            }
+
+        }
+        
+    }
+    
+    .navbar-left {
+        @include clearfix();
+    }
+    
     .navbar-right {
         margin-right: 0px;
+        text-align: right;
     }
     
 }

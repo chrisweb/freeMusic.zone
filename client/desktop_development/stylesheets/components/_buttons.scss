@@ -19,7 +19,7 @@
 .trackPreview {
     background-color: $color-highlight;
     box-shadow: 0 0 0 4px $color-highlight;
-    color: $color-text-bright;
+    color: $font-color-for-darkest-background;
 }
 
 .trackPreview:hover {

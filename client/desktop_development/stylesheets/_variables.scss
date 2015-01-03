@@ -2,15 +2,26 @@
 // VARIABLES
 //****************
 
-// colors
+// basic colors
+$color-gray: rgb(160, 160, 160);
 $color-highlight: rgb(255, 0, 90);
-$color-background: rgb(34, 34, 34);
-$color-text-bright: rgb(255, 255, 255);
+
+// backgrounds colors
+$color-background-darkest: rgb(34, 34, 34);
+$color-background-dark: rgb(53, 53, 53);
+$color-background-light: rgb(222, 222, 222);
+$color-background-lightest: rgb(249, 249, 249);
+
+// fonts colors
+$font-color-for-darkest-background: rgb(249, 249, 249);
+$font-color-for-dark-background: rgb(249, 249, 249);
+$font-color-for-light-background: rgb(88, 88, 88);
+$font-color-for-lightest-background: rgb(34, 34, 34);
+
+// colors login/connect page
 $color-connect-background: rgba(255, 0, 90, 0.6); // red
 //$color-connect-background: rgba(90, 255, 0, 0.5); // green
 //$color-connect-background: rgba(0, 90, 255, 0.5); // blue
-$font-color-dark-background: rgb(255, 255, 255);
-$font-color-light-background: rgb(34, 34, 34);
 
 // z-indexes
 $mainZIndex: 1;

@@ -14,51 +14,94 @@
     transform-origin: 100% 50%;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    margin-top: 55px;
+    padding-bottom: 55px;
 
     a {
 
-        vertical-align: middle;
-        text-align: center;
-        display: block;
+        display: table;
         margin: 0px;
         padding: 0px;
         height: 25%;
-        font-size: 50px;
-
-        &:hover {
+        width: 100%;
+        background-color: $color-background-dark;
+        color: $font-color-for-dark-background;
+        
+        &:focus, &:hover {
             text-decoration: none;
-            color: white;
+            outline: 0;
+            color: $color-highlight;
         }
 
-        &.active {
-
-            span {
-                text-decoration: none !important;
-                color: white !important;
+        span {
+            z-index: 2;
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: 30px;
+            font-size: 36px;
+            font-weight: 800;
+            position: relative;
+            opacity: 1;
+            font-weight: 500;
+        }
+        
+        &:after {
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            text-decoration: inherit;
+            position: absolute;
+            font-size: 100px;
+            color: $color-background-light;
+            left: 0;
+            z-index: 1;
+            opacity: 0.1;
+            
+            // Safari
+            -webkit-transform: rotate(-35deg);
+            
+            // Firefox
+            -moz-transform: rotate(-35deg);
+            
+            // IE
+            -ms-transform: rotate(-35deg);
+            
+            // Opera
+            -o-transform: rotate(-35deg);
+        }
+        
+        &.playlist {
+            
+            &:after {
+                content: $fa-var-list;
             }
-
+            
         }
 
-    }
+        &.tweet {
 
-    .playlist {
-        color: rgb(41, 128, 185);
-        background-color: rgb(52, 152, 219);
-    }
+            &:after {
+                content: $fa-var-twitter;
+            }
+            
+        }
 
-    .tweet {
-        color: rgb(39, 174, 96);
-        background-color: rgb(46, 204, 113);
-    }
+        &.games {
 
-    .quiz {
-        color: rgb(243, 156, 18);
-        background-color: rgb(241, 196, 15);
-    }
+            &:after {
+                content: $fa-var-gamepad;
+            }
+            
+        }
 
-    .remote {
-        color: rgb(192, 57, 43);
-        background-color: rgb(231, 76, 60);
+        &.remote {
+
+            &:after {
+                content: $fa-var-caret-square-o-right;
+            }
+            
+        }
+
     }
     
 }

@@ -24,6 +24,16 @@
 @import "components/splashScreen";
 @import "components/icons";
 
-// views
-@import "views/welcome";
-@import "views/login";
+// all pages
+@import "pages";
+
+// pages
+@import "pages/notfound";
+@import "pages/welcome";
+@import "pages/login";
+@import "pages/settings";
+@import "pages/profile";
+@import "pages/twitterCharts";
+@import "pages/collaborativePlaylists";
+@import "pages/remoteControl";
+@import "pages/games";
