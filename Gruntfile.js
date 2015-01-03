@@ -480,6 +480,6 @@ module.exports = function (grunt) {
     grunt.registerTask('buildbeta', ['beta-replace', 'jshint', 'jst', 'requirejs', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
 
     // templates and css for development
-    grunt.registerTask('builddev', ['development-replace', 'jst', 'sass', 'copy_desktop']);
+    grunt.registerTask('builddev', ['updatefonts', 'development-replace', 'jst', 'copy_desktop']);
 
 };
