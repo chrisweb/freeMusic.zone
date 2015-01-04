@@ -16,14 +16,39 @@
         width: 100%;
         height: 100%;
         text-align: center;
-        background-color: $color-connect-background;
         color: $font-color-for-darkest-background;
         
-        .td {
-            vertical-align: middle;
+        .scene {
             width: 100%;
             height: 100%;
-            padding: $space-large;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        
+        #scene1 {
+            z-index: $scene1ZIndex;
+        }
+        
+        #scene2 {
+            z-index: $scene2ZIndex;
+        }
+        
+        #scene3 {
+            z-index: $scene3ZIndex;
+        }
+        
+        .t {
+            
+            height: 100%;
+            
+            .td {
+                vertical-align: middle;
+                width: 100%;
+                height: 100%;
+                padding: $space-large;
+            }
+            
         }
         
         legend {
@@ -39,10 +64,34 @@
             border-color: $font-color-for-darkest-background;
             color: $font-color-for-darkest-background;
 
-            &:hover,
-            &:focus,
-            &.focus {
-                background-color: $color-connect-background;
+            &.red {
+                
+                &:hover,
+                &:focus,
+                &.focus {
+                    background-color: $color-connect-background-red;
+                }
+                
+            }
+            
+            &.green {
+                
+                &:hover,
+                &:focus,
+                &.focus {
+                    background-color: $color-connect-background-green;
+                }
+                
+            }
+            
+            &.blue {
+                
+                &:hover,
+                &:focus,
+                &.focus {
+                    background-color: $color-connect-background-blue;
+                }
+                
             }
             
         }
@@ -61,6 +110,22 @@
         
         ul {
             list-style-type: none;
+        }
+        
+        .iconDownContainer {
+            
+            i {
+                font-size: 100px;
+            }
+            
+        }
+        
+        .iconUpContainer {
+            
+            i {
+                font-size: 100px;
+            }
+            
         }
         
     }

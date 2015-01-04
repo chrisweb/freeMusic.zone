@@ -86,19 +86,39 @@ define([
                 
             });
             
+            // initialize skrollr 
+            EventsManager.once(EventsManager.constants.SPLASHSCREEN_OFF, function() {
+            
+                // initialize skrollr
+                var skrollrInstance = skrollr.init({
+                    smoothScrollingDuration: 1000,
+                    smoothScrolling: true,
+                    easing: 'swing',
+                    render: function(data) {
+
+                        utilities.log('skrollr on render', data);
+
+                    },
+                    beforerender: function(data) {
+
+                        //utilities.log('skrollr on beforerender', data);
+
+                    },
+                    keyframe: function(data) {
+
+                        //utilities.log('skrollr on keyframe', data);
+
+                    }
+                });
+                
+            });
+            
         },
         
         onRender: function() {
 
             // start the login view background video
             videoPlayer.initialize(this.$el, { format: this.options.videoFormat });
-            
-            // initialize skrollr
-            var skrollrInstance = skrollr.init({
-                smoothScrollingDuration: 1000,
-                smoothScrolling: true,
-                easing: 'swing'
-            });
             
         },
         

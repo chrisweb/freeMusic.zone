@@ -19,9 +19,9 @@ $font-color-for-light-background: rgb(88, 88, 88);
 $font-color-for-lightest-background: rgb(34, 34, 34);
 
 // colors login/connect page
-$color-connect-background: rgba(255, 0, 90, 0.6); // red
-//$color-connect-background: rgba(90, 255, 0, 0.5); // green
-//$color-connect-background: rgba(0, 90, 255, 0.5); // blue
+$color-connect-background-red: rgba(255, 0, 90, 0.6);
+$color-connect-background-green: rgba(90, 255, 0, 0.6);
+$color-connect-background-blue: rgba(0, 90, 255, 0.6);
 
 // z-indexes
 $mainZIndex: 1;
@@ -30,6 +30,9 @@ $asideRightZIndex: 20;
 $headerZIndex: 30;
 $backgroundVideoZIndex: 40;
 $connectZIndex: 50;
+$scene1ZIndex: 60;
+$scene2ZIndex: 70;
+$scene3ZIndex: 80;
 $splashScreenOverlayZIndex: 990;
 $progressZIndex: 1000;
 

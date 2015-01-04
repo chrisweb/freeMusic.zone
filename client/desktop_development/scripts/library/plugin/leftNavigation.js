@@ -46,6 +46,14 @@ define([
             container.add('#left', leftNavigationView);
             
             container.dispatch('#left');
+            
+            var $body = $('body');
+            
+            $body.addClass('navigationEffect');
+            
+            var $core = $body.find('#core');
+            
+            $core.addClass('autoflow');
 
         });
         

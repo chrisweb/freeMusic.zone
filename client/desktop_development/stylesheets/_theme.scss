@@ -10,12 +10,11 @@ html, body, #container {
 
 body {
     
-    -webkit-perspective: 1500px;
-	perspective: 1500px;
-	-webkit-perspective-origin: 0% 50%;
-	perspective-origin: 0% 50%;
-    
-    &.noOverflow {
+    &.navigationEffect {
+        -webkit-perspective: 1500px;
+        perspective: 1500px;
+        -webkit-perspective-origin: 0% 50%;
+        perspective-origin: 0% 50%;
         overflow: hidden;
     }
     
@@ -25,7 +24,6 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
 }
 
 #main {
@@ -53,8 +51,14 @@ body {
 }
 
 #core {
+    
     width: 100%;
     height: 100%;
+    
+    &.autoflow {
+        overflow: auto;
+    }
+    
 }
 
 #header {

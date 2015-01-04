@@ -34,9 +34,7 @@ define([
         EventsManager.once(EventsManager.constants.ROUTER_POSTROUTE, function() {
             
             var $body = $('body');
-            
-            $body.addClass('noOverflow');
-            
+
             var $progress = $body.find('.progress');
             
             $progress.removeClass('hidden');
@@ -71,12 +69,12 @@ define([
     var hideSplashScreen = function hideSplashScreenFunction() {
         
         var $body = $('body');
-        
-        $body.removeClass('noOverflow');
-        
+
         var $splashScreen = $body.find('#splashScreen');
         
         $splashScreen.remove();
+        
+        EventsManager.trigger(EventsManager.constants.SPLASHSCREEN_OFF);
         
     };
     

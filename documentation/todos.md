@@ -29,6 +29,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Other todos (damn that's a lot of todos ;) )
 
+* images versioning, add the package.json version number to the javascript configuration file so that it can retrieve the images from the correct path
 * create a mechanism that checks if the user has refresh token and if so and if its is about to expire use it to refresh the oauth token
 * use the ribs views loader instead of the require calls
 * make api really restfull, (no cookie?), stateless

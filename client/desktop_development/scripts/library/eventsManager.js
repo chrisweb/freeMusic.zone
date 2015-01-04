@@ -58,6 +58,9 @@ define([
 
         // sound
         'SOUND_ONLOAD': 'sound:onload',
+        
+        // splashscreen end
+        'SPLASHSCREEN_OFF': 'splashscreen:off',
 
         // menu
         'MENU_TOGGLE': 'menu:toggle'
