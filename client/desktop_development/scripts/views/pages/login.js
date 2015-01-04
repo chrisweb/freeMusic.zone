@@ -10,6 +10,7 @@
  * @param {type} videoPlayer
  * @param {type} libraryOauth
  * @param {type} RouterLibrary
+ * @param {type} skrollr
  * 
  * @returns {unresolved}
  */
@@ -21,9 +22,10 @@ define([
     'library.user',
     'library.videoPlayer',
     'library.oauth',
-    'library.router'
+    'library.router',
+    'skrollr'
     
-], function (JST, utilities, view, EventsManager, UserLibrary, videoPlayer, libraryOauth, RouterLibrary) {
+], function (JST, utilities, view, EventsManager, UserLibrary, videoPlayer, libraryOauth, RouterLibrary, skrollr) {
     
     'use strict';
     
@@ -90,6 +92,13 @@ define([
 
             // start the login view background video
             videoPlayer.initialize(this.$el, { format: this.options.videoFormat });
+            
+            // initialize skrollr
+            var skrollrInstance = skrollr.init({
+                smoothScrollingDuration: 1000,
+                smoothScrolling: true,
+                easing: 'swing'
+            });
             
         },
         

@@ -61,6 +61,7 @@ require.config({
         'moment': '../../../bower_components/moment/moment',
         'velocity': '../../../bower_components/velocity/velocity',
         'velocity.ui': '../../../bower_components/velocity/velocity.ui',
+        'skrollr': '../../../bower_components/skrollr/src/skrollr',
         
         // ribs.js
         'ribs.collection': '../../../bower_components/ribs.js/src/collection',
@@ -87,6 +88,12 @@ require.config({
         'test/canvas': '../../../bower_components/modernizr/feature-detects/canvas',
         'test/history': '../../../bower_components/modernizr/feature-detects/history',
         'test/websockets': '../../../bower_components/modernizr/feature-detects/websockets',
+        
+        // chrisweb-web-audio-api-player
+        //'chrisweb.player.ajax': '../../../bower_components/chrisweb-web-audio-api-player/source/ajax',
+        //'chrisweb.player.audio': '../../../bower_components/chrisweb-web-audio-api-player/source/audio',
+        //'chrisweb.player.core': '../../../bower_components/chrisweb-web-audio-api-player/source/core',
+        //'chrisweb.player.ui': '../../../bower_components/chrisweb-web-audio-api-player/source/ui',
         
         // chrisweb-utilities
         'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'
