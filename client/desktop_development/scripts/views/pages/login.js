@@ -39,6 +39,8 @@ define([
             
             var that = this;
             
+            var routerLibrary = RouterLibrary();
+            
             // as soon as the user has been redirected back to the app, from
             // the jamendo website, a page will get loaded that will trigger
             // the oauth connected event
@@ -74,8 +76,6 @@ define([
                         // listen for click on "let's rock" button
                         $loginButton.on('click', function() {
                             
-                            var routerLibrary = RouterLibrary();
-                            
                             routerLibrary.navigate('desktop/homepage/welcome', { trigger: true });
                             
                         });
@@ -89,27 +89,31 @@ define([
             // initialize skrollr 
             EventsManager.once(EventsManager.constants.SPLASHSCREEN_OFF, function() {
             
-                // initialize skrollr
-                var skrollrInstance = skrollr.init({
-                    smoothScrollingDuration: 1000,
-                    smoothScrolling: true,
-                    easing: 'swing',
-                    render: function(data) {
+                if (routerLibrary.getCurrentRoute() === 'desktop') {
+                    
+                    // initialize skrollr
+                    var skrollrInstance = skrollr.init({
+                        smoothScrollingDuration: 1000,
+                        smoothScrolling: true,
+                        easing: 'swing',
+                        render: function(data) {
 
-                        utilities.log('skrollr on render', data);
+                            //utilities.log('skrollr on render', data);
 
-                    },
-                    beforerender: function(data) {
+                        },
+                        beforerender: function(data) {
 
-                        //utilities.log('skrollr on beforerender', data);
+                            //utilities.log('skrollr on beforerender', data);
 
-                    },
-                    keyframe: function(data) {
+                        },
+                        keyframe: function(data) {
 
-                        //utilities.log('skrollr on keyframe', data);
+                            //utilities.log('skrollr on keyframe', data);
 
-                    }
-                });
+                        }
+                    });
+                    
+                }
                 
             });
             
@@ -135,7 +139,7 @@ define([
             
             var $login = this.$el.find('.login');
 
-            var $loginButton = $login.find('#loginButton');
+            var $loginButton = $login.find('.loginButton');
             
             // disqble the login button to avoid more clicks
             $loginButton.addClass('noclick');

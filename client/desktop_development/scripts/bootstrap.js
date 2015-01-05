@@ -68,6 +68,8 @@ define([
                         }
                     });
                     
+                    container.clear('#core');
+                    
                     container.add('#core', notSupportedView);
                     
                     container.dispatch('#core');
@@ -90,9 +92,13 @@ define([
         // on event "post route" and the UI does not already exist
         EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function(parameters) {
             
-            if (parameters.routeName !== 'renderHomepage' && !componentsAreReady) {
+            if (parameters.routeName !== 'renderHomepage') {
                 
-                initializeComponents();
+                if (!componentsAreReady) {
+                    
+                    initializeComponents();
+                    
+                }
                 
             }
             
@@ -100,9 +106,14 @@ define([
         
     };
     
-    // as soon as the user is logged in and the application components have
-    // not been initialized (ui, player, ...)
-    var initializeComponents = function() {
+    /**
+     * 
+     * as soon as the user is logged in and the application components have
+     * not been initialized (ui, player, ...)
+     * 
+     * @returns {undefined}
+     */
+    var initializeComponents = function initializeComponentsFunction() {
         
         componentsAreReady = true;
         
