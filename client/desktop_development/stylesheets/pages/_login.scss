@@ -17,25 +17,46 @@
         height: 100%;
         text-align: center;
         color: $font-color-for-darkest-background;
+        background-color: $color-connect-background-red;
+        
+        a {
+            color: $font-color-for-darkest-background;
+        }
         
         .scene {
             width: 100%;
             height: 100%;
             position: fixed;
-            top: 0;
             left: 0;
+            z-index: $scenesZIndex;
         }
         
-        #scene1 {
-            z-index: $scene1ZIndex;
+        .loginButton {
+            margin-bottom: 15px;
+            width: 260px;
         }
         
-        #scene2 {
-            z-index: $scene2ZIndex;
-        }
-        
-        #scene3 {
-            z-index: $scene3ZIndex;
+        .loginBottom {
+
+            .loginBottomRight, .loginBottomLeft {
+                display: inline-block;
+                height: 20px;
+            }
+            
+            .loginBottomLeft {
+                border-right: 1px solid $font-color-for-darkest-background;
+                padding-right: 15px;
+            }
+            
+            .loginBottomRight {
+                padding-left: 15px;
+            }
+            
+            a {
+                line-height: 1;
+                vertical-align: text-top;
+            }
+            
         }
         
         .t {
@@ -114,13 +135,10 @@
         
         .iconDownContainer {
             
-            i {
-                font-size: 100px;
-            }
-            
-        }
-        
-        .iconUpContainer {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            margin-left: -32px;
             
             i {
                 font-size: 100px;
