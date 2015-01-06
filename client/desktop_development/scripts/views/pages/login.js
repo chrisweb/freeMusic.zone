@@ -63,6 +63,12 @@ define([
                 
                 $loginButton.velocity({ width: 162, height: 49, padding: '10px 16px 16px 10px' }, 'easeInSine');
                 
+                // hide the create an account and lost password links, we dont
+                // need them as the user has successfully logged in
+                var $loginBottom = $login.find('.loginBottom');
+                
+                $loginBottom.addClass('hidden');
+                
                 var userLibrary = UserLibrary();
                 
                 // fetch the user data from server
@@ -77,7 +83,9 @@ define([
                         EventsManager.trigger(EventsManager.constants.OAUTH_ISLOGGED, { isLogged: userModel.get('isLogged') });
                         
                         // listen for click on "let's rock" button
-                        $loginButton.on('click', function() {
+                        $loginButton.one('click', function(event) {
+                            
+                            event.preventDefault();
                             
                             routerLibrary.navigate('desktop/homepage/welcome', { trigger: true });
                             
@@ -94,27 +102,7 @@ define([
             
                 if (routerLibrary.getCurrentRoute() === 'desktop') {
                     
-                    // initialize skrollr
-                    var skrollrInstance = skrollr.init({
-                        smoothScrollingDuration: 1000,
-                        smoothScrolling: true,
-                        easing: 'swing',
-                        render: function(data) {
-
-                            //utilities.log('skrollr on render', data);
-
-                        },
-                        beforerender: function(data) {
-
-                            //utilities.log('skrollr on beforerender', data);
-
-                        },
-                        keyframe: function(data) {
-
-                            //utilities.log('skrollr on keyframe', data);
-
-                        }
-                    });
+                    initializeSkrollr();
                     
                 }
                 
@@ -141,11 +129,14 @@ define([
             
             event.preventDefault();
             
+            $('.hideOnConnect').addClass('hidden');
+            
             var $login = this.$el.find('.login');
 
             var $loginButton = $login.find('.loginButton');
             
-            // disqble the login button to avoid more clicks
+            // disable the login button to avoid more clicks and that
+            // its gets triggered again after a successfull login
             $loginButton.addClass('noclick');
             
             $loginButton.find('span').text('');
@@ -187,6 +178,51 @@ define([
         }
         
     });
+    
+    /**
+     * 
+     * initialize skrollr
+     * 
+     * @returns {undefined}
+     */
+    var initializeSkrollr = function initializeSkrollrFunction() {
+        
+        // initialize skrollr
+        var skrollrObject = skrollr.init({
+            smoothScrollingDuration: 1000,
+            smoothScrolling: true,
+            easing: 'swing',
+            render: function(data) {
+
+                //utilities.log('skrollr on render', data);
+
+            },
+            beforerender: function(data) {
+
+                //utilities.log('skrollr on beforerender', data);
+
+            },
+            keyframe: function(data) {
+
+                //utilities.log('skrollr on keyframe', data);
+
+            }
+        });
+        
+        var skrollrInstance = skrollrObject.get();
+        
+        // sometimes the initialisation is done a little bit too early so
+        // we do a refresh to ensure everything is ready
+        setTimeout(function() {
+            skrollrInstance.refresh();
+        }, 10);
+        
+        // if the screen gets resized refresh skrollr
+        $(window).resize(function() {
+            skrollrInstance.refresh();
+        });
+        
+    };
     
     return LoginView;
     

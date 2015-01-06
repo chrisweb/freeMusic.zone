@@ -12,6 +12,16 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
+* DONE: change tweet2jam page title
+* DONE: add the app logo to homepage
+* on homepage scroll a note icon into view with opacity for scene2
+* make the navigation logo clickable, should point to homepage /desktop
+* add player to tweets page
+* add icon retweet this song (share)
+* get the user playlists for collaborative playlists page
+* create chat for collaborative playlists
+* add bot to chat that can answer questions
+
 * next to user icon add use name
 * run twitter harvester (aws) to fill db
 * twitter stream listener to mongodb (tweet one or more track id(s) and / or playlist id to increase tracks score)
@@ -29,6 +39,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Other todos (damn that's a lot of todos ;) )
 
+* mechanism to replace all the /desktop pathes with /mobile when not in desktop mode
 * images versioning, add the package.json version number to the javascript configuration file so that it can retrieve the images from the correct path
 * create a mechanism that checks if the user has refresh token and if so and if its is about to expire use it to refresh the oauth token
 * use the ribs views loader instead of the require calls

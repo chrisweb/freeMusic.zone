@@ -129,8 +129,6 @@ var app = express({ env: process.env.NODE_ENV });
 // template engine setup
 app.engine('html', ejs.renderFile);
 app.set('views', __dirname + '/views');
-
-// by default views will be html
 app.set('view engine', 'html');
 
 // ERROR HANDLER

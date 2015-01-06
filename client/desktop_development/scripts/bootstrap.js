@@ -5,7 +5,6 @@
  * @param {type} utilities
  * @param {type} SplashScreenPlugin
  * @param {type} RouterPlugin
- * @param {type} UserPlugin
  * @param {type} LeftNavigationPlugin
  * @param {type} HeaderNavigationPlugin
  * @param {type} EventsManager
@@ -17,7 +16,6 @@ define([
     'chrisweb.utilities',
     'library.plugin.splashScreen',
     'library.plugin.router',
-    'library.plugin.user',
     'library.plugin.leftNavigation',
     'library.plugin.headerNavigation',
     'library.eventsManager',
@@ -28,7 +26,6 @@ define([
     utilities,
     SplashScreenPlugin,
     RouterPlugin,
-    UserPlugin,
     LeftNavigationPlugin,
     HeaderNavigationPlugin,
     EventsManager,

@@ -4,16 +4,33 @@
         
         <div id="scene1" class="scene"
               data-0="opacity: 1; top: 0%;"
-              data-300="opacity: 0; top: 100%;">
+              data-400="opacity: 0; top: 100%;">
+            
+            <div class="brand login-brand"
+                data-0="opacity:1;top:10%;transform:rotate(0deg);"
+                data-400="opacity:0;top:-150%;transform:rotate(-90deg);">
+                <span class="brandFree">free</span><span class="brandMusic">MUSIC</span><span class="brandZone">.zone</span>
+            </div>
             
             <div class="t">
                 <div class="tr">
                     <div class="td">
                         
-                        <h1>Free MUSIC zone. No Ads. No monthly fees. No bullshit.</h1>
+                        <h1 class="tagLine hideOnConnect">
+                            <span class="tagLineLeft"
+                                data-0="opacity:1;left:50%;"
+                                data-400="opacity:0;left:-50%;">
+                                Free MUSIC zone. No Ads.
+                            </span>
+                            <span class="tagLineRight"
+                                data-0="opacity:1;right:50%;"
+                                data-400="opacity:0;right:-50%;">
+                                No monthly fees. No bullshit.
+                            </span>
+                        </h1>
                         
                         <fieldset class="login">
-                            <legend class="h2">Login with your jamendo account:</legend>
+                            <legend class="h2 callToAction">Login with your jamendo account:</legend>
                             <div class="btn btn-lg btn-empty red loginButton">
                                 <span>Jamendo connect</span>
                                 <iframe src="" class="jamendo hidden" scrolling="no" frameBorder="0"></iframe>
@@ -36,19 +53,35 @@
             </div>
             
         </div>
+        <div class="musicIcon"
+            data-300="opacity:0; top:100%; transform:rotate(0deg); font-size: 0px;"
+            data-600="opacity:0.2; top:0%; transform:rotate(359deg); font-size: 600px;"
+            data-1000=""
+            data-1300="opacity:0; top:0%; transform:rotate(0deg); font-size: 0px;">
+                <i class="fa fa-music"></i>
+        </div>
         <div id="scene2" class="scene"
               data-300="opacity: 0; top: 100%;"
               data-600="opacity: 1; top: 0%;"
-              data-900="opacity: 1; top: 0%;"
-              data-1200="opacity: 0; top: 100%;">
+              data-1000="opacity: 1; top: 0%;"
+              data-1300="opacity: 0; top: 100%;">
             
             <div class="t">
                 <div class="tr">
                     <div class="td">
 
-                        <h1>It's not just about great music, you will also:</h1>
+                        <h1 class="featuresTitle hideOnConnect"
+                            data-300="transform:scale(0)"
+                            data-600="transform:scale(1)"
+                            data-1000=""
+                            data-1300="transform:scale(0)">
+                            It's not just about great music, you will also:</h1>
 
-                        <ul class="joinFeatures">
+                        <ul class="featuresList hideOnConnect"
+                            data-300="transform:scale(0)"
+                            data-600="transform:scale(1)"
+                            data-1000=""
+                            data-1300="transform:scale(0)">
                             <li>Collaborate with others in realtime to build great playlists</li>
                             <li>Share your favorite tracks with your friends</li>
                             <li>Discover trending albums from amazing indie artist</li>
@@ -57,6 +90,7 @@
                         </ul>
                         
                         <fieldset class="login">
+                            <legend class="h2 callToAction">Login with your jamendo account:</legend>
                             <div class="btn btn-lg btn-empty red loginButton">
                                 <span>Jamendo connect</span>
                                 <iframe src="" class="jamendo hidden" scrolling="no" frameBorder="0"></iframe>
@@ -87,11 +121,12 @@
                 <div class="tr">
                     <div class="td">
                         
-                        <h1>I give up... oh wait we also have pictures of cute cats inside!</h1>
+                        <h1 class="hideOnConnect">I give up... oh wait we also have pictures of cute cats inside!</h1>
                         
-                        <img src="/desktop/client/desktop_build/images/0.0.1/login-page/cute-cat.png">
+                        <img class="hideOnConnect" src="/desktop/client/desktop_build/images/0.0.1/login-page/cute-cat.png">
                         
                         <fieldset class="login">
+                            <legend class="h2 callToAction">Login with your jamendo account:</legend>
                             <div class="btn btn-lg btn-empty red loginButton">
                                 <span>Jamendo connect</span>
                                 <iframe src="" class="jamendo hidden" scrolling="no" frameBorder="0"></iframe>

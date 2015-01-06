@@ -114,3 +114,20 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background-color: $color-highlight;
 }
+
+// the app logo
+.brand {
+    
+    .brandFree {
+        color: $font-color-for-darkest-background;
+    }
+
+    .brandMusic {
+        color: $color-highlight;
+    }
+
+    .brandZone {
+        color: $font-color-for-darkest-background;
+    }
+
+}
