@@ -21,8 +21,9 @@ define([
     'library.plugin.leftNavigation',
     'library.plugin.headerNavigation',
     'library.eventsManager',
-    'ribs.container'
+    'ribs.container',
     
+    'library.jquery.plugin.hasAttr' // adds a new hasAttr function to $ (jquery)
 ], function (
     utilities,
     SplashScreenPlugin,
@@ -87,6 +88,7 @@ define([
             
             EventsManager.trigger(EventsManager.constants.DOM_LOADED);
             
+            
         });
 
         // on event "post route" and the UI does not already exist
@@ -116,6 +118,16 @@ define([
     var initializeComponents = function initializeComponentsFunction() {
         
         componentsAreReady = true;
+        
+        var $body = $('body');
+        
+        // remove the style attribute from the body tag that got added by
+        // skrollr
+        if ($body.hasAttr('style')) {
+            
+            $body.removeAttr('style');
+            
+        }
         
         // initialize the left navigation
         LeftNavigationPlugin.initialize();

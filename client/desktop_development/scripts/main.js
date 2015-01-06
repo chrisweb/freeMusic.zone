@@ -45,6 +45,7 @@ require.config({
         
         // library jquery plugins
         'library.jquery.plugin.caretToggle': 'library/jquery/plugin/caretToggle',
+        'library.jquery.plugin.hasAttr': 'library/jquery/plugin/hasAttr',
         
         // collections
         'collections.TracksCache': 'collections/TracksCache',
