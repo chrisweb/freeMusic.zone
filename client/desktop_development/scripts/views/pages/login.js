@@ -48,7 +48,7 @@ define([
                 
                 var $login = that.$el.find('.login');
 
-                var $loginButton = $login.find('#loginButton');
+                var $loginButton = $login.find('.loginButton');
                 
                 var $loginLegend = $login.find('legend');
                 
