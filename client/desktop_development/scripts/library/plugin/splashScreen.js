@@ -11,15 +11,14 @@
  * splashScreen plugin
  * 
  * @param {type} EventsManager
- * @param {type} velocity
  * 
  * @returns {_L17.Anonym$1}
  */
 define([
     'library.eventsManager',
-    'velocity'
     
-], function (EventsManager, velocity) {
+    'velocity'
+], function (EventsManager) {
     
     'use strict';
     

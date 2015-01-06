@@ -2,6 +2,7 @@
  * 
  * login page view
  * 
+ * @param {type} $
  * @param {type} JST
  * @param {type} utilities
  * @param {type} view
@@ -15,6 +16,7 @@
  * @returns {unresolved}
  */
 define([
+    'jquery',
     'templates',
     'chrisweb.utilities',
     'ribs.view',
@@ -23,9 +25,10 @@ define([
     'library.videoPlayer',
     'library.oauth',
     'library.router',
-    'skrollr'
+    'skrollr',
     
-], function (JST, utilities, view, EventsManager, UserLibrary, videoPlayer, libraryOauth, RouterLibrary, skrollr) {
+    'velocity'
+], function ($, JST, utilities, view, EventsManager, UserLibrary, videoPlayer, libraryOauth, RouterLibrary, skrollr) {
     
     'use strict';
     
@@ -130,7 +133,8 @@ define([
         
         // view events
         events: {
-            'click .login .btn:not(.noclick)': 'loginClick'
+            'click .login .btn:not(.noclick)': 'loginClick',
+            'click .fa-angle-down': 'scrollToScene'
         },
         
         loginClick: function loginClickFunction(event) {
@@ -161,6 +165,25 @@ define([
             // listen for the oauth response
             libraryOauth.listenForConnected();
                         
+        },
+        
+        scrollToScene: function(event) {
+            
+            event.preventDefault();
+            
+            var scrollInPixel = 0;
+            
+            var sceneId = $(event.currentTarget).attr('data-fmz-scene');
+            
+            if (sceneId === 'scene2') {
+                scrollInPixel = 750;
+            } else {
+                scrollInPixel = 1750;
+            }
+            
+            $('body').velocity('scroll', { duration: 1000, easing: 'easeInSine', offset: scrollInPixel + 'px', mobileHA: false }) 
+                .velocity({ opacity: 1 });
+            
         }
         
     });
