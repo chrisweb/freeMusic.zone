@@ -26,8 +26,9 @@ define([
         defaults: {
             isLogged: null, // is the user logged in
             id: null,
-            name: '', // username
-            lastFetchDate: null
+            nickname: '', // username
+            lastFetchDate: null,
+            username: 'fasfsafa'
         },
         validate: function(attrs) {
 

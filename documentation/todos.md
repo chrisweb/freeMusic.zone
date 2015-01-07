@@ -12,24 +12,15 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
-* DONE: change tweet2jam page title
-* DONE: add the app logo to homepage
-* on homepage scroll a note icon into view with opacity for scene2
-* make the navigation logo clickable, should point to homepage /desktop
+
+* in the header next to the user icon add the username
+* add the jamendo twitter charts page to the app, create a list of tracks from mongodb map reduce results
 * add player to tweets page
 * add icon retweet this song (share)
 * get the user playlists for collaborative playlists page
 * create chat for collaborative playlists
 * add bot to chat that can answer questions
-
-* next to user icon add use name
-* run twitter harvester (aws) to fill db
-* twitter stream listener to mongodb (tweet one or more track id(s) and / or playlist id to increase tracks score)
-* aws twitter cron job (with forever) setup and tests
-* create javascript to server global error logging library
-* finish the design of the top navigation bar for the app
-* finish the design of the left navigation bar for the app
-* add the jamendo twitter charts page to the app
+* create javascript library to log all kind of client javascript errors
 * fetch the charts from server and display them in the client
 * (finish player / tracksCache library) add a play button (player bar) to play the the songs listed in the charts
 * socket io chat (one room per playlist)
@@ -134,3 +125,11 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: menu icon white on open and hover color highlight
 * DONE: menu items big icon as background color dark-lighter
 * DONE: menu text special color per section on hover or active brigther color
+* DONE: setup the twitter harvester on aws to fill db
+* DONE: setup the twitter mapreduce cron job (with pm2) on aws and do tests
+* DONE: finish the design of the top navigation bar for the app
+* DONE: finish the design of the left navigation bar for the app
+* DONE: change tweet2jam page title
+* DONE: add the app logo to homepage
+* DONE: on homepage scroll a note icon into view with opacity for scene2
+* DONE: make the navigation logo clickable, should point to homepage /desktop

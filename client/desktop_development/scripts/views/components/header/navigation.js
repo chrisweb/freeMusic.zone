@@ -8,6 +8,7 @@
  * @param {type} utilities
  * @param {type} View
  * @param {type} EventsManager
+ * @param {type} UserLibrary
  * 
  * @returns {unresolved}
  */
@@ -17,12 +18,13 @@ define([
     'templates',
     'chrisweb.utilities',
     'ribs.view',
-    'library.eventsManager'
+    'library.eventsManager',
+    'library.user'
     
-], function ($, _, JST, utilities, View, EventsManager) {
+], function ($, _, JST, utilities, View, EventsManager, UserLibrary) {
     
     'use strict';
-
+    
     var HeaderNavigationView = View.extend({
         
         onInitialize: function(options) {
@@ -31,8 +33,16 @@ define([
             
             this.options = options || {};
             
+            var userLibrary = new UserLibrary();
+            
+            this.options.variables = {
+                username: userLibrary.getAttribute('nickname')
+            };
+            
         },
-
+        
+        model: userModel,
+        
         template: JST['templates/components/header/navigation'],
         
         // view events
