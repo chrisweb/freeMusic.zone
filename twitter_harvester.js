@@ -96,7 +96,15 @@ var saveTweet = function(trackId) {
 
     tweetModel.saveOne(twitterData, function(error) {
         
-        utilities.log('error: ' + error, 'fontColor:red');
+        if (error) {
+            
+            utilities.log('error: ' + error, 'fontColor:red');
+            
+        } else {
+            
+            utilities.log('success: saved', 'fontColor:green');
+            
+        }
         
     });
     
