@@ -1,6 +1,6 @@
 /**
  * 
- * error controller
+ * application controller
  * 
  * @param {type} $
  * @param {type} utilities
@@ -19,28 +19,28 @@ define([
     
     'use strict';
     
-    var ErrorController = Controller.extend({
+    var ApplicationController = Controller.extend({
         
         onInitialize: function(options, configuration, router) {
             
-            utilities.log('[ERROR CONTROLLER] initializing ...', 'fontColor:blue');
+            utilities.log('[APPLICATION CONTROLLER] initializing ...', 'fontColor:blue');
             
             this.options = options;
             this.configuration = configuration;
             this.router = router;
             
         },
-        notfoundAction: function notfoundActionFunction() {
+        settingsAction: function settingsActionFunction() {
         
-            utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'fontColor:blue');
+            utilities.log('[APPLICATION CONTROLLER] controller: application,  action: settings', 'fontColor:blue');
 
-            require(['views/pages/notfound'], function(NotfoundView) {
+            require(['views/pages/settings'], function(SettingsView) {
 
                 container.clear('#core');
 
-                var notfoundView = new NotfoundView();
+                var settingsView = new SettingsView();
 
-                container.add('#core', notfoundView);
+                container.add('#core', settingsView);
                 
                 container.dispatch('#core');
 
@@ -50,6 +50,6 @@ define([
         
     });
 
-    return ErrorController;
+    return ApplicationController;
     
 });

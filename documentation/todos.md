@@ -12,8 +12,6 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
-
-* in the header next to the user icon add the username
 * add the jamendo twitter charts page to the app, create a list of tracks from mongodb map reduce results
 * add player to tweets page
 * add icon retweet this song (share)
@@ -133,3 +131,5 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: add the app logo to homepage
 * DONE: on homepage scroll a note icon into view with opacity for scene2
 * DONE: make the navigation logo clickable, should point to homepage /desktop
+* DONE: in the header next to the user icon add the username
+* DONE: make the settings and user icon in the header clickable, on click redirect to their page

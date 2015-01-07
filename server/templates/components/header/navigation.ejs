@@ -2,7 +2,7 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-md-3 col-sm-3 navbar-left">
+            <div class="col col-md-3 col-sm-3 navbar-left">
                 
                 <button type="button" class="btn navbar-btn btn-sm" id="leftNavigationButton">
                     <i class="fa fa-bars"></i>
@@ -16,10 +16,10 @@
                 </a>
 
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col col-md-3 col-sm-3">
                 
             </div>
-            <div class="col-md-3 col-sm-3">
+            <div class="col col-md-3 col-sm-3">
 
                 <form class="navbar-form navbar-right" role="search">
                     <div class="form-group">
@@ -35,15 +35,14 @@
                 </form>
 
             </div>
-            <div class="col-md-3 col-sm-3 navbar-right">
-
-                <span class="username"><%= username %></span>
+            <div class="col col-md-3 col-sm-3 navbar-right">
                 
-                <button type="button" class="btn navbar-btn btn-sm">
+                <button type="button" class="btn navbar-btn btn-sm userButton">
+                    <%= username %>
                     <i class="fa fa-user"></i>
                 </button>
 
-                <button type="button" class="btn navbar-btn btn-sm">
+                <button type="button" class="btn navbar-btn btn-sm settingsButton">
                     <i class="fa fa-cog"></i>
                 </button>
 

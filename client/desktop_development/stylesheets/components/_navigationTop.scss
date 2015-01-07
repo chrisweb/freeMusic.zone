@@ -6,6 +6,7 @@
     
     margin-bottom: 0px;
     border-radius: 0px;
+    min-height: 55px;
     
     &.navbar-default {
         background-color: $color-background-dark;
@@ -16,9 +17,13 @@
         outline: none;
     }
     
+    .col {
+        min-height: 55px;
+    }
+    
     .navbar-btn {
         
-        margin: 5.5px 0px 0px 0px;
+        margin: 7.5px 0px 0px 0px;
         border-radius: 2px;
         background-color: transparent;
         color: $font-color-for-darkest-background;
@@ -60,10 +65,20 @@
         float: left;
         padding: 12.5px 0px;
         margin-right: 12.5px;
+        height: 55px;
     }
     
-    .username {
-        color: $font-color-for-darkest-background;
+    .userButton {
+        
+        font: {
+            size: 16px;
+        }
+        
+        i {
+            vertical-align: middle;
+            margin-left: 15px;
+        }
+        
     }
     
     .container-fluid {

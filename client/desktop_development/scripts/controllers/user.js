@@ -1,6 +1,6 @@
 /**
  * 
- * error controller
+ * user controller
  * 
  * @param {type} $
  * @param {type} utilities
@@ -19,37 +19,37 @@ define([
     
     'use strict';
     
-    var ErrorController = Controller.extend({
+    var UserController = Controller.extend({
         
         onInitialize: function(options, configuration, router) {
             
-            utilities.log('[ERROR CONTROLLER] initializing ...', 'fontColor:blue');
+            utilities.log('[USER CONTROLLER] initializing ...', 'fontColor:blue');
             
             this.options = options;
             this.configuration = configuration;
             this.router = router;
             
         },
-        notfoundAction: function notfoundActionFunction() {
-        
-            utilities.log('[ERROR CONTROLLER] controller: error,  action: notfound', 'fontColor:blue');
-
-            require(['views/pages/notfound'], function(NotfoundView) {
-
+        profileAction: function profileActionFunction() {
+            
+            utilities.log('[USER CONTROLLER] controller: user,  action: profile', 'fontColor:blue');
+            
+            require(['views/pages/profile'], function(ProfileView) {
+                
                 container.clear('#core');
-
-                var notfoundView = new NotfoundView();
-
-                container.add('#core', notfoundView);
+                
+                var profileView = new ProfileView();
+                
+                container.add('#core', profileView);
                 
                 container.dispatch('#core');
-
+                
             });
-
+            
         }
         
     });
-
-    return ErrorController;
+    
+    return UserController;
     
 });

@@ -67,7 +67,7 @@ define([
                 
                 $loginBottom.addClass('hidden');
                 
-                var userLibrary = UserLibrary();
+                var userLibrary = new UserLibrary();
                 
                 // fetch the user data from server
                 userLibrary.fetchUserData(function userFetchedCallback(error, userModel) {
