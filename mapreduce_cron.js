@@ -90,17 +90,28 @@ var twentyMinutesLauncher = function twentyMinutesLauncherFunction() {
 var cronJob = cron.CronJob;
 
 try {
-
-    var job = new cronJob({
-
+    
+    var job;
+    
+    if (process.env.NODE_ENV.toUpperCase() === 'DEVELOPMENT') {
+        
         //cronTime: '*/1 * * * * *', // execute it every 1 second
-        //cronTime: '0 */1 * * * *', // execute it every 1 minute
-        cronTime: '0 */20 * * * *', // execute it every 20 minutes
         //onTick: function() { utilities.log('test'); }
-        onTick: twentyMinutesLauncher
-
-    });
-
+        
+        job = new cronJob({
+            cronTime: '0 */1 * * * *', // execute it every 1 minute
+            onTick: twentyMinutesLauncher
+        });
+        
+    } else {
+        
+        job = new cronJob({
+            cronTime: '0 */20 * * * *', // execute it every 20 minutes
+            onTick: twentyMinutesLauncher
+        });
+        
+    }
+    
 } catch(error) {
 
     utilities.log('cron pattern not valid, error: ' + error, 'fontColor:red');
