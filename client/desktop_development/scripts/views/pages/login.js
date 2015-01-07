@@ -34,11 +34,9 @@ define([
     
     var LoginView = view.extend({
         
-        onInitialize: function(options) {
+        onInitializeStart: function() {
             
             utilities.log('[LOGIN PAGE VIEW] initializing ...', 'fontColor:blue');
-            
-            this.options = options;
             
             var that = this;
             

@@ -25,7 +25,7 @@ define([
     
     var TwitterChartsView = view.extend({
         
-        onInitialize: function() {
+        onInitializeStart: function() {
             
             utilities.log('[COLLABORATIVE PLAYLISTS PAGE VIEW] initializing ...', 'fontColor:blue');
             

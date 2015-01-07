@@ -25,11 +25,9 @@ define([
 
     var SearchBarView = View.extend({
         
-        onInitialize: function(options) {
+        onInitializeStart: function() {
             
             utilities.log('[CHAT BAR COMPONENT VIEW] initializing ...', 'fontColor:blue');
-            
-            this.options = options || {};
             
         },
 

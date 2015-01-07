@@ -22,7 +22,7 @@ define([
     
     var NotSupportedView = view.extend({
         
-        onInitialize: function() {
+        onInitializeStart: function() {
             
             utilities.log('[NOT SUPPORTED PAGE VIEW] initializing ...', 'fontColor:blue');
             

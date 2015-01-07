@@ -21,17 +21,13 @@ define([
     
     var TracksListView = view.extend({
         
-        onInitialize: function(options) {
+        onInitializeStart: function() {
             
             utilities.log('[TRACK LIST COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
-            this.options = options || {};
+            //this.listenTo(this.collection, 'add', this.addModel);
             
-            _.bindAll(this, 'addModel');
-            
-            this.listenTo(this.collection, 'add', this.addModel);
-            
-            this.listenTo(this.collection, 'reset', this.clear);
+            //this.listenTo(this.collection, 'reset', this.clear);
             
         },
 

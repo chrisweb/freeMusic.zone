@@ -25,7 +25,7 @@ define([
     
     var WelcomeView = view.extend({
         
-        onInitialize: function() {
+        onInitializeStart: function() {
             
             utilities.log('[WELCOME PAGE VIEW] initializing ...', 'fontColor:blue');
             

@@ -27,11 +27,11 @@ define([
     
     var HeaderNavigationView = View.extend({
         
-        onInitialize: function(options) {
+        onInitializeStart: function() {
             
             utilities.log('[HEADER NAVIGATION COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
-            this.options = options || {};
+            utilities.log(this.options);
             
             var userLibrary = new UserLibrary();
             
@@ -40,8 +40,6 @@ define([
             };
             
         },
-        
-        model: userModel,
         
         template: JST['templates/components/header/navigation'],
         

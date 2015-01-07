@@ -26,11 +26,9 @@ define([
 
     var LeftNavigationView = View.extend({
         
-        onInitialize: function(options) {
+        onInitializeStart: function() {
             
             utilities.log('[LEFT NAVIGATION COMPONENT VIEW] initializing ...', 'fontColor:blue');
-            
-            this.options = options || {};
             
             EventsManager.on(EventsManager.constants.MENU_TOGGLE, this.toggleMenu, this);
             

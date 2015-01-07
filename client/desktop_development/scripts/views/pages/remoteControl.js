@@ -25,7 +25,7 @@ define([
     
     var TwitterChartsView = view.extend({
         
-        onInitialize: function() {
+        onInitializeStart: function() {
             
             utilities.log('[REMOTE CONTROL PAGE VIEW] initializing ...', 'fontColor:blue');
             

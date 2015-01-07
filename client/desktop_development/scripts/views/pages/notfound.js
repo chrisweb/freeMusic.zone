@@ -25,7 +25,7 @@ define([
     
     var NotfoundView = view.extend({
         
-        onInitialize: function() {
+        onInitializeStart: function() {
             
             utilities.log('[NOTFOUND PAGE VIEW] initializing ...', 'fontColor:blue');
             
