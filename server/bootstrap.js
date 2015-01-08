@@ -329,27 +329,15 @@ var addErrorRoutes = function addErrorRoutesFunction(router) {
     
     // 5xx error route
     router.use(function(error, request, response, next) {
-
+        
         utilities.log('server error: ' + JSON.stringify(error), 'fontColor:red');
-
+        
         utilities.log('5xx middleware catch by: ' + request.url, 'fontColor:yellow');
-
+        
         // error page
         response.status(parseInt(error.status));
-
-        if (request.accepts('html')) {
-
-            if (typeof(error.stack) !== 'undefined') {
-                
-                response.render('5xx', { environment: process.env.NODE_ENV, stack: error.stack.replace(/\n/g, '<br>'), message: error.message });
-                
-            } else {
-                
-                response.render('5xx', { environment: process.env.NODE_ENV, stack: '', message: error.message });
-                
-            }
-
-        } else if (request.accepts('json')) {
+        
+        if (request.accepts('application/json')) {
 
             if (typeof(error.stack) !== 'undefined') {
                 
@@ -361,6 +349,18 @@ var addErrorRoutes = function addErrorRoutesFunction(router) {
                 
             }
 
+        } else if (request.accepts('text/html')) {
+
+            if (typeof(error.stack) !== 'undefined') {
+                
+                response.render('5xx', { environment: process.env.NODE_ENV, stack: error.stack.replace(/\n/g, '<br>'), message: error.message });
+                
+            } else {
+                
+                response.render('5xx', { environment: process.env.NODE_ENV, stack: '', message: error.message });
+                
+            }
+            
         }
 
     });

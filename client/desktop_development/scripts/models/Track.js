@@ -5,12 +5,14 @@
  * @param {type} utilities
  * @param {type} _
  * @param {type} model
+ * 
  * @returns {unresolved}
  */
 define([
     'chrisweb.utilities',
     'underscore',
     'ribs.model'
+    
 ], function (utilities, _, model) {
     
     'use strict';

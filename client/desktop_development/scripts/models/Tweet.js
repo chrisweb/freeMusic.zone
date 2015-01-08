@@ -1,6 +1,6 @@
 /**
  * 
- * user model
+ * tweet model
  * 
  * @param {type} utilities
  * @param {type} _
@@ -16,21 +16,20 @@ define([
 ], function (utilities, _, model) {
     
     'use strict';
-
-    var UserModel = model.extend({
+    
+    var TweetModel = model.extend({
         
-        url: '/api/user',
         onInitialize: function() {
             
-            utilities.log('[USER MODEL] (' + this.cid + ') initializing ...', 'fontColor:blue');
+            utilities.log('[TWEET MODEL] (' + this.cid + ') initializing ...', 'fontColor:blue');
             
         },
         defaults: {
-            isLogged: null, // is the user logged in
             id: null,
-            nickname: '', // username
-            lastFetchDate: null,
-            username: 'fasfsafa'
+            unit: '', // track, playlist, album
+            count_total: 0,
+            count_unique: 0,
+            twitter_users: []
         },
         validate: function(attrs) {
 
@@ -40,6 +39,6 @@ define([
 
     });
 
-    return UserModel;
+    return TweetModel;
     
 });

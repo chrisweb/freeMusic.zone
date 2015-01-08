@@ -6,6 +6,7 @@
  * @param {type} _
  * @param {type} collection
  * @param {type} TrackModel
+ * 
  * @returns {unresolved}
  */
 define([
@@ -13,6 +14,7 @@ define([
     'underscore',
     'ribs.collection',
     'models.Track'
+    
 ], function (utilities, _, collection, TrackModel) {
     
     'use strict';

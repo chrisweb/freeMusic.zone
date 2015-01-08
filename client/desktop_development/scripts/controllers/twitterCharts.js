@@ -7,8 +7,7 @@
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} EventsManager
- * @param {type} user
+ * @param {type} TweetsChartsCollection
  * 
  * @returns {unresolved}
  */
@@ -18,10 +17,9 @@ define([
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.eventsManager',
-    'library.user'
+    'collections.TweetsCharts'
     
-], function ($, _, utilities, Controller, container, EventsManager, user) {
+], function ($, _, utilities, Controller, container, TweetsChartsCollection) {
     
     'use strict';
 
@@ -41,8 +39,32 @@ define([
             utilities.log('[TWITTER CHARTS CONTROLLER] controller: twitterCharts,  action: index', 'fontColor:blue');
 
             // chat message input form
-            require(['views/pages/twitterCharts'], function(TwitterChartsView) {
+            require([
+                'views/pages/twitterCharts',
+                'views/components/track/row',
+                'views/components/track/list'
+            ], function(TwitterChartsView, TrackRowView, TracksListView) {
+                
+                // initialize the tweets charts collection
+                var tweetsChartsCollection = new TweetsChartsCollection({
+                    ModelView: TrackRowView
+                });
+                
+                // fetch the tweets charts
+                tweetsChartsCollection.fetch({
+                    error: function(collection, response, options) {
+                        
+                        utilities.log(collection, response, options);
+                        
+                    },
+                    success: function(collection, response, options) {
+                        
+                        utilities.log(collection, response, options);
+                        
+                    }
+                });
 
+                // initialize the view
                 var twitterChartsView = new TwitterChartsView();
                 
                 container.clear('#core');

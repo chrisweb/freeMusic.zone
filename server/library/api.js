@@ -3,6 +3,8 @@
 // utilities module
 var utilities = require('../../bower_components/chrisweb-utilities/utilities');
 
+var TweetsChartsDay = require('../models/tweetsChartsDay');
+
 var _ = require('underscore');
 
 // jamendo vendor module
@@ -20,7 +22,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
     
     apiRouter.get('/search', function(request, response, next) {
 		
-        utilities.log('/api/search hit');
+        utilities.log('[API] /api/search hit');
         
         //utilities.log(request);
         
@@ -32,12 +34,12 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             rejectUnauthorized: false
         });
         
-        utilities.log(request.query.q);
+        //utilities.log(request.query.q);
 
         jamendo.tracks({ namesearch: request.query.q, include: ['musicinfo', 'lyrics'], audioformat: 'ogg' }, function(error, data) {
             
             //utilities.log(error);
-            utilities.log(data);
+            //utilities.log(data);
             
             if (data.headers.error_message !== '') {
                     
@@ -82,7 +84,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
     
     apiRouter.get('/user', function(request, response, next) {
         
-        //utilities.log('session user: ', request.session.user);
+        //utilities.log('[API] session user: ', request.session.user);
         
         var userSessionData = request.session.user;
         
@@ -105,6 +107,37 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             response.json(userSessionData);
             
         }
+        
+    });
+    
+    apiRouter.get('/tweet/charts/day', function(request, response, next) {
+        
+        utilities.log('[API] fetching tweet charts day');
+        
+        var tweetsChartsDay = new TweetsChartsDay();
+        
+        var options = {
+            limit: 0
+        }
+        
+        tweetsChartsDay.findMultiple(options, function(error, results) {
+            
+            utilities.log(error);
+            utilities.log(results);
+            
+            if (!error) {
+                
+                response.status(200);
+                response.json(results);
+                
+            } else {
+                
+                response.status(500);
+                response.json({ error: error });
+                
+            }
+            
+        });
         
     });
     

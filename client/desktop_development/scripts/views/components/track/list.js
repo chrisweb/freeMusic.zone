@@ -7,6 +7,7 @@
  * @param {type} _
  * @param {type} view
  * @param {type} JST
+ * 
  * @returns {unresolved}
  */
 define([
@@ -15,6 +16,7 @@ define([
     'underscore',
     'ribs.view',
     'templates'
+    
 ], function (utilities, $, _, view, JST) {
     
     'use strict';
@@ -25,15 +27,11 @@ define([
             
             utilities.log('[TRACK LIST COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
-            //this.listenTo(this.collection, 'add', this.addModel);
-            
-            //this.listenTo(this.collection, 'reset', this.clear);
-            
         },
 
         template: JST['templates/components/track/list'],
         
-        listId: 'trackSearchResults',
+        listSelector: 'tracksList',
         
         // view events
         events: {

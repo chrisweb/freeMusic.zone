@@ -50,10 +50,12 @@ require.config({
         // collections
         'collections.TracksCache': 'collections/TracksCache',
         'collections.TracksSearchResult': 'collections/TracksSearchResult',
+        'collections.TweetsCharts': 'collections/TweetsCharts',
         
         // models
         'models.Track': 'models/Track',
         'models.User': 'models/User',
+        'models.Tweet': 'models/Tweet',
         
         // vendor
         'jquery': '../../../bower_components/jquery/dist/jquery',

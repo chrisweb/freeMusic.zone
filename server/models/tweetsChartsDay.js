@@ -72,22 +72,31 @@ var createSchema = function createSchemaFunction(options) {
  * 
  * find multiple objects
  * 
- * @param {type} limit
+ * @param {type} options
+ * @param {type} callback
+ * 
  * @returns results
  */
-tweetsChartsDayModel.prototype.findMultiple = function(limit) {
-
-    console.log('find multiple objects');
+tweetsChartsDayModel.prototype.findMultiple = function(options, callback) {
     
-    if (limit !== undefined) {
+    utilities.log('[TWEETS CHARTS DAY MODEL] get the tweets of the charts of the last 24 hours (day)');
+    
+    var limit;
+    
+    if (options !== undefined && _.has(options, 'limit')) {
         
-        limit = 0;
+        limit = options.limit;
         
-    };
+    } else {
+        
+        limit = 0; // means unlimited
+        
+    }
     
-    var results = this.Model.find().sort({ 'value.count_unique': -1 }).limit(limit);
-    
-    return results;
+    this.Model.find()
+        .sort({ 'value.count_unique': -1 })
+        .limit(limit)
+        .exec(callback);
 
 };
 

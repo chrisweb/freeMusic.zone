@@ -163,7 +163,7 @@ tweetModel.prototype.findOne = function() {
  * 
  * @returns {undefined}
  */
-tweetModel.prototype.findAll = function() {
+tweetModel.prototype.findMultiple = function() {
 
     console.log('find multiple objects');
 
