@@ -42,7 +42,7 @@ define([
 
             // chat message input form
             require([
-                'views/components/chat/bar'
+                'views/pages/collaborativePlaylists'
             ], function(CollaborativePlaylistsView) {
 
                 var collaborativePlaylistsView = new CollaborativePlaylistsView();

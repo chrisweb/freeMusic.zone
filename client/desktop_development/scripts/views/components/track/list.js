@@ -31,8 +31,6 @@ define([
 
         template: JST['templates/components/track/list'],
         
-        listSelector: 'tracksList',
-        
         // view events
         events: {
             

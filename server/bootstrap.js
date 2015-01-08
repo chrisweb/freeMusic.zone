@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'development') {
 
 try {
 
-    // application configuration
+    // application configuration module
     var configurationModule = require('./configuration/configuration');
     
 } catch(exception) {
@@ -99,6 +99,7 @@ var bodyParser = require('body-parser');
 // https://github.com/visionmedia/connect-redis
 var connectRedis = require('connect-redis');
 
+// configuration
 var configuration = configurationModule.get(process.env.NODE_ENV);
 
 // initialize the user module

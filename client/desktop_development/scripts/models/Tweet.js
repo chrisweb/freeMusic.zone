@@ -25,8 +25,8 @@ define([
             
         },
         defaults: {
-            id: null,
-            unit: '', // track, playlist, album
+            jamendo_id: null,
+            chart_position: 0,
             count_total: 0,
             count_unique: 0,
             twitter_users: []

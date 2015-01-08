@@ -45,29 +45,16 @@ define([
                 'views/components/track/list'
             ], function(TwitterChartsView, TrackRowView, TracksListView) {
                 
-                // initialize the tweets charts collection
+                // initialize the tweets charts tracks list view
                 var tweetsChartsCollection = new TweetsChartsCollection();
                 
                 var tracksListView = new TracksListView({
                     collection: tweetsChartsCollection,
-                    ModelView: TrackRowView
-                });
-                
-                // fetch the tweets charts
-                tweetsChartsCollection.fetch({
-                    error: function(collection, response, options) {
-                        
-                        utilities.log(collection, response, options);
-                        
-                    },
-                    success: function(collection, response, options) {
-                        
-                        utilities.log(collection, response, options);
-                        
-                    }
+                    ModelView: TrackRowView,
+                    listClass: 'tracksList'
                 });
 
-                // initialize the view
+                // initialize the twitter charts page view
                 var twitterChartsView = new TwitterChartsView();
                 
                 container.clear('#core');
@@ -76,7 +63,24 @@ define([
                 
                 container.dispatch('#core');
                 
-                utilities.log(tracksListView);
+                // add the tweets list view to the twitter page view
+                container.add('#twitterChartsTracks', tracksListView);
+                
+                container.dispatch('#twitterChartsTracks');
+
+                // fetch the tweets charts
+                tweetsChartsCollection.fetch({
+                    error: function(collection, response, options) {
+                        
+                        //utilities.log(collection, response, options);
+                        
+                    },
+                    success: function(collection, response, options) {
+                        
+                        //utilities.log(collection, response, options);
+                        
+                    }
+                });
 
             });
         
