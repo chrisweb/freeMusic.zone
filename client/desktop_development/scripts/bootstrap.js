@@ -61,7 +61,7 @@ define([
                 require(['views/pages/notsupported'], function(NotSupportedView) {
                     
                     var notSupportedView = new NotSupportedView({
-                        variables: {
+                        templateVariables: {
                             feature: unsupported.feature
                         }
                     });

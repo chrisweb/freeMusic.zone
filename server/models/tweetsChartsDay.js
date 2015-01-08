@@ -18,19 +18,22 @@ var _ = require('underscore');
  * @returns {tweetsModel}
  */
 var tweetsChartsDayModel = function tweetsChartsDayModelFunction(options) {
-
+    
     var collection = 'tweets_charts_day';
     
     if (_.indexOf(mongoose.modelNames(), collection) === -1) {
-
+        
         var schema = createSchema(options);
-
-        this.Model = mongoose.model(collection, schema);
-
+        
+        // mongoose pluralizes the model name by default as well as converts
+        // this to lowercase and other rules. To override the name mongoose
+        // creates pass as third argument the name you want to use
+        this.Model = mongoose.model(collection, schema, collection);
+        
     } else {
-
+        
         this.Model = mongoose.model(collection);
-
+        
     }
     
 };

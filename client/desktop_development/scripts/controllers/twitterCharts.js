@@ -46,7 +46,10 @@ define([
             ], function(TwitterChartsView, TrackRowView, TracksListView) {
                 
                 // initialize the tweets charts collection
-                var tweetsChartsCollection = new TweetsChartsCollection({
+                var tweetsChartsCollection = new TweetsChartsCollection();
+                
+                var tracksListView = new TracksListView({
+                    collection: tweetsChartsCollection,
                     ModelView: TrackRowView
                 });
                 
@@ -72,6 +75,8 @@ define([
                 container.add('#core', twitterChartsView);
                 
                 container.dispatch('#core');
+                
+                utilities.log(tracksListView);
 
             });
         

@@ -36,7 +36,7 @@ define([
             
             var userLibrary = new UserLibrary();
             
-            this.options.variables = {
+            this.options.templateVariables = {
                 username: userLibrary.getAttribute('nickname')
             };
             
