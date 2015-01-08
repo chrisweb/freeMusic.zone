@@ -8,9 +8,12 @@
 ## Maybe
 
 * remote, use the app on a tablet or phone as a remote for another session of the app on a desktop or tv, login into both apps with same account, pub sub sync the state of both apps for that account
-* video paylist, playlist to youtube, create a playlist of jamendo tracks, then a script checks if those videos exist on youtube and create a videos playlist based on the jamendo playlist
+* video paylist, jamendo playlist 2 youtube, create a playlist of jamendo tracks, then a script checks if those videos exist on youtube (via youtube search api?) and create a videos playlist based on the jamendo playlist
 * drive playlist, google drive download / backup, download tracks directly into your google drive account or backup entire playlists
-* hot or not for songs, like or dislike it (add to playlist), swipe for next song
+* hot or not for songs, like or dislike it (add to playlist), swipe for next song, the app suggests a song if you dont like you swipe if you like you listen until the end and then next song gets played
+* tag playlists with moods or "time of the day", then make a page that shows the user playlists based on time of the day or the mood he has set in his profile
+* user points, give user points, achievements, badges for certain actions they can perform in the app
+* show concerts based on the browser api location
 
 ## Nice to have, but probably not enough time
 
@@ -50,15 +53,6 @@
 
 * twitter music charts
 * tweet about a track to increase its position in playlist
-
-### App features
-
-* store songs in google drive
-* player always on top
-* navigation on left
-* chat on the right side
-* listen to your playlists
-* widget to display a playlist on any website?
 
 ### just4fun
 

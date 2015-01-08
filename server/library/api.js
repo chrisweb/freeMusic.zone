@@ -170,6 +170,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                         // our database
                         var jamendoAPI = new JamendoAPI();
                         
+                        // TODO: if all tracks have been found int he db dont do api call
+                        
                         jamendoAPI.getTracksByQuery({
                             id: tracksIds,
                             include: ['musicinfo', 'lyrics'],
