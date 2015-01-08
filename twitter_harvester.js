@@ -170,7 +170,11 @@ searchOptions.track = 'jamendo OR jamen.do';
 try {
     
     // do a search to get some initial data for the db
-    //harvester.executeSearch(searchOptions);
+    if (process.env.NODE_ENV.toUpperCase() === 'DEVELOPMENT') {
+    
+        harvester.executeSearch(searchOptions);
+        
+    }
     
 } catch(exception) {
 
