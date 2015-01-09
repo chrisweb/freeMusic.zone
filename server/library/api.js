@@ -16,7 +16,7 @@ var JamendoAPI = require('./jamendoAPI');
 
 module.exports.start = function initialize(configuration, app, apiRouter) {
 
-	apiRouter.use(function(request, response, next) {
+    apiRouter.use(function(request, response, next) {
     
         utilities.log('/api, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
     
@@ -222,7 +222,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                                     
                                     jamendoTrackData.chart_position = position;
                                     
-                                    position = position++;
+                                    position = ++position;
                                     
                                     jamendoTrackData.count_total = tweetsChartsResult.value.count_total;
                                     jamendoTrackData.count_unique = tweetsChartsResult.value.count_unique;

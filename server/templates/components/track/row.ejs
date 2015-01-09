@@ -1,10 +1,11 @@
-<tr data-fmz-trackId="<%= jamendo_id %>">
-    <td>
-        <button type="button" class="icon dashed fa fa-play playTrack"></button>
-    </td>
-    <td>
+<tr data-fmz-trackId="<%= jamendo_id %>" class="trackRow">
+    <td class="chartsPosition"><%- chart_position %></td>
+    <td class="trackImage">
         <img src="<%= jamendo_album_image %>">
     </td>
-    <td><%- chart_position %></td>
-    <td><%- jamendo_name %> by <%- jamendo_artist_name %></td>
+    <td class="trackInformations"><%- jamendo_name %> by <%- jamendo_artist_name %></td>
+    <td class="trackActions">
+        <button type="button" class="icon fa fa-play playTrack"></button>
+        <button type="button" class="icon fa fa-twitter retweetTrack"></button>
+    </td>
 </tr>

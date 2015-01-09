@@ -23,28 +23,32 @@ define([
     
     'use strict';
     
+    var trackId;
+    
     var TrackRowView = view.extend({
         
-        onInitialize: function(options) {
+        onInitializeStart: function(options) {
             
             utilities.log('[TRACK ROW COMPONENT VIEW] (' + this.cid + ') initializing ...', 'fontColor:blue');
             
-            this.options = options || {};
+            trackId = this.model.get('id');
             
-            if (this.model !== undefined) {
-                
-                EventsManager.trigger(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, { id: this.model.get('id') });
-                
-            }
+            EventsManager.trigger(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, { id: trackId });
             
         },
         
         template: JST['templates/components/track/row'],
         
+        // view events
+        events: {
+            'mousedown .trackPreview': 'trackPreviewStart',
+            'mouseup .trackPreview': 'trackPreviewStop',
+            'click .playTrack': 'playTrackClick',
+            'click .retweetTrack': 'retweetTrackClick'
+        },
+        
         trackPreviewStart: function trackPreviewStartFunction(event) {
 
-            var trackId = parseInt(this.$el.attr('data-track-id'));
-            
             EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId });
             
             this.$el.find('.trackPreview').addClass('fa-spin');
@@ -53,18 +57,26 @@ define([
         
         trackPreviewStop: function trackPreviewStopFunction() {
             
-            var trackId = this.$el.attr('data-track-id');
-            
             EventsManager.trigger(EventsManager.constants.TRACK_STOP, { trackId: trackId });
             
             this.$el.find('.trackPreview').removeClass('fa-spin');
             
         },
         
-        // view events
-        events: {
-            'mousedown .trackPreview': 'trackPreviewStart',
-            'mouseup .trackPreview': 'trackPreviewStop'
+        playTrackClick: function playTrackClickFunction() {
+            
+            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId });
+            
+            this.$el.find('.trackPreview').removeClass('fa-spin');
+            
+        },
+        
+        retweetTrackClick: function retweetTrackClickFunction() {
+            
+            EventsManager.trigger(EventsManager.constants.TRACK_STOP, { trackId: trackId });
+            
+            this.$el.find('.trackPreview').removeClass('fa-spin');
+            
         },
         
         onClose: function() {
