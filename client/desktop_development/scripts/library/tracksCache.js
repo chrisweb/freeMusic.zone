@@ -31,6 +31,8 @@ define([
     
     /**
      * 
+     * initialize the tracks cache manager
+     * 
      * @returns {undefined}
      */
     var initialize = function initializeFunction() {
@@ -46,13 +48,18 @@ define([
 
     /**
      * 
+     * add a track to the tracks cache manager
+     * 
      * @param {type} trackModel
      * @returns {undefined}
      */
     var addTrack = function addTrackFunction(trackModel) {
         
-        if (tracksCacheCollection.get(trackModel.get('id')) === undefined) {
+        var results = tracksCacheCollection.where({ jamendo_id: trackModel.get('jamendo_id') });
         
+        // check if the track is not already in the cache
+        if (results.length === 0) {
+            
             tracksCacheCollection.add(trackModel);
             
         }
@@ -61,18 +68,26 @@ define([
 
     /**
      * 
+     * we don't have that track, fetch it from the server
+     * 
      * @param {type} trackId
      * @returns {unresolved}
      */
     var fetchTrack = function fetchTrackFunction(trackId) {
- 
-        var trackModel = tracksCacheCollection.get(trackId);
- 
-        if (trackModel === undefined) {
         
+        var results = tracksCacheCollection.where({ jamendo_id: trackId });
+        
+        var trackModel;
+        
+        if (results.length === 0) {
+            
             // TODO: fetch the track from the server
             
             utilities.log('fetch the track from the server');
+            
+        } else {
+            
+            trackModel = results[0];
             
         }
         
@@ -81,6 +96,8 @@ define([
     };
     
     /**
+     * 
+     * remove the track models of all the tracks that don't get used right now
      * 
      * @returns {undefined}
      */
@@ -102,6 +119,8 @@ define([
     
     /**
      * 
+     * remove the songs from memory that are the least used
+     * 
      * @returns {undefined}
      */
     var soundsGarbageCollector = function soundsGarbageCollectorFunction() {
@@ -121,42 +140,68 @@ define([
     
     /**
      * 
+     * start listening to events
+     * 
      * @returns {undefined}
      */
     var startListening = function startListeningFunction() {
         
-        EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, function incrementUsage(parameters) {
+        EventsManager.on(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, function incrementUsage(parameters) {
+            
+            var results = tracksCacheCollection.where({ jamendo_id: parameters.trackId });
+            
+            if (results.length > 0) {
+                
+                var trackModel = results[0];
+            
+                if (trackModel === undefined) {
 
-            var trackModel = tracksCacheCollection.get(parameters.id);
+                    throw 'the tracks cache could not find the track in the collection, did you add the track?';
 
-            trackModel.set('usageCounter', trackModel.get('usageCounter')+1);
+                }
 
+                if (parameters.action === 'decrement') {
+
+                    trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
+
+                } else if (parameters.action === 'increment') {
+
+                    trackModel.set('usageCounter', trackModel.get('usageCounter')+1);
+
+                }
+            
+            }
+            
         });
-
-        EventsManager.on(EventsManager.constants.TRACKROW_VIEW_ON_CLOSE, function decrementUsage(parameters) {
-
-            var trackModel = tracksCacheCollection.get(parameters.id);
-
-            trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
-
+        
+        EventsManager.on(EventsManager.constants.TRACKSCACHE_TRACK_ADD, function incrementUsage(parameters) {
+            
+            addTrack(parameters.model);
+            
         });
-
+        
         EventsManager.on(EventsManager.constants.SOUND_ONLOAD, function setLoaded(parameters) {
+            
+            var results = tracksCacheCollection.where({ jamendo_id: parameters.trackId });
+            
+            if (results.length > 0) {
+                
+                var trackModel = results[0];
+            
+                trackModel.set('loaded', true);
 
-            var trackModel = tracksCacheCollection.get(parameters.id);
+                var timestamp = moment().unix();
 
-            trackModel.set('loaded', true);
+                trackModel.set('loadedAt', timestamp);
 
-            var timestamp = moment().unix();
-
-            trackModel.set('loadedAt', timestamp);
-
-            soundsGarbageCollector();
-
+                soundsGarbageCollector();
+                
+            }
+            
         });
         
     };
-
+    
     return {
         initialize: initialize,
         fetchTrack: fetchTrack,

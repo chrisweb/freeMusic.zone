@@ -6,6 +6,7 @@
  * @param {type} _
  * @param {type} collection
  * @param {type} TweetModel
+ * @param {type} EventsManager
  * 
  * @returns {unresolved}
  */
@@ -13,9 +14,10 @@ define([
     'chrisweb.utilities',
     'underscore',
     'ribs.collection',
-    'models.Tweet'
+    'models.Tweet',
+    'library.eventsManager'
     
-], function (utilities, _, collection, TweetModel) {
+], function (utilities, _, collection, TweetModel, EventsManager) {
     
     'use strict';
     
@@ -25,9 +27,16 @@ define([
         onInitialize: function() {
             
             utilities.log('[TWEETS CHARTS COLLECTION] initializing ...', 'fontColor:blue');
+            
+            this.listenTo(this, 'add', this.addToTracksCache);
 
         },
-        model: TweetModel
+        model: TweetModel,
+        addToTracksCache: function addToTracksCacheFunction(model) {
+            
+            EventsManager.trigger(EventsManager.constants.TRACKSCACHE_TRACK_ADD, { model: model });
+            
+        }
 
     });
     

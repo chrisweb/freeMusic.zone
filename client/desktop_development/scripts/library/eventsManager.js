@@ -51,10 +51,11 @@ define([
         // track
         'TRACK_PLAY': 'track:play',
         'TRACK_STOP': 'track:stop',
+        'TRACK_SHARE': 'track:share',
 
-        // track row
-        'TRACKROW_VIEW_ON_INITIALIZE': 'trackRowView:onInitialize',
-        'TRACKROW_VIEW_ON_CLOSE': 'trackRowView:onClose',
+        // tracks cache
+        'TRACKSCACHE_TRACK_USAGE': 'tracksCache:usage',
+        'TRACKSCACHE_TRACK_ADD': 'tracksCache:add',
 
         // sound
         'SOUND_ONLOAD': 'sound:onload',

@@ -42,6 +42,7 @@ require.config({
         'library.plugin.user': 'library/plugin/user',
         'library.plugin.router': 'library/plugin/router',
         'library.plugin.splashScreen': 'library/plugin/splashScreen',
+        'library.plugin.player': 'library/plugin/player',
         
         // library jquery plugins
         'library.jquery.plugin.caretToggle': 'library/jquery/plugin/caretToggle',
@@ -93,10 +94,9 @@ require.config({
         'test/websockets': '../../../bower_components/modernizr/feature-detects/websockets',
         
         // chrisweb-web-audio-api-player
-        //'chrisweb.player.ajax': '../../../bower_components/chrisweb-web-audio-api-player/source/ajax',
-        //'chrisweb.player.audio': '../../../bower_components/chrisweb-web-audio-api-player/source/audio',
-        //'chrisweb.player.core': '../../../bower_components/chrisweb-web-audio-api-player/source/core',
-        //'chrisweb.player.ui': '../../../bower_components/chrisweb-web-audio-api-player/source/ui',
+        'chrisweb.player.ajax': '../../../bower_components/chrisweb-web-audio-api-player/source/ajax',
+        'chrisweb.player.audio': '../../../bower_components/chrisweb-web-audio-api-player/source/audio',
+        'chrisweb.player.core': '../../../bower_components/chrisweb-web-audio-api-player/source/core',
         
         // chrisweb-utilities
         'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'

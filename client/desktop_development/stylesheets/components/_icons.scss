@@ -3,26 +3,55 @@
 //*******
 
 .icon {
+    
     display: inline-block;
     border-radius: 50%;
     text-align: center;
     cursor: pointer;
     height: 30px;
     width: 30px;
-}
+    border: 0px;
+    background-color: $color-background-dark;
+    color: $font-color-for-dark-background;
+    
+    &:hover {
+        background-color: $color-highlight;
+    }
+    
+    &:focus {
+        outline: 0;
+    }
+    
+    &.active {
+        background-color: $color-highlight;
+    }
+    
+    &.dashed {
+        border: 2px dashed;
+    }
 
-.icon:focus {
-    outline: 0;
-}
+    &.double {
+        border: 2px double;
+    }
 
-.icon.dashed {
-    border: 2px dashed;
-}
-
-.icon.double {
-    border: 2px double;
-}
-
-.icon.dotted {
-    border: 2px dotted;
+    &.dotted {
+        border: 2px dotted;
+    }
+    
+    &.facebook {
+        
+    }
+    
+    &.googleplus {
+        
+    }
+    
+    &.twitter {
+        
+    }
+    
+    &.play {
+        
+    }
+    
 }

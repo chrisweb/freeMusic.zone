@@ -15,7 +15,6 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * in the api module "/tweet/charts/day" save the tracks we got from jamendo api call into mongodb
 * in the api module "/tweet/charts/day" dont do an api call if all tracks have been found in database already
 * add player to tweets page
-* add icon retweet this song (share)
 * get the user playlists for collaborative playlists page
 * create chat for collaborative playlists
 * add bot to chat that can answer questions
@@ -29,6 +28,8 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Other todos (damn that's a lot of todos ;) )
 
+* finish the tracksCache "soundsGarbageCollector" method
+* add an infinite scroll to the twitter charts page if there are more then 10 results
 * create a cron job module that refreshes the data of a track using the api, for tracks where the last refresh date is older then a month
 * mechanism to replace all the /desktop pathes with /mobile when not in desktop mode
 * images versioning, add the package.json version number to the javascript configuration file so that it can retrieve the images from the correct path
@@ -136,3 +137,4 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: in the header next to the user icon add the username
 * DONE: make the settings and user icon in the header clickable, on click redirect to their page
 * DONE: add the jamendo twitter charts page to the app, create a list of tracks from mongodb map reduce results
+* DONE: add icon retweet this song (share) to the track row of the twitter charts page

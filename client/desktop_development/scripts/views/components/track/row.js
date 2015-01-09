@@ -27,13 +27,15 @@ define([
     
     var TrackRowView = view.extend({
         
-        onInitializeStart: function(options) {
+        onInitializeStart: function() {
             
             utilities.log('[TRACK ROW COMPONENT VIEW] (' + this.cid + ') initializing ...', 'fontColor:blue');
             
-            trackId = this.model.get('id');
+            trackId = this.model.get('jamendo_id');
             
-            EventsManager.trigger(EventsManager.constants.TRACKROW_VIEW_ON_INITIALIZE, { id: trackId });
+            // tell the tracks cache manager that he must increment the
+            // usage of this track by one
+            EventsManager.trigger(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, { trackId: trackId, action: 'increment' });
             
         },
         
@@ -44,7 +46,9 @@ define([
             'mousedown .trackPreview': 'trackPreviewStart',
             'mouseup .trackPreview': 'trackPreviewStop',
             'click .playTrack': 'playTrackClick',
-            'click .retweetTrack': 'retweetTrackClick'
+            'click .retweetTrack': 'retweetTrackClick',
+            'click .shareOnFacebookTrack': 'shareOnFacebookClick',
+            'click .shareOnGooglePlusTrack': 'shareOnGooglePlusClick'
         },
         
         trackPreviewStart: function trackPreviewStartFunction(event) {
@@ -67,25 +71,31 @@ define([
             
             EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId });
             
-            this.$el.find('.trackPreview').removeClass('fa-spin');
-            
         },
         
         retweetTrackClick: function retweetTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_STOP, { trackId: trackId });
-            
-            this.$el.find('.trackPreview').removeClass('fa-spin');
+            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: trackId, network: 'twitter' });
             
         },
         
-        onClose: function() {
+        shareOnGooglePlusClick: function retweetTrackClickFunction() {
             
-            if (this.model !== undefined) {
-                
-                eventsManager.trigger(EventsManager.constants.TRACKROW_VIEW_ON_CLOSE, { id: this.model.get('id') });
-                
-            }
+            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: trackId, network: 'facebook' });
+            
+        },
+        
+        shareOnFacebookClick: function retweetTrackClickFunction() {
+            
+            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: trackId, network: 'googleplus' });
+            
+        },
+        
+        onCloseStart: function() {
+            
+            // tell the tracks cache manager that he must decrement the
+            // usage of this track by one
+            EventsManager.trigger(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, { trackId: this.model.get('jamendo_id'), action: 'decrement' });
             
         }
         

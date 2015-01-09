@@ -9,6 +9,8 @@
  * @param {type} HeaderNavigationPlugin
  * @param {type} EventsManager
  * @param {type} container
+ * @param {type} TracksCache
+ * @param {type} PlayerPlugin
  * 
  * @returns {_L19.Anonym$6}
  */
@@ -20,6 +22,8 @@ define([
     'library.plugin.headerNavigation',
     'library.eventsManager',
     'ribs.container',
+    'library.tracksCache',
+    'library.plugin.player',
     
     'library.jquery.plugin.hasAttr' // adds a new hasAttr function to $ (jquery)
 ], function (
@@ -29,7 +33,9 @@ define([
     LeftNavigationPlugin,
     HeaderNavigationPlugin,
     EventsManager,
-    container
+    container,
+    TracksCache,
+    PlayerPlugin
 ) {
 
     'use strict';
@@ -126,11 +132,17 @@ define([
             
         }
         
-        // initialize the left navigation
+        // initialize the left navigation plugin
         LeftNavigationPlugin.initialize();
         
-        // initialize the header navigation
+        // initialize the header navigation plugin
         HeaderNavigationPlugin.initialize();
+        
+        // initialize the tracks cache module
+        TracksCache.initialize();
+        
+        // initialize the player plugin
+        PlayerPlugin.initialize();
         
     };
     

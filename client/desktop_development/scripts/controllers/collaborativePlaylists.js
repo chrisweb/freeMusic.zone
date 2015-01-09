@@ -10,6 +10,7 @@
  * @param {type} EventsManager
  * @param {type} user
  * @param {type} tracksCacheManager
+ * 
  * @returns {unresolved}
  */
 define([
@@ -21,6 +22,7 @@ define([
     'library.eventsManager',
     'library.user',
     'library.tracksCache'
+    
 ], function ($, _, utilities, Controller, container, EventsManager, user, tracksCacheManager) {
     
     'use strict';

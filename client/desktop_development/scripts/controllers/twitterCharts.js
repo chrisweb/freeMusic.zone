@@ -51,6 +51,11 @@ define([
                 var tracksListView = new TracksListView({
                     collection: tweetsChartsCollection,
                     ModelView: TrackRowView,
+                    ModelViewOptions: {
+                        templateVariables: {
+                            context: 'twitterCharts'
+                        }
+                    },
                     listClass: 'tracksList'
                 });
 
