@@ -32,12 +32,12 @@
     "bootstrap-sass-official": "~3.3.1",
     "chrisweb-web-audio-api-player": "https://github.com/chrisweb/web-audio-api-player.git#master",
     "fontawesome": "~4.2.0",
-    "moment": "~2.8.4",
+    "moment": "~2.9.0",
     "chrisweb-utilities": "https://github.com/chrisweb/chrisweb-utilities.js.git#master",
     "ribs.js": "https://github.com/chrisweb/ribs.js.git#master",
     "almond": "0.3.0",
     "modernizr": "https://github.com/Modernizr/Modernizr.git#master",
-    "velocity": "~1.1.0",
+    "velocity": "~1.2.1",
     "skrollr": "0.6.29"
   }
 }
