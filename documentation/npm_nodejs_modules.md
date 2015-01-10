@@ -38,13 +38,17 @@ npm install express --save
 
 npm install body-parser --save
 
-npm install jamendo --save
+npm install jamendo --save (git://github.com/chrisweb/node-jamendo.git#master)
+
+npm install jamendo-from-twitter --save (git://github.com/chrisweb/jamendo-from-twitter.git#master)
 
 npm install underscore --save
 
 npm install errorhandler --save
 
 npm install winston --save
+
+npm install ejs --save
 
 npm install cookie-parser --save
 
@@ -53,6 +57,8 @@ npm install express-session --save
 npm install redis --save
 
 npm install connect-redis --save
+
+npm install socket.io --save
 
 npm install mongoose --save
 
@@ -79,8 +85,6 @@ npm install grunt-contrib-jshint --save-dev
 
 npm install grunt-contrib-requirejs --save-dev
 
-npm install grunt-contrib-qunit --save-dev
-
 npm install grunt-contrib-copy --save-dev
 
 npm install grunt-contrib-uglify --save-dev
@@ -93,19 +97,14 @@ npm install grunt-contrib-compress --save-dev
 
 npm install fluent-ffmpeg --save-dev
 
-npm install aws-sdk --save-dev
-
 npm install grunt-replace --save-dev
 
+npm install grunt-gitinfo --save-dev
 
-Dependencies that might be usefull but don't get used yet:
+npm install mocha --save-dev
 
-npm install socket.io --save
 
-npm install connect --save
 
-npm install connect-redis --save
+##### Other (not yet used) packages that might be usefull:
 
-npm install underscore --save
-
-npm install mongoose --save
+npm install aws-sdk --save-dev

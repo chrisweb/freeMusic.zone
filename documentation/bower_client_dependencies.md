@@ -47,3 +47,5 @@ bower install almond --save
 bower install https://github.com/Modernizr/Modernizr.git#master --save
 
 bower install velocity --save
+
+bower install skrollr --save
