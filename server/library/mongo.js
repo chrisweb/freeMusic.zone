@@ -42,7 +42,8 @@ module.exports.getClient = function getClientFunction(callback) {
     
     var portPart = '';
     
-    if (configuration.mongodb.hasOwnProperty('port')
+    if (configuration.hasOwnProperty('mongodb')
+        && configuration.mongodb.hasOwnProperty('port')
         && configuration.mongodb.port !== '') {
         
         portPart = ':' + configuration.mongodb.port;
@@ -53,7 +54,8 @@ module.exports.getClient = function getClientFunction(callback) {
         
     }
     
-    if (configuration.mongodb.hasOwnProperty('host')
+    if (configuration.hasOwnProperty('mongodb')
+        && configuration.mongodb.hasOwnProperty('host')
         && configuration.mongodb.host !== ''
         && configuration.mongodb.hasOwnProperty('database')
         && configuration.mongodb.database.hasOwnProperty('name')

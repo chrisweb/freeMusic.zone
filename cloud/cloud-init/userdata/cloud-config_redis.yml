@@ -10,8 +10,10 @@ groups:
 
 # create user
 users:
+  # the ec2-user
   - default
-  - name: redis
+  # the system user for redis
+  - name: redis_user
     gecos: Redis User
     system: true
     groups: redis
@@ -19,8 +21,12 @@ users:
 runcmd:
  # install redis
  - yum install redis -y --enablerepo=epel
- # TODO: configure redis
- # TODO: launch redis
+ # configure redis
+ - sed -i 's/bind 127.0.0.1/#bind 127.0.0.1/g' /etc/redis.conf
+ - sed -i 's/# requirepass foobared/requirepass YOUR_SUPER_STRONG_PASSWORD/g' /etc/redis.conf
+ # launch redis
+ - su -l redis_user
+ - service redis restart
 
 final_message: "The redis server is finally up, after $UPTIME seconds"
 

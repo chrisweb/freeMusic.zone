@@ -6,9 +6,19 @@ The cloud infrastructure diagrams can be found in the cloud/infrastructure direc
 
 The xml file(s) can be imported into draw.io
 
+## feedback
+
+If you have feedback about the cloud init scripts or found a bug please report it in the issues tracker: https://github.com/chrisweb/freeMusic.zone/issues
+
 ## aws management
 
 login to amazon aws http://aws.amazon.com/
+
+### VPC and Subnets
+
+First in the "Network" section, click on "VPC"
+
+Now setup a default VPC and Subnet using "start vpc wizard"
 
 ### mongodb instance
 
@@ -24,7 +34,7 @@ Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or w
 
 In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_mongodb.yml", this will setup the instance and install mongodb
 
-Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the mongodb port you have defined and only for the IP range of your web servers
+Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the mongodb port you have defined and only for the IP range of your web servers (as source choose the security group of your webservers, type "sg" and then choose from autocomplete list, the security group of your webservers)
 
 Finally: launch the instance
 
@@ -36,7 +46,7 @@ Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or w
 
 In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_redis.yml", this will setup the instance and install redis
 
-Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the redis port you have defined and only for the IP range of your web servers
+Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the redis port you have defined and only for the IP range of your web servers (as source choose the security group of your webservers, type "sg" and then choose from autocomplete list, the security group of your webservers)
 
 Finally launch the instance
 
@@ -124,23 +134,33 @@ Click on "create launch configuration"
 
 Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or whatever instance you want to create)
 
+Click on "next: configure details"
+
+Set a name for your launch configuration, enable monitoring, 
+
 Edit the "/cloud/cloud-init/userdata/cloud-config.yml" file that gets will get used to setup the server, edit the "write_files" section that creates a configuration file for the server and add your personal credentials
 
 In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config.yml" to setup the instance(s) of the freeMusic.zone web server(s)
 
 In "advanced details" for the "IP address type" choose "Do not assign a public IP address to any instances"
 
-Click "continue" until you reach the security groups, choose a security group that has the "http port 80" open and "https port 443" (if you need https) or create a new security group if you haven't already one
+Click "next" until you reach the "configure security groups" tab, choose a security group that has the "http port 80" open and "https port 443" (if you need https) or create a new security group if you haven't already one
+
+Click on "review"
 
 Finally click on "create launch configuration"
+
+Choose your aws key and click on "create launch configuration"
 
 Now you must create the "auto scaling group"
 
 Enter a "name", choose the amount of instances you want to start with (for example 2), choose your "VPC" in "network" and in "subnet" your subnet
 
-Open the "advanced details" section, check the "load balancer" checkbox and choose your load balancer
+Open the "advanced details" section, check the "receive traffic from elastic load balancer(s)" checkbox and choose your load balancer(s)
 
-Click on next, then choose "Use scaling policies to adjust the capacity of this group" and define the rules you want (I choosed scale from 2 to 3 instances, I set it to increase by one instance if the alarm detects that the cpu is above 60% and decrese by one if the cpu alarm is below 40%)
+Click on "next", then choose "use scaling policies to adjust the capacity of this group" and define the rules you want (I choosed scale from 2 to 3 instances, I set it to increase by one instance if the alarm detects that the cpu is above 60% and decrese by one if the cpu alarm is below 40%)
+
+Click on "next" until you reach the "tags" tab and then click on review
 
 Now click on "create auto scaling group" and then go back to your "ec2 dashboard", you will see that aws has launched two (or the amount of instances you have defined to get started at launch) new instances for you
 

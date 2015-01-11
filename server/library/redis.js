@@ -22,7 +22,8 @@ module.exports.getClient = function getClientFunction(callback) {
 
     utilities.log('[REDIS_DB] getClient', 'fontColor:cyan');
 
-    if (configuration.redis.hasOwnProperty('port')
+    if (configuration.hasOwnProperty('redis')
+        && configuration.redis.hasOwnProperty('port')
         && configuration.redis.port !== ''
         && configuration.redis.hasOwnProperty('host')
         && configuration.redis.host !== '') {

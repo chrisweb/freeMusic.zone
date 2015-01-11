@@ -35,6 +35,10 @@ First read the documentation/development_setup documentation to ensure everythin
 
 All the documentation can be found in the documentation directory.
 
+### Feedback and bug reports are welcome ;)
+
+If you have feedback about something related to this project or found a bug please report it in the issues tracker: https://github.com/chrisweb/freeMusic.zone/issues
+
 ### License
 
 freeMusic.zone: MIT licensed, Copyright (C) 2013 Chris Weber

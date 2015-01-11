@@ -16,10 +16,11 @@ groups:
 
 # create user
 users:
+  # the ec2-user
   - default
-  - name: nodejs
+  # the system nodejs server user
+  - name: nodejs_user
     gecos: NodeJs User
-    system: true
     groups: www
 
 write_files:
@@ -29,7 +30,7 @@ write_files:
   # executes the git checkout which fails if the configuration file is already
   # in the directory
   - path: /tmp/configuration.js
-    owner: root:root
+    owner: nodejs_user:www
     content: |
       'use strict';
       
@@ -141,12 +142,14 @@ write_files:
       exports.get = getConfiguration;
 
 runcmd:
+ # switch to nodejs_user
+ - su -l nodejs_user
  # get the project from github using the deploy key
  - ssh-agent bash -c 'ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git://github.com/chrisweb/freeMusic.zone.git /var/www/freeMusic.zone'
  # add the ec2 user to the www group
  - usermod -a -G www ec2-user
  # give the www group access to our project directory
- - [ chown, -R, "root:www", "/var/www" ]
+ - [ chown, -R, "nodejs_user:www", "/var/www" ]
  - [ chmod, -R, 775, "/var/www" ]
  # install nodejs
  - yum install nodejs npm -y --enablerepo=epel
@@ -162,8 +165,17 @@ runcmd:
  - npm install
  # install bower dependencies (run with the "allow-root" option as cloud init uses sudo)
  - bower install --no-color --allow-root
+ # copy the configuration file
+ - mv /tmp/configuration.js /var/www/freeMusic.zone/server/configuration/configuration.js
+ # give the nodejs_user permission to use the port 80
+ - setcap cap_net_bind_service=+ep /usr/bin/node
+ # install pm2 to run the nodejs server for ever
+ - npm install pm2 -g
+ - echo 'pm2 got installed, will now launch the server'
  # start nodejs server
- - node /var/www/freeMusic.zone/server
+ - export NODE_ENV=production
+ - export HOME=/home/nodejs_user
+ - pm2 start /var/www/freeMusic.zone/server.js -l ./logs/nodejs_web_server.log -o ./logs/nodejs_web_server_stdout.log -e ./logs/nodejs_web_server_stderr.log
 
 final_message: "The nodejs server is finally up, after $UPTIME seconds"
 

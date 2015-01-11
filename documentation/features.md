@@ -9,11 +9,11 @@
 
 * remote, use the app on a tablet or phone as a remote for another session of the app on a desktop or tv, login into both apps with same account, pub sub sync the state of both apps for that account
 * video paylist, jamendo playlist 2 youtube, create a playlist of jamendo tracks, then a script checks if those videos exist on youtube (via youtube search api?) and create a videos playlist based on the jamendo playlist
-* drive playlist, google drive download / backup, download tracks directly into your google drive account or backup entire playlists
+* playlist 2 google drive, google drive download / backup, download tracks directly into your google drive account or backup entire playlists
 * hot or not for songs, like or dislike it (add to playlist), swipe for next song, the app suggests a song if you dont like you swipe if you like you listen until the end and then next song gets played
 * tag playlists with moods or "time of the day", then make a page that shows the user playlists based on time of the day or the mood he has set in his profile
 * user points, give user points, achievements, badges for certain actions they can perform in the app
-* show concerts based on the browser api location
+* show concerts based on the browser location API
 
 ## Nice to have, but probably not enough time
 
@@ -62,7 +62,7 @@
 * use media attribute and page visibility APIs: http://daniemon.com/blog/two-favourite-underused-html5-media-features/
 * pointer events for mobile (and desktop) http://www.polymer-project.org/platform/pointer-events.html
 * shadow dom improved views with shadow dom: http://www.polymer-project.org/platform/shadow-dom.html
-* custom animations using bounce js: http://bouncejs.com/
+* custom animations using bounceJS: http://bouncejs.com/ or snabbtJS http://daniel-lundin.github.io/snabbt.js/index.html
 * grid loading for playlists or jamendo news: http://tympanus.net/Tutorials/SamsungGrid/index2.html
 * preview play button, loading then play: http://tympanus.net/Tutorials/CircularProgressButton/
 * login button that morphs into login box: http://tympanus.net/Development/ButtonComponentMorph/

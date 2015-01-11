@@ -126,9 +126,8 @@ groups:
 # create user
 users:
   - default
-  - name: nodejs
+  - name: nodejs_user
     gecos: NodeJs User
-    system: true
     groups: www
 
 runcmd:
@@ -143,13 +142,15 @@ runcmd:
  - make distclean
  - hash -r
  - . ~/.bash_profile
- # get the project from github using the deploy key
- - ssh-agent bash -c 'ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git://github.com/chrisweb/freeMusic.zone.git /var/www/freeMusic.zone'
  # add the ec2 user to the www group
  - usermod -a -G www ec2-user
  # give the www group access to our project directory
- - [ chown, -R, "root:www", "/var/www" ]
+ - [ chown, -R, "nodejs_user:www", "/var/www" ]
  - [ chmod, -R, 775, "/var/www" ]
+ # switch to nodejs_user
+ - su -l nodejs_user
+ # get the project from github using the deploy key
+ - ssh-agent bash -c 'ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git://github.com/chrisweb/freeMusic.zone.git /var/www/freeMusic.zone'
  # install nodejs
  - yum install nodejs npm -y --enablerepo=epel
  # install grunt and bower
@@ -161,6 +162,13 @@ runcmd:
  - npm install
  # install bower dependencies (run with the "allow-root" option as cloud init uses sudo)
  - bower install --no-color --allow-root
+ # install pm2
+ - npm install pm2 -g
+ # pm2 command to automatically start the harvester and cronjob (for ever)
+ - export NODE_ENV=production
+ - export HOME=/home/nodejs_user
+ - pm2 start twitter_harvester.js -l ./logs/twitter_harvester.log -o ./logs/twitter_harvester_stdout.log -e ./logs/twitter_harvester_stderr.log
+ - pm2 start mapreduce_cron.js -l ./logs/mapreduce_cron.log -o ./logs/mapreduce_cron_stdout.log -e ./logs/mapreduce_cron_stderr.log
 
 final_message: "The media server is finally up, after $UPTIME seconds"
 

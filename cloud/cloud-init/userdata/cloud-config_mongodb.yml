@@ -25,8 +25,10 @@ groups:
 
 # create user
 users:
+  # the ec2-user
   - default
-  - name: mongodb-user
+  # the system mongodb user
+  - name: mongodb_user
     gecos: MongoDB User
     system: true
     groups: mongodb-group
@@ -83,7 +85,7 @@ runcmd:
  # server configuration file and add your port number there too
  - sed -i 's/#port=27017/port=27017/g' /etc/mongod.conf
  # restart mongodb
- - service mongod restart
+ - su -l mongodb_user service mongod restart
  # !!! edit the file above and set the passwords you want
  # run the script to create the admin user as well as some users that will
  # access the database with the following command:
@@ -91,7 +93,7 @@ runcmd:
  # then enable auth and restart the server
  - sed -i 's/auth=.*/auth=true/g' /etc/mongod.conf
  # restart mongodb
- - service mongod restart
+ - su -l mongodb_user service mongod restart
  # TODO: instead of having just one mongodb database if would be nice to have
  # a replica set of multiple databases
  # http://docs.mongodb.org/manual/replication/
