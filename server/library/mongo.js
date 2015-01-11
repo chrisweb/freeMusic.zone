@@ -24,8 +24,6 @@ module.exports.getClient = function getClientFunction(callback) {
     
     var userAndPasswordPart = '';
     
-    var missingConfiguration = false;
-    
     if (configuration.hasOwnProperty('mongodb')
         && configuration.mongodb.hasOwnProperty('user')
         && configuration.mongodb.user !== ''
@@ -34,11 +32,9 @@ module.exports.getClient = function getClientFunction(callback) {
         
         userAndPasswordPart = configuration.mongodb.user + ':' + configuration.mongodb.password + '@';
         
-    } else {
-        
-        missingConfiguration = true;
-        
     }
+    
+    var missingConfiguration = false;
     
     var portPart = '';
     

@@ -244,20 +244,17 @@ redisModule.getClient(function getClientCallback(error, client) {
                     
                 });
                 
-                addErrorRoutes(desktopRouter);
-                
-                app.use('/desktop', desktopRouter);
-                
-                /*app.use('/', function(request, response) {
+                // route for aws health check
+                app.use('/health-check.html', function(request, response) {
                     
-                    utilities.log('/ redirect, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
+                    response.render('healthCheck');
                     
-                    response.redirect(301, '/desktop');
-                    
-                });*/
+                });
                 
                 // add error handling last
                 addErrorRoutes(desktopRouter);
+                
+                app.use('/desktop', desktopRouter);
                 
                 // START SERVER
                 app.set('port', process.env.PORT || configuration.server.port);
