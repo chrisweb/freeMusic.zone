@@ -32,6 +32,8 @@ module.exports.get = function getConfiguration(environment) {
              * server
              */
             configuration.server = {
+                host: '127.0.0.1',
+                protocol: 'http',
                 port: 35000,
                 staticFiles: {
                     header: {
@@ -98,7 +100,7 @@ module.exports.get = function getConfiguration(environment) {
                 port: 443,
                 scope: 'music',
                 grantType: 'authorization_code',
-                redirectUri: 'http://127.0.0.1:35000/oauth/redirect',
+                redirectUri: '/oauth/redirect',
                 resources: {
                     grant: '/oauth/grant',
                     authorize: '/oauth/authorize'

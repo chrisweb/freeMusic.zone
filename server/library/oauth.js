@@ -9,6 +9,15 @@ var querystring = require('querystring');
 // library event (eventsManager)
 var eventsManager = require('./event');
 
+/**
+ * 
+ * oauth library
+ * 
+ * @param {type} configuration
+ * @param {type} app
+ * @param {type} oauthRouter
+ * @returns {undefined}
+ */
 module.exports.start = function initialize(configuration, app, oauthRouter) {
 
     //utilities.log(configuration);
@@ -102,6 +111,14 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
 
 };
 
+/**
+ * 
+ * build the oauth request url
+ * 
+ * @param {type} configuration
+ * @param {type} request
+ * @returns {String}
+ */
 var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, request) {
     
     // a state to verify the response
@@ -109,6 +126,9 @@ var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, requ
     
     // put the state in the user session to be able to verify it later
     request.session.state = state;
+    
+    // generate the redirect url
+    var redirectUrl = getRedirectUrl(configuration);
     
     // build the request url
     var requestUrl = '';
@@ -136,7 +156,7 @@ var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, requ
 
     // parameters
     requestUrl += '?client_id=' + configuration.jamendoApi.clientId;
-    requestUrl += '&redirect_uri=' + configuration.jamendoApi.redirectUri;
+    requestUrl += '&redirect_uri=' + redirectUrl;
     requestUrl += '&scope=' + configuration.jamendoApi.scope;
 
     // state
@@ -146,18 +166,32 @@ var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, requ
 
 };
 
+/**
+ * 
+ * get the jamendo oauth token
+ * 
+ * @param {type} code
+ * @param {type} configuration
+ * @param {type} callback
+ * @returns {undefined}
+ */
 var getOauthToken = function getOauthTokenFunction(code, configuration, callback) {
     
+    // generate the redirect url
+    var redirectUrl = getRedirectUrl(configuration);
+    
+    // create a query string
     var data = querystring.stringify({
         code: code,
         client_id: configuration.jamendoApi.clientId,
         client_secret: configuration.jamendoApi.clientSecret,
         grant_type: configuration.jamendoApi.grantType,
-        redirect_uri: configuration.jamendoApi.redirectUri
+        redirect_uri: redirectUrl
     });
 
     //utilities.log(data);
 
+    // define the options
     var options = {
         hostname: configuration.jamendoApi.host,
         port: configuration.jamendoApi.port,
@@ -171,6 +205,7 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
 
     //utilities.log(options);
 
+    // oauth request object
     var oauthRequest = https.request(options, function(oauthResponse) {
 
         //utilities.log('status: ' + oauthResponse.statusCode);
@@ -261,5 +296,35 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
     // write data to request body
     oauthRequest.write(data);
     oauthRequest.end();
+    
+};
+
+/**
+ * 
+ * generate the oauth redirect url
+ * 
+ * @param {type} configuration
+ * @returns {String}
+ */
+var getRedirectUrl = function getRedirectUrlFunction(configuration) {
+    
+    // generate the redirect url
+    var redirectUrl;
+
+    if (
+        typeof(configuration.jamendoApi.port) !== 'undefined' &&
+        configuration.jamendoApi.port !== '' &&
+        configuration.jamendoApi.port !== 80
+    ) {
+        
+        redirectUrl = configuration.server.protocol + '://' + configuration.server.host + ':' + configuration.server.port + configuration.jamendoApi.redirectUri;
+        
+    } else {
+        
+        redirectUrl = configuration.server.protocol + '://' + configuration.server.host + configuration.jamendoApi.redirectUri;
+        
+    }
+    
+    return redirectUrl;
     
 };
