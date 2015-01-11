@@ -116,7 +116,7 @@ As type choose "A - IPv4 address" and as for the next row "alias" choose yes
 
 In the next field "alias target" choose the name of your load balancer, something like myLoadBalancer-gsdhgdsdsgg.eu-west-2.elb.amazonaws.com
 
-As "routing policy" choose "simple" and as for "evaluate target health" choose no (I checked no as Im pointed to a load balancer that will only include healthy instances but if you point directly to ec2 instances you migth want to set this to yes so that traffic only gets send to healthy instances)
+As "routing policy" choose "simple" and as for "evaluate target health" choose "yes", to avoid that unhealthy instances get added to the load balancer and start recieving traffic
 
 Finally click on "create" and your are done
 
