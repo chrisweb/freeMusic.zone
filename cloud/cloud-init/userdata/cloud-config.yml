@@ -1,0 +1,172 @@
+#cloud-config (nodejs server / project cloning)
+#freeMusic.zone
+
+# Upgrade the instance on first boot
+package_upgrade: true
+
+# install packages
+packages:
+ - git
+ - ruby
+ - rubygems
+
+# create groups
+groups:
+  - www
+
+# create user
+users:
+  - default
+  - name: nodejs
+    gecos: NodeJs User
+    system: true
+    groups: www
+
+write_files:
+  # create the server configuration file
+  # we must write the file somewhere and then move it into the project directory
+  # using runcmd, because write_files occurs before runcmd, but runcmd
+  # executes the git checkout which fails if the configuration file is already
+  # in the directory
+  - path: /tmp/configuration.js
+    owner: root:root
+    content: |
+      'use strict';
+      
+      exports.version = '0.0.1';
+      
+      var getConfiguration = function(environment) {
+      
+          var configuration = {};
+      
+          switch (environment) {
+      
+              case 'production':
+      
+                  /**
+                   * twitter
+                   */
+                  configuration.twitter = {
+                      consumer_key:         'YOUR_KEY', // consumer_key
+                      consumer_secret:      'YOUR_SECRET', // consumer_secret
+                      access_token_key:     'YOUR_TOKEN-KEY', // access_token
+                      access_token_secret:  'YOUR_TOKEN_SECRET' // access_token_secret
+                  };
+                  
+                  /**
+                   * server
+                   */
+                  configuration.server = {
+                      host: 'YOUR_HOST',
+                      protocol: 'http',
+                      port: 80,
+                      staticFiles: {
+                          header: {
+                              maxAge: 604800 // 7 days
+                          }
+                      },
+                      logging: {
+                          console: true,
+                          errorFile: true,
+                          warnFile: true,
+                          infoFile: true
+                      }
+                  };
+                     
+                  /**
+                   * mongodb
+                   */
+                  configuration.mongodb = {
+                      host: 'YOUR_HOST',
+                      port: 'YOUR_PORT',
+                      user: 'YOUR_USER',
+                      password: 'YOUR_PASSWORD',
+                      database: {
+                          name: 'freemusiczone'
+                      }
+                  };
+                  
+                  /**
+                   * redis
+                   */
+                  configuration.redis = {
+                      host: 'YOUR_HOST',
+                      port: YOUR_PORT,
+                      auth: 'YOUR_AUTH',
+                      databases: {
+                          session: 1
+                      }
+                  };
+                  
+                  /**
+                   * application
+                   */
+                  configuration.application = {
+                      useModules: false,
+                      session: {
+                          secret: 'YOUR_SECRET_HASH'
+                      },
+                      cookie: {
+                          secret: 'YOUR_SECRET_HASH'
+                      }
+                  };
+            
+                  /**
+                   * jamendo api / oauth
+                   */
+                  configuration.jamendoApi = {
+                      clientId: 'YOUR_CLIENT_ID',
+                      clientSecret: 'YOUR_CLIENT_SECRET',
+                      protocol: 'https',
+                      host: 'api.jamendo.com',
+                      version: 'v3.0',
+                      port: 443,
+                      scope: 'music',
+                      grantType: 'authorization_code',
+                      redirectUri: '/oauth/redirect',
+                      resources: {
+                          grant: '/oauth/grant',
+                          authorize: '/oauth/authorize'
+                      }
+                  };
+      
+                  break;
+      
+          }
+      
+          return configuration;
+      
+      };
+      
+      exports.get = getConfiguration;
+
+runcmd:
+ # get the project from github using the deploy key
+ - ssh-agent bash -c 'ssh git@github.com -t -o StrictHostKeyChecking=no; git clone git://github.com/chrisweb/freeMusic.zone.git /var/www/freeMusic.zone'
+ # add the ec2 user to the www group
+ - usermod -a -G www ec2-user
+ # give the www group access to our project directory
+ - [ chown, -R, "root:www", "/var/www" ]
+ - [ chmod, -R, 775, "/var/www" ]
+ # install nodejs
+ - yum install nodejs npm -y --enablerepo=epel
+ # install sass and set path
+ - gem install sass
+ - export PATH=${PATH}:/var/lib/gems/1.8/bin
+ # install grunt and bower
+ - npm install -g grunt-cli
+ - npm install -g bower
+ # install dependencies
+ - cd /var/www/freeMusic.zone
+ - npm config set color false
+ - npm install
+ # install bower dependencies (run with the "allow-root" option as cloud init uses sudo)
+ - bower install --no-color --allow-root
+ # start nodejs server
+ - node /var/www/freeMusic.zone/server
+
+final_message: "The nodejs server is finally up, after $UPTIME seconds"
+
+output: {all: '| tee -a /var/log/cloud-init-output.log'}
+
+# vim:syntax=yaml expandtab

@@ -6,7 +6,7 @@ To be able to convert new videos to use them on the homepage, you need to create
 
 I use am amazon aws ec2 instance to install the video convertor and the required tools like ffmpeg.
 
-If you also want to use amazon aws, you can use the cloud-config userdata script "cloud-config-video-audio-harvester.txt" that is in the cloud/cloud-init/userdata directory of this project, to create a new ec2 instance.
+If you also want to use amazon aws, you can use the cloud-config userdata script "cloud-config-video-audio-harvester.yml" that is in the cloud/cloud-init/userdata directory of this project, to create a new ec2 instance.
 
 ### Uploading the videos
 

@@ -24,28 +24,56 @@ module.exports.getClient = function getClientFunction(callback) {
     
     var userAndPasswordPart = '';
     
-    if (configuration.mongodb.user !== undefined
+    var missingConfiguration = false;
+    
+    if (configuration.hasOwnProperty('mongodb')
+        && configuration.mongodb.hasOwnProperty('user')
         && configuration.mongodb.user !== ''
-        && configuration.mongodb.password !== undefined
+        && configuration.mongodb.hasOwnProperty('password')
         && configuration.mongodb.password !== '') {
         
         userAndPasswordPart = configuration.mongodb.user + ':' + configuration.mongodb.password + '@';
+        
+    } else {
+        
+        missingConfiguration = true;
         
     }
     
     var portPart = '';
     
-    if (configuration.mongodb.port !== undefined && configuration.mongodb.port !== '') {
+    if (configuration.mongodb.hasOwnProperty('port')
+        && configuration.mongodb.port !== '') {
         
         portPart = ':' + configuration.mongodb.port;
         
+    } else {
+        
+        missingConfiguration = true;
+        
     }
     
-    var connectionParameters = 'mongodb://' + userAndPasswordPart + configuration.mongodb.host + portPart + '/' + configuration.mongodb.database.name;
+    if (configuration.mongodb.hasOwnProperty('host')
+        && configuration.mongodb.host !== ''
+        && configuration.mongodb.hasOwnProperty('database')
+        && configuration.mongodb.database.hasOwnProperty('name')
+        && configuration.mongodb.database.name !== '') {
     
-    //utilities.log('[MONGO_DB] ' + connectionParameters, 'fontColor:cyan');
+        var connectionParameters = 'mongodb://' + userAndPasswordPart + configuration.mongodb.host + portPart + '/' + configuration.mongodb.database.name;
+        
+    }
     
-    mongoose.connect(connectionParameters);
+    if (missingConfiguration) {
+        
+        throw 'the mongodb configuration is missing, check out /server/configuration/configuration.js';
+        
+    } else {
+        
+        //utilities.log('[MONGO_DB] ' + connectionParameters, 'fontColor:cyan');
+        
+        mongoose.connect(connectionParameters);
+        
+    }
     
     var mongooseConnection = mongoose.connection;
     

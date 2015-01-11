@@ -25,6 +25,9 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * list of playlists (for collaborative module) sort by (popularity / date)
 * playlist detail page (for collaborative module)
 * look at the source of desktop_development@@ we need a bunch of icons and slpash screens
+* the cloud init script for the nodejs web server must create the configuration.js file, using the "wite_files" option in cloud init or using wget from a secure server
+* the redis server cloud init setup script must edit the redis conf file and set the production values
+* put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
 
 ## Other todos (damn that's a lot of todos ;) )
 

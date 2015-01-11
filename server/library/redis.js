@@ -22,32 +22,47 @@ module.exports.getClient = function getClientFunction(callback) {
 
     utilities.log('[REDIS_DB] getClient', 'fontColor:cyan');
 
-    var redisPort = configuration.redis.port;
-    var redisHost = configuration.redis.host;
+    if (configuration.redis.hasOwnProperty('port')
+        && configuration.redis.port !== ''
+        && configuration.redis.hasOwnProperty('host')
+        && configuration.redis.host !== '') {
+
+        var redisPort = configuration.redis.port;
+        var redisHost = configuration.redis.host;
+        
+    } else {
+        
+        throw 'the redis configuration is missing, check out /server/configuration/configuration.js';
+        
+    }
 
     // get redis client instance
     var redisDBClient = redis.createClient(redisPort, redisHost);
     
-    // NOTE: your call to client.auth() should not be inside the ready handler
-    var redisAuth = configuration.redis.auth;
+    if (configuration.redis.hasOwnProperty('auth')) {
+    
+        // NOTE: your call to client.auth() should not be inside the ready handler
+        var redisAuth = configuration.redis.auth;
 
-    if (redisAuth.length > 0) {
+        if (redisAuth !== '') {
 
-        // this command is magical, client stashes the password and will issue it on every connect
-        redisDBClient.auth(redisAuth, function(error) {
-            
-            if (error !== null) {
-            
-                utilities.log('[REDIS_DB] auth error: ' + error, 'error');
-                
-            } else {
-                
-                utilities.log('[REDIS_DB] auth success', 'fontColor:cyan');
-                
-            }
-            
-        });
+            // this command is magical, client stashes the password and will issue it on every connect
+            redisDBClient.auth(redisAuth, function(error) {
 
+                if (error !== null) {
+
+                    utilities.log('[REDIS_DB] auth error: ' + error, 'error');
+
+                } else {
+
+                    utilities.log('[REDIS_DB] auth success', 'fontColor:cyan');
+
+                }
+
+            });
+
+        }
+        
     }
 
     // authentificate

@@ -159,6 +159,14 @@ redisModule.getClient(function getClientCallback(error, client) {
         
         redisClients.push(client);
         
+        if (!configuration.redis.hasOwnProperty('databases')
+            || !configuration.redis.databases.hasOwnProperty('session')
+            || configuration.redis.databases.session === '') {
+        
+            throw 'the redis configuration is missing, check out /server/configuration/configuration.js';
+        
+        }
+        
         redisModule.selectDatabase(configuration.redis.databases.session, client, function selectDatabaseCallback(error) {
             
             if (!error) {
@@ -166,6 +174,15 @@ redisModule.getClient(function getClientCallback(error, client) {
                 var redisOptions = { client: client };
         
                 var redisStore = new RedisStore(redisOptions);
+                
+                if (!configuration.hasOwnProperty('application')
+                    || !configuration.application.hasOwnProperty('session')
+                    || !configuration.application.session.hasOwnProperty('secret')
+                    || configuration.application.session.secret === '') {
+
+                    throw 'the application configuration is missing, check out /server/configuration/configuration.js';
+
+                }
 
                 app.use(cookieParser()); // required before session.
                 app.use(session({

@@ -16,13 +16,13 @@ The mongodb cloud init userdata script will create a mongodb users setup script 
 
 It will then use that file to create the mongodb user, when this is dont the script will edit the mongodb conf file and enable auth
 
-You need to edit the cloud/cloud-init/userdata/cloud-config_mongodb.txt and add your own passwords you want to use for the three default users it will create, then edit the server configuration (server/configuration/configuration.js) file and use the same values there
+You need to edit the cloud/cloud-init/userdata/cloud-config_mongodb.yml and add your own passwords you want to use for the three default users it will create, then edit the server configuration (/server/configuration/configuration.js) file and use the same values there
 
 Now create a new EC2 instance, by clicking the "launch instance" button in your aws console
 
 Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or whatever instance you want to create)
 
-In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_mongodb.txt", this will setup the instance and install mongodb
+In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_mongodb.yml", this will setup the instance and install mongodb
 
 Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the mongodb port you have defined and only for the IP range of your web servers
 
@@ -34,7 +34,7 @@ Cow create a new EC2 instance, by clicking the "launch instance" button in your 
 
 Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or whatever instance you want to create)
 
-In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_redis.txt", this will setup the instance and install redis
+In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_redis.yml", this will setup the instance and install redis
 
 Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the redis port you have defined and only for the IP range of your web servers
 
@@ -44,7 +44,7 @@ Finally launch the instance
 
 Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or whatever instance you want to create)
 
-In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config-video-audio-harvester.txt", this will setup the instance and install all the required dependencies
+In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config-video-audio-harvester.yml", this will setup the instance and install all the required dependencies
 
 Click "continue" until you reach the security groups, choose a security group that has the "http port 80" open and "https port 443" (if you need https) or create a new security group if you haven't already one
 
@@ -58,7 +58,7 @@ I use am amazon aws ec2 instance to install the video convertor and the required
 
 I use the same aws instance for the video convertor then for the twitter harvester, but you can put it on a seperate instance if you prefer
 
-Use the cloud-config userdata script "cloud-config-video-audio-harvester.txt" that is in the "/cloud/cloud-init/userdata/" directory of this project, to create a new ec2 instance (follow the steps described in the harvester section of this document)
+Use the cloud-config userdata script "cloud-config-video-audio-harvester.yml" that is in the "/cloud/cloud-init/userdata/" directory of this project, to create a new ec2 instance (follow the steps described in the harvester section of this document)
 
 Now follow the instructions in "documentation/video_conversion.md" to start converting videos for the fullscreen video homepage
 
@@ -110,7 +110,7 @@ As "routing policy" choose "simple" and as for "evaluate target health" choose n
 
 Finally click on "create" and your are done
 
-Use the userdata in "cloud/cloud-init/userdata/cloud-config.txt" to setup the instances of the freeMusic.zone server
+Use the userdata in "cloud/cloud-init/userdata/cloud-config.yml" to setup the instances of the freeMusic.zone server
 
 ### create a launch configuration / auto scaling group
 
@@ -124,7 +124,9 @@ Click on "create launch configuration"
 
 Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or whatever instance you want to create)
 
-In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config.txt" to setup the instance(s) of the freeMusic.zone web server(s)
+Edit the "/cloud/cloud-init/userdata/cloud-config.yml" file that gets will get used to setup the server, edit the "write_files" section that creates a configuration file for the server and add your personal credentials
+
+In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config.yml" to setup the instance(s) of the freeMusic.zone web server(s)
 
 In "advanced details" for the "IP address type" choose "Do not assign a public IP address to any instances"
 
@@ -141,6 +143,14 @@ Open the "advanced details" section, check the "load balancer" checkbox and choo
 Click on next, then choose "Use scaling policies to adjust the capacity of this group" and define the rules you want (I choosed scale from 2 to 3 instances, I set it to increase by one instance if the alarm detects that the cpu is above 60% and decrese by one if the cpu alarm is below 40%)
 
 Now click on "create auto scaling group" and then go back to your "ec2 dashboard", you will see that aws has launched two (or the amount of instances you have defined to get started at launch) new instances for you
+
+### debugging the userdata cloud init scripts
+
+If the server setup fails, connect via ssh to the server using a ssh tool like putty
+
+You can find the logs at "/var/log/cloud-init-output.log"
+
+Must of the time, when the server setup fails, its because the cloud init script is not well formatted, cloud-init scripts are YAML, check if your file is formatted correctly by yaml linting tool, for example http://yaml-online-parser.appspot.com/ or http://www.yamllint.com/
 
 ### aws "automatic setup" script
 

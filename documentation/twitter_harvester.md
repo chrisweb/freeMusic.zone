@@ -2,7 +2,7 @@
 
 ## the harvester
 
-create an aws instance using the cloud init userdata for the harvester "cloud/cloud-init/userdata/cloud-config-video-audio-harvester.txt"
+create an aws instance using the cloud init userdata for the harvester "cloud/cloud-init/userdata/cloud-config-video-audio-harvester.yml"
 
 use an ssh client like putty and connect to your aws instance
 
