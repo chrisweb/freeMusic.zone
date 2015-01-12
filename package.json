@@ -4,7 +4,8 @@
   "description": "freeMusic zone",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "start": "node server.js",
+    "test": ""
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,8 @@
     "audio",
     "zone"
   ],
-  "author": "chrisweb",
+  "private": true,
+  "author": "chrisweb <chris963@gmail.com> (https://chris.lu)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chrisweb/freeMusic.zone/issues"
