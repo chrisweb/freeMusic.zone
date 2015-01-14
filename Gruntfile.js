@@ -73,6 +73,7 @@ module.exports = function (grunt) {
                 }
             },
             'sass_source': 'auto',
+            'assetsPath': 'desktop_development',
             'environment': 'development'
         },
         // grunt git info (git revision)
@@ -122,8 +123,8 @@ module.exports = function (grunt) {
                 options: {
                     baseUrl: '<%= config.client.desktop.development.scripts.path %>',
                     mainConfigFile: '<%= config.client.desktop.development.scripts.path %>/main.js',
-                    include: '<%= config.client.desktop.development.scripts.path %>/main.js',
-                    name: '<%= config.client.desktop.development.almond.path %>/almond',
+                    
+                    name: 'bower_components/almond/almond',
                     out: '<%= config.client.desktop.build.scripts.path %>/<%= gitinfo.local.branch.current.lastCommitNumber %>/main.js',
                     findNestedDependencies: true,
                     optimize: 'uglify2',
@@ -198,43 +199,19 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            desktop_html_development: {
+            desktop_view: {
                 options: {
                     patterns: [
                         {
                             match: 'version',
                             replacement: '<%= gitinfo.local.branch.current.lastCommitNumber %>'
-                        },
-                        {
-                            match: 'environment',
-                            replacement: '<%= config.environment %>'
                         }
                     ]
                 },
                 files: [
                     {
-                        src: '<%= config.server.views.path %>/desktop_development@@.html',
-                        dest: '<%= config.server.views.path %>/desktop_development.html'
-                    }
-                ]
-            },
-            desktop_html_build: {
-                options: {
-                    patterns: [
-                        {
-                            match: 'version',
-                            replacement: '<%= gitinfo.local.branch.current.lastCommitNumber %>'
-                        },
-                        {
-                            match: 'environment',
-                            replacement: '<%= config.environment %>'
-                        }
-                    ]
-                },
-                files: [
-                    {
-                        src: '<%= config.server.views.path %>/desktop_build@@.html',
-                        dest: '<%= config.server.views.path %>/desktop_build.html'
+                        src: '<%= config.server.views.path %>/desktop@@.html',
+                        dest: '<%= config.server.views.path %>/desktop.html'
                     }
                 ]
             }
@@ -269,7 +246,7 @@ module.exports = function (grunt) {
         cssmin: {
             maincss: {
                 options: {
-                    banner: '/* <%= packageJson.name %> <%= packageJson.version %>  css */'
+                    banner: '/* <%= packageJson.name %> <%= packageJson.version %> css */'
                 },
                 files: {
                     '<%= config.client.desktop.build.stylesheets.path %>/main-<%= gitinfo.local.branch.current.lastCommitNumber %>.min.css': '<%= config.client.desktop.build.stylesheets.path %>/main-<%= gitinfo.local.branch.current.lastCommitNumber %>.css'
@@ -402,7 +379,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    //grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-jst');
     grunt.loadNpmTasks('grunt-contrib-compress');
@@ -436,6 +413,8 @@ module.exports = function (grunt) {
 
         // no source maps for prod
         grunt.config.set('config.sass_source', 'none');
+        
+        grunt.config.set('config.assetsPath', 'desktop_build');
 
         grunt.task.run('sass');
 
@@ -447,7 +426,7 @@ module.exports = function (grunt) {
         // no source maps for prod
         grunt.config.set('config.environment', 'development');
 
-        grunt.task.run('gitinfo', 'replace:desktop_html_development');
+        grunt.task.run('gitinfo', 'replace:desktop_view');
 
     });
 
@@ -457,7 +436,7 @@ module.exports = function (grunt) {
         // no source maps for prod
         grunt.config.set('config.environment', 'beta');
 
-        grunt.task.run('gitinfo', 'replace:desktop_html_build');
+        grunt.task.run('gitinfo', 'replace:desktop_view');
 
     });
 
@@ -467,7 +446,7 @@ module.exports = function (grunt) {
         // no source maps for prod
         grunt.config.set('config.environment', 'production');
 
-        grunt.task.run('gitinfo', 'replace:desktop_html_build');
+        grunt.task.run('gitinfo', 'replace:desktop_view');
 
     });
 
@@ -475,9 +454,9 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint']);
 
     // build for production export
-    grunt.registerTask('buildprod', ['production-replace', 'jst', 'requirejs', 'production-sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildprod', ['production-replace', 'jst', 'requirejs', 'production-sass', 'copy', 'cssmin', 'compress']);
 
-    grunt.registerTask('buildbeta', ['beta-replace', 'jshint', 'jst', 'requirejs', 'sass', 'copy', 'cssmin', 'uglify', 'compress']);
+    grunt.registerTask('buildbeta', ['beta-replace', 'jshint', 'jst', 'requirejs', 'sass', 'copy', 'cssmin', 'compress']);
 
     // templates and css for development
     grunt.registerTask('builddev', ['updatefonts', 'development-replace', 'jst', 'copy_desktop']);

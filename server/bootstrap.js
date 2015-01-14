@@ -227,7 +227,9 @@ redisModule.getClient(function getClientCallback(error, client) {
                     
                 } else {
                     
-                    desktopRouter.use(express.static(__dirname + '/../client/desktop_build'));
+                    desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
+                    desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
+                    desktopRouter.use('/videos', express.static(__dirname + '/../videos'));
                     
                 }
                 
@@ -236,10 +238,20 @@ redisModule.getClient(function getClientCallback(error, client) {
                     
                     utilities.log('/desktop, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
                     
-                    response.render('desktop_development', {
+                    var assetsPath = 'desktop_build';
+                    
+                    if (app.get('env') === 'development') {
+                    
+                        assetsPath = 'desktop_development';
+                        
+                    }
+                    
+                    response.render('desktop', {
                         splashScreenName: 'splashScreen',
                         splashScreenExtension: 'png',
-                        splashScreenPath: '/desktop/client/desktop_development/images/splashScreen'
+                        splashScreenPath: '/desktop/client/' + assetsPath + '/images/splashScreen',
+                        environment: app.get('env'),
+                        assetsPath: assetsPath
                     });
                     
                 });

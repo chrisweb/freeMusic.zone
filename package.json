@@ -40,7 +40,6 @@
     "underscore": "~1.7.0",
     "winston": "^0.8.3",
     "socket.io": "^1.2.1",
-    
     "jamendo-from-twitter": "git://github.com/chrisweb/jamendo-from-twitter.git#master",
     "async": "^0.9.0",
     "cron": "^1.0.5"
@@ -55,7 +54,6 @@
     "grunt-contrib-jst": "~0.6.0",
     "grunt-contrib-requirejs": "~0.4.4",
     "grunt-contrib-sass": "~0.8.1",
-    "grunt-contrib-uglify": "~0.7.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-gitinfo": "0.1.7",
     "grunt-replace": "^0.8.0",

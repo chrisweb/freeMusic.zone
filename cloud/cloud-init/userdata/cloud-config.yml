@@ -172,6 +172,8 @@ runcmd:
  # install pm2 to run the nodejs server for ever
  - npm install pm2 -g
  - echo 'pm2 got installed, will now launch the server'
+ # do the production build
+ - grunt buildprod
  # start nodejs server
  - export NODE_ENV=production
  - export HOME=/home/nodejs_user
