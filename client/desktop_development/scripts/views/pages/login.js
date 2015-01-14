@@ -186,7 +186,7 @@ define([
     var initializeSkrollr = function initializeSkrollrFunction() {
         
         // initialize skrollr
-        var skrollrObject = skrollr.init({
+        var skrollrInstance = skrollr.init({
             smoothScrollingDuration: 1000,
             smoothScrolling: true,
             easing: 'swing',
@@ -206,8 +206,6 @@ define([
 
             }
         });
-        
-        var skrollrInstance = skrollrObject.get();
         
         // sometimes the initialisation is done a little bit too early so
         // we do a refresh to ensure everything is ready
