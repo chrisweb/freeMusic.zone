@@ -1,33 +1,28 @@
 /**
  * 
- * twitter charts page view
+ * settings page view
  * 
- * @param {type} $
- * @param {type} _
- * @param {type} Backbone
  * @param {type} JST
  * @param {type} utilities
- * @param {type} configurationModule
  * @param {type} view
+ * 
  * @returns {unresolved}
  */
 define([
-    'jquery',
-    'underscore',
-    'backbone',
     'templates',
     'chrisweb.utilities',
     'configuration',
     'ribs.view'
-], function ($, _, Backbone, JST, utilities, configurationModule, view) {
+    
+], function (JST, utilities, view) {
     
     'use strict';
     
-    var TwitterChartsView = view.extend({
+    var SettingsView = view.extend({
         
         onInitializeStart: function() {
             
-            utilities.log('[TWITTER CHARTS PAGE VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[SETTINGS PAGE VIEW] initializing ...', 'fontColor:blue');
             
         },
         
@@ -40,6 +35,6 @@ define([
         
     });
     
-    return TwitterChartsView;
+    return SettingsView;
     
 });

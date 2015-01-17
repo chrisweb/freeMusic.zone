@@ -3,7 +3,6 @@
  * left navigation component view
  * 
  * @param {type} $
- * @param {type} _
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
@@ -13,17 +12,16 @@
  */
 define([
     'jquery',
-    'underscore',
     'templates',
     'chrisweb.utilities',
     'ribs.view',
     'library.eventsManager',
     
     'library.jquery.plugin.caretToggle'
-], function ($, _, JST, utilities, View, EventsManager) {
+], function ($, JST, utilities, View, EventsManager) {
     
     'use strict';
-
+    
     var LeftNavigationView = View.extend({
         
         onInitializeStart: function() {

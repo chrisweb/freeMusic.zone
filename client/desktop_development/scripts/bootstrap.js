@@ -95,9 +95,9 @@ define([
         });
 
         // on event "post route" and the UI does not already exist
-        EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function(parameters) {
+        EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function(attributes) {
             
-            if (parameters.routeName !== 'renderHomepage') {
+            if (attributes.routeName !== 'renderHomepage') {
                 
                 if (!componentsAreReady) {
                     

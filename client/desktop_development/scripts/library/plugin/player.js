@@ -40,9 +40,9 @@ define([
      */
     var startListening = function startListeningFunction() {
         
-        EventsManager.on(EventsManager.constants.TRACK_PLAY, function(parameters) {
+        EventsManager.on(EventsManager.constants.TRACK_PLAY, function(attributes) {
             
-            TracksCacheLibrary.fetchTrack(parameters.trackId);
+            TracksCacheLibrary.fetchTrack(attributes.trackId);
             
         });
         

@@ -2,12 +2,17 @@
 // utilities module
 var utilities = require('../../bower_components/chrisweb-utilities/utilities');
 
+// nodejs https
 var https = require('https');
 
+// nodejs query string
 var querystring = require('querystring');
 
 // library event (eventsManager)
 var eventsManager = require('./event');
+
+// underscore vendor module
+var _ = require('underscore');
 
 /**
  * 
@@ -141,9 +146,10 @@ var getOAuthRequestUrl = function getOAuthRequestUrlFunction(configuration, requ
 
     // port
     if (
-        typeof(configuration.jamendoApi.port) !== 'undefined' &&
-        configuration.jamendoApi.port !== '' &&
-        configuration.jamendoApi.port !== 80
+        _.has(configuration, 'jamendoApi')
+        && _.has(configuration.jamendoApi, 'port')
+        && configuration.jamendoApi.port !== ''
+        && configuration.jamendoApi.port !== 80
     ) {
 
         requestUrl += ':' + configuration.jamendoApi.port;
@@ -312,9 +318,10 @@ var getRedirectUrl = function getRedirectUrlFunction(configuration) {
     var redirectUrl;
 
     if (
-        typeof(configuration.jamendoApi.port) !== 'undefined' &&
-        configuration.jamendoApi.port !== '' &&
-        configuration.jamendoApi.port !== 80
+        _.has(configuration, 'jamendoApi')
+        && _.has(configuration.jamendoApi, 'port')
+        && configuration.jamendoApi.port !== ''
+        && configuration.jamendoApi.port !== 80
     ) {
         
         redirectUrl = configuration.server.protocol + '://' + configuration.server.host + ':' + configuration.server.port + configuration.jamendoApi.redirectUri;

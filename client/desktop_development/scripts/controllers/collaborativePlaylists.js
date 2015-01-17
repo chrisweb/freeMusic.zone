@@ -101,9 +101,9 @@ define([
                 container.add('#core', tracksListView);
 
                 // listen for search events
-                EventsManager.on(EventsManager.constants.SEARCH_QUERY, function(parameters) {
+                EventsManager.on(EventsManager.constants.SEARCH_QUERY, function(attributes) {
 
-                    handleSearch(parameters.queryString, function handleSearchCallback(error, results) {
+                    handleSearch(attributes.queryString, function handleSearchCallback(error, results) {
 
                         tracksSearchResultCollection.reset();
 

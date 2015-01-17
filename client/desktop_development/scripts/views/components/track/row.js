@@ -2,8 +2,6 @@
  * 
  * track row component view
  * 
- * @param {type} $
- * @param {type} _
  * @param {type} view
  * @param {type} JST
  * @param {type} utilities
@@ -12,14 +10,12 @@
  * @returns {unresolved}
  */
 define([
-    'jquery',
-    'underscore',
     'ribs.view',
     'templates',
     'chrisweb.utilities',
     'library.eventsManager'
     
-], function ($, _, view, JST, utilities, EventsManager) {
+], function (view, JST, utilities, EventsManager) {
     
     'use strict';
     
@@ -95,7 +91,7 @@ define([
             
             // tell the tracks cache manager that he must decrement the
             // usage of this track by one
-            EventsManager.trigger(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, { trackId: this.model.get('jamendo_id'), action: 'decrement' });
+            EventsManager.trigger(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, { trackId: trackId, action: 'decrement' });
             
         }
         

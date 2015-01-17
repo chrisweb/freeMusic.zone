@@ -2,8 +2,6 @@
  * 
  * header navigation component view
  * 
- * @param {type} $
- * @param {type} _
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
@@ -13,16 +11,13 @@
  * @returns {unresolved}
  */
 define([
-    'jquery',
-    'underscore',
     'templates',
     'chrisweb.utilities',
     'ribs.view',
     'library.eventsManager',
-    'library.user',
-    'library.router'
+    'library.user'
     
-], function ($, _, JST, utilities, View, EventsManager, UserLibrary, RouterLibrary) {
+], function (JST, utilities, View, EventsManager, UserLibrary) {
     
     'use strict';
     

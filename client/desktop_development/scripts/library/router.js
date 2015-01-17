@@ -221,9 +221,9 @@ define([
         });
         
         // event triggered before a route
-        EventsManager.on(EventsManager.constants.ROUTER_PREROUTE, function bootstrapPreRoute(parameters) {
+        EventsManager.on(EventsManager.constants.ROUTER_PREROUTE, function bootstrapPreRoute(attributes) {
             
-            utilities.log(parameters);
+            utilities.log(attributes);
             
         });
         

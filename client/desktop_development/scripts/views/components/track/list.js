@@ -3,8 +3,6 @@
  * track list component view
  * 
  * @param {type} utilities
- * @param {type} $
- * @param {type} _
  * @param {type} view
  * @param {type} JST
  * 
@@ -12,12 +10,10 @@
  */
 define([
     'chrisweb.utilities',
-    'jquery',
-    'underscore',
     'ribs.view',
     'templates'
     
-], function (utilities, $, _, view, JST) {
+], function (utilities, view, JST) {
     
     'use strict';
     
@@ -37,8 +33,6 @@ define([
         },
         
         onClose: function() {
-            
-            
             
         }
         

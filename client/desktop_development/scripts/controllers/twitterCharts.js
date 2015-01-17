@@ -56,7 +56,7 @@ define([
                             context: 'twitterCharts'
                         }
                     },
-                    listClass: 'tracksList'
+                    listSelector: '.tracksList'
                 });
 
                 // initialize the twitter charts page view

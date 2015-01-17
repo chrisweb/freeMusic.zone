@@ -146,9 +146,9 @@ define([
      */
     var startListening = function startListeningFunction() {
         
-        EventsManager.on(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, function incrementUsage(parameters) {
+        EventsManager.on(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, function incrementUsage(attributes) {
             
-            var results = tracksCacheCollection.where({ jamendo_id: parameters.trackId });
+            var results = tracksCacheCollection.where({ jamendo_id: attributes.trackId });
             
             if (results.length > 0) {
                 
@@ -160,11 +160,11 @@ define([
 
                 }
 
-                if (parameters.action === 'decrement') {
+                if (attributes.action === 'decrement') {
 
                     trackModel.set('usageCounter', trackModel.get('usageCounter')-1);
 
-                } else if (parameters.action === 'increment') {
+                } else if (attributes.action === 'increment') {
 
                     trackModel.set('usageCounter', trackModel.get('usageCounter')+1);
 
@@ -174,15 +174,15 @@ define([
             
         });
         
-        EventsManager.on(EventsManager.constants.TRACKSCACHE_TRACK_ADD, function incrementUsage(parameters) {
+        EventsManager.on(EventsManager.constants.TRACKSCACHE_TRACK_ADD, function incrementUsage(attributes) {
             
-            addTrack(parameters.model);
+            addTrack(attributes.model);
             
         });
         
-        EventsManager.on(EventsManager.constants.SOUND_ONLOAD, function setLoaded(parameters) {
+        EventsManager.on(EventsManager.constants.SOUND_ONLOAD, function setLoaded(attributes) {
             
-            var results = tracksCacheCollection.where({ jamendo_id: parameters.trackId });
+            var results = tracksCacheCollection.where({ jamendo_id: attributes.trackId });
             
             if (results.length > 0) {
                 

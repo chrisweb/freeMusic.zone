@@ -2,28 +2,22 @@
  * 
  * chat bar component view
  * 
- * @param {type} $
- * @param {type} _
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
- * @param {type} EventsManager
  * 
  * @returns {unresolved}
  */
 define([
-    'jquery',
-    'underscore',
     'templates',
     'chrisweb.utilities',
-    'ribs.view',
-    'library.eventsManager'
+    'ribs.view'
     
-], function ($, _, JST, utilities, View, EventsManager) {
+], function (JST, utilities, View) {
     
     'use strict';
 
-    var SearchBarView = View.extend({
+    var ChatBarView = View.extend({
         
         onInitializeStart: function() {
             
@@ -40,6 +34,6 @@ define([
         
     });
     
-    return SearchBarView;
+    return ChatBarView;
     
 });
