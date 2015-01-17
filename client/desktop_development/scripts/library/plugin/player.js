@@ -12,7 +12,7 @@
  * 
  * @param {type} utilities
  * @param {type} EventsManager
- * @param {type} TracksCacheLibrary
+ * @param {type} TracksManager
  * 
  * @returns {_L16.Anonym$2}
  */
@@ -20,9 +20,9 @@ define([
     'chrisweb.utilities',
     'library.eventsManager',
     'library.player.core',
-    'library.tracksCache'
+    'library.tracksManager'
     
-], function (utilities, EventsManager, TracksCacheLibrary) {
+], function (utilities, EventsManager, TracksManager) {
     
     'use strict';
     
@@ -42,7 +42,9 @@ define([
         
         EventsManager.on(EventsManager.constants.TRACK_PLAY, function(attributes) {
             
-            TracksCacheLibrary.fetchTrack(attributes.trackId);
+            TracksManager.fetchTrack(attributes.trackId);
+            
+            
             
         });
         

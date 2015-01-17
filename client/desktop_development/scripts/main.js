@@ -26,7 +26,8 @@ require.config({
         'library.player.core': 'library/player/core',
         'library.player.ui': 'library/player/ui',
         'library.user': 'library/user',
-        'library.tracksCache': 'library/tracksCache',
+        'library.tracksManager': 'library/tracksManager',
+        'library.playlistsManager': 'library/playlistsManager',
         'library.router': 'library/router',
         'library.videoPlayer': 'library/videoPlayer',
         'library.eventsManager': 'library/eventsManager',
@@ -55,6 +56,7 @@ require.config({
         
         // models
         'models.Track': 'models/Track',
+        'models.Playlist': 'models/Playlist',
         'models.User': 'models/User',
         'models.Tweet': 'models/Tweet',
         

@@ -53,9 +53,12 @@ define([
         'TRACK_STOP': 'track:stop',
         'TRACK_SHARE': 'track:share',
 
-        // tracks cache
-        'TRACKSCACHE_TRACK_USAGE': 'tracksCache:usage',
-        'TRACKSCACHE_TRACK_ADD': 'tracksCache:add',
+        // tracks manager
+        'TRACKS_MANAGER_USAGE': 'tracksManager:usage',
+        'TRACKS_MANAGER_ADD': 'tracksManager:add',
+        
+        // playlists manager
+        'PLAYLISTS_MANAGER_ADD': 'playlistsManager:add',
 
         // sound
         'SOUND_ONLOAD': 'sound:onload',

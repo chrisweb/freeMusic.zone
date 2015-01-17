@@ -31,7 +31,7 @@ define([
             
             // tell the tracks cache manager that he must increment the
             // usage of this track by one
-            EventsManager.trigger(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, { trackId: trackId, action: 'increment' });
+            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: trackId, action: 'increment' });
             
         },
         
@@ -65,7 +65,7 @@ define([
         
         playTrackClick: function playTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId });
+            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId, playlistId: this.options.templatesVariables.playlistId });
             
         },
         
@@ -91,7 +91,7 @@ define([
             
             // tell the tracks cache manager that he must decrement the
             // usage of this track by one
-            EventsManager.trigger(EventsManager.constants.TRACKSCACHE_TRACK_USAGE, { trackId: trackId, action: 'decrement' });
+            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: trackId, action: 'decrement' });
             
         }
         

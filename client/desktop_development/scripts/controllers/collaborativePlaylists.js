@@ -9,7 +9,7 @@
  * @param {type} container
  * @param {type} EventsManager
  * @param {type} user
- * @param {type} tracksCacheManager
+ * @param {type} TracksManager
  * 
  * @returns {unresolved}
  */
@@ -21,9 +21,9 @@ define([
     'ribs.container',
     'library.eventsManager',
     'library.user',
-    'library.tracksCache'
+    'library.tracksManager'
     
-], function ($, _, utilities, Controller, container, EventsManager, user, tracksCacheManager) {
+], function ($, _, utilities, Controller, container, EventsManager, user, TracksManager) {
     
     'use strict';
 
@@ -115,7 +115,7 @@ define([
                                 var trackModel = new TrackModel(value);
 
                                 // add the track to the cache
-                                tracksCacheManager.addTrack(trackModel);
+                                TracksManager.addTrack(trackModel);
 
                                 // add the track to the search result collection
                                 tracksSearchResultCollection.add(trackModel);

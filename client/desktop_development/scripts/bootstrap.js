@@ -9,7 +9,8 @@
  * @param {type} HeaderNavigationPlugin
  * @param {type} EventsManager
  * @param {type} container
- * @param {type} TracksCache
+ * @param {type} TracksManager
+ * @param {type} PlaylistsManager
  * @param {type} PlayerPlugin
  * 
  * @returns {_L19.Anonym$6}
@@ -22,7 +23,8 @@ define([
     'library.plugin.headerNavigation',
     'library.eventsManager',
     'ribs.container',
-    'library.tracksCache',
+    'library.tracksManager',
+    'library.PlaylistsManager',
     'library.plugin.player',
     
     'library.jquery.plugin.hasAttr' // adds a new hasAttr function to $ (jquery)
@@ -34,7 +36,8 @@ define([
     HeaderNavigationPlugin,
     EventsManager,
     container,
-    TracksCache,
+    TracksManager,
+    PlaylistsManager,
     PlayerPlugin
 ) {
 
@@ -138,8 +141,11 @@ define([
         // initialize the header navigation plugin
         HeaderNavigationPlugin.initialize();
         
-        // initialize the tracks cache module
-        TracksCache.initialize();
+        // initialize the tracks manager
+        TracksManager.initialize();
+        
+        // initialize the playlists manager
+        PlaylistsManager.initialize();
         
         // initialize the player plugin
         PlayerPlugin.initialize();
