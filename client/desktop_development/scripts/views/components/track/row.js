@@ -65,7 +65,7 @@ define([
         
         playTrackClick: function playTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId, playlistId: this.options.templatesVariables.playlistId });
+            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId, playlistId: this.options.templateVariables.playlistId });
             
         },
         

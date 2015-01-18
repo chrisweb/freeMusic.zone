@@ -17,7 +17,7 @@ define([
     'ribs.container',
     'library.eventsManager',
     'collections.TweetsCharts',
-    'models.paylist'
+    'models.Playlist'
     
 ], function (utilities, Controller, container, EventsManager, TweetsChartsCollection, PlaylistModel) {
     
@@ -71,12 +71,12 @@ define([
                 // inform the playlistsManager that a new playlist has been
                 // loaded
                 EventsManager.trigger(EventsManager.constants.PLAYLISTS_MANAGER_ADD, { model: playlistModel });
-
+                
                 // initialize the twitter charts page view
                 var twitterChartsView = new TwitterChartsView();
                 
                 container.clear('#core');
-
+                
                 container.add('#core', twitterChartsView);
                 
                 container.dispatch('#core');
@@ -85,7 +85,7 @@ define([
                 container.add('#twitterChartsTracks', tracksListView);
                 
                 container.dispatch('#twitterChartsTracks');
-
+                
                 // fetch the tweets charts
                 tweetsChartsCollection.fetch({
                     error: function(collection, response, options) {

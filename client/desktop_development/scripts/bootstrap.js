@@ -24,7 +24,7 @@ define([
     'library.eventsManager',
     'ribs.container',
     'library.tracksManager',
-    'library.PlaylistsManager',
+    'library.playlistsManager',
     'library.plugin.player',
     
     'library.jquery.plugin.hasAttr' // adds a new hasAttr function to $ (jquery)

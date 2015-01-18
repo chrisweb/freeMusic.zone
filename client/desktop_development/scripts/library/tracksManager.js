@@ -12,7 +12,7 @@
  * 
  * @param {type} utilities
  * @param {type} EventsManager
- * @param {type} TracksCollection
+ * @param {type} TracksManagerCollection
  * @param {type} moment
  * 
  * @returns {_L17.Anonym$2}
@@ -20,10 +20,10 @@
 define([
     'chrisweb.utilities',
     'library.eventsManager',
-    'collections.TracksCache',
+    'collections.TracksManager',
     'moment'
     
-], function (utilities, EventsManager, TracksCollection, moment) {
+], function (utilities, EventsManager, TracksManagerCollection, moment) {
     
     'use strict';
     
@@ -41,7 +41,7 @@ define([
      */
     var initialize = function initializeFunction() {
         
-        tracksCollection = new TracksCollection();
+        tracksCollection = new TracksManagerCollection();
         
         // sort the models of the collection by loading timestamp
         tracksCollection.comparator = 'loadedAt';

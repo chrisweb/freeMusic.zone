@@ -50,7 +50,8 @@ require.config({
         'library.jquery.plugin.hasAttr': 'library/jquery/plugin/hasAttr',
         
         // collections
-        'collections.TracksCache': 'collections/TracksCache',
+        'collections.TracksManager': 'collections/TracksManager',
+        'collections.PlaylistsManager': 'collections/PlaylistsManager',
         'collections.TracksSearchResult': 'collections/TracksSearchResult',
         'collections.TweetsCharts': 'collections/TweetsCharts',
         

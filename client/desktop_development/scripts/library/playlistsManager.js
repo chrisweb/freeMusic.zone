@@ -12,7 +12,7 @@
  * 
  * @param {type} utilities
  * @param {type} EventsManager
- * @param {type} TracksCacheCollection
+ * @param {type} PlaylistsManagerCollection
  * @param {type} moment
  * 
  * @returns {_L17.Anonym$2}
@@ -20,10 +20,10 @@
 define([
     'chrisweb.utilities',
     'library.eventsManager',
-    'collections.TracksCache',
+    'collections.PlaylistsManager',
     'moment'
     
-], function (utilities, EventsManager, TracksCacheCollection, moment) {
+], function (utilities, EventsManager, PlaylistsManagerCollection, moment) {
     
     'use strict';
     
@@ -41,7 +41,7 @@ define([
      */
     var initialize = function initializeFunction() {
         
-        playlistsCollection = new TracksCacheCollection();
+        playlistsCollection = new PlaylistsManagerCollection();
         
         // avoid duplicate listeners
         if (!alreadyListening) {

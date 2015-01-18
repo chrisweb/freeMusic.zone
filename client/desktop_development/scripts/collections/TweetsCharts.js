@@ -27,11 +27,11 @@ define([
             utilities.log('[TWEETS CHARTS COLLECTION] initializing ...', 'fontColor:blue');
             
             // listen for tracks that get added
-            this.listenTo(this, 'add', this.addToTracksCache);
+            this.listenTo(this, 'add', this.addToTracksManager);
 
         },
         model: TweetModel,
-        addToTracksCache: function addToTracksCacheFunction(model) {
+        addToTracksManager: function addToTracksManagerFunction(model) {
             
             // when a track gets added to the collection we have to inform
             // the "tracks cache manager" that a new track is available
