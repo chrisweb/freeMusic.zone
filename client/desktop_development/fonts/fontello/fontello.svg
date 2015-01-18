@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2014 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="loop" unicode="&#xe800;" d="m800 540q42 0 71-29t29-71l0-290q0-40-29-70t-71-30l-700 0q-40 0-70 30t-30 70l0 290q0 42 30 71t70 29l250 0 0 110 200-180-200-180 0 110-210 0 0-210 620 0 0 210-150 0 0 140 190 0z" horiz-adv-x="900" />
+</font>
+</defs>
+</svg>

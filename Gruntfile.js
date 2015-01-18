@@ -298,6 +298,16 @@ module.exports = function (grunt) {
                         dest: '<%= config.client.desktop.build.fonts.path %>/fontawesome/<%= gitinfo.local.branch.current.lastCommitNumber %>/'
                     }
                 ]
+            },
+            fontellofont_desktop: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= config.client.desktop.development.fonts.path %>/fontello/',
+                        src: ['**'],
+                        dest: '<%= config.client.desktop.build.fonts.path %>/fontello/<%= gitinfo.local.branch.current.lastCommitNumber %>/'
+                    }
+                ]
             }
         },
         // gzip compression of javascript and css builds
@@ -395,6 +405,7 @@ module.exports = function (grunt) {
         'gitinfo',
         'copy:glyphiconsfont_desktop',
         'copy:fontawesomefont_desktop',
+        'copy:fontellofont_desktop',
         'replace:sass_fonts_version',
         'sass'
     ]);
@@ -403,6 +414,7 @@ module.exports = function (grunt) {
     grunt.registerTask('copy_desktop', [
         'copy:glyphiconsfont_desktop',
         'copy:fontawesomefont_desktop',
+        'copy:fontellofont_desktop',
         'copy:favicon',
         'copy:robotstxt',
         'copy:favicon'
