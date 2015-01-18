@@ -7,30 +7,38 @@ lib-cov
 *.pid
 *.gz
 
-.DS_Store
-
 pids
 results
 
-npm-debug.log
+# windows stuff
 Thumbs.db
 desktop.ini
+.DS_Store
 
-node_modules
-bower_components
-yeoman
-nbproject
+# netbeans meta data
+/nbproject
+
+# sass cache directory
 .sass-cache
 
-desktop_build
-mobile_build
-tablet_build
+# log files and directories
+npm-debug.log
+/logs
 
-tracks
+# vendor modules
+/node_modules
+/bower_components
+/yeoman
 
+# configuration
 configuration.js
-templates.js
 
-desktop_development.html
-desktop_build.html
+# the build directories
+/client/desktop_build
+/client/mobile_build
+/client/tablet_build
+
+# build files
+templates.js
+desktop.html
 _fonts-paths.scss
