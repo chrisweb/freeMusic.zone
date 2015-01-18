@@ -4,7 +4,7 @@
  * 
  * @param {type} utilities
  * @param {type} EventsManager
- * @param {type} playerCore
+ * @param {type} PlayerCore
  * @param {type} TracksManager
  * 
  * @returns {_L16.Anonym$2}
@@ -43,6 +43,10 @@ define([
             //var playerCore = new PlayerCore({ trackUrl: trackModel.get('jamendo_stream_url') });
             var playerCore = new PlayerCore({ trackUrl: trackModel.get('jamendo_download_url') });
             
+            // player events listeners
+            playerCore.startListening();
+            
+            // start playing the track
             playerCore.play();
             
         });

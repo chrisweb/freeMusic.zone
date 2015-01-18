@@ -160,4 +160,35 @@
         text-align: right;
     }
     
+    #player {
+        
+        .playerProgress {
+            
+            position: relative;
+            display: inline-block;
+            background-color: white;
+            width: 180px;
+            height: 12px;
+            border-radius: 2px;
+            vertical-align: middle;
+            margin: 6px 10px 0px 10px;
+            
+            .progress-bar-playing {
+                border-radius: 2px;
+                z-index: $playerProgressPlayingZIndex;
+                position: absolute;
+                background-color: $color-highlight;
+            }
+
+            .progress-bar-loading {
+                border-radius: 2px;
+                z-index: $playerProgressLoadingZIndex;
+                position: absolute;
+                background-color: $color-background-light;
+            }
+            
+        }
+        
+    }
+    
 }

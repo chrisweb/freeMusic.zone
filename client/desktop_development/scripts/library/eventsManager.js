@@ -44,6 +44,9 @@ define([
         'TRACK_PLAY': 'track:play',
         'TRACK_STOP': 'track:stop',
         'TRACK_SHARE': 'track:share',
+        'TRACK_LOADING_PROGRESS': 'track:loadingProgress',
+        'TRACK_PLAYING_PROGRESS': 'track:playingProgress',
+        'TRACK_POSITION_CHANGE': 'track:positionChange',
 
         // tracks manager
         'TRACKS_MANAGER_USAGE': 'tracksManager:usage',

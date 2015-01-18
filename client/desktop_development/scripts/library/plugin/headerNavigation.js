@@ -29,8 +29,12 @@ define([
         utilities.log('[HEADER NAVIGATION] initializing ...', 'fontColor:blue');
         
         // add the header navigation to the header element of the layout
-        require(['views/components/header/navigation'], function(HeaderNavigationView) {
+        require([
+            'views/components/header/navigation',
+            'views/components/player/navbarUI'
+        ], function(HeaderNavigationView, PlayerNavigationbarUIView) {
             
+            // header navigation
             var headerNavigationView = new HeaderNavigationView();
             
             container.clear('#header');
@@ -38,6 +42,15 @@ define([
             container.add('#header', headerNavigationView);
             
             container.dispatch('#header');
+            
+            // header navigation player
+            var playerNavigationbarUIView = new PlayerNavigationbarUIView();
+            
+            container.clear('#player');
+            
+            container.add('#player', playerNavigationbarUIView);
+            
+            container.dispatch('#player');
 
         });
         
