@@ -46,7 +46,7 @@ define([
             ], function(TwitterChartsView, TrackRowView, TracksListView) {
                 
                 // initialize the "tweets charts" collection
-                var tweetsChartsCollection = new TweetsChartsCollection();
+                var tweetsChartsCollection = new TweetsChartsCollection(null, { periodType: 'day' });
                 
                 // create a tracks list view
                 var tracksListView = new TracksListView({

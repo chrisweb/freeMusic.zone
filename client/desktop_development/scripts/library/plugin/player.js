@@ -4,6 +4,7 @@
  * 
  * @param {type} utilities
  * @param {type} EventsManager
+ * @param {type} playerCore
  * @param {type} TracksManager
  * 
  * @returns {_L16.Anonym$2}
@@ -14,7 +15,7 @@ define([
     'library.player.core',
     'library.tracksManager'
     
-], function (utilities, EventsManager, TracksManager) {
+], function (utilities, EventsManager, PlayerCore, TracksManager) {
     
     'use strict';
     
@@ -34,9 +35,15 @@ define([
         
         EventsManager.on(EventsManager.constants.TRACK_PLAY, function(attributes) {
             
-            TracksManager.fetchTrack(attributes.trackId);
+            var trackModel = TracksManager.fetchTrack(attributes.trackId);
             
+            // TODO: change this, use the stream url not the download url as
+            // soon as the cross origin feature has been implemented on the
+            // jamendo streaming servers
+            //var playerCore = new PlayerCore({ trackUrl: trackModel.get('jamendo_stream_url') });
+            var playerCore = new PlayerCore({ trackUrl: trackModel.get('jamendo_download_url') });
             
+            playerCore.play();
             
         });
         

@@ -21,7 +21,9 @@ define([
     
     var TweetsChartsCollection = collection.extend({
 
-        url: '/api/tweet/charts/day',
+        url: function() {
+            return '/api/tweet/charts/' + this.options.periodType;
+        },
         onInitialize: function() {
             
             utilities.log('[TWEETS CHARTS COLLECTION] initializing ...', 'fontColor:blue');

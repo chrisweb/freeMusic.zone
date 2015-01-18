@@ -17,7 +17,7 @@ define([
     
     'use strict';
     
-    var PlayerCore = _.extend(ChriswebPlayer.prototype, {
+    var PlayerCore = _.extend(ChriswebPlayer, {
         
         
         
