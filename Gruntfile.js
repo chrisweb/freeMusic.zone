@@ -191,7 +191,7 @@ module.exports = function (grunt) {
                     {
                         expand: true,
                         flatten: true,
-                        src: ['<%= config.client.desktop.development.stylesheets.path %>/_fonts-pathes@@version.scss'],
+                        src: ['<%= config.client.desktop.development.stylesheets.path %>/_fonts-paths@@version.scss'],
                         rename: function (destination, source) {
                             return destination + source.replace('@@version.scss', '.scss');
                         },
@@ -331,7 +331,7 @@ module.exports = function (grunt) {
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.svg',
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.ttf',
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.woff',
-                    '<%= config.client.desktop.development.stylesheets.path %>/_fonts-pathes@@version.scss'
+                    '<%= config.client.desktop.development.stylesheets.path %>/_fonts-paths@@version.scss'
                 ],
                 tasks: ['updatefonts']
             },
@@ -344,8 +344,8 @@ module.exports = function (grunt) {
             sass_dependencies: {
                 files: [
                     '!<%= config.client.desktop.development.stylesheets.path %>/main.scss',
-                    '!<%= config.client.desktop.development.stylesheets.path %>/_fonts-pathes@@version.scss',
-                    '!<%= config.client.desktop.development.stylesheets.path %>/_fonts-pathes.scss',
+                    '!<%= config.client.desktop.development.stylesheets.path %>/_fonts-paths@@version.scss',
+                    '!<%= config.client.desktop.development.stylesheets.path %>/_fonts-paths.scss',
                     '<%= config.client.desktop.development.stylesheets.path %>/*.scss',
                     '<%= config.client.desktop.development.stylesheets.path %>/**/*.scss'
                 ],

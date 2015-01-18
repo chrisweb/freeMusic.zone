@@ -30,7 +30,7 @@
     "body-parser": "~1.10.1",
     "connect-redis": "^2.1.0",
     "cookie-parser": "^1.3.3",
-    "ejs": "~2.0.8",
+    "ejs": "~2.1.4",
     "errorhandler": "^1.3.2",
     "express": "^5.0.0",
     "express-session": "^1.10.1",
@@ -42,7 +42,7 @@
     "socket.io": "^1.2.1",
     "jamendo-from-twitter": "git://github.com/chrisweb/jamendo-from-twitter.git#master",
     "async": "^0.9.0",
-    "cron": "^1.0.5"
+    "cron": "^1.0.6"
   },
   "devDependencies": {
     "fluent-ffmpeg": "^2.0.0-rc3",
