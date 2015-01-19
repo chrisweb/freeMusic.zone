@@ -74,7 +74,7 @@ define([
         
         alreadyListening = true;
         
-        EventsManager.on(EventsManager.constants.PLAYLISTS_MANAGER_ADD, function incrementUsage(attributes) {
+        EventsManager.on(EventsManager.constants.PLAYLISTS_MANAGER_ADD, function addPlaylistEventFunction(attributes) {
             
             addPlaylist(attributes.model);
             

@@ -9,6 +9,7 @@ var TweetsChartsDayModel = require('../models/tweetsChartsDay');
 // track model
 var TrackModel = require('../models/track');
 
+// underscore vendor module
 var _ = require('underscore');
 
 // jamendo vendor module
@@ -68,7 +69,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             audioformat: 'ogg'
         }, callback);
         
-	});
+    });
     
     apiRouter.get('/user', function(request, response, next) {
         
@@ -88,11 +89,73 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             
         } else {
             
+            // add some fields usefull for the client
             userSessionData.lastFetchDate = Date.now();
             userSessionData.isLogged = true;
             
+            // remove the oauth data, dont send it to the client
+            delete userSessionData.oauth;
+            
             response.status(200);
             response.json(userSessionData);
+            
+        }
+        
+    });
+
+    apiRouter.get('/playlists', function(request, response, next) {
+        
+        var userSessionData = request.session.user;
+        
+        if (userSessionData === undefined) {
+            
+            var defaultUserData = {
+                isLogged: false,
+                lastFetchDate: Date.now()
+            };
+            
+            response.status(401);
+            response.json(defaultUserData);
+            
+        } else {
+            
+            var jamendoAPI = new JamendoAPI();
+            
+            var callback = function(error, playlistssResult) {
+                
+                if (error) {
+                    
+                    response.status(500);
+                    
+                    if (process.env.NODE_ENV === 'development') {
+                        
+                        utilities.log('[API] ' + error, 'fontColor:red');
+                        
+                        response.json({ error: '[API] ' + error });
+                        
+                    } else {
+                        
+                        response.json({ error: '[API] failed to retrieve the user playlists using the jamendo api' });
+                        
+                    }
+                    
+                } else {
+                    
+                    // TODO: put the playlists in our database
+                    
+                    response.status(200);
+                    response.json(playlistssResult);
+                    
+                }
+                
+            };
+            
+            jamendoAPI.getTracksByQuery({
+                limit: 'all',
+                order: 'name',
+                user_id: userSessionData.id,
+                access_token: userSessionData.oauth.token
+            }, callback);
             
         }
         
@@ -112,7 +175,6 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
         // get the map reduced results for the charts
         tweetsChartsDayModel.findMultiple(options, function(error, tweetsChartsResults) {
-            
             
             if (error) {
             

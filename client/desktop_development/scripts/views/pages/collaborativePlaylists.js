@@ -11,7 +11,6 @@
 define([
     'templates',
     'chrisweb.utilities',
-    'configuration',
     'ribs.view'
     
 ], function (JST, utilities, view) {
@@ -30,6 +29,12 @@ define([
         
         // view events
         events: {
+            'click .newCollaborativePlaylist': 'newCollaborativePlaylistClick'
+        },
+        
+        newCollaborativePlaylistClick: function newCollaborativePlaylistClickFunction() {
+            
+            
             
         }
         
