@@ -75,7 +75,9 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
         //utilities.log('[API] session user: ', request.session.user);
         
-        var userSessionData = request.session.user;
+        // clone the original object to avoid modifying the original object
+        // on delete later on
+        var userSessionData = _.clone(request.session.user);
         
         if (userSessionData === undefined) {
             
@@ -93,7 +95,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             userSessionData.lastFetchDate = Date.now();
             userSessionData.isLogged = true;
             
-            // remove the oauth data, dont send it to the client
+            // remove the oauth data, from the clone, dont send it to the client
             delete userSessionData.oauth;
             
             response.status(200);
@@ -121,7 +123,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             
             var jamendoAPI = new JamendoAPI();
             
-            var callback = function(error, playlistssResult) {
+            var callback = function(error, playlistsResult) {
                 
                 if (error) {
                     
@@ -144,14 +146,14 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                     // TODO: put the playlists in our database
                     
                     response.status(200);
-                    response.json(playlistssResult);
+                    response.json(playlistsResult);
                     
                 }
                 
             };
             
-            jamendoAPI.getTracksByQuery({
-                limit: 'all',
+            jamendoAPI.getUserPlaylists({
+                limit: '200',
                 order: 'name',
                 user_id: userSessionData.id,
                 access_token: userSessionData.oauth.token

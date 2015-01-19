@@ -21,11 +21,11 @@ define([
 
         onInitialize: function() {
             
-            utilities.log('[PLAYLISTS MANAGER COLLECTION] initializing ...', 'fontColor:blue');
+            utilities.log('[USER PLAYLISTS COLLECTION] initializing ...', 'fontColor:blue');
 
         },
         model: PlaylistModel,
-        url: '/api/'
+        url: '/api/playlists'
 
     });
     

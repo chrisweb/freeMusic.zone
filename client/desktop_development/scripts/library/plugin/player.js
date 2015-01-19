@@ -37,11 +37,7 @@ define([
             
             var trackModel = TracksManager.fetchTrack(attributes.trackId);
             
-            // TODO: change this, use the stream url not the download url as
-            // soon as the cross origin feature has been implemented on the
-            // jamendo streaming servers
-            //var playerCore = new PlayerCore({ trackUrl: trackModel.get('jamendo_stream_url') });
-            var playerCore = new PlayerCore({ trackUrl: trackModel.get('jamendo_download_url') });
+            var playerCore = new PlayerCore({ trackUrl: trackModel.get('jamendo_stream_url') });
             
             // player events listeners
             playerCore.startListening();

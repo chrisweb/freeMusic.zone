@@ -19,11 +19,9 @@ define([
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.eventsManager',
-    'library.user',
-    'library.tracksManager'
+    'collections.UserPlaylists'
     
-], function ($, _, utilities, Controller, container, EventsManager, user, TracksManager) {
+], function ($, _, utilities, Controller, container, UserPlaylistsCollection) {
     
     'use strict';
 
@@ -41,6 +39,11 @@ define([
         indexAction: function indexActionFunction() {
         
             utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] action: index', 'fontColor:blue');
+            
+            var userPlaylistsCollection = new UserPlaylistsCollection();
+            
+            userPlaylistsCollection.fetch();
+            
 
             // chat message input form
             require([

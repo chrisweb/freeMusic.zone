@@ -31,7 +31,6 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Other todos (damn that's a lot of todos ;) )
 
-* use the stream url not the download url in the client player plugin as soon as the cross origin feature has been implemented on the jamendo streaming server
 * finish the tracksCache "soundsGarbageCollector" method
 * add an infinite scroll to the twitter charts page if there are more then 10 results
 * create a cron job module that refreshes the data of a track using the api, for tracks where the last refresh date is older then a month

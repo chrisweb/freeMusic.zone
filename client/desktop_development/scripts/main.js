@@ -54,6 +54,7 @@ require.config({
         'collections.PlaylistsManager': 'collections/PlaylistsManager',
         'collections.TracksSearchResult': 'collections/TracksSearchResult',
         'collections.TweetsCharts': 'collections/TweetsCharts',
+        'collections.UserPlaylists': 'collections/UserPlaylists',
         
         // models
         'models.Track': 'models/Track',

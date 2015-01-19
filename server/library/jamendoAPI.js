@@ -76,4 +76,47 @@ jamendoAPI.prototype.getTracksByQuery = function getTracksFunction(query, callba
     
 };
 
+jamendoAPI.prototype.getUserPlaylists = function getUserPlaylistsFunction(query, callback) {
+    
+    jamendoAPI.playlists(query, function(error, data) {
+
+        //utilities.log(error);
+        //utilities.log(data);
+        
+        if (data.headers.error_message !== '') {
+            
+            callback(data.headers.error_message);
+            
+        } else if (data.headers.warnings !== '') {
+            
+            callback(data.headers.warnings);
+            
+        } else if (error) {
+            
+            callback(error);
+            
+        } else {
+            
+            var newData = {};
+            
+            newData.results = [];
+            
+            _.each(data.results, function(value) {
+                
+                // string to integer for ids
+                value.id = parseInt(value.id);
+                value.user_id = parseInt(value.user_id);
+                
+                newData.results.push(value);
+                
+            });
+            
+            callback(false, newData);
+            
+        }
+        
+    });
+    
+};
+
 module.exports = jamendoAPI;
