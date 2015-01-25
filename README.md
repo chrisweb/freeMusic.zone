@@ -19,25 +19,23 @@ This project is "just" a prototype right now.
 
 The goal of this project is to create a fun mobile / tablet / desktop free music app. For more details about the features check out the documentation/features document.
 
-### Contribute
-
-Contributors are welcome :).
-
-If you want to contribute, please start by reading the documentation/contributing document.
-
-A list of contributors can be found here: https://github.com/chrisweb/freeMusic.zone/graphs/contributors.
-
-### Start the server
-
-First read the documentation/development_setup documentation to ensure everything is set up.
-
 ### Documentation (RTFM)
 
 All the documentation can be found in the documentation directory.
 
-### Versioning
+### Before you start coding
 
-Semver: http://semver.org/
+First read the "/documentation/development_setup.md" documentation to ensure everything is set up.
+
+Read the documents before you start coding, especially the "/documentation/code_styling.md" and "/documentation/conventions.md" are important, so read them before you start.
+
+### Contributing
+
+Contributors are welcome :).
+
+If you want to contribute, first setup a development version of this app and read the "/documentation/contributing.md" guide. Then check out the "todos.md" document or the issues list on github (https://github.com/chrisweb/freeMusic.zone/issues) to find something you can add us with. Happy coding ;).
+
+A list of contributors can be found here: https://github.com/chrisweb/freeMusic.zone/graphs/contributors.
 
 ### Feedback and bug reports are welcome ;)
 
