@@ -82,6 +82,18 @@ define([
         
     };
     
+    /**
+     * 
+     * get the next track in the playlist
+     * 
+     * @returns {undefined}
+     */
+    var playlistNextTrack = function() {
+        
+        
+        
+    };
+    
     return {
         initialize: initialize,
         addPlaylist: addPlaylist

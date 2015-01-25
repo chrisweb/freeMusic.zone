@@ -35,7 +35,7 @@ define([
             });
             
             // listen for playing progress event
-            EventsManager.on(EventsManager.constants.TRACK_PLAYING_PROGRESS, function trackPlayingProgressFunction(attributes) {
+            EventsManager.on(EventsManager.constants.PLAYER_PLAYING_PROGRESS, function trackPlayingProgressFunction(attributes) {
                 
                 that.$el.find('.progress-bar-playing').css('width', + attributes.percentage + '%');
                 
@@ -61,7 +61,7 @@ define([
             var positionPercentage = 100/(boundingClientRect.width/position);
             
             EventsManager.trigger(
-                EventsManager.constants.TRACK_POSITION_CHANGE,
+                EventsManager.constants.PLAYER_POSITION_CHANGE,
                 {
                     originalEvent: event,
                     percentage: positionPercentage
