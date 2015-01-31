@@ -88,7 +88,7 @@ define([
      * 
      * @returns {undefined}
      */
-    var playlistNextTrack = function() {
+    var nextTrack = function nextTrackFunction() {
         
         
         
@@ -96,7 +96,8 @@ define([
     
     return {
         initialize: initialize,
-        addPlaylist: addPlaylist
+        addPlaylist: addPlaylist,
+        nextTrack: nextTrack
     };
     
 });

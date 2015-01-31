@@ -39,12 +39,13 @@ define([
         
         // view events
         events: {
-            'mousedown .trackPreview': 'trackPreviewStart',
-            'mouseup .trackPreview': 'trackPreviewStop',
-            'click .playTrack': 'playTrackClick',
-            'click .retweetTrack': 'retweetTrackClick',
-            'click .shareOnFacebookTrack': 'shareOnFacebookClick',
-            'click .shareOnGooglePlusTrack': 'shareOnGooglePlusClick'
+            'mousedown .js-trackPreview': 'trackPreviewStart',
+            'mouseup .js-trackPreview': 'trackPreviewStop',
+            'click .js-playTrack': 'playTrackClick',
+            'click .js-pauseTrack': 'pauseTrackClick',
+            'click .js-shareOnTwitterTrack': 'shareOnTwitterTrackClick',
+            'click .js-shareOnFacebookTrack': 'shareOnFacebookClick',
+            'click .js-shareOnGooglePlusTrack': 'shareOnGooglePlusClick'
         },
         
         trackPreviewStart: function trackPreviewStartFunction(event) {
@@ -63,13 +64,31 @@ define([
             
         },
         
-        playTrackClick: function playTrackClickFunction() {
+        playTrackClick: function playTrackClickFunction(event) {
             
             EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId, playlistId: this.options.templateVariables.playlistId });
             
+            $(event.currentTarget)
+                .removeClass('fa-play')
+                .addClass('fa-pause')
+                .removeClass('js-playTrack')
+                .addClass('js-pauseTrack');
+            
         },
         
-        retweetTrackClick: function retweetTrackClickFunction() {
+        pauseTrackClick: function pauseTrackClickFunction(event) {
+            
+            EventsManager.trigger(EventsManager.constants.TRACK_PAUSE);
+            
+            $(event.currentTarget)
+                .removeClass('fa-pause')
+                .addClass('fa-play')
+                .removeClass('js-pauseTrack')
+                .addClass('js-playTrack');
+            
+        },
+        
+        shareOnTwitterTrackClick: function shareOnTwitterTrackClickFunction() {
             
             EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: trackId, network: 'twitter' });
             

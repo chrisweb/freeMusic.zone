@@ -4,7 +4,7 @@
  * 
  * @param {type} utilities
  * @param {type} EventsManager
- * @param {type} PlayerCore
+ * @param {type} playerCore
  * @param {type} TracksManager
  * @param {type} PlaylistsManager
  * 
@@ -53,13 +53,29 @@ define([
             
         });
         
+        EventsManager.on(EventsManager.constants.TRACK_PAUSE, function() {
+            
+            // pause the track
+            playerCore.pause();
+            
+        });
+        
         // when the player tells us that a track finished playing and that
         // we should play the next one of the playlist
         EventsManager.on(EventsManager.constants.PLAYLIST_NEXT, function(attributes) {
             
             console.log(attributes);
             
+            var nextTrack = PlaylistsManager.nextTrack();
             
+            var trackModel = TracksManager.fetchTrack(nextTrack.id);
+            
+            // start playing the track
+            playerCore.play({
+                url: trackModel.get('jamendo_stream_url'),
+                playlistId: attributes.playlistId,
+                id: attributes.trackId
+            });
             
         });
         
