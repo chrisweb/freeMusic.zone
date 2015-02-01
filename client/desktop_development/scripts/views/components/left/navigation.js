@@ -7,6 +7,7 @@
  * @param {type} utilities
  * @param {type} View
  * @param {type} EventsManager
+ * @param {type} RouterLibrary
  * 
  * @returns {unresolved}
  */
@@ -16,9 +17,10 @@ define([
     'chrisweb.utilities',
     'ribs.view',
     'library.eventsManager',
+    'library.router',
     
     'library.jquery.plugin.caretToggle'
-], function ($, JST, utilities, View, EventsManager) {
+], function ($, JST, utilities, View, EventsManager, RouterLibrary) {
     
     'use strict';
     
@@ -36,10 +38,29 @@ define([
         
         // view events
         events: {
-            
+            'click a': 'menuClick'
         },
         
         onRender: function() {
+            
+            // set the navigation bar element to active for the currently
+            // opened page
+            var routerLibrary = new RouterLibrary();
+            
+            switch(routerLibrary.getCurrentRoute()) {
+                case 'desktop/collaborative-playlists':
+                    this.$el.find('.playlist').addClass('active');
+                    break;
+                case 'desktop/twitter-charts':
+                    this.$el.find('.tweet').addClass('active');
+                    break;
+                case 'desktop/quiz-games':
+                    this.$el.find('.games').addClass('active');
+                    break;
+                case 'desktop/desktop/remote-control':
+                    this.$el.find('.remote').addClass('active');
+                    break;
+            }
             
         },
         
@@ -51,6 +72,24 @@ define([
             var $navigationPusher = $body.find('#pageContainer');
             
             $navigationPusher.toggleClass('open');
+            
+        },
+        
+        menuClick: function menuClickFunction(event) {
+            
+            event.preventDefault();
+            
+            this.$el.find('a').each(function() {
+                
+                if ($(this).hasClass('active')) {
+                    
+                    $(this).removeClass('active');
+                    
+                }
+                
+            });
+            
+            $(event.currentTarget).addClass('active');
             
         }
         

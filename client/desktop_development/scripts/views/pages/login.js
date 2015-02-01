@@ -47,11 +47,11 @@ define([
             // the oauth connected event
             EventsManager.on(EventsManager.constants.OAUTH_CONNECTED, function loginOauthConnected() {
                 
-                var $login = that.$el.find('.login');
+                var $loginBox = that.$el.find('.loginBox');
 
-                var $loginButton = $login.find('.loginButton');
+                var $loginButton = $loginBox.find('.loginButton');
                 
-                var $loginLegend = $login.find('legend');
+                var $loginLegend = $loginBox.find('legend');
                 
                 var $oauthIFrame = that.$el.find('iframe.jamendo');
                 
@@ -63,7 +63,7 @@ define([
                 
                 // hide the create an account and lost password links, we dont
                 // need them as the user has successfully logged in
-                var $loginBottom = $login.find('.loginBottom');
+                var $loginBottom = $loginBox.find('.loginBottom');
                 
                 $loginBottom.addClass('hidden');
                 
@@ -119,7 +119,7 @@ define([
         
         // view events
         events: {
-            'click .login .btn:not(.noclick)': 'loginClick',
+            'click .loginBox .btn:not(.noclick)': 'loginClick',
             'click .fa-angle-down': 'scrollToScene'
         },
         
@@ -129,9 +129,9 @@ define([
             
             $('.hideOnConnect').addClass('hidden');
             
-            var $login = this.$el.find('.login');
+            var $loginBox = this.$el.find('.loginBox');
 
-            var $loginButton = $login.find('.loginButton');
+            var $loginButton = $loginBox.find('.loginButton');
             
             // disable the login button to avoid more clicks and that
             // its gets triggered again after a successfull login

@@ -23,7 +23,6 @@ desktop.ini
 
 # log files and directories
 npm-debug.log
-/logs
 
 # vendor modules
 /node_modules

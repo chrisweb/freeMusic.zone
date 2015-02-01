@@ -28,6 +28,9 @@
             .tagLineLeft, .tagLineRight {
                 position: absolute;
                 top: 30%;
+                font: {
+                    weight: 600;
+                }
             }
             
             .tagLineLeft {
@@ -62,30 +65,38 @@
             border-radius: 15px;
         }
         
-        .loginButton {
-            margin-bottom: 15px;
-            width: 260px;
-        }
-        
-        .loginBottom {
+        .loginBox {
+            
+            margin: {
+                top: 5%;
+            }
+            
+            .loginButton {
+                margin-bottom: 15px;
+                width: 260px;
+            }
 
-            .loginBottomRight, .loginBottomLeft {
-                display: inline-block;
-                height: 20px;
-            }
-            
-            .loginBottomLeft {
-                border-right: 1px solid $font-color-for-darkest-background;
-                padding-right: 15px;
-            }
-            
-            .loginBottomRight {
-                padding-left: 15px;
-            }
-            
-            a {
-                line-height: 1;
-                vertical-align: text-top;
+            .loginBottom {
+
+                .loginBottomRight, .loginBottomLeft {
+                    display: inline-block;
+                    height: 20px;
+                }
+
+                .loginBottomLeft {
+                    border-right: 1px solid $font-color-for-darkest-background;
+                    padding-right: 15px;
+                }
+
+                .loginBottomRight {
+                    padding-left: 15px;
+                }
+
+                a {
+                    line-height: 1;
+                    vertical-align: text-top;
+                }
+
             }
             
         }
@@ -94,14 +105,32 @@
             position: absolute;
             top: 5%;
             left: 50%;
-            margin-left: -422px;
+            margin: {
+                left: -422px;
+            }
+            font: {
+                weight: 600;
+            }
         }
         
         .featuresList {
             position: absolute;
             top: 20%;
             left: 50%;
-            margin-left: -192px;
+            margin: {
+                left: -192px;
+            }
+        }
+        
+        .lastChanceTagline {
+            font: {
+                weight: 600;
+            }
+        }
+        
+        .cuteCat {
+            position: absolute;
+            margin-left: 20%;
         }
         
         .musicIcon {
@@ -124,14 +153,22 @@
         legend {
             text-align: center;
             color: $font-color-for-darkest-background;
-            border-bottom: 0px;
-            margin-bottom: $space-large;
+            border: {
+                bottom: 0px;
+            }
+            margin: {
+                bottom: $space-large;
+            }
         }
 
         .btn-empty {
             
-            background-color: transparent;
-            border-color: $font-color-for-darkest-background;
+            background: {
+                color: transparent;
+            }
+            border: {
+                color: $font-color-for-darkest-background;
+            }
             color: $font-color-for-darkest-background;
 
             &.red {
@@ -139,7 +176,9 @@
                 &:hover,
                 &:focus,
                 &.focus {
-                    background-color: $color-connect-background-red;
+                    background: {
+                        color: $color-connect-background-red;
+                    }
                 }
                 
             }
@@ -149,7 +188,9 @@
                 &:hover,
                 &:focus,
                 &.focus {
-                    background-color: $color-connect-background-green;
+                    background: {
+                        color: $color-connect-background-green;
+                    }
                 }
                 
             }
@@ -159,7 +200,9 @@
                 &:hover,
                 &:focus,
                 &.focus {
-                    background-color: $color-connect-background-blue;
+                    background: {
+                        color: $color-connect-background-blue;
+                    }
                 }
                 
             }
@@ -175,7 +218,9 @@
         }
         
         .joinTitle {
-            margin-top: $space-extra-large;
+            margin: {
+                top: $space-extra-large;
+            }
         }
         
         ul {
@@ -187,11 +232,15 @@
             position: absolute;
             bottom: 0;
             left: 50%;
-            margin-left: -32px;
+            margin: {
+                left: -32px;
+            }
             
             i {
                 
-                font-size: 100px;
+                font: {
+                    size: 100px;
+                }
                 cursor: pointer;
                 opacity: 0.7;
                 

@@ -41,7 +41,9 @@ define([
             
             var $body = $('body');
             
-            $body.addClass('navigationEffect');
+            $body.addClass('withNavigation');
+            
+            $body.find('#pageContainer').addClass('navigationEffect');
             
             var $core = $body.find('#core');
             

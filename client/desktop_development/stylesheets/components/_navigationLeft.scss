@@ -27,9 +27,9 @@
         background-color: $color-background-dark;
         color: $font-color-for-dark-background;
         
-        &:focus, &:hover {
+        &:focus, &:hover, &.active {
             text-decoration: none;
-            outline: 0;
+            outline: none;
             color: $color-highlight;
         }
 
