@@ -28,6 +28,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * the cloud init script for the nodejs web server must create the configuration.js file, using the "wite_files" option in cloud init or using wget from a secure server
 * the redis server cloud init setup script must edit the redis conf file and set the production values
 * put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
+* add this little effect (js) for homepage headline http://gabinaureche.com/TheaterJS/
 
 ## Other todos (damn that's a lot of todos ;) )
 
@@ -38,7 +39,6 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * images versioning, add the package.json version number to the javascript configuration file so that it can retrieve the images from the correct path
 * create a mechanism that checks if the user has refresh token and if so and if its is about to expire use it to refresh the oauth token
 * use the ribs views loader instead of the require calls
-* make api really restfull, (no cookie?), stateless
 * search queries cache on server with redis
 * track infos cache on server with redis
 * views el should be extracted from template and then build upon this, then remove the main element from template
@@ -58,6 +58,8 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * the twitter harvester code should have it's own branch so that you don't have to checkout the entire project on production machines that only need to harvest
 * Use geolocation to find concerts: https://developers.google.com/web/fundamentals/device-access/user-location/
 * add log rotation for the forever log files http://stackoverflow.com/questions/15231968/nodejs-forever-archive-logs
+* add hi-redis (https://www.npmjs.com/package/hiredis) for production into package.json
+* * make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io and other places of the app, instead if cookies (stateless REST)
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 * create responsive jquery ui dialog

@@ -106,3 +106,9 @@ npm install mocha --save-dev
 ##### Other (not yet used) packages that might be usefull:
 
 npm install aws-sdk --save-dev
+
+https://github.com/pghalliday/grunt-mocha-test
+
+https://github.com/gruntjs/grunt-contrib-clean
+
+https://github.com/kmiyashiro/grunt-mocha

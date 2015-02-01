@@ -6,7 +6,7 @@ package_upgrade: true
 
 # create groups
 groups:
-  - www
+  - redis-group
 
 # create user
 users:
@@ -16,7 +16,7 @@ users:
   - name: redis_user
     gecos: Redis User
     system: true
-    groups: redis
+    groups: redis-group
 
 runcmd:
  # install redis
