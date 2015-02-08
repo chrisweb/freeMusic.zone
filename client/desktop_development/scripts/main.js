@@ -50,17 +50,15 @@ require.config({
         'library.jquery.plugin.hasAttr': 'library/jquery/plugin/hasAttr',
         
         // collections
-        'collections.TracksManager': 'collections/TracksManager',
-        'collections.PlaylistsManager': 'collections/PlaylistsManager',
-        'collections.TracksSearchResult': 'collections/TracksSearchResult',
-        'collections.TweetsCharts': 'collections/TweetsCharts',
-        'collections.UserPlaylists': 'collections/UserPlaylists',
+        'collections.Tracks': 'collections/Tracks',
+        'collections.Playlists': 'collections/Playlists',
+        'collections.ChartTweets': 'collections/ChartTweets',
         
         // models
         'models.Track': 'models/Track',
         'models.Playlist': 'models/Playlist',
         'models.User': 'models/User',
-        'models.Tweet': 'models/Tweet',
+        'models.ChartTweet': 'models/ChartTweet',
         
         // vendor
         'jquery': '../../../bower_components/jquery/dist/jquery',

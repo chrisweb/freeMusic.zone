@@ -4,7 +4,7 @@
 var utilities = require('../../bower_components/chrisweb-utilities/utilities');
 
 // tweets charts day model
-var TweetsChartsDayModel = require('../models/tweetsChartsDay');
+var ChartTweetModel = require('../models/chartTweet');
 
 // track model
 var TrackModel = require('../models/track');
@@ -34,7 +34,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
         var jamendoAPI = new JamendoAPI();
         
-        var callback = function(error, tracksResult) {
+        var callback = function(error, searchResults) {
             
             if (error) {
                 
@@ -54,10 +54,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 
             } else {
                 
-                // TODO: put the tracks in our database
-                
                 response.status(200);
-                response.json(tracksResult);
+                response.json(searchResults);
                 
             }
             
@@ -163,171 +161,175 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
     });
     
-    apiRouter.get('/tweet/charts/day', function(request, response, next) {
+    apiRouter.get('/charts/tweets/day', function(request, response, next) {
         
-        utilities.log('[API] fetching tweet charts day');
+        utilities.log('[API] fetching charts tweets day');
         
         // TODO: fix the callback hell
         
-        var tweetsChartsDayModel = new TweetsChartsDayModel();
+        var chartTweetModel = new ChartTweetModel({
+            period: 'day'
+        });
         
         var options = {
-            limit: 0
+            limit: 100
         };
         
         // get the map reduced results for the charts
-        tweetsChartsDayModel.findMultiple(options, function(error, tweetsChartsResults) {
+        chartTweetModel.findMultiple(options, function(error, chartTweets) {
             
             if (error) {
             
                 utilities.log('[API] ' + error, 'fontColor:red');
                 
-            }
-            
-            //utilities.log(tweetsChartsResults);
-            
-            if (!error) {
-                
-                var tracksIds = [];
-                
-                _.each(tweetsChartsResults, function(tweetsChartsResult) {
-                    
-                    tracksIds.push(tweetsChartsResult.value.id);
-                    
+                response.status(500);
+                response.json({
+                    errorMessage: 'server error while fetching the charts tweets'
                 });
                 
-                // get the tracks that are already in our database
-                var trackModel = new TrackModel();
+            }
+            
+            var chartTweetsResponse = [];
+            var i;
+            
+            for (i = 0; i < chartTweets.length; i++) {
                 
-                options.ids = tracksIds;
+                chartTweetsResponse.push(chartTweets[i].value)
                 
-                trackModel.findMultipleByJamendoId(options, function(error, mongoTracksResults) {
-                    
+            }
+            
+            response.status(200);
+            response.json(chartTweetsResponse);
+            
+        });
+        
+    });
+    
+    apiRouter.get('/tracks', function(request, response, next) {
+        
+        utilities.log('[API] fetching tracks');
+            
+        var options = {};
+
+        options.tracksIds = [];
+
+        // get the tracks that are already in our database
+        var trackModel = new TrackModel();
+
+        trackModel.findMultipleByJamendoId(options, function(error, mongoTracksResults) {
+
+            if (error) {
+
+                // if the db query fails all tracks will get fetched
+                // using the API
+                utilities.log('[API] ' + error, 'fontColor:red');
+
+            } else {
+
+                //utilities.log(mongoTracksResults);
+
+                // if our database did find some tracks in the database
+                // we remove their id from the tracksIds list, so that
+                // only those who are not yet in the database get
+                // fetched via the jamendo API
+                _.each(mongoTracksResults, function(mongoTracksResult) {
+
+                    // TODO: remove the ids we found in the db
+
+                    /*var index = tracksIds.indexOf(5);
+
+                    if (index > -1) {
+                        tracksIds.splice(index, 1);
+                    }*/
+
+                });
+
+                // for the tracks that were not yet in our db we need to make
+                // and API call to jamendo to retrieve them and add them to
+                // our database
+                var jamendoAPI = new JamendoAPI();
+
+                // TODO: if all tracks have been found int he db dont do api call
+
+                jamendoAPI.getTracksByQuery({
+                    id: tracksIds,
+                    include: ['musicinfo', 'lyrics'],
+                    audioformat: 'ogg'
+                }, function getTracksByQueryCallback(error, apiTracksResults) {
+
                     if (error) {
-                        
-                        // if the db query fails all tracks will get fetched
-                        // using the API
-                        utilities.log('[API] ' + error, 'fontColor:red');
-                        
+
+                        utilities.log('[API] ' + error);
+
                     } else {
-                        
-                        //utilities.log(mongoTracksResults);
-                        
-                        // if our database did find some tracks in the database
-                        // we remove their id from the tracksIds list, so that
-                        // only those who are not yet in the database get
-                        // fetched via the jamendo API
-                        _.each(mongoTracksResults, function(mongoTracksResult) {
-                            
-                            // TODO: remove the ids we found in the db
-                            
-                            /*var index = tracksIds.indexOf(5);
-                            
-                            if (index > -1) {
-                                tracksIds.splice(index, 1);
-                            }*/
-                            
+
+                        //utilities.log(apiTracksResults);
+
+                        var tracksForMongodb = [];
+
+                        _.each(apiTracksResults.results, function(apiTracksResult) {
+
+                            var trackForMongodb = convertApiTrackToMatchMongodbSchema(apiTracksResult);
+
+                            tracksForMongodb.push(trackForMongodb);
+
                         });
-                        
-                        // for the tracks that were not yet in our db we need to make
-                        // and API call to jamendo to retrieve them and add them to
-                        // our database
-                        var jamendoAPI = new JamendoAPI();
-                        
-                        // TODO: if all tracks have been found int he db dont do api call
-                        
-                        jamendoAPI.getTracksByQuery({
-                            id: tracksIds,
-                            include: ['musicinfo', 'lyrics'],
-                            audioformat: 'ogg'
-                        }, function getTracksByQueryCallback(error, apiTracksResults) {
-                            
+
+                        // save the tracks into the database
+                        trackModel.saveMultiple(tracksForMongodb, function(error, insertedDocuments) {
+
                             if (error) {
-                                
-                                utilities.log('[API] ' + error);
-                                
-                            } else {
-                                
-                                //utilities.log(apiTracksResults);
-                                
-                                var tracksForMongodb = [];
-                                
-                                _.each(apiTracksResults.results, function(apiTracksResult) {
-                                    
-                                    var trackForMongodb = convertApiTrackToMatchMongodbSchema(apiTracksResult);
-                                    
-                                    tracksForMongodb.push(trackForMongodb);
-                                    
-                                });
-                                
-                                // save the tracks into the database
-                                trackModel.saveMultiple(tracksForMongodb, function(error, insertedDocuments) {
-                                    
-                                    if (error) {
-                                        
-                                        utilities.log('[API] ' + error, 'fontColor:red');
-                                        
-                                    }
-                                    
-                                });
-                                
-                                // now merge the tracks from mongodb and api
-                                var allTracks = tracksForMongodb.concat(apiTracksResults);
-                                
-                                var tracksResponse = [];
-                                
-                                var position = 1;
-                                
-                                // add the informations from map reduce and send
-                                // everything as response back to the client
-                                _.each(tweetsChartsResults, function(tweetsChartsResult) {
-                                    
-                                    var jamendoTrackData = _.findWhere(allTracks, { jamendo_id: tweetsChartsResult.value.id });
-                                    
-                                    jamendoTrackData.chart_position = position;
-                                    
-                                    position = ++position;
-                                    
-                                    jamendoTrackData.count_total = tweetsChartsResult.value.count_total;
-                                    jamendoTrackData.count_unique = tweetsChartsResult.value.count_unique;
-                                    jamendoTrackData.twitter_users = tweetsChartsResult.value.twitter_users;
-                                    
-                                    tracksResponse.push(jamendoTrackData);
-                                    
-                                });
-                                
-                                // send the response back to the client (don't wait for 
-                                // the database query response as it does not matter if
-                                // it fails to save the tracks)
-                                response.status(200);
-                                response.json(tracksResponse);
-                                
+
+                                utilities.log('[API] ' + error, 'fontColor:red');
+
                             }
 
                         });
-                        
-                    }
-                    
-                });
-                
-            } else {
-                
-                response.status(500);
-                
-                if (process.env.NODE_ENV === 'development') {
-                    
-                    utilities.log('[API] ' + error, 'fontColor:red');
 
-                    response.json({ error: '[API] ' + error });
-                    
-                } else {
-                    
-                    response.json({ error: '[API] failed to retrieve the tracks for the daily charts' });
-                    
-                }
-                
+                        // now merge the tracks that were already in the
+                        // mongodb database and the ones that got
+                        // returned by the tracks api call
+                        var allTracks = tracksForMongodb.concat(apiTracksResults);
+
+                        response.status(200);
+                        response.json(tweetsChartsDay);
+
+
+                        /*var tracksResponse = [];
+
+                        var position = 1;
+
+                        // add the informations from map reduce and send
+                        // everything as response back to the client
+                        _.each(tweetsChartsResults, function(tweetsChartsResult) {
+
+                            var jamendoTrackData = _.findWhere(allTracks, { jamendo_id: tweetsChartsResult.value.id });
+
+                            jamendoTrackData.chart_position = position;
+
+                            position = ++position;
+
+                            jamendoTrackData.count_total = tweetsChartsResult.value.count_total;
+                            jamendoTrackData.count_unique = tweetsChartsResult.value.count_unique;
+                            jamendoTrackData.twitter_users = tweetsChartsResult.value.twitter_users;
+
+                            tracksResponse.push(jamendoTrackData);
+
+                        });
+
+                        // send the response back to the client (don't wait for 
+                        // the database query response as it does not matter if
+                        // it fails to save the tracks)
+                        response.status(200);
+                        response.json(tracksResponse);
+                        */
+
+                    }
+
+                });
+
             }
-            
+
         });
         
     });

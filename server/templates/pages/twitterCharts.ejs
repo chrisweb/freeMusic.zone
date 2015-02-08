@@ -2,6 +2,19 @@
     
     <h1 class="title">Realtime charts of the most tweeted Jamendo songs</h1>
     
+    <form>
+        <select>
+            <% $.each(periods, function(index, value) { %>
+                <% var selected = ''; %>
+                <% if (value.id === defaultPeriod) {
+                    selected = 'selected="selected"';
+                } %>
+                <option value="<%= value.id %>" <%= selected %>><%- value.name %></option>
+            <% }); %>
+            <option></option>
+        </select>
+    </form>
+    
     <div id="twitterChartsTracks"></div>
     
 </div>

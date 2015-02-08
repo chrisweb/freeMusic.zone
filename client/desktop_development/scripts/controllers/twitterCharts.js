@@ -6,7 +6,7 @@
  * @param {type} Controller
  * @param {type} container
  * @param {type} EventsManager
- * @param {type} TweetsChartsCollection
+ * @param {type} ChartTweetsCollection
  * @param {type} PlaylistModel
  * 
  * @returns {unresolved}
@@ -16,10 +16,10 @@ define([
     'library.controller',
     'ribs.container',
     'library.eventsManager',
-    'collections.TweetsCharts',
+    'collections.ChartTweets',
     'models.Playlist'
     
-], function (utilities, Controller, container, EventsManager, TweetsChartsCollection, PlaylistModel) {
+], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel) {
     
     'use strict';
 
@@ -45,49 +45,22 @@ define([
                 'views/components/track/list'
             ], function(TwitterChartsView, TrackRowView, TracksListView) {
                 
-                // initialize the "tweets charts" collection
-                var tweetsChartsCollection = new TweetsChartsCollection(null, { periodType: 'day' });
-                
-                // create a tracks list view
-                var tracksListView = new TracksListView({
-                    collection: tweetsChartsCollection,
-                    ModelView: TrackRowView,
-                    ModelViewOptions: {
-                        templateVariables: {
-                            context: 'twitterCharts',
-                            playlistId: 'twitterCharts'
-                        }
-                    },
-                    listSelector: '.tracksList'
-                });
+                // initialize the "chart tweets" collection
+                var chartTweetsCollection = new ChartTweetsCollection(null, { period: 'day' });
                 
                 // create a new playlistModel to save the playlist related
                 // data
                 var playlistModel = new PlaylistModel({
-                    collection: this,
+                    playlistTracksCollection: chartTweetsCollection,
                     id: 'twitter_charts_day'
                 });
-                            
+                
                 // inform the playlistsManager that a new playlist has been
                 // loaded
                 EventsManager.trigger(EventsManager.constants.PLAYLISTS_MANAGER_ADD, { model: playlistModel });
                 
-                // initialize the twitter charts page view
-                var twitterChartsView = new TwitterChartsView();
-                
-                container.clear('#core');
-                
-                container.add('#core', twitterChartsView);
-                
-                container.dispatch('#core');
-                
-                // add the tweets list view to the twitter page view
-                container.add('#twitterChartsTracks', tracksListView);
-                
-                container.dispatch('#twitterChartsTracks');
-                
                 // fetch the tweets charts
-                tweetsChartsCollection.fetch({
+                chartTweetsCollection.fetch({
                     error: function(collection, response, options) {
                         
                         //utilities.log(collection, response, options);
@@ -99,7 +72,26 @@ define([
                         
                     }
                 });
-
+                
+                var twitterChartsView = new TwitterChartsView({
+                    model: playlistModel,
+                    templateVariables: {
+                        periods: [
+                            {
+                                id: 'byDay',
+                                name: 'daily'
+                            }
+                        ],
+                        defaultPeriod: 'byDay'
+                    }
+                });
+                
+                container.clear('#core');
+                
+                container.add('#core', twitterChartsView);
+                
+                container.dispatch('#core');
+                
             });
         
         }
