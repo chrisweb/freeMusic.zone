@@ -50,9 +50,11 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
     
     oauthRouter.get('/redirect', function(request, response, next) {
         
+        //utilities.log(request);
+        
         // get the request parameters
-        var rawCode = request.params('code');
-        var rawState = request.params('state');
+        var rawCode = request.query['code'];
+        var rawState = request.query['state'];
         
         // check if the code and state are valid
         var code = utilities.filterAlphaNumericPlus(rawCode);
