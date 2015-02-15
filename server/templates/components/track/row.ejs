@@ -1,25 +1,32 @@
-<tr data-fmz-trackId="<%= jamendo_id %>" class="trackRow">
+<tr data-fmz-trackId="<%= id %>" class="trackRow">
     <td class="trackImage">
-        <img src="<%= jamendo_album_image %>">
+        <% if (trackModel !== undefined) { %>
+            <img src="<%= trackModel.jamendo_album_image %>">
+        <% } %>
     </td>
     
-    <% if (context === 'twitterCharts') { %>
+    <% if (this.options.context === 'twitterCharts') { %>
     
         <td class="chartsPosition"><%- chart_position %></td>
     
     <% } %>
     
-    <td class="trackInformations"><%- jamendo_name %> by <%- jamendo_artist_name %></td>
+    <td class="trackInformations">
+        <% if (trackModel !== undefined) { %>
+            <%- trackModel.jamendo_name %> by <%- trackModel.jamendo_artist_name %>
+        <% } %>
+    </td>
     <td class="trackActions">
         <button type="button" class="icon fa fa-play js-playTrack"></button>
         <button type="button" class="icon fa fa-twitter js-shareOnTwitterTrack"></button>
-        
-        <% if (context === '') { %>
-        
+
+        <% if (this.options.context !== 'twitterCharts') { %>
+
             <button type="button" class="icon fa fa-twitter js-shareOnFacebookTrack"></button>
             <button type="button" class="icon fa fa-twitter js-shareOnGooglePlusTrack"></button>
-        
+
         <% } %>
-        
+
     </td>
+        
 </tr>

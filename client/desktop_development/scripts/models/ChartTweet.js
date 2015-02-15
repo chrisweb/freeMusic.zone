@@ -26,7 +26,9 @@ define([
             id: null,
             count_total: 0,
             count_unique: 0,
-            twitter_users: []
+            twitter_users: [],
+            chart_position: 0,
+            trackModel: null
         },
         validate: function(attrs) {
 

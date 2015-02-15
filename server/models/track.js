@@ -183,4 +183,23 @@ trackModel.prototype.findMultipleByJamendoId = function(options, callback) {
 
 };
 
+/**
+ * 
+ * find one
+ * 
+ * @param {type} options
+ * @param {type} callback
+ * 
+ * @returns {undefined}
+ */
+trackModel.prototype.findOneByJamendoId = function(options, callback) {
+    
+    utilities.log('[TRACK MODEL] get one track by jamendo id');
+    
+    this.Model.find({
+        'jamendo_id': options.ids
+    }).exec(callback);
+
+};
+
 module.exports = trackModel;

@@ -13,9 +13,10 @@ define([
     'chrisweb.utilities',
     'library.eventsManager',
     'collections.Tracks',
+    'models.Track',
     'moment'
     
-], function (utilities, EventsManager, TracksCollection, moment) {
+], function (utilities, EventsManager, TracksCollection, TrackModel, moment) {
     
     'use strict';
     
@@ -66,34 +67,71 @@ define([
         }
         
     };
+    
+    /**
+     * 
+     * get a track from the tracks manager
+     * 
+     * @param {type} trackId
+     * @param {type} callback
+     * 
+     * @returns {undefined}
+     */
+    var getTrack = function getTrackFunction(trackId, callback) {
+        
+        var results = tracksCollection.where({ jamendo_id: trackId });
+        
+        // check if the track is in the tracksmananger cache
+        if (results.length === 0) {
+            
+            // if its not in the cache, fetch it from server
+            fetchTrack(trackId, callback);
+            
+        } else {
+            
+            // if the track is already in the trackmanager return it
+            callback(results[0]);
+            
+        }
+        
+    };
 
     /**
      * 
      * we don't have that track, fetch it from the server
      * 
      * @param {type} trackId
+     * @param {type} callback
+     * 
      * @returns {unresolved}
      */
-    var fetchTrack = function fetchTrackFunction(trackId) {
+    var fetchTrack = function fetchTrackFunction(trackId, callback) {
         
-        var results = tracksCollection.where({ jamendo_id: trackId });
+        // TODO: fetch the track data from the server if its not yet
+        // available in the tracks manager
+            
+        utilities.log('[TRACKSMANAGER] fetch the track data from the server, trackId:' + trackId);
         
-        var trackModel;
+        var trackModel = new TrackModel();
         
-        if (results.length === 0) {
-            
-            // TODO: fetch the track data from the server if its not yet
-            // available in the tracks manager
-            
-            utilities.log('fetch the track data from the server');
-            
-        } else {
-            
-            trackModel = results[0];
-            
-        }
+        trackModel.set({ id: trackId });
         
-        return trackModel;
+        trackModel.fetch({
+            error: function(model, response, options) {
+
+                //utilities.log(collection, response, options);
+                
+                callback('error fetching track, status: ' + response.status);
+
+            },
+            success: function(model, response, options) {
+
+                //utilities.log(collection, response, options);
+                
+                callback(false, model);
+                
+            }
+        });
         
     };
     
@@ -210,8 +248,8 @@ define([
     
     return {
         initialize: initialize,
-        fetchTrack: fetchTrack,
         addTrack: addTrack,
+        getTrack: getTrack,
         clearUnused: clearUnused
     };
     

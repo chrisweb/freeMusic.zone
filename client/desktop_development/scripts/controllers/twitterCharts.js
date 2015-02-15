@@ -70,9 +70,20 @@ define([
                         
                         //utilities.log(collection, response, options);
                         
+                        var chart_position = 1;
+                        
+                        _.each(collection.model, function(model) {
+                            
+                            model.set('chart_position', chart_position);
+                            
+                            chart_position++;
+                            
+                        });
+                        
                     }
                 });
                 
+                // create the twitter charts page view and add it to the dom
                 var twitterChartsView = new TwitterChartsView({
                     model: playlistModel,
                     templateVariables: {
@@ -91,6 +102,24 @@ define([
                 container.add('#core', twitterChartsView);
                 
                 container.dispatch('#core');
+                
+                // create the twitter charts tracks list view and add it to
+                // the dom
+                var twitterChartsTracksView = new TracksListView({
+                    collection: chartTweetsCollection,
+                    ModelView: TrackRowView,
+                    ModelViewOptions: {
+                        context: 'twitterCharts',
+                        reRenderOnChange: true
+                    },
+                    listSelector: '.tracksList'
+                });
+                
+                container.clear('#twitterChartsTracks');
+                
+                container.add('#twitterChartsTracks', twitterChartsTracksView);
+                
+                container.dispatch('#twitterChartsTracks');
                 
             });
         

@@ -25,11 +25,14 @@ define([
             
         },
         defaults: {
+            id: 0,
             usageCounter: 0, // usage counter for cache collection to check usage in views
             isPlaying: false, // is player playing this song
             isCurrent: false, // is this the current track in player
             loaded: false, // did this track get preloaded
-            loadedAt: 0 // timestamp at which the preloading got completed
+            loadedAt: 0, // timestamp at which the preloading got completed
+            jamendo_album_image: null,
+            jamendo_artist_name: null
         },
         validate: function(attrs) {
 
