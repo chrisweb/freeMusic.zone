@@ -70,13 +70,14 @@ define([
                         
                         //utilities.log(collection, response, options);
                         
-                        var chart_position = 1;
+                        var tracksList = [];
                         
+                        // get all the track ids
                         _.each(collection.model, function(model) {
                             
-                            model.set('chart_position', chart_position);
+                            tracksList.push(model.get('id'));
                             
-                            chart_position++;
+                            // TODO: pass the list of tracks to the tracksmanager, the tracks manager should then fetch the tracks
                             
                         });
                         

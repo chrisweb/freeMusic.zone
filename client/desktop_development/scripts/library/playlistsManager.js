@@ -5,8 +5,6 @@
  * @param {type} utilities
  * @param {type} EventsManager
  * @param {type} PlaylistsCollection
- * @param {type} moment
- * @param {type} TracksManager
  * 
  * @returns {_L17.Anonym$2}
  */
@@ -17,7 +15,7 @@ define([
     'moment',
     'library.tracksManager'
     
-], function (utilities, EventsManager, PlaylistsCollection, moment, TracksManager) {
+], function (utilities, EventsManager, PlaylistsCollection) {
     
     'use strict';
     
@@ -61,14 +59,6 @@ define([
         if (existingPlaylistModel === undefined) {
             
             playlistsCollection.add(playlistModel);
-            
-            playlistModel.get('playlistTracksCollection').on('add', function(model, collection, options) {
-                
-                var playlistTrackModel = TracksManager.getTrack(model.get('id'));
-                
-                model.set('trackModel', playlistTrackModel);
-                
-            });
             
         }
         

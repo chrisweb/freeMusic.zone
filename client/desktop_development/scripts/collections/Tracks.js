@@ -24,7 +24,8 @@ define([
             utilities.log('[TRACKS MANAGER COLLECTION] initializing ...', 'fontColor:blue');
 
         },
-        model: TrackModel
+        model: TrackModel,
+        url: '/api/tracks'
 
     });
     
