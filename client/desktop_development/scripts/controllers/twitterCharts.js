@@ -17,9 +17,10 @@ define([
     'ribs.container',
     'library.eventsManager',
     'collections.ChartTweets',
-    'models.Playlist'
+    'models.Playlist',
+    'library.tracksManager'
     
-], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel) {
+], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel, tracksManager) {
     
     'use strict';
 
@@ -63,7 +64,7 @@ define([
                 chartTweetsCollection.fetch({
                     error: function(collection, response, options) {
                         
-                        //utilities.log(collection, response, options);
+                        utilities.log(collection, response, options);
                         
                     },
                     success: function(collection, response, options) {
@@ -73,17 +74,25 @@ define([
                         var tracksList = [];
                         
                         // get all the track ids
-                        _.each(collection.model, function(model) {
+                        _.each(collection.models, function(model) {
                             
                             tracksList.push(model.get('id'));
                             
-                            // TODO: pass the list of tracks to the tracksmanager, the tracks manager should then fetch the tracks
-                            
+                        });
+                        
+                        tracksManager.get(tracksList, function(error, tracksArray) {
+
+                            if (!error) {
+
+                                console.log(tracksArray);
+
+                            }
+
                         });
                         
                     }
                 });
-                
+                /*
                 // create the twitter charts page view and add it to the dom
                 var twitterChartsView = new TwitterChartsView({
                     model: playlistModel,
@@ -121,7 +130,7 @@ define([
                 container.add('#twitterChartsTracks', twitterChartsTracksView);
                 
                 container.dispatch('#twitterChartsTracks');
-                
+                */
             });
         
         }

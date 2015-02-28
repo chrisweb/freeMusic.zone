@@ -161,14 +161,14 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
     });
 
-    apiRouter.get('/charts/tweets/day', function (request, response, next) {
+    apiRouter.get('/charts/tweets/:period', function (request, response, next) {
 
         utilities.log('[API] fetching charts tweets day');
 
         // TODO: fix the callback hell
 
         var chartTweetModel = new ChartTweetModel({
-            period: 'day'
+            period: request.params.period
         });
 
         var options = {
@@ -209,137 +209,107 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
      * 
      */
     apiRouter.get('/tracks', function fetchTracksFunction(request, response, next) {
-
+        
         utilities.log('[API] fetching tracks');
-
+        
         var options = {};
-
-        options.tracksIds = [];
-
+        
+        options.ids = request.query.tracksIds;
+        
         // get the tracks that are already in our database
         var trackModel = new TrackModel();
-
+        
         trackModel.findMultipleByJamendoId(options, function (error, mongoTracksResults) {
-
+            
             if (error) {
-
+                
                 // if the db query fails all tracks will get fetched
                 // using the API
-                utilities.log('[API] ' + error, 'fontColor:red');
-
+                utilities.log('[API] trackModel -> findMultipleByJamendoId -> ' + error, 'fontColor:red');
+                
             } else {
-
+                
                 //utilities.log(mongoTracksResults);
-
+                
                 // if our database did find some tracks in the database
                 // we remove their id from the tracksIds list, so that
                 // only those who are not yet in the database get
                 // fetched via the jamendo API
                 _.each(mongoTracksResults, function (mongoTracksResult) {
-
+                    
                     // TODO: remove the ids we found in the db
-
+                    
                     /*var index = tracksIds.indexOf(5);
-                     
+                    
                      if (index > -1) {
                      tracksIds.splice(index, 1);
                      }*/
-
+                    
                 });
-
+                
                 // for the tracks that were not yet in our db we need to make
                 // and API call to jamendo to retrieve them and add them to
                 // our database
                 var jamendoAPI = new JamendoAPI();
-
+                
                 // TODO: if all tracks have been found int he db dont do api call
-
+                
                 jamendoAPI.getTracksByQuery({
-                    id: options.tracksIds,
+                    id: options.ids,
                     include: ['musicinfo', 'lyrics'],
                     audioformat: 'ogg'
                 }, function getTracksByQueryCallback(error, apiResponse) {
-
+                    
                     if (error) {
-
+                        
                         utilities.log('[API] ' + error);
                         
                         response.status(500);
                         response.json('error while fetching the tracks');
-
+                        
                     } else {
-
+                        
                         //utilities.log(apiResponse);
-
+                        
                         var tracksForMongodb = [];
-
+                        
                         _.each(apiResponse.results, function (apiTracksResult) {
-
+                            
                             var trackForMongodb = convertApiTrackToMatchMongodbSchema(apiTracksResult);
-
+                            
                             tracksForMongodb.push(trackForMongodb);
-
+                            
                         });
-
+                        
                         // save the tracks into the database
                         trackModel.saveMultiple(tracksForMongodb, function (error, insertedDocuments) {
-
+                            
                             if (error) {
-
+                                
                                 utilities.log('[API] ' + error, 'fontColor:red');
-
+                                
                             }
-
+                            
                         });
-
+                        
                         // now merge the tracks that were already in the
                         // mongodb database and the ones that got
                         // returned by the tracks api call
                         var allTracks = tracksForMongodb.concat(apiResponse);
-
+                        
                         response.status(200);
-                        response.json(tweetsChartsDay);
-
-
-                        /*var tracksResponse = [];
-                         
-                         var position = 1;
-                         
-                         // add the informations from map reduce and send
-                         // everything as response back to the client
-                         _.each(tweetsChartsResults, function(tweetsChartsResult) {
-                         
-                         var jamendoTrackData = _.findWhere(allTracks, { jamendo_id: tweetsChartsResult.value.id });
-                         
-                         jamendoTrackData.chart_position = position;
-                         
-                         position = ++position;
-                         
-                         jamendoTrackData.count_total = tweetsChartsResult.value.count_total;
-                         jamendoTrackData.count_unique = tweetsChartsResult.value.count_unique;
-                         jamendoTrackData.twitter_users = tweetsChartsResult.value.twitter_users;
-                         
-                         tracksResponse.push(jamendoTrackData);
-                         
-                         });
-                         
-                         // send the response back to the client (don't wait for 
-                         // the database query response as it does not matter if
-                         // it fails to save the tracks)
-                         response.status(200);
-                         response.json(tracksResponse);
-                         */
-
+                        response.json(allTracks);
+                        
                     }
-
+                    
                 });
-
+                
             }
-
+            
         });
-
+        
     });
-
+    
     /**
      * 
      * converts a jamendo Api Track result to the format used in mongodb

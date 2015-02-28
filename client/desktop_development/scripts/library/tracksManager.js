@@ -16,7 +16,7 @@ define([
     'models.Track',
     'moment'
     
-], function (utilities, EventsManager, TracksCollection, TrackModel, moment) {
+], function (utilities, EventsManager, TracksCollection, moment) {
     
     'use strict';
     
@@ -50,47 +50,90 @@ define([
 
     /**
      * 
-     * add a track to the tracks cache manager
+     * add one or more track(s) to the tracks cache manager
      * 
-     * @param {type} trackModel
+     * @param {type} addMe
      * @returns {undefined}
      */
-    var addTrack = function addTrackFunction(trackModel) {
+    var add = function addFunction(addMe) {
         
-        var results = tracksCollection.where({ jamendo_id: trackModel.get('jamendo_id') });
-        
-        // check if the track is not already in the cache
-        if (results.length === 0) {
+        if (!_.isArray(addMe)) {
             
-            tracksCollection.add(trackModel);
+            addMe = [addMe];
             
         }
+        
+        _.each(addMe, function(trackModel) {
+            
+            var results = tracksCollection.where({ jamendo_id: trackModel.get('jamendo_id') });
+        
+            // check if the track is not already in the cache
+            if (results.length === 0) {
+
+                tracksCollection.add(trackModel);
+
+            }
+            
+        });
         
     };
     
     /**
      * 
-     * get a track from the tracks manager
+     * get one or more track(s) from the tracks manager
      * 
-     * @param {type} trackId
+     * @param {type} getMe
      * @param {type} callback
      * 
      * @returns {undefined}
      */
-    var getTrack = function getTrackFunction(trackId, callback) {
+    var get = function getFunction(getMe, callback) {
         
-        var results = tracksCollection.where({ jamendo_id: trackId });
-        
-        // check if the track is in the tracksmananger cache
-        if (results.length === 0) {
+        if (!_.isArray(getMe)) {
             
-            // if its not in the cache, fetch it from server
-            fetchTrack(trackId, callback);
+            getMe = [getMe];
+            
+        }
+        
+        var fetchMe = [];
+        var returnMe = [];
+        
+        _.each(getMe, function(trackId) {
+        
+            var results = tracksCollection.where({ jamendo_id: trackId });
+
+            // check if the track is in the tracksmananger cache
+            if (results.length === 0) {
+
+                // if its not in the cache, fetch it from server
+                fetchMe.push(trackId);
+
+            } else {
+
+                // if the track is already in the trackmanager return it
+                returnMe.push(results[0]);
+
+            }
+            
+        });
+        
+        if (fetchMe.length > 0) {
+            
+            fetch(fetchMe, function(error, tracksArray) {
+                
+                if (!error) {
+                
+                    returnMe.concat(tracksArray);
+                    
+                    callback(false, returnMe);
+                    
+                }
+                
+            });
             
         } else {
             
-            // if the track is already in the trackmanager return it
-            callback(results[0]);
+            callback(false, returnMe);
             
         }
         
@@ -98,37 +141,38 @@ define([
 
     /**
      * 
-     * we don't have that track, fetch it from the server
+     * we don't have the track(s), fetch it/them from the server
      * 
-     * @param {type} trackId
+     * @param {type} fetchMe
      * @param {type} callback
      * 
      * @returns {unresolved}
      */
-    var fetchTrack = function fetchTrackFunction(trackId, callback) {
+    var fetch = function fetchFunction(fetchMe, callback) {
         
         // TODO: fetch the track data from the server if its not yet
         // available in the tracks manager
             
-        utilities.log('[TRACKSMANAGER] fetch the track data from the server, trackId:' + trackId);
+        utilities.log('[TRACKSMANAGER] fetch the track(s) data from the server, fetchMe:', fetchMe);
         
-        var trackModel = new TrackModel();
+        var tracksCollection = new TracksCollection();
         
-        trackModel.set({ id: trackId });
-        
-        trackModel.fetch({
-            error: function(model, response, options) {
+        tracksCollection.fetch({
+            data: {
+                tracksIds: fetchMe
+            },
+            error: function(collection, response, options) {
 
                 //utilities.log(collection, response, options);
                 
-                callback('error fetching track, status: ' + response.status);
+                callback('error fetching track(s), status: ' + response.status);
 
             },
-            success: function(model, response, options) {
+            success: function(collection, response, options) {
 
                 //utilities.log(collection, response, options);
                 
-                callback(false, model);
+                callback(false, collection);
                 
             }
         });
@@ -248,8 +292,8 @@ define([
     
     return {
         initialize: initialize,
-        addTrack: addTrack,
-        getTrack: getTrack,
+        add: add,
+        get: get,
         clearUnused: clearUnused
     };
     
