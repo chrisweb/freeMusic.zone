@@ -8,7 +8,6 @@
  * @param {type} EventsManager
  * @param {type} ChartTweetsCollection
  * @param {type} PlaylistModel
- * @param {type} tracksManager
  * 
  * @returns {unresolved}
  */
@@ -18,10 +17,9 @@ define([
     'ribs.container',
     'library.eventsManager',
     'collections.ChartTweets',
-    'models.Playlist',
-    'library.tracksManager'
+    'models.Playlist'
     
-], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel, tracksManager) {
+], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel) {
     
     'use strict';
 
@@ -48,7 +46,12 @@ define([
             ], function(TwitterChartsView, TrackRowView, TracksListView) {
                 
                 // initialize the "chart tweets" collection
-                var chartTweetsCollection = new ChartTweetsCollection(null, { period: 'day' });
+                // use silent: true to not trigger the add event until all the
+                // trackdata has been fetched, so the list of tracks and the
+                // data of each track too
+                var chartTweetsCollection = new ChartTweetsCollection(null, {
+                    period: 'day'
+                });
                 
                 // create a new playlistModel to save the playlist related
                 // data
@@ -57,43 +60,6 @@ define([
                     id: 'twitter_charts_day'
                 });
                 
-                // inform the playlistsManager that a new playlist has been
-                // loaded
-                EventsManager.trigger(EventsManager.constants.PLAYLISTS_MANAGER_ADD, { model: playlistModel });
-                
-                // fetch the tweets charts
-                chartTweetsCollection.fetch({
-                    error: function(collection, response, options) {
-                        
-                        utilities.log(collection, response, options);
-                        
-                    },
-                    success: function(collection, response, options) {
-                        
-                        //utilities.log(collection, response, options);
-                        
-                        var tracksList = [];
-                        
-                        // get all the track ids
-                        _.each(collection.models, function(model) {
-                            
-                            tracksList.push(model.get('id'));
-                            
-                        });
-                        
-                        tracksManager.get(tracksList, function(error, tracksArray) {
-
-                            if (!error) {
-
-                                console.log(tracksArray);
-
-                            }
-
-                        });
-                        
-                    }
-                });
-                /*
                 // create the twitter charts page view and add it to the dom
                 var twitterChartsView = new TwitterChartsView({
                     model: playlistModel,
@@ -117,7 +83,7 @@ define([
                 // create the twitter charts tracks list view and add it to
                 // the dom
                 var twitterChartsTracksView = new TracksListView({
-                    collection: chartTweetsCollection,
+                    collection: playlistModel.get('playlistTracksCollection'),
                     ModelView: TrackRowView,
                     ModelViewOptions: {
                         context: 'twitterCharts',
@@ -131,7 +97,11 @@ define([
                 container.add('#twitterChartsTracks', twitterChartsTracksView);
                 
                 container.dispatch('#twitterChartsTracks');
-                */
+                
+                // inform the playlistsManager that a new playlist has been
+                // loaded
+                EventsManager.trigger(EventsManager.constants.PLAYLISTS_MANAGER_ADD, { model: playlistModel });
+                
             });
         
         }

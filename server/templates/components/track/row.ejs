@@ -1,6 +1,6 @@
 <tr data-fmz-trackId="<%= id %>" class="trackRow">
     <td class="trackImage">
-        <% if (trackModel !== undefined) { %>
+        <% if (trackModel !== null) { %>
             <img src="<%= trackModel.jamendo_album_image %>">
         <% } %>
     </td>
@@ -12,7 +12,7 @@
     <% } %>
     
     <td class="trackInformations">
-        <% if (trackModel !== undefined) { %>
+        <% if (trackModel !== null) { %>
             <%- trackModel.jamendo_name %> by <%- trackModel.jamendo_artist_name %>
         <% } %>
     </td>

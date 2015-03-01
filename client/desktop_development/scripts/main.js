@@ -77,6 +77,7 @@ require.config({
         'ribs.model': '../../../bower_components/ribs.js/src/model',
         'ribs.router': '../../../bower_components/ribs.js/src/router',
         'ribs.view': '../../../bower_components/ribs.js/src/view',
+        'ribs.viewHelper': '../../../bower_components/ribs.js/src/viewHelper',
         'ribs.viewsloader': '../../../bower_components/ribs.js/src/viewsloader',
         
         // modernizr

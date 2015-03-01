@@ -2,20 +2,22 @@
  * 
  * tracks manager
  * 
+ * @param {type} _
  * @param {type} utilities
  * @param {type} EventsManager
  * @param {type} PlaylistsCollection
+ * @param {type} tracksManager
  * 
  * @returns {_L17.Anonym$2}
  */
 define([
+    'underscore',
     'chrisweb.utilities',
     'library.eventsManager',
     'collections.Playlists',
-    'moment',
     'library.tracksManager'
     
-], function (utilities, EventsManager, PlaylistsCollection) {
+], function (_, utilities, EventsManager, PlaylistsCollection, tracksManager) {
     
     'use strict';
     
@@ -67,6 +69,50 @@ define([
             if (existingPlaylistModel === undefined) {
 
                 playlistsCollection.add(playlistModel);
+                
+                var playlistTracksCollection = playlistModel.get('playlistTracksCollection');
+                
+                // get all the tracks needed by this playlist
+                playlistTracksCollection.fetch({
+                    error: function(collection, response, options) {
+                        
+                        utilities.log(collection, response, options);
+                        
+                    },
+                    success: function(collection, response, options) {
+                        
+                        //utilities.log(collection, response, options);
+                        
+                        var tracksList = [];
+                        
+                        // get all the track ids
+                        _.each(collection.models, function(model) {
+                            
+                            tracksList.push(model.get('id'));
+                            
+                        });
+                        
+                        tracksManager.get(tracksList, function(error, tracksArray) {
+
+                            if (!error) {
+
+                                _.each(tracksArray, function(trackData) {
+                                    
+                                    // get the playlistTrack model
+                                    var playlistTrack = collection.get(trackData.get('id'));
+                                    
+                                    // put the trackData into the playlistTrack
+                                    // model
+                                    playlistTrack.set('trackModel', trackData);
+                                    
+                                });
+
+                            }
+
+                        });
+                        
+                    }
+                });
 
             }
             
