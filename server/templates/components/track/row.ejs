@@ -1,7 +1,7 @@
 <tr data-fmz-trackId="<%= id %>" class="trackRow">
     <td class="trackImage">
         <% if (trackModel !== null) { %>
-            <img src="<%= trackModel.jamendo_album_image %>">
+            <img src="<%= trackModel.get('jamendo_album_image') %>">
         <% } %>
     </td>
     
@@ -13,7 +13,7 @@
     
     <td class="trackInformations">
         <% if (trackModel !== null) { %>
-            <%- trackModel.jamendo_name %> by <%- trackModel.jamendo_artist_name %>
+            <%- trackModel.get('jamendo_name') %> by <%- trackModel.get('jamendo_artist_name') %>
         <% } %>
     </td>
     <td class="trackActions">
