@@ -282,7 +282,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                         });
                         
                         // save the tracks into the database
-                        trackModel.saveMultiple(tracksForMongodb, function (error, insertedDocuments) {
+                        //TODO: uncomment as soon as fetching tracks from mongodb instead of API has been implemented
+                        /*trackModel.saveMultiple(tracksForMongodb, function (error, insertedDocuments) {
                             
                             if (error) {
                                 
@@ -290,15 +291,16 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                                 
                             }
                             
-                        });
+                        });*/
                         
                         // now merge the tracks that were already in the
                         // mongodb database and the ones that got
                         // returned by the tracks api call
-                        var allTracks = tracksForMongodb.concat(apiResponse);
+                        var allTracks = tracksForMongodb.concat(mongoTracksResults);
                         
                         response.status(200);
-                        response.json(allTracks);
+                        //response.json(allTracks); // TODO: uncomment as soon as tracks from mongodb can get returned
+                        response.json(tracksForMongodb);
                         
                     }
                     
@@ -328,6 +330,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         var releaseDate = new Date(year, month - 1, day);
 
         var mongodbTrack = {
+            id: apiTrack.id,
             jamendo_id: apiTrack.id,
             jamendo_name: apiTrack.name,
             jamendo_duration: apiTrack.duration,

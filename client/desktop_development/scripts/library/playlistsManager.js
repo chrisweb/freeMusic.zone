@@ -46,21 +46,69 @@ define([
 
     /**
      * 
-     * add a playlist to the playlists manager
+     * add one or more playlist(s) to the playlists manager
      * 
-     * @param {type} playlistModel
+     * @param {type} addMe
      * @returns {undefined}
      */
-    var addPlaylist = function addPlaylistFunction(playlistModel) {
+    var add = function addFunction(addMe) {
         
-        var existingPlaylistModel = playlistsCollection.get(playlistModel.get('id'));
-        
-        // check if the playlist is not already in the collection
-        if (existingPlaylistModel === undefined) {
+        if (!_.isArray(addMe)) {
             
-            playlistsCollection.add(playlistModel);
+            addMe = [addMe];
             
         }
+        
+        _.each(addMe, function(playlistModel) {
+        
+            var existingPlaylistModel = playlistsCollection.get(playlistModel.get('id'));
+
+            // check if the playlist is not already in the collection
+            if (existingPlaylistModel === undefined) {
+
+                playlistsCollection.add(playlistModel);
+
+            }
+            
+        });
+        
+    };
+    
+    /**
+     * 
+     * get one or more playlist(s)
+     * 
+     * @param {type} getMe
+     * @param {type} callback
+     * 
+     * @returns {undefined}
+     */
+    var get = function getFunction(getMe, callback) {
+        
+        if (!_.isArray(getMe)) {
+            
+            getMe = [getMe];
+            
+        }
+        
+        _.each(getMe, function(playlistId) {
+            
+            
+            
+        });
+        
+    };
+    
+    /**
+     * 
+     * @param {type} fetchMe
+     * @param {type} callback
+     * 
+     * @returns {undefined}
+     */
+    var fetch = function fetchFunction(fetchMe, callback) {
+        
+        
         
     };
     
@@ -76,7 +124,7 @@ define([
         
         EventsManager.on(EventsManager.constants.PLAYLISTS_MANAGER_ADD, function addPlaylistEventFunction(attributes) {
             
-            addPlaylist(attributes.model);
+            add(attributes.model);
             
         });
         
@@ -96,7 +144,8 @@ define([
     
     return {
         initialize: initialize,
-        addPlaylist: addPlaylist,
+        add: add,
+        get: get,
         nextTrack: nextTrack
     };
     

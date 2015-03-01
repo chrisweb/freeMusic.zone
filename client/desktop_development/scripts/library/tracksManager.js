@@ -96,7 +96,7 @@ define([
         }
         
         var fetchMe = [];
-        var returnMe = [];
+        var tracksAlreadyLoaded = [];
         
         _.each(getMe, function(trackId) {
         
@@ -111,7 +111,7 @@ define([
             } else {
 
                 // if the track is already in the trackmanager return it
-                returnMe.push(results[0]);
+                tracksAlreadyLoaded.push(results[0]);
 
             }
             
@@ -119,11 +119,11 @@ define([
         
         if (fetchMe.length > 0) {
             
-            fetch(fetchMe, function(error, tracksArray) {
+            fetch(fetchMe, function(error, serverTracksArray) {
                 
                 if (!error) {
                 
-                    returnMe.concat(tracksArray);
+                    var returnMe = tracksAlreadyLoaded.concat(serverTracksArray);
                     
                     callback(false, returnMe);
                     
@@ -133,7 +133,7 @@ define([
             
         } else {
             
-            callback(false, returnMe);
+            callback(false, tracksAlreadyLoaded);
             
         }
         
@@ -172,7 +172,7 @@ define([
 
                 //utilities.log(collection, response, options);
                 
-                callback(false, collection);
+                callback(false, collection.models);
                 
             }
         });
@@ -264,7 +264,7 @@ define([
         
         EventsManager.on(EventsManager.constants.TRACKS_MANAGER_ADD, function incrementUsage(attributes) {
             
-            addTrack(attributes.model);
+            add(attributes.model);
             
         });
         

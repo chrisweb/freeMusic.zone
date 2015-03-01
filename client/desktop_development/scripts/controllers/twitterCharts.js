@@ -8,6 +8,7 @@
  * @param {type} EventsManager
  * @param {type} ChartTweetsCollection
  * @param {type} PlaylistModel
+ * @param {type} tracksManager
  * 
  * @returns {unresolved}
  */
