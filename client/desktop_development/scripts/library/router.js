@@ -8,7 +8,6 @@
  * @param {type} routes
  * @param {type} UserLibrary
  * @param {type} Configuration
- * @param {type} Backbone
  * 
  * @returns {_L18.Anonym$8}
  */
@@ -18,10 +17,9 @@ define([
     'library.eventsManager',
     'routes',
     'library.user',
-    'configuration',
-    'backbone'
+    'configuration'
     
-], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, Configuration, Backbone) {
+], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, Configuration) {
     
     'use strict';
 

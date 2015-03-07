@@ -65,7 +65,8 @@ define([
         
             var existingPlaylistModel = playlistsCollection.get(playlistModel.get('id'));
 
-            // check if the playlist is not already in the collection
+            // check if the playlist is not already in the playlistManager
+            // playlists collection
             if (existingPlaylistModel === undefined) {
 
                 playlistsCollection.add(playlistModel);
@@ -139,7 +140,15 @@ define([
         
         _.each(getMe, function(playlistId) {
             
-            
+            var existingPlaylistModel = playlistsCollection.get(playlistId);
+
+            // check if the playlist is not already in the playlistManager
+            // playlists collection
+            if (existingPlaylistModel === undefined) {
+                
+                
+                
+            }
             
         });
         
@@ -147,12 +156,14 @@ define([
     
     /**
      * 
-     * @param {type} fetchMe
+     * get a list of playlists
+     * 
+     * @param {type} listName
      * @param {type} callback
      * 
      * @returns {undefined}
      */
-    var fetch = function fetchFunction(fetchMe, callback) {
+    var getPlaylistsList = function getPlaylistsListFunction(listName, callback) {
         
         
         

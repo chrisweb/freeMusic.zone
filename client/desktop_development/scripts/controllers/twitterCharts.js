@@ -8,6 +8,7 @@
  * @param {type} EventsManager
  * @param {type} ChartTweetsCollection
  * @param {type} PlaylistModel
+ * @param {type} ViewsLoader
  * 
  * @returns {unresolved}
  */
@@ -17,9 +18,10 @@ define([
     'ribs.container',
     'library.eventsManager',
     'collections.ChartTweets',
-    'models.Playlist'
+    'models.Playlist',
+    'ribs.viewsloader'
     
-], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel) {
+], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel, ViewsLoader) {
     
     'use strict';
 
@@ -39,7 +41,7 @@ define([
             utilities.log('[TWITTER CHARTS CONTROLLER] controller: twitterCharts,  action: index', 'fontColor:blue');
 
             // chat message input form
-            require([
+            ViewsLoader([
                 'views/pages/twitterCharts',
                 'views/components/track/row',
                 'views/components/track/list'

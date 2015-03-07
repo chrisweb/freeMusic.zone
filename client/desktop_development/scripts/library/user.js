@@ -5,7 +5,6 @@
  * @param {type} utilities
  * @param {type} EventsManager
  * @param {type} UserModel
- * @param {type} moment
  * 
  * @returns {_L17.Anonym$1}
  */
@@ -15,7 +14,7 @@ define([
     'models.User',
     'moment'
     
-], function (utilities, EventsManager, UserModel, moment) {
+], function (utilities, EventsManager, UserModel) {
     
     'use strict';
     

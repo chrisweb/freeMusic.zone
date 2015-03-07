@@ -2,26 +2,24 @@
  * 
  * remote control controller
  * 
- * @param {type} $
- * @param {type} _
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} EventsManager
- * @param {type} user
+ * @param {type} ViewsLoader
+ * @param {type} PlaylistsManager
+ * @param {type} UserLibrary
  * 
  * @returns {unresolved}
  */
 define([
-    'jquery',
-    'underscore',
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.eventsManager',
+    'ribs.viewsloader',
+    'library.playlistsManager',
     'library.user'
     
-], function ($, _, utilities, Controller, container, EventsManager, user) {
+], function (utilities, Controller, container, ViewsLoader, PlaylistsManager, UserLibrary) {
     
     'use strict';
 
@@ -41,8 +39,9 @@ define([
             utilities.log('[REMOTE CONTROL CONTROLLER] controller: homepage,  action: index', 'fontColor:blue');
 
             // chat message input form
-            require(['views/components/chatBar'], function(RemoteControlView) {
+            ViewsLoader(['views/pages/remoteControl'], function(RemoteControlView) {
 
+                // initialize the page view and add it to the dom
                 var remoteControlView = new RemoteControlView();
                 
                 container.clear('#core');
@@ -50,6 +49,18 @@ define([
                 container.add('#core', remoteControlView);
                 
                 container.dispatch('#core');
+                
+                // get the list of user playlists
+                var userLibrary = UserLibrary();
+                
+                var userId = userLibrary.getAttribute('id');
+                
+                // get the user playlists data
+                PlaylistsManager.get(userPlaylistsList, function playlistsManagerGetCallback() {
+                    
+                    
+                    
+                });
 
             });
         
