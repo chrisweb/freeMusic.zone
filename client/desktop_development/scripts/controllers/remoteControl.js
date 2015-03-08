@@ -55,8 +55,14 @@ define([
                 
                 var userId = userLibrary.getAttribute('id');
                 
+                var options = {
+                    whereKey: 'user',
+                    whereValue: userId,
+                    withTracks: 'first'
+                };
+                
                 // get the user playlists data
-                PlaylistsManager.get(userPlaylistsList, function playlistsManagerGetCallback() {
+                PlaylistsManager.fetchList(options, function playlistsManagerGetCallback() {
                     
                     
                     

@@ -131,11 +131,17 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
                         utilities.log('[API] ' + error, 'fontColor:red');
 
-                        response.json({error: '[API] ' + error});
+                        response.json({
+                            code: 300,
+                            error: '[API] ' + error
+                        });
 
                     } else {
 
-                        response.json({error: '[API] failed to retrieve the user playlists using the jamendo api'});
+                        response.json({
+                            code: 300,
+                            error: '[API] failed to retrieve the user playlists using the jamendo api'
+                        });
 
                     }
 

@@ -152,7 +152,7 @@ define([
         
         // TODO: fetch the track data from the server if its not yet
         // available in the tracks manager
-            
+        
         utilities.log('[TRACKSMANAGER] fetch the track(s) data from the server, fetchMe:', fetchMe);
         
         var tracksCollection = new TracksCollection();
@@ -162,14 +162,14 @@ define([
                 tracksIds: fetchMe
             },
             error: function(collection, response, options) {
-
+                
                 //utilities.log(collection, response, options);
                 
                 callback('error fetching track(s), status: ' + response.status);
-
+                
             },
             success: function(collection, response, options) {
-
+                
                 //utilities.log(collection, response, options);
                 
                 callback(false, collection.models);

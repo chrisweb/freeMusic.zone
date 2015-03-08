@@ -1,6 +1,6 @@
 /**
  * 
- * user playlists collection
+ * playlists collection
  * 
  * @param {type} utilities
  * @param {type} collection
