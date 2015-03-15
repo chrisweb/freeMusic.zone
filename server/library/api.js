@@ -102,77 +102,96 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         }
 
     });
-
+    
     apiRouter.get('/playlists', function (request, response, next) {
-
-        var userSessionData = request.session.user;
-
-        if (userSessionData === undefined) {
-
-            var defaultUserData = {
-                isLogged: false,
-                lastFetchDate: Date.now()
-            };
-
-            response.status(401);
-            response.json(defaultUserData);
-
-        } else {
-
-            var jamendoAPI = new JamendoAPI();
-
-            var callback = function (error, playlistsResult) {
-
-                if (error) {
-
-                    response.status(500);
-
-                    if (process.env.NODE_ENV === 'development') {
-
-                        utilities.log('[API] ' + error, 'fontColor:red');
-
-                        response.json({
-                            code: 300,
-                            error: '[API] ' + error
-                        });
-
-                    } else {
-
-                        response.json({
-                            code: 300,
-                            error: '[API] failed to retrieve the user playlists using the jamendo api'
-                        });
-
-                    }
-
-                } else {
-
-                    // TODO: put the playlists in our database
-
-                    response.status(200);
-                    response.json(playlistsResult);
-
-                }
-
-            };
-
-            jamendoAPI.getUserPlaylists({
+        
+        if (request.query.whereKey === 'user') {
+            
+            var queryData = {
                 limit: '200',
-                order: 'name',
-                user_id: userSessionData.id,
-                access_token: userSessionData.oauth.token
-            }, callback);
-
+                order: 'name'
+            };
+            
+            if (request.query.whereValue === 'me') {
+                
+                var userSessionData = request.session.user;
+                
+                if (userSessionData === undefined) {
+                    
+                    var error = 'user is not logged';
+                    
+                    utilities.log('[API] error: ' + error, 'fontColor:red');
+                    
+                    response.status(401);
+                    response.json({
+                        error: error
+                    });
+                    
+                } else {
+                    
+                    queryData.access_token = userSessionData.oauth.token;
+                    
+                }
+                
+            } else {
+                
+                queryData.user_id = request.query.whereKey;
+                
+            }
+            
+        } else {
+            
+            // TODO: retrieve playlists
+            
         }
-
+        
+        var callback = function (error, playlistsResult) {
+            
+            if (error) {
+                
+                response.status(500);
+                
+                if (process.env.NODE_ENV === 'development') {
+                    
+                    utilities.log('[API] error: ' + error, 'fontColor:red');
+                    
+                    response.json({
+                        code: 300,
+                        error: '[API] error: ' + error
+                    });
+                    
+                } else {
+                    
+                    response.json({
+                        code: 300,
+                        error: '[API] error: failed to retrieve the user playlists using the jamendo api'
+                    });
+                    
+                }
+                
+            } else {
+                
+                // TODO: put the playlists in our database
+                
+                response.status(200);
+                response.json(playlistsResult);
+                
+            }
+            
+        };
+        
+        var jamendoAPI = new JamendoAPI();
+        
+        jamendoAPI.getPlaylists(queryData, callback);
+        
     });
-
+    
     apiRouter.get('/charts/tweets/:period', function (request, response, next) {
-
+        
         utilities.log('[API] fetching charts tweets day');
-
+        
         // TODO: fix the callback hell
-
+        
         var chartTweetModel = new ChartTweetModel({
             period: request.params.period
         });
@@ -200,7 +219,13 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
             for (i = 0; i < chartTweets.length; i++) {
 
-                chartTweetsResponse.push(chartTweets[i].value);
+                var chartTweet = chartTweets[i].value;
+                
+                console.log(chartTweet);
+                
+                chartTweet.position = i+1;
+
+                chartTweetsResponse.push(chartTweet);
 
             }
 
@@ -210,7 +235,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         });
 
     });
-
+    
     /**
      * 
      */
@@ -348,7 +373,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             jamendo_license_cc_url: apiTrack.license_ccurl,
             jamendo_position: apiTrack.position,
             jamendo_release_date: releaseDate,
-            jamendo_album_image: apiTrack.album_image,
+            jamendo_image: apiTrack.image,
             jamendo_stream_url: apiTrack.audio,
             jamendo_download_url: apiTrack.audiodownload,
             jamendo_pro_url: apiTrack.prourl,

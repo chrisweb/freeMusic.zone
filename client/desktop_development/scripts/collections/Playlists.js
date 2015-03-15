@@ -17,11 +17,11 @@ define([
     
     'use strict';
     
-    var UserPlaylistsCollection = collection.extend({
+    var PlaylistsCollection = collection.extend({
 
         onInitialize: function() {
             
-            utilities.log('[USER PLAYLISTS COLLECTION] initializing ...', 'fontColor:blue');
+            utilities.log('[PLAYLISTS COLLECTION] initializing ...', 'fontColor:blue');
 
         },
         model: PlaylistModel,
@@ -29,6 +29,6 @@ define([
 
     });
     
-    return UserPlaylistsCollection;
+    return PlaylistsCollection;
     
 });

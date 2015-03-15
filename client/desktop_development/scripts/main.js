@@ -52,13 +52,13 @@ require.config({
         // collections
         'collections.Tracks': 'collections/Tracks',
         'collections.Playlists': 'collections/Playlists',
-        'collections.ChartTweets': 'collections/ChartTweets',
+        'collections.PlaylistTracks': 'collections/PlaylistTracks',
         
         // models
         'models.Track': 'models/Track',
         'models.Playlist': 'models/Playlist',
         'models.User': 'models/User',
-        'models.ChartTweet': 'models/ChartTweet',
+        'models.PlaylistTrack': 'models/PlaylistTrack',
         
         // vendor
         'jquery': '../../../bower_components/jquery/dist/jquery',

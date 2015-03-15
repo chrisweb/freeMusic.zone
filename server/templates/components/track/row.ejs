@@ -1,13 +1,13 @@
 <tr data-fmz-trackId="<%= id %>" class="trackRow">
     <td class="trackImage">
         <% if (trackModel !== null) { %>
-            <img src="<%= trackModel.get('jamendo_album_image') %>">
+            <img src="<%= trackModel.get('jamendo_image') %>">
         <% } %>
     </td>
     
     <% if (this.options.context === 'twitterCharts') { %>
     
-        <td class="chartsPosition"><%- chart_position %></td>
+        <td class="position"><%- position %></td>
     
     <% } %>
     

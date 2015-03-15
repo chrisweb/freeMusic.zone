@@ -62,7 +62,7 @@ var createSchema = function createSchemaFunction(options) {
         jamendo_license_cc_url: {type: String, trim: true},
         jamendo_position: {type: Number, trim: true},
         jamendo_release_date: {type: Date},
-        jamendo_album_image: {type: String, trim: true},
+        jamendo_image: {type: String, trim: true},
         jamendo_stream_url: {type: String, trim: true},
         jamendo_download_url: {type: String, trim: true},
         jamendo_pro_url: {type: String, trim: true},

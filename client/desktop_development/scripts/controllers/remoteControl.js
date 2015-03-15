@@ -7,7 +7,7 @@
  * @param {type} container
  * @param {type} ViewsLoader
  * @param {type} PlaylistsManager
- * @param {type} UserLibrary
+ * @param {type} PlaylistsCollection
  * 
  * @returns {unresolved}
  */
@@ -17,9 +17,10 @@ define([
     'ribs.container',
     'ribs.viewsloader',
     'library.playlistsManager',
-    'library.user'
+    'library.user',
+    'collections.Playlists'
     
-], function (utilities, Controller, container, ViewsLoader, PlaylistsManager, UserLibrary) {
+], function (utilities, Controller, container, ViewsLoader, PlaylistsManager, PlaylistsCollection) {
     
     'use strict';
 
@@ -50,21 +51,26 @@ define([
                 
                 container.dispatch('#core');
                 
-                // get the list of user playlists
-                var userLibrary = UserLibrary();
+                var playlistsCollection = new PlaylistsCollection();
                 
-                var userId = userLibrary.getAttribute('id');
+                // TODO: initialize the playlists list view and set
+                // playlistsCollection than and add it to the dom
                 
                 var options = {
                     whereKey: 'user',
-                    whereValue: userId,
-                    withTracks: 'first'
+                    whereValue: 'me'
                 };
                 
                 // get the user playlists data
-                PlaylistsManager.fetchList(options, function playlistsManagerGetCallback() {
+                PlaylistsManager.fetchList(options, function playlistsManagerGetCallback(playlistIds) {
+                      
+                    var playistsArray = PlaylistsManager.get(playlistIds);
                     
-                    
+                    _.each(playistsArray, function(playistModel) {
+                        
+                        playlistsCollection.add(playistModel);
+                        
+                    });
                     
                 });
 

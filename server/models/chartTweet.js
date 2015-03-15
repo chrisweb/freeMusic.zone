@@ -75,7 +75,8 @@ var createSchema = function createSchemaFunction(options) {
             unit: {type: String, trim: true, required: true},
             count_total: {type: Number, trim: true, required: true},
             count_unique: {type: Number, trim: true, required: true},
-            twitter_users: {type: Array, required: true}
+            twitter_users: {type: Array, required: true},
+            position: 0
         }
     },
     schemaOptions);

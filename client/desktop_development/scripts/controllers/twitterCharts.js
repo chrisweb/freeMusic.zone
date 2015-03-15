@@ -6,7 +6,7 @@
  * @param {type} Controller
  * @param {type} container
  * @param {type} EventsManager
- * @param {type} ChartTweetsCollection
+ * @param {type} PlaylistTracksCollection
  * @param {type} PlaylistModel
  * @param {type} ViewsLoader
  * 
@@ -17,11 +17,11 @@ define([
     'library.controller',
     'ribs.container',
     'library.eventsManager',
-    'collections.ChartTweets',
+    'collections.PlaylistTracks',
     'models.Playlist',
     'ribs.viewsloader'
     
-], function (utilities, Controller, container, EventsManager, ChartTweetsCollection, PlaylistModel, ViewsLoader) {
+], function (utilities, Controller, container, EventsManager, PlaylistTracksCollection, PlaylistModel, ViewsLoader) {
     
     'use strict';
 
@@ -51,14 +51,14 @@ define([
                 // use silent: true to not trigger the add event until all the
                 // trackdata has been fetched, so the list of tracks and the
                 // data of each track too
-                var chartTweetsCollection = new ChartTweetsCollection(null, {
+                var playlistTracksCollection = new PlaylistTracksCollection(null, {
                     period: 'day'
                 });
                 
                 // create a new playlistModel to save the playlist related
                 // data
                 var playlistModel = new PlaylistModel({
-                    playlistTracksCollection: chartTweetsCollection,
+                    playlistTracksCollection: playlistTracksCollection,
                     id: 'twitter_charts_day'
                 });
                 

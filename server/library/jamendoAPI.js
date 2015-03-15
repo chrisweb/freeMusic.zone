@@ -34,16 +34,29 @@ var jamendoAPI = function initializeJamendoAPIFunction() {
 
 jamendoAPI.prototype.getTracksByQuery = function getTracksFunction(query, callback) {
     
+    // by default return both album tracks and also singles
+    if (!_.has(query, 'type')) {
+        
+        query.type = ['single', 'albumtrack'];
+        
+    }
+    
     jamendoAPI.tracks(query, function(error, data) {
 
+        //utilities.log('*******');
         //utilities.log(error);
         //utilities.log(data);
+        //utilities.log('*******');
         
-        if (data.headers.error_message !== '') {
+        if (!_.isObject(data) && _.isNull(error)) {
+            
+            callback('invalid jamendo api server response');
+            
+        } else if (_.has(data, 'headers') && data.headers.error_message !== '') {
             
             callback(data.headers.error_message);
             
-        } else if (data.headers.warnings !== '') {
+        } else if (_.has(data, 'headers') && data.headers.warnings !== '') {
             
             callback(data.headers.warnings);
             
@@ -76,18 +89,24 @@ jamendoAPI.prototype.getTracksByQuery = function getTracksFunction(query, callba
     
 };
 
-jamendoAPI.prototype.getUserPlaylists = function getUserPlaylistsFunction(query, callback) {
+jamendoAPI.prototype.getPlaylists = function getPlaylistsFunction(query, callback) {
     
     jamendoAPI.playlists(query, function(error, data) {
-
+        
+        //utilities.log('*******');
         //utilities.log(error);
         //utilities.log(data);
+        //utilities.log('*******');
         
-        if (data.headers.error_message !== '') {
+        if (!_.isObject(data) && _.isNull(error)) {
+            
+            callback('invalid jamendo api server response');
+            
+        } else if (_.has(data, 'headers') && data.headers.error_message !== '') {
             
             callback(data.headers.error_message);
             
-        } else if (data.headers.warnings !== '') {
+        } else if (_.has(data, 'headers') && data.headers.warnings !== '') {
             
             callback(data.headers.warnings);
             

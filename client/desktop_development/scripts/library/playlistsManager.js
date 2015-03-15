@@ -78,47 +78,60 @@ define([
                     // get all the tracks needed by this playlist
                     playlistTracksCollection.fetch({
                         error: function(collection, response, options) {
-
+                            
                             utilities.log(collection, response, options);
-
+                            
                         },
                         success: function(collection, response, options) {
-
+                            
                             //utilities.log(collection, response, options);
-
+                            
                             var tracksList = [];
-
+                            
                             // get all the track ids
                             _.each(collection.models, function(model) {
-
+                                
                                 tracksList.push(model.get('id'));
-
+                                
                             });
-
+                            
                             tracksManager.get(tracksList, function(error, tracksArray) {
-
+                                
                                 if (!error) {
-
-                                    _.each(tracksArray, function(trackData) {
-
+                                    
+                                    _.each(tracksArray, function(trackData, index) {
+                                        
                                         // get the playlistTrack model
+                                        // note to self: a playlist track is
+                                        // not the same as a track, the track
+                                        // only contains the universal track
+                                        // informations but the playlistTrack
+                                        // contains playlist specific
+                                        // informations about the track, like
+                                        // it's position inside of the playlist,
+                                        // the date it got added to the playlist,
+                                        // or data like the userId of the user
+                                        // that added the track to the playlist
                                         var playlistTrack = collection.get(trackData.get('id'));
-
-                                        // put the trackData into the playlistTrack
-                                        // model
-                                        playlistTrack.set('trackModel', trackData);
-
+                                        
+                                        // put the trackData into the
+                                        // playlistTrack model
+                                        playlistTrack.set({
+                                            trackModel: trackData
+                                        });
+                                        
                                     });
-
+                                    
                                 }
-
+                                
                             });
-
+                            
                         }
+                        
                     });
                     
                 }
-
+                
             }
             
         });
@@ -224,10 +237,13 @@ define([
     
     /**
      * 
-     * fetch a list of playlists, the playlists list of a page or of a user
+     * fetch a list of playlists ids of a page or of a user
+     * 
      * this is a different method then get, because here we don't know the
      * playlist ids, we have to ask the server which playlists need to get
-     * fetched
+     * fetched, we don't fetch the playlist data, just the ids of the playlists
+     * we don't fetch all the playlist data as the playlist data may already be
+     * in the client cache because if got loaded previously
      * 
      * @param {type} options
      * @param {type} callback
@@ -240,11 +256,15 @@ define([
         
         var playlistsCollection = new PlaylistsCollection();
         
+        playlistsCollection.comparator = 'name';
+        
+        var fetchQuery = {
+            whereKey: options.whereKey,
+            whereValue: options.whereValue
+        };
+        
         playlistsCollection.fetch({
-            data: {
-                whereKey: options.whereKey,
-                whereValue: options.whereValue
-            },
+            data: fetchQuery,
             error: function(collection, response, options) {
 
                 utilities.log(collection, response, options);
@@ -260,30 +280,11 @@ define([
                 
                 _.each(collection.models, function(playlistModel, index) {
                     
+                    // note to self: we only need the IDs, as we will return
+                    // the list of IDs so that later on we can use
+                    // playlistManager.get to get the playlist data, but it's
+                    // not possible with the API as is to just get the IDs
                     playlistsIds.push(playlistModel.get('id'));
-                    
-                    // does the option withTracks exist
-                    if (_.has(options, 'withTracks')) {
-                        
-                        // withTracks is first, get the tracks of the first playlist
-                        if (options.withTracks === 'first' && index === 0) {
-                            
-                            playlistModel.set('playlistTracksCollection', '');
-                            
-                            add(playlistModel);
-                            
-                        } else if (options.withTracks === 'all') {
-                            
-                            // TODO: handle situation where all playlists
-                            // require their tracks data
-                            
-                        }
-
-                    } else {
-                        
-                        add(playlistModel);
-                        
-                    }
                     
                 });
                 
