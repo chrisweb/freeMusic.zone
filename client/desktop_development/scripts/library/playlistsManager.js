@@ -6,6 +6,7 @@
  * @param {type} utilities
  * @param {type} EventsManager
  * @param {type} PlaylistsCollection
+ * @param {type} PlaylistsListCollection
  * @param {type} tracksManager
  * 
  * @returns {_L17.Anonym$2}
@@ -15,9 +16,10 @@ define([
     'chrisweb.utilities',
     'library.eventsManager',
     'collections.Playlists',
+    'collections.PlaylistsList',
     'library.tracksManager'
     
-], function (_, utilities, EventsManager, PlaylistsCollection, tracksManager) {
+], function (_, utilities, EventsManager, PlaylistsCollection, PlaylistsListCollection, tracksManager) {
     
     'use strict';
     
@@ -239,9 +241,10 @@ define([
      * 
      * fetch a list of playlists ids of a page or of a user
      * 
-     * this is a different method then get, because here we don't know the
+     * this is a different method then fetch, because here we don't know the
      * playlist ids, we have to ask the server which playlists need to get
      * fetched, we don't fetch the playlist data, just the ids of the playlists
+     * 
      * we don't fetch all the playlist data as the playlist data may already be
      * in the client cache because if got loaded previously
      * 
@@ -254,22 +257,22 @@ define([
         
         utilities.log('[PLAYLISTSMANAGER] fetch the list data from the server, options:', options);
         
-        var playlistsCollection = new PlaylistsCollection();
+        var playlistsListCollection = new PlaylistsListCollection();
         
-        playlistsCollection.comparator = 'name';
+        playlistsListCollection.comparator = 'name';
         
         var fetchQuery = {
             whereKey: options.whereKey,
             whereValue: options.whereValue
         };
         
-        playlistsCollection.fetch({
+        playlistsListCollection.fetch({
             data: fetchQuery,
             error: function(collection, response, options) {
 
                 utilities.log(collection, response, options);
                 
-                callback('error fetching playlist(s), status: ' + response.status);
+                callback('error fetching playlists list, status: ' + response.status);
 
             },
             success: function(collection, response, options) {
@@ -292,8 +295,6 @@ define([
                 
             }
         });
-        
-
         
     };
     

@@ -52,6 +52,7 @@ require.config({
         // collections
         'collections.Tracks': 'collections/Tracks',
         'collections.Playlists': 'collections/Playlists',
+        'collections.PlaylistsList': 'collections/PlaylistsList',
         'collections.PlaylistTracks': 'collections/PlaylistTracks',
         
         // models

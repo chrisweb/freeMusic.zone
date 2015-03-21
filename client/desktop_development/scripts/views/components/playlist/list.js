@@ -1,6 +1,6 @@
 /**
  * 
- * tracks list component view
+ * playlists list component view
  * 
  * @param {type} utilities
  * @param {type} view
@@ -17,15 +17,15 @@ define([
     
     'use strict';
     
-    var TracksListView = view.extend({
+    var PlaylistsListView = view.extend({
         
         onInitializeStart: function() {
             
-            utilities.log('[TRACKS LIST COMPONENT VIEW] initializing ...', 'fontColor:blue');
+            utilities.log('[PLAYLISTS LIST COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
         },
-
-        template: JST['templates/components/track/list'],
+        
+        template: JST['templates/components/playlist/list'],
         
         // view events
         events: {
@@ -38,6 +38,6 @@ define([
         
     });
 
-    return TracksListView;
+    return PlaylistsListView;
     
 });

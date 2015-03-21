@@ -12,6 +12,8 @@ var _ = require('underscore');
 
 /**
  * 
+ * @param {type} options
+ * @returns {playlistModel}
  * playlist model
  * 
  * @returns {playlistModel}
@@ -56,19 +58,16 @@ var createSchema = function createSchemaFunction(options) {
     // possible values:
     // String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
     var schema = new Schema({
-        nickname: {type: String, trim: true, index: { unique: true }, required: true},
-        createdAt: {type: Date},
-        language: {type: String},
-        avatar: {type: String},
-        lastupdateAt: {type: Date, default: Date.now},
         id: {type: Number, trim: true, index: { unique: true }, required: true},
-        oauth: {
-            access_token: {type: String, trim: true, required: true},
-            expires_in: {type: Number, trim: true, required: true},
-            token_type: {type: String, trim: true},
-            scope: {type: String, trim: true, required: true},
-            refresh_token: {type: String, trim: true, required: true}
-        }
+        jamendo_id: {type: Number, trim: true, required: true},
+        jamendo_creation_date: {type: Date},
+        jamendo_name: {type: String, trim: true, required: true},
+        jamendo_user_id: {type: Number, trim: true},
+        jamendo_user_name: {type: String, trim: true},
+        jamendo_zip: {type: String, trim: true},
+        jamendo_shorturl: {type: String, trim: true},
+        jamendo_shareurl: {type: String, trim: true},
+        last_fetch_date: {type: Date, default: Date.now}
     },
     defaultOptions);
     
@@ -85,11 +84,12 @@ var createSchema = function createSchemaFunction(options) {
  * 
  * @param {type} data
  * @param {type} callback
+ * 
  * @returns {undefined}
  */
 playlistModel.prototype.saveOne = function saveOneFunction(data, callback) {
     
-    utilities.log('[USER MODEL] save a single object');
+    utilities.log('[PLAYLIST MODEL] save a single object');
     
     this.Model.create(data, function saveCallback(error, model) {
         
@@ -130,7 +130,7 @@ playlistModel.prototype.saveOne = function saveOneFunction(data, callback) {
  */
 playlistModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataToUpdate, callback) {
     
-    utilities.log('[USER MODEL] update a single object');
+    utilities.log('[PLAYLIST MODEL] update a single object');
     
     var query = { id: jamendoUserId };
     var options = { multi: false };
@@ -141,7 +141,7 @@ playlistModel.prototype.updateOne = function updateOneFunction(jamendoUserId, da
         
         if (error) {
             
-            utilities.log('[USER MODEL] update failed', error, 'fontColor:red');
+            utilities.log('[PLAYLIST MODEL] update failed', error, 'fontColor:red');
             
             if (callback !== undefined) {
             
@@ -165,46 +165,6 @@ playlistModel.prototype.updateOne = function updateOneFunction(jamendoUserId, da
 
 /**
  * 
- * exists, check if a document exists
- * 
- * @param {type} query
- * @param {type} callback
- * @returns {undefined}
- */
-playlistModel.prototype.exists = function existsFunction(query, callback) {
-    
-    utilities.log('[USER MODEL] exists');
-    
-    this.Model.count(query, function(error, count) {
-		
-        if (error) {
-            
-            utilities.log('[USER MODEL] exists failed', error, 'fontColor:red');
-            
-            callback(error);
-            
-        } else {
-            
-            //utilities.log(count);
-        
-            if (count > 0) {
-        
-                callback(false, true);
-                
-            } else {
-                
-                callback(false, false);
-                
-            }
-            
-        }
-        
-    });
-    
-};
-
-/**
- * 
  * get a single document by mongodb _id
  * 
  * @param {type} id
@@ -213,13 +173,13 @@ playlistModel.prototype.exists = function existsFunction(query, callback) {
  */
 playlistModel.prototype.getOneById = function getOneFunction(id, callback) {
     
-    utilities.log('[USER MODEL] get one by id');
+    utilities.log('[PLAYLIST MODEL] get one by id');
     
     this.Model.findById(id, function(error, document) {
 		
         if (error) {
             
-            utilities.log('[USER MODEL] getOneById failed', error, 'fontColor:red');
+            utilities.log('[PLAYLIST MODEL] getOneById failed', error, 'fontColor:red');
             
             callback(error);
             
@@ -243,13 +203,13 @@ playlistModel.prototype.getOneById = function getOneFunction(id, callback) {
  */
 playlistModel.prototype.getOneByQuery = function getOneFunction(query, callback) {
     
-    utilities.log('[USER MODEL] get one by query');
+    utilities.log('[PLAYLIST MODEL] get one by query');
     
     this.Model.findOne(query, function(error, document) {
 		
         if (error) {
             
-            utilities.log('[USER MODEL] getOneByQuery failed', error, 'fontColor:red');
+            utilities.log('[PLAYLIST MODEL] getOneByQuery failed', error, 'fontColor:red');
             
             callback(error);
             
@@ -273,13 +233,13 @@ playlistModel.prototype.getOneByQuery = function getOneFunction(query, callback)
  */
 playlistModel.prototype.getMultipleByQuery = function getAllFunction(query, callback) {
     
-    utilities.log('[USER MODEL] get multiple by query');
+    utilities.log('[PLAYLIST MODEL] get multiple by query');
     
     this.Model.find(query, function(error, document) {
         
     if (error) {
             
-            utilities.log('[USER MODEL] getMultipleByQuery failed', error, 'fontColor:red');
+            utilities.log('[PLAYLIST MODEL] getMultipleByQuery failed', error, 'fontColor:red');
             
             callback(error);
             
@@ -291,6 +251,16 @@ playlistModel.prototype.getMultipleByQuery = function getAllFunction(query, call
         
     });
     
+};
+
+playlistModel.prototype.findMultipleByJamendoId = function(options, callback) {
+    
+    utilities.log('[PLAYLIST MODEL] get multiple playlists by jamendo id');
+    
+    this.Model.find({
+        'jamendo_id': { $in: options.ids }
+    }).exec(callback);
+
 };
 
 module.exports = playlistModel;

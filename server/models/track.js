@@ -77,7 +77,7 @@ var createSchema = function createSchemaFunction(options) {
             'tags': {type: Array, default: []}
         },
         jamendo_lyrics: {type: String, trim: true},
-        last_fetch_data: {type: Date, default: Date.now}
+        last_fetch_date: {type: Date, default: Date.now}
     },
     schemaOptions);
     

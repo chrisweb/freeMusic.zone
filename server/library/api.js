@@ -9,6 +9,9 @@ var ChartTweetModel = require('../models/chartTweet');
 // track model
 var TrackModel = require('../models/track');
 
+// playlist model
+var PlaylistModel = require('../models/playlist');
+
 // underscore vendor module
 var _ = require('underscore');
 
@@ -105,6 +108,111 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
     
     apiRouter.get('/playlists', function (request, response, next) {
         
+        utilities.log('[API] fetching playlists');
+        
+        var options = {
+            
+        };
+        
+        options.ids = request.query.playlistsIds;
+        
+        // get the playlists that are already in our database
+        var playlistModel = new PlaylistModel();
+        
+        playlistModel.findMultipleByJamendoId(options, function (error, mongoPlaylistsResults) {
+            
+            if (error) {
+                
+                // if the db query fails all playlists will get fetched
+                // using the API
+                utilities.log('[API] playlistModel -> findMultipleByJamendoId -> ' + error, 'fontColor:red');
+                
+            } else {
+                
+                //utilities.log(mongoPlaylistsResults);
+                
+                // if our database did find some playlists in the database
+                // we remove their id from the playlistsIds list, so that
+                // only those who are not yet in the database get
+                // fetched via the jamendo API
+                _.each(mongoPlaylistsResults, function (mongoTracksResult) {
+                    
+                    // TODO: remove the ids we found in the db
+                    
+                    /*var index = playlistsIds.indexOf(5);
+                    
+                     if (index > -1) {
+                     playlistsIds.splice(index, 1);
+                     }*/
+                    
+                });
+                
+                // for the playlists that were not yet in our db we need to make
+                // and API call to jamendo to retrieve them and add them to
+                // our database
+                var jamendoAPI = new JamendoAPI();
+                
+                // TODO: if all playlists have been found int he db dont do api call
+                jamendoAPI.getPlaylistsByQuery({
+                    id: options.ids,
+                    limit: 100,
+                    audioformat: 'mp32' // no ogg yet!?
+                }, function getPlaylistsByQueryCallback(error, apiResponse) {
+                    
+                    if (error) {
+                        
+                        utilities.log('[API] ' + error);
+                        
+                        response.status(500);
+                        response.json('error while fetching the playlists');
+                        
+                    } else {
+                        
+                        //utilities.log(apiResponse);
+                        
+                        var playlistsForMongodb = [];
+                        
+                        _.each(apiResponse.results, function(apiPlaylistsResult) {
+                            
+                            var playlistForMongodb = convertApiPlaylistToMatchMongodbSchema(apiPlaylistsResult);
+                            
+                            playlistsForMongodb.push(playlistForMongodb);
+                            
+                        });
+                        
+                        // save the playlists into the database
+                        //TODO: uncomment as soon as fetching playlists from mongodb instead of API has been implemented
+                        /*playlistModel.saveMultiple(playlistsForMongodb, function (error, insertedDocuments) {
+                            
+                            if (error) {
+                                
+                                utilities.log('[API] ' + error, 'fontColor:red');
+                                
+                            }
+                            
+                        });*/
+                        
+                        // now merge the playlists that were already in the
+                        // mongodb database and the ones that got
+                        // returned by the playlists api call
+                        var allPlaylists = playlistsForMongodb.concat(mongoPlaylistsResults);
+                        
+                        response.status(200);
+                        //response.json(allPlaylists); // TODO: uncomment as soon as playlists from mongodb can get returned
+                        response.json(playlistsForMongodb);
+                        
+                    }
+                    
+                });
+                
+            }
+            
+        });
+        
+    });
+    
+    apiRouter.get('/playlists/list', function (request, response, next) {
+        
         if (request.query.whereKey === 'user') {
             
             var queryData = {
@@ -174,7 +282,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 // TODO: put the playlists in our database
                 
                 response.status(200);
-                response.json(playlistsResult);
+                response.json(playlistsResult.results);
                 
             }
             
@@ -182,7 +290,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
         var jamendoAPI = new JamendoAPI();
         
-        jamendoAPI.getPlaylists(queryData, callback);
+        jamendoAPI.getPlaylistsByQuery(queryData, callback);
         
     });
     
@@ -386,7 +494,33 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         return mongodbTrack;
 
     };
-
+    
+    var convertApiPlaylistToMatchMongodbSchema = function convertApiPlaylistToMatchMongodbSchemaFunction(apiPlaylist) {
+        
+        var jamendoDate = apiPlaylist.creationdate;
+        
+        var year = jamendoDate.substring(0, 4);
+        var month = jamendoDate.substring(5, 7);
+        var day = jamendoDate.substring(8, 10);
+        
+        var creationDate = new Date(year, month - 1, day);
+        
+        var mongodbTrack = {
+            id: apiPlaylist.id,
+            jamendo_id: apiPlaylist.id,
+            jamendo_creation_date: creationDate,
+            jamendo_name: apiPlaylist.name,
+            jamendo_user_id: apiPlaylist.user_id,
+            jamendo_user_name: apiPlaylist.user_name,
+            jamendo_zip: apiPlaylist.zip,
+            jamendo_shorturl: apiPlaylist.shorturl,
+            jamendo_shareurl: apiPlaylist.shareurl
+        };
+        
+        return mongodbTrack;
+        
+    };
+    
     app.use('/api', apiRouter);
-
+    
 };

@@ -89,7 +89,7 @@ jamendoAPI.prototype.getTracksByQuery = function getTracksFunction(query, callba
     
 };
 
-jamendoAPI.prototype.getPlaylists = function getPlaylistsFunction(query, callback) {
+jamendoAPI.prototype.getPlaylistsByQuery = function getPlaylistsFunction(query, callback) {
     
     jamendoAPI.playlists(query, function(error, data) {
         
