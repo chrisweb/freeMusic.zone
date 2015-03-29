@@ -25,7 +25,7 @@ define([
     var PlaylistTracksCollection = collection.extend({
 
         url: function() {
-            return '/api/charts/tweets/' + this.options.period;
+            return '/api/playlists/tracks/' + this.options.playlistId;
         },
         onInitialize: function() {
             

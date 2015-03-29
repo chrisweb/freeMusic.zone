@@ -8,6 +8,7 @@
  * @param {type} PlaylistsCollection
  * @param {type} PlaylistsListCollection
  * @param {type} tracksManager
+ * @param {type} PlaylistTracksCollection
  * 
  * @returns {_L17.Anonym$2}
  */
@@ -17,9 +18,10 @@ define([
     'library.eventsManager',
     'collections.Playlists',
     'collections.PlaylistsList',
-    'library.tracksManager'
+    'library.tracksManager',
+    'collections.PlaylistTracks'
     
-], function (_, utilities, EventsManager, PlaylistsCollection, PlaylistsListCollection, tracksManager) {
+], function (_, utilities, EventsManager, PlaylistsCollection, PlaylistsListCollection, tracksManager, PlaylistTracksCollection) {
     
     'use strict';
     
@@ -73,67 +75,6 @@ define([
 
                 playlistsCollection.add(playlistModel);
                 
-                var playlistTracksCollection = playlistModel.get('playlistTracksCollection');
-                
-                if (playlistTracksCollection !== null) {
-                
-                    // get all the tracks needed by this playlist
-                    playlistTracksCollection.fetch({
-                        error: function(collection, response, options) {
-                            
-                            utilities.log(collection, response, options);
-                            
-                        },
-                        success: function(collection, response, options) {
-                            
-                            //utilities.log(collection, response, options);
-                            
-                            var tracksList = [];
-                            
-                            // get all the track ids
-                            _.each(collection.models, function(model) {
-                                
-                                tracksList.push(model.get('id'));
-                                
-                            });
-                            
-                            tracksManager.get(tracksList, function(error, tracksArray) {
-                                
-                                if (!error) {
-                                    
-                                    _.each(tracksArray, function(trackData, index) {
-                                        
-                                        // get the playlistTrack model
-                                        // note to self: a playlist track is
-                                        // not the same as a track, the track
-                                        // only contains the universal track
-                                        // informations but the playlistTrack
-                                        // contains playlist specific
-                                        // informations about the track, like
-                                        // it's position inside of the playlist,
-                                        // the date it got added to the playlist,
-                                        // or data like the userId of the user
-                                        // that added the track to the playlist
-                                        var playlistTrack = collection.get(trackData.get('id'));
-                                        
-                                        // put the trackData into the
-                                        // playlistTrack model
-                                        playlistTrack.set({
-                                            trackModel: trackData
-                                        });
-                                        
-                                    });
-                                    
-                                }
-                                
-                            });
-                            
-                        }
-                        
-                    });
-                    
-                }
-                
             }
             
         });
@@ -160,17 +101,46 @@ define([
         var fetchMe = [];
         var playlistsAlreadyLoaded = [];
         
-        _.each(getMe, function eachGetMeCallback(playlistId) {
+        _.each(getMe, function eachGetMeCallback(getMePlaylist) {
             
-            var existingPlaylistModel = playlistsCollection.get(playlistId);
+            var getMeObject;
+            
+            // if its an id and not yet an object, then create the object
+            if (!_.isObject(getMePlaylist)) {
+                
+                getMeObject = {
+                    playlistId: getMePlaylist
+                };
+                
+            } else {
+                
+                getMeObject = getMePlaylist;
+                
+            }
+            
+            // get the playlist from collection, undefined if it doesnt exist
+            var existingPlaylistModel = playlistsCollection.get(getMeObject.playlistId);
             
             // check if the playlist is not already in the playlistManager
             // playlists collection
             if (existingPlaylistModel === undefined) {
                 
-                fetchMe.push(playlistId);
+                fetchMe.push(getMeObject.playlistId);
                 
             } else {
+                
+                if (
+                    _.has(getMeObject, 'withPlaylistTracks')
+                    && getMeObject.withPlaylistTracks
+                ) {
+                    
+                    getPlaylistTracks(getMeObject.playlistId, function(error, playlistTracksCollection) {
+                        
+                        existingPlaylistModel.set('playlistTracksCollection', playlistTracksCollection);
+                        
+                    });
+                    
+                }
                 
                 playlistsAlreadyLoaded.push(existingPlaylistModel);
                 
@@ -180,13 +150,44 @@ define([
         
         if (fetchMe.length > 0) {
             
-            fetch(fetchMe, function(error, serverPlaylistssArray) {
+            fetch(fetchMe, function(error, serverPlaylistsArray) {
                 
                 if (!error) {
-                
-                    var returnMe = playlistsAlreadyLoaded.concat(serverPlaylistssArray);
+                    
+                    _.each(serverPlaylistsArray, function(playlistModel) {
+                        
+                        var getMeObject = _.findWhere(getMe, { playlistId: playlistModel.get('id') });
+                        
+                        if (
+                            _.has(getMeObject, 'withPlaylistTracks')
+                            && getMeObject.withPlaylistTracks
+                        ) {
+
+                            getPlaylistTracks(getMeObject.playlistId, function(error, playlistTracksCollection) {
+
+                                if (!error) {
+                                    
+                                    playlistModel.set('playlistTracksCollection', playlistTracksCollection);
+                                    
+                                } else {
+                                    
+                                    callback(error);
+                                    
+                                }
+                                
+                            });
+
+                        }
+                        
+                    });
+                    
+                    var returnMe = playlistsAlreadyLoaded.concat(serverPlaylistsArray);
                     
                     callback(false, returnMe);
+                    
+                } else {
+                    
+                    callback(error);
                     
                 }
                 
@@ -300,16 +301,77 @@ define([
     
     /**
      * 
-     * get a list of playlists
+     * get playlist tracks (private)
      * 
-     * @param {type} listName
+     * @param {type} playlistId
      * @param {type} callback
      * 
      * @returns {undefined}
      */
-    var getPlaylistsList = function getPlaylistsListFunction(listName, callback) {
+    var getPlaylistTracks = function getPlaylistTracksFunction(playlistId, callback) {
         
-        
+        var playlistTracksCollection = new PlaylistTracksCollection([], { playlistId: playlistId });
+
+        // get all the tracks needed by this playlist
+        playlistTracksCollection.fetch({
+            error: function(collection, response, options) {
+
+                utilities.log(collection, response, options);
+
+            },
+            success: function(collection, response, options) {
+
+                //utilities.log(collection, response, options);
+
+                var tracksList = [];
+
+                // get all the track ids
+                _.each(collection.models, function(model) {
+
+                    tracksList.push(model.get('id'));
+
+                });
+
+                tracksManager.get(tracksList, function(error, tracksArray) {
+
+                    if (!error) {
+
+                        _.each(tracksArray, function(trackData, index) {
+
+                            // get the playlistTrack model
+                            // note to self: a playlist track is
+                            // not the same as a track, the track
+                            // only contains the universal track
+                            // informations but the playlistTrack
+                            // contains playlist specific
+                            // informations about the track, like
+                            // it's position inside of the playlist,
+                            // the date it got added to the playlist,
+                            // or data like the userId of the user
+                            // that added the track to the playlist
+                            var playlistTrack = collection.get(trackData.get('id'));
+
+                            // put the trackData into the
+                            // playlistTrack model
+                            playlistTrack.set({
+                                trackModel: trackData
+                            });
+
+                        });
+                        
+                        callback(false, collection);
+
+                    } else {
+
+                        callback(error);
+
+                    }
+
+                });
+
+            }
+
+        });
         
     };
     

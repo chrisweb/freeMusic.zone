@@ -5,7 +5,7 @@
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} EventsManager
+ * @param {type} PlaylistsManager
  * @param {type} PlaylistTracksCollection
  * @param {type} PlaylistModel
  * @param {type} ViewsLoader
@@ -16,12 +16,12 @@ define([
     'chrisweb.utilities',
     'library.controller',
     'ribs.container',
-    'library.eventsManager',
+    'library.playlistsManager',
     'collections.PlaylistTracks',
     'models.Playlist',
     'ribs.viewsloader'
     
-], function (utilities, Controller, container, EventsManager, PlaylistTracksCollection, PlaylistModel, ViewsLoader) {
+], function (utilities, Controller, container, PlaylistsManager, PlaylistTracksCollection, PlaylistModel, ViewsLoader) {
     
     'use strict';
 
@@ -47,18 +47,9 @@ define([
                 'views/components/track/list'
             ], function(TwitterChartsView, TrackRowView, TracksListView) {
                 
-                // initialize the "chart tweets" collection
-                // use silent: true to not trigger the add event until all the
-                // trackdata has been fetched, so the list of tracks and the
-                // data of each track too
-                var playlistTracksCollection = new PlaylistTracksCollection(null, {
-                    period: 'day'
-                });
-                
                 // create a new playlistModel to save the playlist related
                 // data
                 var playlistModel = new PlaylistModel({
-                    playlistTracksCollection: playlistTracksCollection,
                     id: 'twitter_charts_day'
                 });
                 
@@ -82,27 +73,46 @@ define([
                 
                 container.dispatch('#core');
                 
-                // create the twitter charts tracks list view and add it to
-                // the dom
-                var twitterChartsTracksView = new TracksListView({
-                    collection: playlistModel.get('playlistTracksCollection'),
-                    ModelView: TrackRowView,
-                    ModelViewOptions: {
-                        context: 'twitterCharts',
-                        reRenderOnChange: true
-                    },
-                    listSelector: '.tracksList'
+                // add the playlist to the playlistmanager
+                PlaylistsManager.add(playlistModel);
+                
+                // get the playlist and trigger the playlistTrack populate
+                PlaylistsManager.get({
+                    playlistId: playlistModel.get('id'),
+                    withPlaylistTracks: true
+                }, function(error, playlistsArray) {
+                    
+                    if (!error) {
+                        
+                        var tweetsPlaylistModel = playlistsArray[0];
+                        
+                        // create the twitter charts tracks list view and add it to
+                        // the dom
+                        var twitterChartsTracksView = new TracksListView({
+                            collection: tweetsPlaylistModel.get('playlistTracksCollection'),
+                            ModelView: TrackRowView,
+                            ModelViewOptions: {
+                                context: 'twitterCharts',
+                                reRenderOnChange: true
+                            },
+                            listSelector: '.tracksList'
+                        });
+                        
+                        container.clear('#twitterChartsTracks');
+                        
+                        container.add('#twitterChartsTracks', twitterChartsTracksView);
+                        
+                        container.dispatch('#twitterChartsTracks');
+                        
+                    } else {
+                        
+                        // TODO: error
+                        
+                        utilities.log(error);
+                        
+                    }
+                    
                 });
-                
-                container.clear('#twitterChartsTracks');
-                
-                container.add('#twitterChartsTracks', twitterChartsTracksView);
-                
-                container.dispatch('#twitterChartsTracks');
-                
-                // inform the playlistsManager that a new playlist has been
-                // loaded
-                EventsManager.trigger(EventsManager.constants.PLAYLISTS_MANAGER_ADD, { model: playlistModel });
                 
             });
         

@@ -5,15 +5,17 @@
  * @param {type} view
  * @param {type} JST
  * @param {type} utilities
+ * @param {type} PlaylistsManager
  * 
  * @returns {unresolved}
  */
 define([
     'ribs.view',
     'templates',
-    'chrisweb.utilities'
+    'chrisweb.utilities',
+    'library.playlistsManager'
     
-], function (view, JST, utilities) {
+], function (view, JST, utilities, PlaylistsManager) {
     
     'use strict';
     
@@ -34,6 +36,10 @@ define([
         
         openPlaylistClick: function openPlaylistClickFunction(event) {
 
+            var playlistId = this.model.get('id');
+            
+            var playlistModel = PlaylistsManager.get(playlistId);
+            
             
             
         }

@@ -294,53 +294,63 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
     });
     
-    apiRouter.get('/charts/tweets/:period', function (request, response, next) {
+    apiRouter.get('/playlists/tracks/:playlistid', function (request, response, next) {
         
-        utilities.log('[API] fetching charts tweets day');
+        utilities.log('[API] fetching playlist tracks');
         
-        // TODO: fix the callback hell
+        if (request.params.playlistid === 'twitter_charts_day') {
+            
+            var period = 'day';
         
-        var chartTweetModel = new ChartTweetModel({
-            period: request.params.period
-        });
+            // TODO: fix the callback hell
+            
+            var chartTweetModel = new ChartTweetModel({
+                period: period
+            });
 
-        var options = {
-            limit: 100
-        };
+            var options = {
+                limit: 100
+            };
 
-        // get the map reduced results for the charts
-        chartTweetModel.findMultiple(options, function (error, chartTweets) {
+            // get the map reduced results for the charts
+            chartTweetModel.findMultiple(options, function (error, chartTweets) {
 
-            if (error) {
+                if (error) {
 
-                utilities.log('[API] ' + error, 'fontColor:red');
+                    utilities.log('[API] ' + error, 'fontColor:red');
 
-                response.status(500);
-                response.json({
-                    errorMessage: 'server error while fetching the charts tweets'
-                });
+                    response.status(500);
+                    response.json({
+                        errorMessage: 'server error while fetching the charts tweets'
+                    });
 
-            }
+                }
 
-            var chartTweetsResponse = [];
-            var i;
+                var chartTweetsResponse = [];
+                var i;
 
-            for (i = 0; i < chartTweets.length; i++) {
+                for (i = 0; i < chartTweets.length; i++) {
 
-                var chartTweet = chartTweets[i].value;
-                
-                console.log(chartTweet);
-                
-                chartTweet.position = i+1;
+                    var chartTweet = chartTweets[i].value;
 
-                chartTweetsResponse.push(chartTweet);
+                    console.log(chartTweet);
 
-            }
+                    chartTweet.position = i+1;
 
-            response.status(200);
-            response.json(chartTweetsResponse);
+                    chartTweetsResponse.push(chartTweet);
 
-        });
+                }
+
+                response.status(200);
+                response.json(chartTweetsResponse);
+
+            });
+            
+        } else {
+            
+            
+            
+        }
 
     });
     
