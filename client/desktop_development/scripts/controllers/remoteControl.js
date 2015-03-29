@@ -22,7 +22,7 @@ define([
 ], function (utilities, Controller, container, ViewsLoader, PlaylistsManager, PlaylistsCollection) {
     
     'use strict';
-
+    
     var RemoteControlController = Controller.extend({
         
         onInitialize: function(options, configuration, router) {
@@ -35,21 +35,21 @@ define([
             
         },
         indexAction: function indexActionFunction() {
-
+            
             utilities.log('[REMOTE CONTROL CONTROLLER] controller: homepage,  action: index', 'fontColor:blue');
-
+            
             // chat message input form
             ViewsLoader([
                 'views/pages/remoteControl',
                 'views/components/playlist/list',
                 'views/components/playlist/row'
             ], function(RemoteControlView, PlaylistListView, PlaylistRowView) {
-
+                
                 // initialize the page view and add it to the dom
                 var remoteControlView = new RemoteControlView();
                 
                 container.clear('#core');
-
+                
                 container.add('#core', remoteControlView);
                 
                 container.dispatch('#core');
@@ -115,13 +115,13 @@ define([
                     }
                     
                 });
-
+                
             });
         
         }
         
     });
-
+    
     return RemoteControlController;
     
 });

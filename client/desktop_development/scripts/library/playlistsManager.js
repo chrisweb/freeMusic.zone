@@ -9,6 +9,7 @@
  * @param {type} PlaylistsListCollection
  * @param {type} tracksManager
  * @param {type} PlaylistTracksCollection
+ * async
  * 
  * @returns {_L17.Anonym$2}
  */
@@ -19,9 +20,10 @@ define([
     'collections.Playlists',
     'collections.PlaylistsList',
     'library.tracksManager',
-    'collections.PlaylistTracks'
+    'collections.PlaylistTracks',
+    'async'
     
-], function (_, utilities, EventsManager, PlaylistsCollection, PlaylistsListCollection, tracksManager, PlaylistTracksCollection) {
+], function (_, utilities, EventsManager, PlaylistsCollection, PlaylistsListCollection, tracksManager, PlaylistTracksCollection, async) {
     
     'use strict';
     
@@ -98,9 +100,8 @@ define([
             
         }
         
-        var fetchMe = [];
-        var playlistsAlreadyLoaded = [];
-        
+        var getMeObjects = [];
+            
         _.each(getMe, function eachGetMeCallback(getMePlaylist) {
             
             var getMeObject;
@@ -109,14 +110,37 @@ define([
             if (!_.isObject(getMePlaylist)) {
                 
                 getMeObject = {
-                    playlistId: getMePlaylist
+                    playlistId: getMePlaylist,
+                    withPlaylistTracks: false
                 };
+                
+                getMeObjects.push(getMeObject);
                 
             } else {
                 
-                getMeObject = getMePlaylist;
+                if (
+                    _.has(getMePlaylist, 'playlistId')
+                    && _.has(getMePlaylist, 'withPlaylistTracks')
+                ) {
+                
+                    getMeObjects.push(getMePlaylist);
+                    
+                } else {
+                    
+                    callback('one or more properties are missing');
+                    
+                }
                 
             }
+            
+        });
+        
+        var fetchMe = [];
+        var playlistsAlreadyLoaded = [];
+        
+        // are there any playlists that need to get fetched or are they all
+        // already available in the client
+        _.each(getMeObjects, function eachGetMeObjectsCallback(getMeObject) {
             
             // get the playlist from collection, undefined if it doesnt exist
             var existingPlaylistModel = playlistsCollection.get(getMeObject.playlistId);
@@ -129,61 +153,22 @@ define([
                 
             } else {
                 
-                if (
-                    _.has(getMeObject, 'withPlaylistTracks')
-                    && getMeObject.withPlaylistTracks
-                ) {
-                    
-                    getPlaylistTracks(getMeObject.playlistId, function(error, playlistTracksCollection) {
-                        
-                        existingPlaylistModel.set('playlistTracksCollection', playlistTracksCollection);
-                        
-                    });
-                    
-                }
-                
                 playlistsAlreadyLoaded.push(existingPlaylistModel);
                 
             }
             
         });
         
+        // did we find playlists that need to get fetched
         if (fetchMe.length > 0) {
             
             fetch(fetchMe, function(error, serverPlaylistsArray) {
                 
                 if (!error) {
                     
-                    _.each(serverPlaylistsArray, function(playlistModel) {
-                        
-                        var getMeObject = _.findWhere(getMe, { playlistId: playlistModel.get('id') });
-                        
-                        if (
-                            _.has(getMeObject, 'withPlaylistTracks')
-                            && getMeObject.withPlaylistTracks
-                        ) {
-
-                            getPlaylistTracks(getMeObject.playlistId, function(error, playlistTracksCollection) {
-
-                                if (!error) {
-                                    
-                                    playlistModel.set('playlistTracksCollection', playlistTracksCollection);
-                                    
-                                } else {
-                                    
-                                    callback(error);
-                                    
-                                }
-                                
-                            });
-
-                        }
-                        
-                    });
-                    
                     var returnMe = playlistsAlreadyLoaded.concat(serverPlaylistsArray);
                     
-                    callback(false, returnMe);
+                    getPlaylistTracks(returnMe, getMeObjects, callback);
                     
                 } else {
                     
@@ -195,7 +180,7 @@ define([
             
         } else {
             
-            callback(false, playlistsAlreadyLoaded);
+            getPlaylistTracks(playlistsAlreadyLoaded, getMeObjects, callback);
             
         }
         
@@ -303,14 +288,70 @@ define([
      * 
      * get playlist tracks (private)
      * 
-     * @param {type} playlistId
+     * @param {type} playlistModelsArray
+     * @param {type} getMeObjects
      * @param {type} callback
      * 
      * @returns {undefined}
      */
-    var getPlaylistTracks = function getPlaylistTracksFunction(playlistId, callback) {
+    var getPlaylistTracks = function getPlaylistTracksFunction(playlistModelsArray, getMeObjects, callback) {
         
-        var playlistTracksCollection = new PlaylistTracksCollection([], { playlistId: playlistId });
+        var asynchronousPlaylistTracksQueries = [];
+        
+        // build an array of playlistTracks query functions
+        _.each(playlistModelsArray, function(playlistModel) {
+            
+            var getMeObject = _.findWhere(getMeObjects, { playlistId: playlistModel.get('id') });
+            
+            if (getMeObject.withPlaylistTracks) {
+                
+                asynchronousPlaylistTracksQueries.push(function(callbackForAsync) {
+                    
+                    getPlaylistTracksQuery(playlistModel, callbackForAsync);
+                    
+                });
+                
+            }
+            
+        });
+        
+        if (asynchronousPlaylistTracksQueries.length > 0) {
+        
+            // execute all the getPlaylistTracks queries asynchronously
+            async.parallel(asynchronousPlaylistTracksQueries, function(error, results){
+
+                if (!error) {
+
+                    callback(false, results);
+
+                } else {
+
+                    callback(error);
+
+                }
+
+            });
+            
+        } else {
+            
+            callback(false, playlistModelsArray);
+            
+        }
+        
+    };
+    
+    /**
+     * 
+     * get playlistTracks query (private)
+     * 
+     * @param {type} playlistModel
+     * @param {type} callback
+     * 
+     * @returns {undefined}
+     */
+    var getPlaylistTracksQuery = function getPlaylistTracksQueryFunction(playlistModel, callback) {
+        
+        var playlistTracksCollection = new PlaylistTracksCollection([], { playlistId: playlistModel.get('id') });
 
         // get all the tracks needed by this playlist
         playlistTracksCollection.fetch({
@@ -359,7 +400,11 @@ define([
 
                         });
                         
-                        callback(false, collection);
+                        playlistModel.set({
+                            playlistTracksCollection: collection
+                        });
+                        
+                        callback(false, playlistModel);
 
                     } else {
 

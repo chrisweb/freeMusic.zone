@@ -38,7 +38,29 @@ define([
 
             var playlistId = this.model.get('id');
             
-            var playlistModel = PlaylistsManager.get(playlistId);
+            var playlistQuery = {
+                playlistId: playlistId,
+                withPlaylistTracks: true
+            };
+            
+            PlaylistsManager.get(playlistQuery, function(error, playlistModelsArray) {
+                
+                if (!error) {
+                    
+                    var playlistModel = playlistModelsArray[0];
+                    
+                    
+                    
+                } else {
+                    
+                    // TODO: error
+                    
+                    utilities.log(error);
+                    
+                }
+                
+                
+            });
             
             
             

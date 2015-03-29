@@ -23,9 +23,6 @@ define([
     // the collection which contains all the tracks of the app
     var tracksCollection;
     
-    // are the listeners already on
-    var alreadyListening = false;
-    
     /**
      * 
      * initialize the tracks cache manager
@@ -34,13 +31,12 @@ define([
      */
     var initialize = function initializeFunction() {
         
-        tracksCollection = new TracksCollection();
-        
-        // sort the models of the collection by loading timestamp
-        tracksCollection.comparator = 'loadedAt';
-        
-        // avoid duplicate listeners
-        if (!alreadyListening) {
+        if (tracksCollection === undefined) {
+            
+            tracksCollection = new TracksCollection();
+
+            // sort the models of the collection by loading timestamp
+            tracksCollection.comparator = 'loadedAt';
             
             startListening();
             
@@ -127,6 +123,10 @@ define([
                     
                     callback(false, returnMe);
                     
+                } else {
+                    
+                    callback(error);
+                    
                 }
                 
             });
@@ -172,6 +172,10 @@ define([
                 
                 //utilities.log(collection, response, options);
                 
+                // add the track models to the tracks manager collection
+                tracksCollection.add(collection.models);
+                
+                // return the tracks list
                 callback(false, collection.models);
                 
             }
@@ -231,8 +235,6 @@ define([
      * @returns {undefined}
      */
     var startListening = function startListeningFunction() {
-        
-        alreadyListening = true;
         
         EventsManager.on(EventsManager.constants.TRACKS_MANAGER_USAGE, function incrementUsage(attributes) {
             

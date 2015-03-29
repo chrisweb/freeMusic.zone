@@ -19,19 +19,15 @@ define([
     
     'use strict';
     
-    var trackId;
-    
     var TrackRowView = view.extend({
         
         onInitializeStart: function() {
             
             utilities.log('[TRACK ROW COMPONENT VIEW] (' + this.cid + ') initializing ...', 'fontColor:blue');
             
-            trackId = this.model.get('jamendo_id');
-            
             // tell the tracks cache manager that he must increment the
             // usage of this track by one
-            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: trackId, action: 'increment' });
+            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: this.model.get('id'), action: 'increment' });
             
         },
         
@@ -50,7 +46,7 @@ define([
         
         trackPreviewStart: function trackPreviewStartFunction(event) {
 
-            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId });
+            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: this.model.get('id') });
             
             this.$el.find('.trackPreview').addClass('fa-spin');
             
@@ -58,7 +54,7 @@ define([
         
         trackPreviewStop: function trackPreviewStopFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_STOP, { trackId: trackId });
+            EventsManager.trigger(EventsManager.constants.TRACK_STOP, { trackId: this.model.get('id') });
             
             this.$el.find('.trackPreview').removeClass('fa-spin');
             
@@ -66,7 +62,7 @@ define([
         
         playTrackClick: function playTrackClickFunction(event) {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: trackId, playlistId: this.options.templateVariables.playlistId });
+            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: this.model.get('id'), playlistId: this.options.playlistId });
             
             $(event.currentTarget)
                 .removeClass('fa-play')
@@ -90,19 +86,19 @@ define([
         
         shareOnTwitterTrackClick: function shareOnTwitterTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: trackId, network: 'twitter' });
+            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'twitter' });
             
         },
         
         shareOnGooglePlusClick: function retweetTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: trackId, network: 'facebook' });
+            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'facebook' });
             
         },
         
         shareOnFacebookClick: function retweetTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: trackId, network: 'googleplus' });
+            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'googleplus' });
             
         },
         
@@ -110,7 +106,7 @@ define([
             
             // tell the tracks cache manager that he must decrement the
             // usage of this track by one
-            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: trackId, action: 'decrement' });
+            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: this.model.get('id'), action: 'decrement' });
             
         }
         

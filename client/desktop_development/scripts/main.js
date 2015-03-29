@@ -69,6 +69,7 @@ require.config({
         'velocity': '../../../bower_components/velocity/velocity',
         'velocity.ui': '../../../bower_components/velocity/velocity.ui',
         'skrollr': '../../../bower_components/skrollr/src/skrollr',
+        'async': '../../../node_modules/async/lib/async',
         
         // ribs.js
         'ribs.collection': '../../../bower_components/ribs.js/src/collection',

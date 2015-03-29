@@ -37,18 +37,32 @@ define([
         
         EventsManager.on(EventsManager.constants.TRACK_PLAY, function(attributes) {
             
-            var trackModel = TracksManager.fetchTrack(attributes.trackId);
-            
-            // setup the player
-            playerCore.setup({
-                loopPlaylist: true
-            });
-            
-            // start playing the track
-            playerCore.play({
-                url: trackModel.get('jamendo_stream_url'),
-                playlistId: attributes.playlistId,
-                id: attributes.trackId
+            TracksManager.get(attributes.trackId, function(error, trackModelsArray) {
+                
+                var trackModel = trackModelsArray[0];
+                
+                if (!error) {
+                    
+                    // setup the player
+                    playerCore.setup({
+                        loopPlaylist: true
+                    });
+
+                    // start playing the track
+                    playerCore.play({
+                        url: trackModel.get('jamendo_stream_url'),
+                        playlistId: attributes.playlistId,
+                        id: attributes.trackId
+                    });
+                    
+                } else {
+                    
+                    // TODO: error
+                    
+                    utilities.log(error);
+                    
+                }
+                
             });
             
         });
@@ -64,17 +78,29 @@ define([
         // we should play the next one of the playlist
         EventsManager.on(EventsManager.constants.PLAYLIST_NEXT, function(attributes) {
             
-            console.log(attributes);
-            
             var nextTrack = PlaylistsManager.nextTrack();
             
-            var trackModel = TracksManager.fetchTrack(nextTrack.id);
-            
-            // start playing the track
-            playerCore.play({
-                url: trackModel.get('jamendo_stream_url'),
-                playlistId: attributes.playlistId,
-                id: attributes.trackId
+            TracksManager.get(nextTrack.id, function(error, trackModelsArray) {
+                
+                var trackModel = trackModelsArray[0];
+                
+                if (!error) {
+                    
+                    // start playing the track
+                    playerCore.play({
+                        url: trackModel.get('jamendo_stream_url'),
+                        playlistId: attributes.playlistId,
+                        id: attributes.trackId
+                    });
+                    
+                } else {
+                    
+                    // TODO: error
+                    
+                    utilities.log(error);
+                    
+                }
+                
             });
             
         });

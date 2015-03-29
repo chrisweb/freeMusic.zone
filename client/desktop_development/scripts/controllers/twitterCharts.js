@@ -93,7 +93,8 @@ define([
                             ModelView: TrackRowView,
                             ModelViewOptions: {
                                 context: 'twitterCharts',
-                                reRenderOnChange: true
+                                reRenderOnChange: true,
+                                playlistId: tweetsPlaylistModel.get('id')
                             },
                             listSelector: '.tracksList'
                         });
