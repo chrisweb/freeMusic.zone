@@ -99,7 +99,10 @@ module.exports.get = function getConfiguration(environment) {
                 version: 'v3.0',
                 port: 443,
                 scope: 'music',
-                grantType: 'authorization_code',
+                grantType: {
+                    authorization: 'authorization_code',
+                    refresh: 'refresh_token'
+                },
                 redirectUri: '/oauth/redirect',
                 resources: {
                     grant: '/oauth/grant',

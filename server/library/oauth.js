@@ -123,6 +123,136 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
 
 /**
  * 
+ * update the oauth token
+ * 
+ * 
+ * 
+ */
+module.exports.updateOauthToken = function updateOauthTokenFunction(refreshToken, configuration, callback) {
+    
+    // create a query string
+    var data = querystring.stringify({
+        client_id: configuration.jamendoApi.clientId,
+        client_secret: configuration.jamendoApi.clientSecret,
+        grant_type: configuration.jamendoApi.grantType.refresh,
+        refresh_token: refreshToken
+    });
+
+    //utilities.log(data);
+
+    // define the options
+    var options = {
+        hostname: configuration.jamendoApi.host,
+        port: configuration.jamendoApi.port,
+        path: '/' + configuration.jamendoApi.version + configuration.jamendoApi.resources.grant,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': data.length
+        }
+    };
+
+    //utilities.log(options);
+
+    // oauth request object
+    var oauthRequest = https.request(options, function(oauthResponse) {
+
+        //utilities.log('status: ' + oauthResponse.statusCode);
+        //utilities.log('header: ', oauthResponse.headers);
+        
+        oauthResponse.setEncoding('utf8');
+        
+        oauthResponse.on('data', function(chunk) {
+
+            //utilities.log('body: ' + chunk);
+
+            var result = '';
+
+            if (oauthResponse.statusCode === 200) {
+
+                try {
+
+                    // try to parse response if it fails the response is not json
+                    result = JSON.parse(chunk);
+
+                } catch(e) {
+
+                    // facebook responds with querystring in the body
+                    result = querystring.parse(chunk);
+
+                }
+
+                //utilities.log(result);
+                
+                var datetimeOfExpiry = moment().add(result.expires_in, 'seconds').toDate();
+
+                var userOauthData = {
+                    token: result.access_token,
+                    expiry: result.expires_in,
+                    refreshToken: result.refresh_token,
+                    scope: configuration.jamendoApi.scope,
+                    expiryDate: datetimeOfExpiry
+                };
+                
+                callback(false, userOauthData);
+
+            } else {
+
+                try {
+
+                    // try to parse response if it fails the response is not json
+                    result = JSON.parse(chunk);
+
+                } catch(e) {
+
+                    var matchesArray = chunk.match('<h1[^>]*>(.*?)<\/h1>', 'g');
+
+                    // if there are matches the response might be an error page
+                    if (matchesArray !== null) {
+
+                        result = {};
+
+                        result.error = matchesArray[1];
+
+                    } else {
+
+                        // facebook responds with querystring in the body
+                        result = querystring.parse(chunk);
+
+                    }
+
+                }
+
+                var error = { status: oauthResponse.statusCode, stack: '', message: result.error };
+
+                utilities.log('oauth request failed, status: ' + oauthResponse.statusCode + ', message: ' + result.error, 'fontColor:red');
+
+                callback(error);
+
+            }
+
+        });
+
+        oauthRequest.on('error', function(e) {
+
+            var error = { status: 500, stack: '', message: e.message };
+
+            utilities.log('oauth request failed: ' + e.message, 'fontColor:red');
+
+            callback(error);
+
+        });
+        
+    });
+    
+    // write data to request body
+    oauthRequest.write(data);
+    oauthRequest.end();
+    
+};
+
+/**
+ * 
  * build the oauth request url
  * 
  * @param {type} configuration
@@ -196,7 +326,7 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
         code: code,
         client_id: configuration.jamendoApi.clientId,
         client_secret: configuration.jamendoApi.clientSecret,
-        grant_type: configuration.jamendoApi.grantType,
+        grant_type: configuration.jamendoApi.grantType.authorization,
         redirect_uri: redirectUrl
     });
 
@@ -245,13 +375,15 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
                 }
 
                 //utilities.log(result);
+                
+                var datetimeOfExpiry = moment().add(result.expires_in, 'seconds').toDate();
 
                 var userOauthData = {
                     token: result.access_token,
                     expiry: result.expires_in,
                     refreshToken: result.refresh_token,
                     scope: configuration.jamendoApi.scope,
-                    expiryDate: moment().add(result.expires_in, 'seconds')
+                    expiryDate: datetimeOfExpiry
                 };
                 
                 callback(false, userOauthData);

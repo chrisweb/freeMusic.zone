@@ -12,11 +12,16 @@ var eventsManager = require('./event');
 // user model
 var UserModel = require('../models/user');
 
+// momentjs vendor module
+var moment = require('moment');
+
 module.exports.start = function initialize(configuration) {
     
     eventsManager.on('userOauth', function(parameters) {
         
         utilities.log('[USER] on userOauth');
+        
+        //utilities.log('parameters: ', parameters.userOauthData);
         
         var userOauthData = parameters.userOauthData;
         var request = parameters.request;
@@ -167,5 +172,43 @@ module.exports.start = function initialize(configuration) {
         });
         
     });
+    
+};
+
+module.exports.getOauthToken = function getOauthTokenFunction(userSessionData, configuration, getOauthTokenCallback) {
+    
+    var dateInTenMinutes = moment().add(10, 'minutes');
+    var expiryDate = userSessionData.oauth.expiryDate;
+    
+    // do we need to refresh the token
+    if (dateInTenMinutes.diff(expiryDate, 'seconds') < 0) {
+        
+        utilities.log('[USER LIBRARY] update oauth token, it will expire soon', 'fontColor:green');
+        
+        var refreshToken = userSessionData.oauth.refreshToken;
+        
+        oauthLibrary.updateOauthToken(refreshToken, configuration, function(error, oauthData) {
+            
+            if (!error) {
+                
+                userSessionData.oauth = oauthData;
+                
+                getOauthTokenCallback(false, oauthData.token);
+                
+            } else {
+                
+                getOauthTokenCallback(error);
+                
+            }
+            
+        });
+        
+    } else {
+        
+        var token = userSessionData.oauth.token;
+        
+        getOauthTokenCallback(false, token);
+        
+    }
     
 };

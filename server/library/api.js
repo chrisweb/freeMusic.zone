@@ -12,6 +12,9 @@ var TrackModel = require('../models/track');
 // playlist model
 var PlaylistModel = require('../models/playlist');
 
+// user library
+var userLibrary = require('../library/user');
+
 // underscore vendor module
 var _ = require('underscore');
 
@@ -239,7 +242,13 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                     
                 } else {
                     
-                    queryData.access_token = userSessionData.oauth.token;
+                    userLibrary.getOauthToken(userSessionData, configuration, function (error, oauthToken) {
+                        
+                        queryData.access_token = oauthToken;
+                        
+                        getPlaylists(queryData, response);
+                        
+                    });
                     
                 }
                 
@@ -247,52 +256,15 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 
                 queryData.user_id = request.query.whereKey;
                 
+                getPlaylists(queryData, response);
+                
             }
             
         } else {
             
-            // TODO: retrieve playlists
+            // TODO: retrieve playlists by ...
             
         }
-        
-        var callback = function (error, playlistsResult) {
-            
-            if (error) {
-                
-                response.status(500);
-                
-                if (process.env.NODE_ENV === 'development') {
-                    
-                    utilities.log('[API] error: ' + error, 'fontColor:red');
-                    
-                    response.json({
-                        code: 300,
-                        error: '[API] error: ' + error
-                    });
-                    
-                } else {
-                    
-                    response.json({
-                        code: 300,
-                        error: '[API] error: failed to retrieve the user playlists using the jamendo api'
-                    });
-                    
-                }
-                
-            } else {
-                
-                // TODO: put the playlists in our database
-                
-                response.status(200);
-                response.json(playlistsResult.results);
-                
-            }
-            
-        };
-        
-        var jamendoAPI = new JamendoAPI();
-        
-        jamendoAPI.getPlaylistsByQuery(queryData, callback);
         
     });
     
@@ -561,76 +533,132 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
     });
     
-    /**
-     * 
-     * converts a jamendo Api Track result to the format used in mongodb
-     * 
-     * @param {type} apiTrack
-     * @returns {unresolved}
-     */
-    var convertApiTrackToMatchMongodbSchema = function convertApiTrackToMatchMongodbSchemaFunction(apiTrack) {
-
-        var jamendoDate = apiTrack.releasedate;
-
-        var year = jamendoDate.substring(0, 4);
-        var month = jamendoDate.substring(5, 7);
-        var day = jamendoDate.substring(8, 10);
-
-        var releaseDate = new Date(year, month - 1, day);
-
-        var mongodbTrack = {
-            id: apiTrack.id,
-            jamendo_id: apiTrack.id,
-            jamendo_name: apiTrack.name,
-            jamendo_duration: apiTrack.duration,
-            jamendo_artist_id: apiTrack.artist_id,
-            jamendo_artist_name: apiTrack.artist_name,
-            jamendo_artist_idstr: apiTrack.artist_idstr,
-            jamendo_album_name: apiTrack.album_name,
-            jamendo_album_id: apiTrack.album_id,
-            jamendo_license_cc_url: apiTrack.license_ccurl,
-            jamendo_position: apiTrack.position,
-            jamendo_release_date: releaseDate,
-            jamendo_image: apiTrack.image,
-            jamendo_stream_url: apiTrack.audio,
-            jamendo_download_url: apiTrack.audiodownload,
-            jamendo_pro_url: apiTrack.prourl,
-            jamendo_short_url: apiTrack.shorturl,
-            jamendo_share_url: apiTrack.shareurl,
-            jamendo_music_info: apiTrack.musicinfo,
-            jamendo_lyrics: apiTrack.name
-        };
-
-        return mongodbTrack;
-
-    };
-    
-    var convertApiPlaylistToMatchMongodbSchema = function convertApiPlaylistToMatchMongodbSchemaFunction(apiPlaylist) {
-        
-        var jamendoDate = apiPlaylist.creationdate;
-        
-        var year = jamendoDate.substring(0, 4);
-        var month = jamendoDate.substring(5, 7);
-        var day = jamendoDate.substring(8, 10);
-        
-        var creationDate = new Date(year, month - 1, day);
-        
-        var mongodbTrack = {
-            id: apiPlaylist.id,
-            jamendo_id: apiPlaylist.id,
-            jamendo_creation_date: creationDate,
-            jamendo_name: apiPlaylist.name,
-            jamendo_user_id: apiPlaylist.user_id,
-            jamendo_user_name: apiPlaylist.user_name,
-            jamendo_zip: apiPlaylist.zip,
-            jamendo_shorturl: apiPlaylist.shorturl,
-            jamendo_shareurl: apiPlaylist.shareurl
-        };
-        
-        return mongodbTrack;
-        
-    };
-    
     app.use('/api', apiRouter);
     
+};
+
+/**
+ * 
+ * get the playlists
+ * 
+ * @param {Object} queryData
+ * @param {Object} response
+ * 
+ */
+var getPlaylists = function getPlaylistsFunction(queryData, response) {
+    
+    var jamendoAPI = new JamendoAPI();
+        
+    jamendoAPI.getPlaylistsByQuery(queryData, function getPlaylistsByQueryCallback(error, playlistsResult) {
+
+        if (error) {
+
+            response.status(500);
+
+            if (process.env.NODE_ENV === 'development') {
+
+                utilities.log('[API] error: ' + error, 'fontColor:red');
+
+                response.json({
+                    code: 300,
+                    error: '[API] error: ' + error
+                });
+
+            } else {
+
+                response.json({
+                    code: 300,
+                    error: '[API] error: failed to retrieve the user playlists using the jamendo api'
+                });
+
+            }
+
+        } else {
+
+            // TODO: put the playlists in our database
+
+            response.status(200);
+            response.json(playlistsResult.results);
+
+        }
+
+    });
+    
+};
+
+/**
+ * 
+ * converts a jamendo Api Track result to the format used in mongodb
+ * 
+ * @param {Object} apiTrack
+ * @returns {Object} mongodbTrack
+ */
+var convertApiTrackToMatchMongodbSchema = function convertApiTrackToMatchMongodbSchemaFunction(apiTrack) {
+
+    var jamendoDate = apiTrack.releasedate;
+
+    var year = jamendoDate.substring(0, 4);
+    var month = jamendoDate.substring(5, 7);
+    var day = jamendoDate.substring(8, 10);
+
+    var releaseDate = new Date(year, month - 1, day);
+
+    var mongodbTrack = {
+        id: apiTrack.id,
+        jamendo_id: apiTrack.id,
+        jamendo_name: apiTrack.name,
+        jamendo_duration: apiTrack.duration,
+        jamendo_artist_id: apiTrack.artist_id,
+        jamendo_artist_name: apiTrack.artist_name,
+        jamendo_artist_idstr: apiTrack.artist_idstr,
+        jamendo_album_name: apiTrack.album_name,
+        jamendo_album_id: apiTrack.album_id,
+        jamendo_license_cc_url: apiTrack.license_ccurl,
+        jamendo_position: apiTrack.position,
+        jamendo_release_date: releaseDate,
+        jamendo_image: apiTrack.image,
+        jamendo_stream_url: apiTrack.audio,
+        jamendo_download_url: apiTrack.audiodownload,
+        jamendo_pro_url: apiTrack.prourl,
+        jamendo_short_url: apiTrack.shorturl,
+        jamendo_share_url: apiTrack.shareurl,
+        jamendo_music_info: apiTrack.musicinfo,
+        jamendo_lyrics: apiTrack.name
+    };
+
+    return mongodbTrack;
+
+};
+
+/**
+ * 
+ * converts a jamendo Api playlist result to the format used in mongodb
+ * 
+ * @param {Object} apiPlaylist
+ * @returns {Object} mongodbPlaylist
+ */
+var convertApiPlaylistToMatchMongodbSchema = function convertApiPlaylistToMatchMongodbSchemaFunction(apiPlaylist) {
+
+    var jamendoDate = apiPlaylist.creationdate;
+
+    var year = jamendoDate.substring(0, 4);
+    var month = jamendoDate.substring(5, 7);
+    var day = jamendoDate.substring(8, 10);
+
+    var creationDate = new Date(year, month - 1, day);
+
+    var mongodbPlaylist = {
+        id: apiPlaylist.id,
+        jamendo_id: apiPlaylist.id,
+        jamendo_creation_date: creationDate,
+        jamendo_name: apiPlaylist.name,
+        jamendo_user_id: apiPlaylist.user_id,
+        jamendo_user_name: apiPlaylist.user_name,
+        jamendo_zip: apiPlaylist.zip,
+        jamendo_shorturl: apiPlaylist.shorturl,
+        jamendo_shareurl: apiPlaylist.shareurl
+    };
+
+    return mongodbPlaylist;
+
 };
