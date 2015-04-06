@@ -223,6 +223,7 @@ redisModule.getClient(function getClientCallback(error, client) {
                     desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
                     desktopRouter.use('/bower_components', express.static(__dirname + '/../bower_components'));
                     desktopRouter.use('/node_modules/async', express.static(__dirname + '/../node_modules/async'));
+                    desktopRouter.use('/node_modules/moment', express.static(__dirname + '/../node_modules/moment'));
                     desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
                     desktopRouter.use('/videos', express.static(__dirname + '/../videos'));
                     

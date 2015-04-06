@@ -36,7 +36,7 @@ bower install https://github.com/chrisweb/web-audio-api-player.git#master --save
 
 bower install fontawesome --save
 
-bower install momentjs --save
+bower install momentjs --save // npm package json will load this one, will be used in backend and frontend js code
 
 bower install https://github.com/chrisweb/chrisweb-utilities.js.git#master --save
 
@@ -49,3 +49,5 @@ bower install https://github.com/Modernizr/Modernizr.git#master --save
 bower install velocity --save
 
 bower install skrollr --save
+
+bower install async --save // npm package json will load this one, will be used in backend and frontend js code

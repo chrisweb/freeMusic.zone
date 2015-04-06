@@ -60,17 +60,18 @@ var createSchema = function createSchemaFunction(options) {
     // possible values:
     // String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
     var schema = new Schema({
-        nickname: {type: String, trim: true, index: {unique: true}, required: true},
-        createdAt: {type: Date},
-        language: {type: String},
-        avatar: {type: String},
-        lastupdateAt: {type: Date, default: Date.now},
-        id: {type: Number, trim: true, index: {unique: true}, required: true},
+        nickname: { type: String, trim: true, index: { unique: true }, required: true },
+        createdAt: { type: Date },
+        language: { type: String },
+        avatar: { type: String },
+        lastupdateAt: { type: Date, default: Date.now },
+        id: { type: Number, trim: true, index: { unique: true }, required: true },
         oauth: {
-            token: {type: String, trim: true, required: true},
-            expiry: {type: Number, trim: true, required: true},
-            scope: {type: String, trim: true, required: true},
-            refreshToken: {type: String, trim: true, required: true}
+            token: { type: String, trim: true, required: true },
+            expiry: { type: Number, trim: true, required: true },
+            scope: { type: String, trim: true, required: true },
+            refreshToken: { type: String, trim: true, required: true },
+            expiryDate: { type: Date, required: true }
         }
     },
     defaultOptions);

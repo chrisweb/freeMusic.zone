@@ -65,7 +65,7 @@ require.config({
         'jquery': '../../../bower_components/jquery/dist/jquery',
         'backbone': '../../../bower_components/backbone/backbone',
         'underscore': '../../../bower_components/underscore/underscore',
-        'moment': '../../../bower_components/moment/moment',
+        'moment': '../../../node_modules/moment/moment',
         'velocity': '../../../bower_components/velocity/velocity',
         'velocity.ui': '../../../bower_components/velocity/velocity.ui',
         'skrollr': '../../../bower_components/skrollr/src/skrollr',

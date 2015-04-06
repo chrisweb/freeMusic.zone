@@ -14,6 +14,9 @@ var eventsManager = require('./event');
 // underscore vendor module
 var _ = require('underscore');
 
+// momentjs vendor module
+var moment = require('moment');
+
 /**
  * 
  * oauth library
@@ -247,7 +250,8 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
                     token: result.access_token,
                     expiry: result.expires_in,
                     refreshToken: result.refresh_token,
-                    scope: configuration.jamendoApi.scope
+                    scope: configuration.jamendoApi.scope,
+                    expiryDate: moment().add(result.expires_in, 'seconds')
                 };
                 
                 callback(false, userOauthData);

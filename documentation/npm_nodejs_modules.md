@@ -62,6 +62,10 @@ npm install socket.io --save
 
 npm install mongoose --save
 
+npm install moment --save
+
+npm install async --save
+
 if intsalling mongoose on windows fails, install visual studio (express) 2012 (or 2013) and use this command:
 npm install mongoose --save--msvs_version=2012
 

@@ -58,16 +58,16 @@ var createSchema = function createSchemaFunction(options) {
     // possible values:
     // String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
     var schema = new Schema({
-        id: {type: Number, trim: true, index: { unique: true }, required: true},
-        jamendo_id: {type: Number, trim: true, required: true},
-        jamendo_creation_date: {type: Date},
-        jamendo_name: {type: String, trim: true, required: true},
-        jamendo_user_id: {type: Number, trim: true},
-        jamendo_user_name: {type: String, trim: true},
-        jamendo_zip: {type: String, trim: true},
-        jamendo_shorturl: {type: String, trim: true},
-        jamendo_shareurl: {type: String, trim: true},
-        last_fetch_date: {type: Date, default: Date.now}
+        id: { type: Number, trim: true, index: { unique: true }, required: true },
+        jamendo_id: { type: Number, trim: true, required: true },
+        jamendo_creation_date: { type: Date },
+        jamendo_name: { type: String, trim: true, required: true },
+        jamendo_user_id: { type: Number, trim: true },
+        jamendo_user_name: { type: String, trim: true },
+        jamendo_zip: { type: String, trim: true },
+        jamendo_shorturl: { type: String, trim: true },
+        jamendo_shareurl: { type: String, trim: true },
+        last_fetch_date: { type: Date, default: Date.now }
     },
     defaultOptions);
     
@@ -237,7 +237,7 @@ playlistModel.prototype.getMultipleByQuery = function getAllFunction(query, call
     
     this.Model.find(query, function(error, document) {
         
-    if (error) {
+        if (error) {
             
             utilities.log('[PLAYLIST MODEL] getMultipleByQuery failed', error, 'fontColor:red');
             

@@ -51,14 +51,14 @@ var createSchema = function createSchemaFunction(options) {
     // possible values:
     // String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
     var tweetSchema = new Schema({
-        jamendo_unit_id: {type: Number, trim: true, required: true},
-		jamendo_unit: {type: String, trim: true, required: true},
-        twitter_user_id: {type: String, trim: true, required: true},
-        twitter_user_name: {type: String, trim: true},
-        twitter_user_image: {type: String, trim: true},
-        twitter_tweet_date: Date,
-        twitter_tweet_id: {type: String, trim: true, required: true, index: {unique: true}},
-        twitter_tweet_original_text: {type: String, trim: true}
+        jamendo_unit_id: { type: Number, trim: true, required: true },
+        jamendo_unit: { type: String, trim: true, required: true },
+        twitter_user_id: { type: String, trim: true, required: true },
+        twitter_user_name: { type: String, trim: true },
+        twitter_user_image: { type: String, trim: true },
+        twitter_tweet_date: { type: Date },
+        twitter_tweet_id: { type: String, trim: true, required: true, index: { unique: true } },
+        twitter_tweet_original_text: { type: String, trim: true }
     },
     schemaOptions);
 

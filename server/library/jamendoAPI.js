@@ -22,7 +22,7 @@ var configuration = configurationModule.get(process.env.NODE_ENV);
  */
 var jamendoAPI = function initializeJamendoAPIFunction() {
 
-    jamendoAPI = new Jamendo({
+    this.jamendoForNodejs = new Jamendo({
         client_id : configuration.jamendoApi.clientId,
         protocol  : configuration.jamendoApi.protocol,
         version   : configuration.jamendoApi.version,
@@ -32,7 +32,7 @@ var jamendoAPI = function initializeJamendoAPIFunction() {
 
 };
 
-jamendoAPI.prototype.getTracksByQuery = function getTracksFunction(query, callback) {
+jamendoAPI.prototype.getTracksByQuery = function getTracksByQueryFunction(query, callback) {
     
     // by default return both album tracks and also singles
     if (!_.has(query, 'type')) {
@@ -41,7 +41,7 @@ jamendoAPI.prototype.getTracksByQuery = function getTracksFunction(query, callba
         
     }
     
-    jamendoAPI.tracks(query, function(error, data) {
+    this.jamendoForNodejs.tracks(query, function(error, data) {
 
         //utilities.log('*******');
         //utilities.log(error);
@@ -89,9 +89,58 @@ jamendoAPI.prototype.getTracksByQuery = function getTracksFunction(query, callba
     
 };
 
-jamendoAPI.prototype.getPlaylistsByQuery = function getPlaylistsFunction(query, callback) {
+jamendoAPI.prototype.getPlaylistsByQuery = function getPlaylistsByQueryFunction(query, callback) {
     
-    jamendoAPI.playlists(query, function(error, data) {
+    this.jamendoForNodejs.playlists(query, function(error, data) {
+        
+        //utilities.log('*******');
+        //utilities.log(error);
+        //utilities.log(data);
+        //utilities.log('*******');
+        
+        if (!_.isObject(data) && _.isNull(error)) {
+            
+            callback('invalid jamendo api server response');
+            
+        } else if (_.has(data, 'headers') && data.headers.error_message !== '') {
+            
+            callback(data.headers.error_message);
+            
+        } else if (_.has(data, 'headers') && data.headers.warnings !== '') {
+            
+            callback(data.headers.warnings);
+            
+        } else if (error) {
+            
+            callback(error);
+            
+        } else {
+            
+            var newData = {};
+            
+            newData.results = [];
+            
+            _.each(data.results, function(value) {
+                
+                // string to integer for ids
+                value.id = parseInt(value.id);
+                value.user_id = parseInt(value.user_id);
+                
+                newData.results.push(value);
+                
+            });
+            
+            callback(false, newData);
+            
+        }
+        
+    });
+    
+};
+
+jamendoAPI.prototype.getPlaylistTracksByQuery = function getPlaylistTracksByQueryFunction(query, callback) {
+    
+    this.jamendoForNodejs.playlists(query, function(error, data) {
         
         //utilities.log('*******');
         //utilities.log(error);

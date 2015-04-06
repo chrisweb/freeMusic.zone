@@ -69,41 +69,43 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             include: ['musicinfo', 'lyrics'],
             audioformat: 'ogg'
         }, callback);
-
+        
     });
-
+    
     apiRouter.get('/user', function (request, response, next) {
-
+        
         //utilities.log('[API] session user: ', request.session.user);
-
+        
         // clone the original object to avoid modifying the original object
         // on delete later on
         var userSessionData = _.clone(request.session.user);
-
+        
+        utilities.log('userSessionData: ', userSessionData);
+        
         if (userSessionData === undefined) {
-
+            
             var defaultUserData = {
                 isLogged: false,
                 lastFetchDate: Date.now()
             };
-
+            
             response.status(200);
             response.json(defaultUserData);
-
+            
         } else {
-
+            
             // add some fields usefull for the client
             userSessionData.lastFetchDate = Date.now();
             userSessionData.isLogged = true;
-
+            
             // remove the oauth data, from the clone, dont send it to the client
             delete userSessionData.oauth;
-
+            
             response.status(200);
             response.json(userSessionData);
-
+            
         }
-
+        
     });
     
     apiRouter.get('/playlists', function (request, response, next) {
@@ -301,54 +303,152 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         if (request.params.playlistid === 'twitter_charts_day') {
             
             var period = 'day';
-        
+            
             // TODO: fix the callback hell
             
             var chartTweetModel = new ChartTweetModel({
                 period: period
             });
-
+            
             var options = {
                 limit: 100
             };
-
+            
             // get the map reduced results for the charts
             chartTweetModel.findMultiple(options, function (error, chartTweets) {
-
+                
                 if (error) {
-
+                    
                     utilities.log('[API] ' + error, 'fontColor:red');
-
+                    
                     response.status(500);
                     response.json({
                         errorMessage: 'server error while fetching the charts tweets'
                     });
+                    
+                } else {
+                
+                    var chartTweetsResponse = [];
+                    var i;
 
+                    for (i = 0; i < chartTweets.length; i++) {
+
+                        var chartTweet = chartTweets[i].value;
+
+                        console.log(chartTweet);
+
+                        chartTweet.position = i+1;
+
+                        chartTweetsResponse.push(chartTweet);
+
+                    }
+
+                    response.status(200);
+                    response.json(chartTweetsResponse);
+                    
                 }
-
-                var chartTweetsResponse = [];
-                var i;
-
-                for (i = 0; i < chartTweets.length; i++) {
-
-                    var chartTweet = chartTweets[i].value;
-
-                    console.log(chartTweet);
-
-                    chartTweet.position = i+1;
-
-                    chartTweetsResponse.push(chartTweet);
-
-                }
-
-                response.status(200);
-                response.json(chartTweetsResponse);
-
+                
             });
             
         } else {
             
+            var playlistModel = new PlaylistModel({
+                period: period
+            });
             
+            var options = {
+                limit: 100
+            };
+            
+            // get the playlist tracks
+            playlistModel.findMultiple(options, function (error, mongoPlaylistTracksResults) {
+                
+                if (error) {
+                    
+                    utilities.log('[API] ' + error, 'fontColor:red');
+                    
+                    response.status(500);
+                    response.json({
+                        errorMessage: 'server error while fetching the playlist tracks'
+                    });
+                    
+                } else {
+                    
+                    // if our database did find some playlist tracks in the
+                    // database we remove their id from the playlistsIds list,
+                    // so that only those who are not yet in the database get
+                    // fetched via the jamendo API
+                    _.each(mongoPlaylistTracksResults, function (mongoPlaylistTracksResult) {
+
+                        // TODO: remove the ids we found in the db
+                        
+                        
+                        
+                    });
+                    
+                    // for the playlists that were not yet in our db we need to make
+                    // and API call to jamendo to retrieve them and add them to
+                    // our database
+                    var jamendoAPI = new JamendoAPI();
+                    
+                    // TODO: if all playlists have been found int he db dont do api call
+                    jamendoAPI.getPlaylistTracksByQuery({
+                        id: options.ids,
+                        limit: 100,
+                        audioformat: 'mp32' // no ogg yet!?
+                    }, function getPlaylistTracksByQueryCallback(error, apiResponse) {
+                        
+                        if (error) {
+                            
+                            utilities.log('[API] ' + error);
+                            
+                            response.status(500);
+                            response.json('error while fetching the playlist tracks');
+                            
+                        } else {
+                            
+                            //utilities.log(apiResponse);
+                            
+                            var playlistTracksForMongodb = [];
+                            
+                            _.each(apiResponse.results, function(apiPlaylistTracksResult) {
+                                
+                                var playlistTrackForMongodb = convertApiPlaylistTrackToMatchMongodbSchema(apiPlaylistTracksResult);
+                                
+                                playlistTracksForMongodb.push(playlistTrackForMongodb);
+                                
+                            });
+                            
+                            // save the playlist tracks into the database
+                            // TODO: uncomment as soon as fetching playlist
+                            // tracks from mongodb instead of API has been
+                            // implemented
+                            /*playliTrackstModel.saveMultiple(playlistTracksForMongodb, function (error, insertedDocuments) {
+                                
+                                if (error) {
+                                    
+                                    utilities.log('[API] ' + error, 'fontColor:red');
+                                    
+                                }
+                                
+                            });*/
+                            
+                            // now merge the playlist tracks that were already
+                            // in the mongodb database and the ones that got
+                            // returned by the playlist tracks api call
+                            var allPlaylistTracks = playlistTracksForMongodb.concat(mongoPlaylistTracksResults);
+                            
+                            response.status(200);
+                            //response.json(allPlaylistTracks); // TODO: uncomment as soon as playlist tracks from mongodb can get returned
+                            response.json(playlistTracksForMongodb);
+                            
+                        }
+                        
+                    });
+                    
+                }
+                
+            });
             
         }
 

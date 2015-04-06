@@ -12,22 +12,16 @@ var _ = require('underscore');
 
 /**
  * 
- * chart tweet model constructor
+ * playlist track model constructor
  * 
  * @param {type} options
- * @returns {chartTweetModel}
+ * @returns {playlistTrackModel}
  */
-var chartTweetModel = function chartTweetModelFunction(options) {
+var playlistTrackModel = function chartTweetModelFunction(options) {
 
     var collection;
 
-    switch (options.period) {
-        case 'day':
-            collection = 'tweets_charts_day';
-            break;
-        default:
-            throw 'no period defined in options';
-    }
+    collection = 'playlist_tracks';
 
     if (_.indexOf(mongoose.modelNames(), collection) === -1) {
 
@@ -49,10 +43,10 @@ var chartTweetModel = function chartTweetModelFunction(options) {
 
 /**
  * 
- * chart tweet schema
+ * playlist track schema
  * 
  * @param {type} options
- * @returns {chartTweetSchema}
+ * @returns {playlistTrackSchema}
  */
 var createSchema = function createSchemaFunction(options) {
 
@@ -69,22 +63,19 @@ var createSchema = function createSchemaFunction(options) {
 
     // possible values:
     // String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
-    var chartTweetSchema = new Schema({
+    var playlistTrackSchema = new Schema({
         value: {
             id: { type: Number, trim: true, required: true },
-            unit: { type: String, trim: true, required: true },
-            count_total: { type: Number, trim: true, required: true },
-            count_unique: { type: Number, trim: true, required: true },
-            twitter_users: { type: Array, required: true },
+            playlistId: { type: Number, trim: true, required: true },
             position: { type: Number, default: 0 }
         }
     },
     schemaOptions);
 
     // should mongoose checks if indexes exist on every startup?
-    chartTweetSchema.set('autoIndex', false);
+    playlistTrackSchema.set('autoIndex', false);
 
-    return chartTweetSchema;
+    return playlistTrackSchema;
 
 };
 
@@ -97,9 +88,9 @@ var createSchema = function createSchemaFunction(options) {
  * 
  * @returns results
  */
-chartTweetModel.prototype.findMultiple = function (options, callback) {
+playlistTrackModel.prototype.findMultiple = function (options, callback) {
 
-    utilities.log('[CHART TWEET MODEL] get the tweets chart for a given period');
+    utilities.log('[PLAYLIST TRACK MODEL] get the playlist tracks for a given playlistId');
 
     var limit;
 
@@ -114,10 +105,12 @@ chartTweetModel.prototype.findMultiple = function (options, callback) {
     }
 
     this.Model.find()
-        .sort({'value.count_unique': -1})
+        .sort({
+            'position': -1
+        })
         .limit(limit)
         .exec(callback);
 
 };
 
-module.exports = chartTweetModel;
+module.exports = playlistTrackModel;
