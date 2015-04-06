@@ -223,7 +223,7 @@ define([
      * 
      * get an instance (singleton)
      * 
-     * @returns {BSONSE.BSON.require|Function.require|bson.require|bson_L1.require|Router}
+     * @returns {Router}
      */
     var getInstance = function getInstanceFuntion() {
 
