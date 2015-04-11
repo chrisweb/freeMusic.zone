@@ -20,21 +20,21 @@ var _ = require('underscore');
  * @returns
  */
 var userModel = function userModelFunction(options) {
-
+    
     var collection = 'user';
-
+    
     if (_.indexOf(mongoose.modelNames(), collection) === -1) {
-
+        
         var schema = createSchema(options);
-
+        
         this.Model = mongoose.model(collection, schema);
-
+        
     } else {
-
+        
         this.Model = mongoose.model(collection);
-
+        
     }
-
+    
 };
 
 /**
@@ -45,18 +45,18 @@ var userModel = function userModelFunction(options) {
  * @returns {module.exportsexports@new;Mongoose.Schema|_L1.exports.require|Function.require|createSchemaFunction.schema|Schema|bson.require.Schema}
  */
 var createSchema = function createSchemaFunction(options) {
-
+    
     var Schema = mongoose.Schema;
     var mixedType = Schema.Types.Mixed;
-
+    
     // return errors and 10 seconds timeout
     var schemaOptions = {
         safe: true,
         wtimeout: 10000
     };
-
+    
     var defaultOptions = _.extend(schemaOptions, options || {});
-
+    
     // possible values:
     // String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
     var schema = new Schema({
@@ -75,12 +75,12 @@ var createSchema = function createSchemaFunction(options) {
         }
     },
     defaultOptions);
-
+    
     // avoid that mongoose checks if indexes exist on every startup
     schema.set('autoIndex', false);
-
+    
     return schema;
-
+    
 };
 
 /**
@@ -92,35 +92,35 @@ var createSchema = function createSchemaFunction(options) {
  * @returns {undefined}
  */
 userModel.prototype.saveOne = function saveOneFunction(data, callback) {
-
+    
     utilities.log('[USER MODEL] save a single object');
-
+    
     this.Model.create(data, function saveCallback(error, model) {
-
+        
         //utilities.log('create model: ', model);
-
+        
         if (error) {
-
+            
             utilities.log('[USER MODEL] save failed', error, 'fontColor:red');
-
+            
             if (callback !== undefined) {
-
+                
                 callback(error);
-
+                
             }
-
+            
         } else {
-
+            
             if (callback !== undefined) {
-
+                
                 callback(false, model);
-
+                
             }
-
+            
         }
-
+        
     });
-
+    
 };
 
 /**
@@ -133,38 +133,40 @@ userModel.prototype.saveOne = function saveOneFunction(data, callback) {
  * @returns {undefined}
  */
 userModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataToUpdate, callback) {
-
+    
     utilities.log('[USER MODEL] update a single object');
-
+    
     var query = {id: jamendoUserId};
     var options = {multi: false};
-
+    
     this.Model.findOneAndUpdate(query, dataToUpdate, options, function (error, model) {
-
+        
         //utilities.log('update model: ', model);
-
+        
         if (error) {
-
+            
             utilities.log('[USER MODEL] update failed', error, 'fontColor:red');
-
+            
             if (callback !== undefined) {
-
+                
                 callback(error);
-
+                
             }
-
+            
         } else {
-
+            
+            utilities.log('[USER MODEL] update success', error, 'fontColor:green');
+            
             if (callback !== undefined) {
-
+                
                 callback(false, model);
-
+                
             }
-
+            
         }
-
+        
     });
-
+    
 };
 
 /**
@@ -176,35 +178,35 @@ userModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataTo
  * @returns {undefined}
  */
 userModel.prototype.exists = function existsFunction(query, callback) {
-
+    
     utilities.log('[USER MODEL] exists');
-
+    
     this.Model.count(query, function (error, count) {
-
+        
         if (error) {
-
+            
             utilities.log('[USER MODEL] exists failed', error, 'fontColor:red');
-
+            
             callback(error);
-
+            
         } else {
-
+            
             //utilities.log(count);
-
+            
             if (count > 0) {
-
+                
                 callback(false, true);
-
+                
             } else {
-
+                
                 callback(false, false);
-
+                
             }
-
+            
         }
-
+        
     });
-
+    
 };
 
 /**
@@ -216,25 +218,25 @@ userModel.prototype.exists = function existsFunction(query, callback) {
  * @returns {undefined}
  */
 userModel.prototype.getOneById = function getOneFunction(id, callback) {
-
+    
     utilities.log('[USER MODEL] get one by id');
-
+    
     this.Model.findById(id, function (error, document) {
-
+        
         if (error) {
-
+            
             utilities.log('[USER MODEL] getOneById failed', error, 'fontColor:red');
-
+            
             callback(error);
-
+            
         } else {
-
+            
             callback(false, document);
-
+            
         }
-
+        
     });
-
+    
 };
 
 /**
@@ -246,25 +248,25 @@ userModel.prototype.getOneById = function getOneFunction(id, callback) {
  * @returns {undefined}
  */
 userModel.prototype.getOneByQuery = function getOneFunction(query, callback) {
-
+    
     utilities.log('[USER MODEL] get one by query');
-
+    
     this.Model.findOne(query, function (error, document) {
-
+        
         if (error) {
-
+            
             utilities.log('[USER MODEL] getOneByQuery failed', error, 'fontColor:red');
-
+            
             callback(error);
-
+            
         } else {
-
+            
             callback(false, document);
-
+            
         }
-
+        
     });
-
+    
 };
 
 /**
@@ -276,25 +278,25 @@ userModel.prototype.getOneByQuery = function getOneFunction(query, callback) {
  * @returns {undefined}
  */
 userModel.prototype.getMultipleByQuery = function getAllFunction(query, callback) {
-
+    
     utilities.log('[USER MODEL] get multiple by query');
-
+    
     this.Model.find(query, function (error, document) {
-
+        
         if (error) {
-
+            
             utilities.log('[USER MODEL] getMultipleByQuery failed', error, 'fontColor:red');
-
+            
             callback(error);
-
+            
         } else {
-
+            
             callback(false, document);
-
+            
         }
-
+        
     });
-
+    
 };
 
 module.exports = userModel;

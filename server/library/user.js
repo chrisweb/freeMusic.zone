@@ -19,7 +19,7 @@ module.exports.start = function initialize(configuration) {
     
     eventsManager.on('userOauth', function(parameters) {
         
-        utilities.log('[USER] on userOauth');
+        utilities.log('[USER LIBRARY] on userOauth event');
         
         //utilities.log('parameters: ', parameters.userOauthData);
         
@@ -78,9 +78,6 @@ module.exports.start = function initialize(configuration) {
                         
                         if (!userExists) {
                             
-                            //utilities.log('userOauthData: ', userOauthData);
-                            //utilities.log('userDataAPI: ', userDataAPI);
-                            
                             var userData = {
                                 nickname: userResult.dispname,
                                 createdAt: new Date(userResult.creationdate),
@@ -114,8 +111,6 @@ module.exports.start = function initialize(configuration) {
                             });
                             
                         } else {
-                            
-                            //utilities.log('userDataDB: ', userDataDB);
                             
                             var userId = parseInt(userResult.id);
                             

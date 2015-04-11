@@ -44,7 +44,7 @@ Cow create a new EC2 instance, by clicking the "launch instance" button in your 
 
 Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or whatever instance you want to create)
 
-In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_redis.yml", this will setup the instance and install redis
+In "advanced details" add the redis server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config_redis.yml", this will setup the instance and install redis
 
 Choose a security group that allows connection on port 22 for ssh but only for your own IP, so that you can connect to the server with your ssh client and a second rule that allows TCP traffic to the redis port you have defined and only for the IP range of your web servers (as source choose the security group of your webservers, type "sg" and then choose from autocomplete list, the security group of your webservers)
 
@@ -54,7 +54,7 @@ Finally launch the instance
 
 Choose "Amazon Linux 64" as OS and on the next tab the "t2 micro" instance (or whatever instance you want to create)
 
-In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config-video-audio-harvester.yml", this will setup the instance and install all the required dependencies
+In "advanced details" add the "video audio harvester" userdata that can be found in "/cloud/cloud-init/userdata/cloud-config-video-audio-harvester.yml", this will setup the instance and install all the required dependencies
 
 Click "continue" until you reach the security groups, choose a security group that has the "http port 80" open and "https port 443" (if you need https) or create a new security group if you haven't already one
 
@@ -140,7 +140,7 @@ Set a name for your launch configuration, enable monitoring,
 
 Edit the "/cloud/cloud-init/userdata/cloud-config.yml" file that gets will get used to setup the server, edit the "write_files" section that creates a configuration file for the server and add your personal credentials
 
-In "advanced details" add the mongodb server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config.yml" to setup the instance(s) of the freeMusic.zone web server(s)
+In "advanced details" add the "cloud config" server userdata that can be found in "/cloud/cloud-init/userdata/cloud-config.yml" to setup the instance(s) of the freeMusic.zone web server(s)
 
 In "advanced details" for the "IP address type" choose "Do not assign a public IP address to any instances"
 
