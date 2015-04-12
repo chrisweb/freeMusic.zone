@@ -45,23 +45,25 @@ module.exports.start = function initialize(configuration) {
             
             if (userDataAPI.headers.error_message !== '') {
                 
-                errorMessage = 'getting user data using the jamendo API failed';
+                errorMessage = '[USER LIBRARY] getting user data using the jamendo API failed';
                     
                 utilities.log(errorMessage + ': ', data.headers.error_message, 'fontColor:red');
                 
             } else if (userDataAPI.headers.warnings !== '') {
                 
-                errorMessage = 'getting user data using the jamendo API failed';
+                errorMessage = '[USER LIBRARY] getting user data using the jamendo API failed';
                 
                 utilities.log(errorMessage + ': ', data.headers.warnings, 'fontColor:red');
                 
             } else if (error) {
                 
-                errorMessage = 'getting user data using the jamendo API failed';
+                errorMessage = '[USER LIBRARY] getting user data using the jamendo API failed';
                 
                 utilities.log(errorMessage + ': ', error, 'fontColor:red');
                 
             } else {
+                
+                utilities.log('[USER LIBRARY] getting user data success', 'fontColor:green');
                 
                 // check if user exists in database
                 var userModel = new UserModel();
@@ -78,6 +80,8 @@ module.exports.start = function initialize(configuration) {
                         
                         if (!userExists) {
                             
+                            utilities.log('[USER LIBRARY] check if user exists in db success, user does not exist', 'fontColor:green');
+                            
                             var userData = {
                                 nickname: userResult.dispname,
                                 createdAt: new Date(userResult.creationdate),
@@ -92,6 +96,8 @@ module.exports.start = function initialize(configuration) {
                                 
                                 if (!error) {
                                     
+                                    utilities.log('[USER LIBRARY] creating user in db success', 'fontColor:green');
+                                    
                                     model.isLogged = true;
 
                                     // put user data into session
@@ -102,7 +108,7 @@ module.exports.start = function initialize(configuration) {
                                     
                                 } else {
                                     
-                                    errorMessage = 'error while saving the user';
+                                    errorMessage = '[USER LIBRARY] error while saving the user';
                                     
                                     utilities.log(errorMessage + ': ', error, 'fontColor:red');
                                     
@@ -111,6 +117,8 @@ module.exports.start = function initialize(configuration) {
                             });
                             
                         } else {
+                            
+                            utilities.log('[USER LIBRARY] check if user exists in db success, user exists', 'fontColor:green');
                             
                             var userId = parseInt(userResult.id);
                             
@@ -126,6 +134,8 @@ module.exports.start = function initialize(configuration) {
                                 
                                 if (!error) {
                                     
+                                    utilities.log('[USER LIBRARY] updating user in db success', 'fontColor:green');
+                                    
                                     model.isLogged = true;
 
                                     // put user data into session
@@ -136,7 +146,7 @@ module.exports.start = function initialize(configuration) {
                                     
                                 } else {
                                     
-                                    errorMessage = 'error while updating the user';
+                                    errorMessage = '[USER LIBRARY] error while updating the user';
                                     
                                     utilities.log(errorMessage + ': ', error, 'fontColor:red');
                                     
@@ -148,7 +158,7 @@ module.exports.start = function initialize(configuration) {
                         
                     } else {
                         
-                        errorMessage = 'error checking if the user exists';
+                        errorMessage = '[USER LIBRARY] error checking if the user exists';
                         
                         utilities.log(errorMessage + ': ', error, 'fontColor:red');
                         
@@ -186,11 +196,15 @@ module.exports.getOauthToken = function getOauthTokenFunction(userSessionData, c
             
             if (!error) {
                 
+                utilities.log('[USER LIBRARY] token refresh success', 'fontColor:green');
+                
                 userSessionData.oauth = oauthData;
                 
                 getOauthTokenCallback(false, oauthData.token);
                 
             } else {
+                
+                utilities.log('[USER LIBRARY] token refresh failed', error, 'fontColor:red');
                 
                 getOauthTokenCallback(error);
                 
@@ -199,6 +213,8 @@ module.exports.getOauthToken = function getOauthTokenFunction(userSessionData, c
         });
         
     } else {
+        
+        utilities.log('[USER LIBRARY] token is still valid, no refresh', 'fontColor:green');
         
         var token = userSessionData.oauth.token;
         

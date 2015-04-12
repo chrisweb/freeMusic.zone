@@ -59,13 +59,11 @@ define([
         
         // then we initialize the router plugin
         // the router plugin will intialize the router
-        // the pre route will check if the user is logged and redirect him to
-        // the appopriate page
         RouterPlugin.initialize(function(error, unsupported) {
             
             if (error) {
 
-                utilities.log(error);
+                utilities.log(error, 'fontColor:red');
                 
                 require(['views/pages/notsupported'], function(NotSupportedView) {
                     
@@ -94,9 +92,8 @@ define([
             
             EventsManager.trigger(EventsManager.constants.DOM_LOADED);
             
-            
         });
-
+        
         // on event "post route" and the UI does not already exist
         EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function(attributes) {
             

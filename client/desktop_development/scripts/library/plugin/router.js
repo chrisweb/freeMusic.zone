@@ -34,6 +34,9 @@ define([
 
         utilities.log('[ROUTER PLUGIN] initializeRouter', 'fontColor:blue');
         
+        // initialize the router and get an instance of the router library
+        var routerLibrary = RouterLibrary();
+        
         modernizrTestsLoader([
             'test/history'
         ], function() {
@@ -44,14 +47,13 @@ define([
 
                     if (testResult) {
                         
-                        var routerLibrary = RouterLibrary();
-                        
                         // always do the history start after initializing the
                         // router or the first route event wont get triggered
                         Backbone.history.start({
                             pushState: true
                         });
                         
+                        // listen for clicks on a link element
                         addLinkClickListeners(routerLibrary);
 
                         if (callback !== undefined) {
@@ -83,12 +85,18 @@ define([
      * listen for clicks on links
      * 
      * @param {type} routerLibrary
-     * @returns {undefined}
+     * 
      */
     var addLinkClickListeners = function addLinkClickListenersFunction(routerLibrary) {
         
+        // get an instance of the router library
+        var routerLibrary = RouterLibrary();
+        
+        // select the body element and cache it so it can be reused
         var $body = $('body');
         
+        // every time there is a click on a link element, take the url and
+        // use the backbone router navigate function
         $body.on('click', 'a:not(.external)', function(event) {
             
             event.preventDefault();

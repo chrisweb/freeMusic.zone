@@ -43,10 +43,11 @@ define([
             routes: routes,
             execute: function routerExecute(callback, routeArguments, routeName, internalCallback) {
                 
-                // pre-route event
-                EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
-                
+                // initialize the user library
                 var userLibrary = UserLibrary();
+                
+                // trigger the pre-route event
+                EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
                 
                 var that = this;
                 
@@ -70,7 +71,11 @@ define([
                             
                         } else {
                             
-                            if (callback) callback.apply(this, routeArguments);
+                            if (callback) {
+                                
+                                callback.apply(this, routeArguments);
+                                
+                            }
                             
                             // post route event
                             EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
@@ -99,7 +104,11 @@ define([
                             
                         } else {
                             
-                            if (callback) callback.apply(this, routeArguments);
+                            if (callback) {
+                                
+                                callback.apply(this, routeArguments);
+                                
+                            }
                             
                             // post route event
                             EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
@@ -208,13 +217,6 @@ define([
                 
             });
 
-        });
-        
-        // event triggered before a route
-        EventsManager.on(EventsManager.constants.ROUTER_PREROUTE, function bootstrapPreRoute(attributes) {
-            
-            utilities.log(attributes);
-            
         });
         
     };
