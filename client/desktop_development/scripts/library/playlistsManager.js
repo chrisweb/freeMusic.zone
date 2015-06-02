@@ -1,6 +1,6 @@
 /**
  * 
- * tracks manager
+ * playlists manager
  * 
  * @param {type} _
  * @param {type} utilities
