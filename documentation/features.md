@@ -38,9 +38,9 @@
 * choose playlist name
 * choose existing playlist to start
 
-##### Games
+##### Games (fun)
 
-## Quiz
+###### Quiz
 * tracks quiz created by the community
 * choose a track and add chalanges
 ** find at least three instruments used in the song
@@ -50,11 +50,14 @@
 ** find if there is one singer or more, female or male or both
 * invite friends by mail or social network
 
-## Card game
+###### Card game
 * two players get several cards where each card represents an artist and some stats like total fans, album and tracks count, listen count and so on ... a player starts by playing a card and telling the oponent what stats he wants to use for the fight, the other player lays down a card too, if the value is higher he wins both cards, then the player who lost can play a card ... until one player owns all the cards
 
-## Hot or not
+###### Hot or not
 * add a hot or not game for the new releases, every user can rate ten songs per day, highscore of the month
+
+###### a song a cat
+* for each song played, display a picture of a funny cute cate (google image search API?)
 
 ##### tweet2jam
 
