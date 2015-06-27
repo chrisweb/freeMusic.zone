@@ -4,22 +4,20 @@
  * 
  * @param {type} utilities
  * @param {type} Controller
- * @param {type} container
- * @param {type} ViewsLoader
+ * @param {type} Ribs
  * @param {type} PlaylistsManager
  * @param {type} PlaylistsCollection
  * 
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.controller',
-    'ribs.container',
-    'ribs.viewsloader',
+    'ribsjs',
     'library.playlistsManager',
     'collections.Playlists'
     
-], function (utilities, Controller, container, ViewsLoader, PlaylistsManager, PlaylistsCollection) {
+], function (utilities, Controller, Ribs, PlaylistsManager, PlaylistsCollection) {
     
     'use strict';
     
@@ -39,7 +37,7 @@ define([
             utilities.log('[REMOTE CONTROL CONTROLLER] controller: homepage,  action: index', 'fontColor:blue');
             
             // chat message input form
-            ViewsLoader([
+            require([
                 'views/pages/remoteControl',
                 'views/components/playlist/list',
                 'views/components/playlist/row'
@@ -48,11 +46,11 @@ define([
                 // initialize the page view and add it to the dom
                 var remoteControlView = new RemoteControlView();
                 
-                container.clear('#core');
+                Ribs.Container.clear('#core');
                 
-                container.add('#core', remoteControlView);
+                Ribs.Container.add('#core', remoteControlView);
                 
-                container.dispatch('#core');
+                Ribs.Container.dispatch('#core');
                 
                 // TODO: initialize the playlists list view and set
                 // playlistsCollection than and add it to the dom
@@ -84,11 +82,11 @@ define([
                                     listSelector: '.playlistsList'
                                 });
                                 
-                                container.clear('.js-playlistsListContainer');
+                                Ribs.Container.clear('.js-playlistsListContainer');
                                 
-                                container.add('.js-playlistsListContainer', playlistListView);
+                                Ribs.Container.add('.js-playlistsListContainer', playlistListView);
                                 
-                                container.dispatch('.js-playlistsListContainer');
+                                Ribs.Container.dispatch('.js-playlistsListContainer');
                                 
                                 _.each(playistsArray, function(playistModel) {
                                     

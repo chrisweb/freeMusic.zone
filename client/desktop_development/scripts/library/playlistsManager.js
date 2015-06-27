@@ -9,13 +9,13 @@
  * @param {type} PlaylistsListCollection
  * @param {type} tracksManager
  * @param {type} PlaylistTracksCollection
- * async
+ * @param {type} async
  * 
  * @returns {_L17.Anonym$2}
  */
 define([
     'underscore',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.eventsManager',
     'collections.Playlists',
     'collections.PlaylistsList',

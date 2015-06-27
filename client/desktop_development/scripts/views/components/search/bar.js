@@ -15,8 +15,8 @@ define([
     'jquery',
     'underscore',
     'templates',
-    'chrisweb.utilities',
-    'ribs.view',
+    'chrisweb-utilities',
+    'library.view',
     'library.eventsManager'
     
 ], function ($, _, JST, utilities, View, EventsManager) {

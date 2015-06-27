@@ -10,7 +10,7 @@
  * @returns {_L17.Anonym$2}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.eventsManager',
     'collections.Tracks',
     'models.Track',

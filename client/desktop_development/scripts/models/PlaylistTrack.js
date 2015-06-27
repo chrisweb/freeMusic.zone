@@ -8,19 +8,19 @@
  * got added
  * 
  * @param {type} utilities
- * @param {type} model
+ * @param {type} Model
  * 
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.model'
+    'chrisweb-utilities',
+    'library.model'
     
-], function (utilities, model) {
+], function (utilities, Model) {
     
     'use strict';
     
-    var PlaylistTrackModel = model.extend({
+    var PlaylistTrackModel = Model.extend({
         
         onInitialize: function() {
             

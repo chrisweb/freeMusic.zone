@@ -15,13 +15,13 @@
 define([
     'jquery',
     'underscore',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.controller',
-    'ribs.container',
+    'ribsjs',
     'library.eventsManager',
     'library.user'
     
-], function ($, _, utilities, Controller, container, EventsManager, user) {
+], function ($, _, utilities, Controller, Ribs, EventsManager, user) {
     
     'use strict';
 
@@ -45,11 +45,11 @@ define([
 
                 var gamesView = new GamesView();
                 
-                container.clear('#core');
+                Ribs.Container.clear('#core');
 
-                container.add('#core', gamesView);
+                Ribs.Container.add('#core', gamesView);
                 
-                container.dispatch('#core');
+                Ribs.Container.dispatch('#core');
 
             });
         

@@ -8,7 +8,7 @@
  * @returns {_L16.Anonym$2}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.user'
 ], function (utilities, UserLibrary) {
     

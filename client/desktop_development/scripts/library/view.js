@@ -1,6 +1,6 @@
 /**
  * 
- * controller library
+ * view library
  *
  * @param {type} utilities 
  * @param {type} Ribs
@@ -15,16 +15,16 @@ define([
     
     'use strict';
     
-    var LibraryController = Ribs.Controller.extend({
+    var LibraryView = Ribs.View.extend({
         
         onInitialize: function(options, configuration, router) {
             
-            utilities.log('[LIBRARY CONTROLLER] initializing ...', 'fontColor:blue');
+            //utilities.log('[LIBRARY VIEW] initializing ...', 'fontColor:blue');
             
         }
         
     });
     
-    return LibraryController;
+    return LibraryView;
     
 });

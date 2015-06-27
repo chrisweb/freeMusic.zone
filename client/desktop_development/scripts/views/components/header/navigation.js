@@ -12,8 +12,8 @@
  */
 define([
     'templates',
-    'chrisweb.utilities',
-    'ribs.view',
+    'chrisweb-utilities',
+    'library.view',
     'library.eventsManager',
     'library.user'
     

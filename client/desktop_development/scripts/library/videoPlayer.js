@@ -9,7 +9,7 @@
  */
 define([
     'jquery',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.eventsManager'
     
 ], function ($, utilities, EventsManager) {

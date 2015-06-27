@@ -3,17 +3,17 @@
  * left navigation
  * 
  * @param {type} utilities
- * @param {type} container
+ * @param {type} Ribs
  * 
  * @returns {_L16.Anonym$2}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.container'
+    'chrisweb-utilities',
+    'ribsjs'
     
 ], function (
     utilities,
-    container
+    Ribs
 ) {
     
     'use strict';
@@ -33,11 +33,11 @@ define([
             
             var leftNavigationView = new LeftNavigationView();
             
-            container.clear('#left');
+            Ribs.container.clear('#left');
             
-            container.add('#left', leftNavigationView);
+            Ribs.container.add('#left', leftNavigationView);
             
-            container.dispatch('#left');
+            Ribs.container.dispatch('#left');
             
             var $body = $('body');
             

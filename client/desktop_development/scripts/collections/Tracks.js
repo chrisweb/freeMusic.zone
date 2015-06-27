@@ -3,21 +3,21 @@
  * tracks manager collection
  * 
  * @param {type} utilities
- * @param {type} collection
+ * @param {type} Collection
  * @param {type} TrackModel
  * 
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.collection',
+    'chrisweb-utilities',
+    'library.collection',
     'models.Track'
     
-], function (utilities, collection, TrackModel) {
+], function (utilities, Collection, TrackModel) {
     
     'use strict';
     
-    var TracksManagerCollection = collection.extend({
+    var TracksManagerCollection = Collection.extend({
 
         onInitialize: function() {
             

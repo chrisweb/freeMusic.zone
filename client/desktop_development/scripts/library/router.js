@@ -3,7 +3,7 @@
  * application router
  * 
  * @param {type} utilities
- * @param {type} ribsRouter
+ * @param {type} Ribs
  * @param {type} EventsManager
  * @param {type} routes
  * @param {type} UserLibrary
@@ -12,14 +12,14 @@
  * @returns {_L18.Anonym$8}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.router',
+    'chrisweb-utilities',
+    'ribsjs',
     'library.eventsManager',
     'routes',
     'library.user',
     'configuration'
     
-], function (utilities, ribsRouter, EventsManager, routes, UserLibrary, Configuration) {
+], function (utilities, Ribs, EventsManager, routes, UserLibrary, Configuration) {
     
     'use strict';
 
@@ -33,7 +33,7 @@ define([
      */
     var getRouter = function getRouterFunction() {
         
-        var Router = ribsRouter.extend({
+        var Router = Ribs.Router.extend({
             
             initialize: function initializeFunction() {
                 

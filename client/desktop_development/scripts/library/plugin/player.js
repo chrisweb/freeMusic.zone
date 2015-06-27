@@ -11,7 +11,7 @@
  * @returns {_L16.Anonym$2}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.eventsManager',
     'library.player.core',
     'library.tracksManager',

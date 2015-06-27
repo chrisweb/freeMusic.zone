@@ -4,20 +4,20 @@
  * 
  * @param {type} utilities
  * @param {type} _
- * @param {type} model
+ * @param {type} Model
  * 
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'underscore',
-    'ribs.model'
+    'library.model'
     
-], function (utilities, _, model) {
+], function (utilities, _, Model) {
     
     'use strict';
 
-    var TrackModel = model.extend({
+    var TrackModel = Model.extend({
             
         onInitialize: function() {
             

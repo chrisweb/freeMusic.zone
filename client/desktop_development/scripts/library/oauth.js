@@ -12,7 +12,7 @@
 define([
     'jquery',
     'configuration',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.eventsManager'
     
 ], function($, Configuration, utilities, EventsManager) {

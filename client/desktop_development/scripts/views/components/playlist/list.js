@@ -9,8 +9,8 @@
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.view',
+    'chrisweb-utilities',
+    'library.view',
     'templates'
     
 ], function (utilities, view, JST) {

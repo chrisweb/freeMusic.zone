@@ -4,24 +4,22 @@
  * 
  * @param {type} utilities
  * @param {type} Controller
- * @param {type} container
+ * @param {type} Ribs
  * @param {type} PlaylistsManager
  * @param {type} PlaylistTracksCollection
  * @param {type} PlaylistModel
- * @param {type} ViewsLoader
  * 
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.controller',
-    'ribs.container',
+    'ribsjs',
     'library.playlistsManager',
     'collections.PlaylistTracks',
-    'models.Playlist',
-    'ribs.viewsloader'
+    'models.Playlist'
     
-], function (utilities, Controller, container, PlaylistsManager, PlaylistTracksCollection, PlaylistModel, ViewsLoader) {
+], function (utilities, Controller, Ribs, PlaylistsManager, PlaylistTracksCollection, PlaylistModel) {
     
     'use strict';
 
@@ -41,7 +39,7 @@ define([
             utilities.log('[TWITTER CHARTS CONTROLLER] controller: twitterCharts,  action: index', 'fontColor:blue');
 
             // chat message input form
-            ViewsLoader([
+            require([
                 'views/pages/twitterCharts',
                 'views/components/track/row',
                 'views/components/track/list'
@@ -67,11 +65,11 @@ define([
                     }
                 });
                 
-                container.clear('#core');
+                Ribs.Container.clear('#core');
                 
-                container.add('#core', twitterChartsView);
+                Ribs.Container.add('#core', twitterChartsView);
                 
-                container.dispatch('#core');
+                Ribs.Container.dispatch('#core');
                 
                 // add the playlist to the playlistmanager
                 PlaylistsManager.add(playlistModel);
@@ -99,11 +97,11 @@ define([
                             listSelector: '.tracksList'
                         });
                         
-                        container.clear('#twitterChartsTracks');
+                        Ribs.Container.clear('#twitterChartsTracks');
                         
-                        container.add('#twitterChartsTracks', twitterChartsTracksView);
+                        Ribs.Container.add('#twitterChartsTracks', twitterChartsTracksView);
                         
-                        container.dispatch('#twitterChartsTracks');
+                        Ribs.Container.dispatch('#twitterChartsTracks');
                         
                     } else {
                         

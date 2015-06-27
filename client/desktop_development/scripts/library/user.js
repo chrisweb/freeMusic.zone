@@ -1,5 +1,5 @@
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.eventsManager',
     'models.User',
     'moment'

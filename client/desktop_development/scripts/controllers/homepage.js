@@ -4,7 +4,7 @@
  * 
  * @param {type} utilities
  * @param {type} Controller
- * @param {type} container
+ * @param {type} Ribs
  * @param {type} modernizrTestsLoader
  * @param {type} Modernizr
  * @param {type} oauthLibrary
@@ -13,14 +13,14 @@
  * 
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.controller',
-    'ribs.container',
+    'ribsjs',
     'modernizrTestsLoader',
     'Modernizr',
     'library.oauth'
     
-], function (utilities, Controller, container, modernizrTestsLoader, Modernizr, oauthLibrary) {
+], function (utilities, Controller, Ribs, modernizrTestsLoader, Modernizr, oauthLibrary) {
     
     'use strict';
     
@@ -62,11 +62,11 @@ define([
                                 videoFormat: videoFormat
                             });
 
-                            container.clear('#core');
+                            Ribs.Container.clear('#core');
 
-                            container.add('#core', loginView);
+                            Ribs.Container.add('#core', loginView);
 
-                            container.dispatch('#core');
+                            Ribs.Container.dispatch('#core');
 
                         });
 
@@ -89,11 +89,11 @@ define([
 
                 var welcomeView = new WelcomeView();
 
-                container.clear('#core');
+                Ribs.Container.clear('#core');
 
-                container.add('#core', welcomeView);
+                Ribs.Container.add('#core', welcomeView);
 
-                container.dispatch('#core');
+                Ribs.Container.dispatch('#core');
 
             });
             

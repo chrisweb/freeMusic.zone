@@ -13,7 +13,7 @@
  */
 define([
     'jquery',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'backbone',
     'library.router',
     'modernizrTestsLoader',

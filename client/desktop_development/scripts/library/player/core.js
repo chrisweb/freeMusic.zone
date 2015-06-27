@@ -9,7 +9,7 @@
  * @returns {_L19.Anonym$4}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'configuration',
     'chrisweb.player.core'
     

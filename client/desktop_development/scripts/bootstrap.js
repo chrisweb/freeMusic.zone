@@ -8,7 +8,7 @@
  * @param {type} LeftNavigationPlugin
  * @param {type} HeaderNavigationPlugin
  * @param {type} EventsManager
- * @param {type} container
+ * @param {type} Ribs
  * @param {type} TracksManager
  * @param {type} PlaylistsManager
  * @param {type} PlayerPlugin
@@ -16,13 +16,13 @@
  * @returns {_L19.Anonym$6}
  */
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.plugin.splashScreen',
     'library.plugin.router',
     'library.plugin.leftNavigation',
     'library.plugin.headerNavigation',
     'library.eventsManager',
-    'ribs.container',
+    'ribsjs',
     'library.tracksManager',
     'library.playlistsManager',
     'library.plugin.player',
@@ -35,7 +35,7 @@ define([
     LeftNavigationPlugin,
     HeaderNavigationPlugin,
     EventsManager,
-    container,
+    Ribs,
     TracksManager,
     PlaylistsManager,
     PlayerPlugin
@@ -73,11 +73,11 @@ define([
                         }
                     });
                     
-                    container.clear('#core');
+                    Ribs.container.clear('#core');
                     
-                    container.add('#core', notSupportedView);
+                    Ribs.container.add('#core', notSupportedView);
                     
-                    container.dispatch('#core');
+                    Ribs.container.dispatch('#core');
                     
                 });
                 

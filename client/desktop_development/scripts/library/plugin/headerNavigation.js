@@ -3,17 +3,17 @@
  * header navigation
  * 
  * @param {type} utilities
- * @param {type} container
+ * @param {type} Ribs
  * 
  * @returns {_L16.Anonym$2}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.container'
+    'chrisweb-utilities',
+    'ribsjs'
     
 ], function (
     utilities,
-    container
+    Ribs
 ) {
     
     'use strict';
@@ -37,20 +37,20 @@ define([
             // header navigation
             var headerNavigationView = new HeaderNavigationView();
             
-            container.clear('#header');
+            Ribs.container.clear('#header');
             
-            container.add('#header', headerNavigationView);
+            Ribs.container.add('#header', headerNavigationView);
             
-            container.dispatch('#header');
+            Ribs.container.dispatch('#header');
             
             // header navigation player
             var playerNavigationbarUIView = new PlayerNavigationbarUIView();
             
-            container.clear('#player');
+            Ribs.container.clear('#player');
             
-            container.add('#player', playerNavigationbarUIView);
+            Ribs.container.add('#player', playerNavigationbarUIView);
             
-            container.dispatch('#player');
+            Ribs.container.dispatch('#player');
 
         });
         

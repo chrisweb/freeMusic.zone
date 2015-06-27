@@ -18,8 +18,8 @@
 define([
     'jquery',
     'templates',
-    'chrisweb.utilities',
-    'ribs.view',
+    'chrisweb-utilities',
+    'library.view',
     'library.eventsManager',
     'library.user',
     'library.videoPlayer',

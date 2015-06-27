@@ -6,7 +6,7 @@
  * @param {type} _
  * @param {type} utilities
  * @param {type} Controller
- * @param {type} container
+ * @param {type} Ribs
  * @param {type} EventsManager
  * @param {type} user
  * @param {type} TracksManager
@@ -16,12 +16,12 @@
 define([
     'jquery',
     'underscore',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.controller',
-    'ribs.container',
+    'ribsjs',
     'collections.UserPlaylists'
     
-], function ($, _, utilities, Controller, container, UserPlaylistsCollection) {
+], function ($, _, utilities, Controller, Ribs, UserPlaylistsCollection) {
     
     'use strict';
 
@@ -52,11 +52,11 @@ define([
 
                 var collaborativePlaylistsView = new CollaborativePlaylistsView();
                 
-                container.clear('#core');
+                Ribs.Container.clear('#core');
 
-                container.add('#core', collaborativePlaylistsView);
+                Ribs.Container.add('#core', collaborativePlaylistsView);
                 
-                container.dispatch('#core');
+                Ribs.Container.dispatch('#core');
 
             });
             

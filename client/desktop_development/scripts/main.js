@@ -10,6 +10,13 @@
  */
 require.config({
     baseUrl: '/desktop/client/desktop_development/scripts',
+    packages: [
+        {
+            name: 'ribsjs',
+            main: 'ribs',
+            location: '../../../bower_components/ribs.js/build'
+        }
+    ],
     paths: {
 
         // client core
@@ -32,6 +39,9 @@ require.config({
         'library.videoPlayer': 'library/videoPlayer',
         'library.eventsManager': 'library/eventsManager',
         'library.controller': 'library/controller',
+        'library.model': 'library/model',
+        'library.collection': 'library/collection',
+        'library.view': 'library/view',
         'library.oauth': 'library/oauth',
         
         // helpers
@@ -71,17 +81,6 @@ require.config({
         'skrollr': '../../../bower_components/skrollr/src/skrollr',
         'async': '../../../node_modules/async/lib/async',
         
-        // ribs.js
-        'ribs.collection': '../../../bower_components/ribs.js/src/collection',
-        'ribs.container': '../../../bower_components/ribs.js/src/container',
-        'ribs.controller': '../../../bower_components/ribs.js/src/controller',
-        'ribs.eventsManager': '../../../bower_components/ribs.js/src/eventsManager',
-        'ribs.model': '../../../bower_components/ribs.js/src/model',
-        'ribs.router': '../../../bower_components/ribs.js/src/router',
-        'ribs.view': '../../../bower_components/ribs.js/src/view',
-        'ribs.viewHelper': '../../../bower_components/ribs.js/src/viewHelper',
-        'ribs.viewsloader': '../../../bower_components/ribs.js/src/viewsloader',
-        
         // modernizr
         'modernizrTestsLoader': 'library/modernizr/loader',
         'Modernizr': 'library/modernizr/core',
@@ -104,7 +103,7 @@ require.config({
         'chrisweb.player.core': '../../../bower_components/chrisweb-web-audio-api-player/source/core',
         
         // chrisweb-utilities
-        'chrisweb.utilities': '../../../bower_components/chrisweb-utilities/utilities'
+        'chrisweb-utilities': '../../../bower_components/chrisweb-utilities/utilities'
         
     },
     
@@ -129,7 +128,8 @@ require.config({
  */
 require([
     'bootstrap',
-    'chrisweb.utilities'
+    'chrisweb-utilities'
+    
 ], function (bootstrap, utilities) {
     
     utilities.logSpecial = false;

@@ -3,21 +3,21 @@
  * playlists list collection
  * 
  * @param {type} utilities
- * @param {type} collection
+ * @param {type} Collection
  * @param {type} PlaylistModel
  * 
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.collection',
+    'chrisweb-utilities',
+    'library.collection',
     'models.Playlist'
     
-], function (utilities, collection, PlaylistModel) {
+], function (utilities, Collection, PlaylistModel) {
     
     'use strict';
     
-    var PlaylistsListCollection = collection.extend({
+    var PlaylistsListCollection = Collection.extend({
 
         onInitialize: function() {
             

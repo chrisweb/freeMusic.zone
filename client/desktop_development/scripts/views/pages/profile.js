@@ -10,8 +10,8 @@
  */
 define([
     'templates',
-    'chrisweb.utilities',
-    'ribs.view'
+    'chrisweb-utilities',
+    'library.view'
     
 ], function (JST, utilities, view) {
     

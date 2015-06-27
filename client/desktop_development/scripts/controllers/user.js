@@ -5,17 +5,17 @@
  * @param {type} $
  * @param {type} utilities
  * @param {type} Controller
- * @param {type} container
+ * @param {type} Ribs
  * 
  * @returns {unresolved}
  */
 define([
     'jquery',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.controller',
-    'ribs.container'
+    'ribsjs'
     
-], function ($, utilities, Controller, container) {
+], function ($, utilities, Controller, Ribs) {
     
     'use strict';
     
@@ -36,13 +36,13 @@ define([
             
             require(['views/pages/profile'], function(ProfileView) {
                 
-                container.clear('#core');
+                Ribs.Container.clear('#core');
                 
                 var profileView = new ProfileView();
                 
-                container.add('#core', profileView);
+                Ribs.Container.add('#core', profileView);
                 
-                container.dispatch('#core');
+                Ribs.Container.dispatch('#core');
                 
             });
             

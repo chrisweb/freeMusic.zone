@@ -2,16 +2,14 @@
  * 
  * user library
  * 
- * @param {type} utilities
- * @param {type} RibsEventsManager
+ * @param {type} Ribs
  * 
  * @returns {_L17.Anonym$1}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.eventsManager'
+    'ribsjs'
     
-], function (utilities, RibsEventsManager) {
+], function (Ribs) {
     
     'use strict';
     
@@ -19,7 +17,7 @@ define([
         
     };
     
-    var LibraryEventsManager = _.extend(eventsManager, RibsEventsManager);
+    var LibraryEventsManager = _.extend(eventsManager, Ribs.EventsManager);
     
     LibraryEventsManager.constants = {
         

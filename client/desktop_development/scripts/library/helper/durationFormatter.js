@@ -1,5 +1,5 @@
 define([
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'moment'
 ], function(utilities, moment) {
 

@@ -8,21 +8,21 @@
  * got added
  * 
  * @param {type} utilities
- * @param {type} collection
+ * @param {type} Collection
  * @param {type} PlaylistTrackModel
  * 
  * @returns {unresolved}
  */
 define([
-    'chrisweb.utilities',
-    'ribs.collection',
+    'chrisweb-utilities',
+    'library.collection',
     'models.PlaylistTrack'
     
-], function (utilities, collection, PlaylistTrackModel) {
+], function (utilities, Collection, PlaylistTrackModel) {
     
     'use strict';
     
-    var PlaylistTracksCollection = collection.extend({
+    var PlaylistTracksCollection = Collection.extend({
 
         url: function() {
             return '/api/playlists/tracks/' + this.options.playlistId;

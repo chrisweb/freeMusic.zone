@@ -10,9 +10,9 @@
  * @returns {unresolved}
  */
 define([
-    'ribs.view',
+    'library.view',
     'templates',
-    'chrisweb.utilities',
+    'chrisweb-utilities',
     'library.eventsManager'
     
 ], function (view, JST, utilities, EventsManager) {
