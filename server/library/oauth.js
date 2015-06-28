@@ -53,7 +53,10 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
     
     oauthRouter.get('/redirect', function(request, response, next) {
         
-        //utilities.log(request);
+        //utilities.log('request: ', request);
+        //utilities.log('filtered request code: ', request.query['code']);
+        //utilities.log('filtered request state: ', request.query['state']);
+        //utilities.log('session state: ', request.session.state);
         
         // get the request parameters
         var rawCode = request.query['code'];
@@ -63,6 +66,7 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
         var code = utilities.filterAlphaNumericPlus(rawCode);
         var state = utilities.filterAlphaNumericPlus(rawState, '-');
         
+        
         if (!code || !state) {
             
             // trigger error route
@@ -70,6 +74,15 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
                 stack: '',
                 message: 'invalid code or state'
             };
+            
+            if (process.env.NODE_ENV === 'development') {
+                
+                error.debug = {
+                    code: code,
+                    state: state
+                };
+                
+            }
 
             next(error, request, response, next);
             
@@ -85,6 +98,14 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
                 stack: '',
                 message: 'invalid state'
             };
+            
+            if (process.env.NODE_ENV === 'development') {
+                
+                error.debug = {
+                    state: state
+                };
+                
+            }
 
             // clear state value in session
             request.session.state = '';
@@ -330,7 +351,7 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
         redirect_uri: redirectUrl
     });
 
-    //utilities.log(data);
+    utilities.log('data: ', data);
 
     // define the options
     var options = {
@@ -344,7 +365,7 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
         }
     };
 
-    //utilities.log(options);
+    utilities.log('options: ', options);
 
     // oauth request object
     var oauthRequest = https.request(options, function(oauthResponse) {

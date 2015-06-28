@@ -33,11 +33,11 @@ define([
             
             var leftNavigationView = new LeftNavigationView();
             
-            Ribs.container.clear('#left');
+            Ribs.Container.clear('#left');
             
-            Ribs.container.add('#left', leftNavigationView);
+            Ribs.Container.add('#left', leftNavigationView);
             
-            Ribs.container.dispatch('#left');
+            Ribs.Container.dispatch('#left');
             
             var $body = $('body');
             

@@ -37,20 +37,20 @@ define([
             // header navigation
             var headerNavigationView = new HeaderNavigationView();
             
-            Ribs.container.clear('#header');
+            Ribs.Container.clear('#header');
             
-            Ribs.container.add('#header', headerNavigationView);
+            Ribs.Container.add('#header', headerNavigationView);
             
-            Ribs.container.dispatch('#header');
+            Ribs.Container.dispatch('#header');
             
             // header navigation player
             var playerNavigationbarUIView = new PlayerNavigationbarUIView();
             
-            Ribs.container.clear('#player');
+            Ribs.Container.clear('#player');
             
-            Ribs.container.add('#player', playerNavigationbarUIView);
+            Ribs.Container.add('#player', playerNavigationbarUIView);
             
-            Ribs.container.dispatch('#player');
+            Ribs.Container.dispatch('#player');
 
         });
         

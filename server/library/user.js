@@ -21,7 +21,7 @@ module.exports.start = function initialize(configuration) {
         
         utilities.log('[USER LIBRARY] on userOauth event');
         
-        //utilities.log('parameters: ', parameters.userOauthData);
+        utilities.log('parameters: ', parameters.userOauthData);
         
         var userOauthData = parameters.userOauthData;
         var request = parameters.request;

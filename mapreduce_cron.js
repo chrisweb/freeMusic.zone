@@ -93,7 +93,7 @@ try {
     
     var job;
     
-    if (process.env.NODE_ENV.toUpperCase() === 'DEVELOPMENT') {
+    if (process.env.NODE_ENV.toLowerCase() === 'development') {
         
         //cronTime: '*/1 * * * * *', // execute it every 1 second
         //onTick: function() { utilities.log('test'); }

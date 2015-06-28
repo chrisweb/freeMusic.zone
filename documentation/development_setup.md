@@ -153,14 +153,14 @@ If your redis or mongo db have no user and password, just keep those fields empt
 
 ### Start the server
 
-To run the project run this command on linux:
+To start the web server, use this command on linux:
 NODE_ENV=development node server
 
-OR thess commands for windows powershell:
+OR these commands for windows powershell:
 $env:NODE_ENV="development"
 node server
 
-NODE_ENV can be development, staging, production
+(!) NODE_ENV can be development, staging, production (not dev, prod)
 
 ### Open the project in your browser
 
@@ -169,6 +169,34 @@ Open your browser and use the following address:
 127.0.0.1:THE_PORT_YOU_HAVE_SET_IN_THE_CONFIGURATION
 
 by default it should be 127.0.0.1:35000
+
+### twitter harvester
+
+To fill mongodb with some twitter data for the charts run the twitter harvester in development mode
+
+Running the harvester in development mode will force it to make a search and not just wait for streamed data
+
+To start the twitter harvester, use this command on linux:
+
+NODE_ENV=development node twitter_harvester
+
+OR these commands for windows powershell:
+$env:NODE_ENV="development"
+node twitter_harvester
+
+### mapreduce cron
+
+Now you need to run the twitter harvester mapreduce job to ensure the results from twitter get converted into real charts
+
+Starting the harvester in development mode will make it execute the cron job every minute, in production it will run every 20 minutes
+
+To start the cron job, use this command on linux:
+
+NODE_ENV=development node mapreduce_cron
+
+OR these commands for windows powershell:
+$env:NODE_ENV="development"
+node mapreduce_cron
 
 ### Browser console messages
 

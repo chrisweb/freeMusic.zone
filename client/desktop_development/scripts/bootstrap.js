@@ -73,11 +73,11 @@ define([
                         }
                     });
                     
-                    Ribs.container.clear('#core');
+                    Ribs.Container.clear('#core');
                     
-                    Ribs.container.add('#core', notSupportedView);
+                    Ribs.Container.add('#core', notSupportedView);
                     
-                    Ribs.container.dispatch('#core');
+                    Ribs.Container.dispatch('#core');
                     
                 });
                 

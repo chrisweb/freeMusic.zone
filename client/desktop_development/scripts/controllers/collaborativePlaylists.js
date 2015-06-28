@@ -7,9 +7,7 @@
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} Ribs
- * @param {type} EventsManager
- * @param {type} user
- * @param {type} TracksManager
+ * @param {type} playlistsManager
  * 
  * @returns {unresolved}
  */
@@ -19,9 +17,9 @@ define([
     'chrisweb-utilities',
     'library.controller',
     'ribsjs',
-    'collections.UserPlaylists'
+    'library.playlistsManager'
     
-], function ($, _, utilities, Controller, Ribs, UserPlaylistsCollection) {
+], function ($, _, utilities, Controller, Ribs, playlistsManager) {
     
     'use strict';
 
@@ -40,9 +38,7 @@ define([
         
             utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] action: index', 'fontColor:blue');
             
-            var userPlaylistsCollection = new UserPlaylistsCollection();
             
-            userPlaylistsCollection.fetch();
             
 
             // chat message input form
@@ -57,6 +53,13 @@ define([
                 Ribs.Container.add('#core', collaborativePlaylistsView);
                 
                 Ribs.Container.dispatch('#core');
+                
+                //var userPlaylistsList = 
+                
+                //PlaylistsManager.get({
+                //    playlistId: userPlaylistsList,
+                //    withPlaylistTracks: false
+                //}, function(error, playlistsArray) {
 
             });
             

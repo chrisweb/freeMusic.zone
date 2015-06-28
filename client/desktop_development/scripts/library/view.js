@@ -17,11 +17,7 @@ define([
     
     var LibraryView = Ribs.View.extend({
         
-        onInitialize: function(options, configuration, router) {
-            
-            //utilities.log('[LIBRARY VIEW] initializing ...', 'fontColor:blue');
-            
-        }
+        
         
     });
     
