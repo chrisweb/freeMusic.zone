@@ -7,7 +7,7 @@
  * @param {type} RouterPlugin
  * @param {type} LeftNavigationPlugin
  * @param {type} HeaderNavigationPlugin
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * @param {type} Ribs
  * @param {type} TracksManager
  * @param {type} PlaylistsManager
@@ -21,24 +21,26 @@ define([
     'library.plugin.router',
     'library.plugin.leftNavigation',
     'library.plugin.headerNavigation',
-    'library.eventsManager',
+    'library.events',
     'ribsjs',
-    'library.tracksManager',
-    'library.playlistsManager',
+    'manager.tracks',
+    'manager.playlists',
+    'manager.collaborativePlaylists',
     'library.plugin.player',
     
     'library.jquery.plugin.hasAttr' // adds a new hasAttr function to $ (jquery)
 ], function (
     utilities,
-    SplashScreenPlugin,
-    RouterPlugin,
-    LeftNavigationPlugin,
-    HeaderNavigationPlugin,
-    EventsManager,
+    splashScreenPlugin,
+    routerPlugin,
+    leftNavigationPlugin,
+    headerNavigationPlugin,
+    eventsLibrary,
     Ribs,
-    TracksManager,
-    PlaylistsManager,
-    PlayerPlugin
+    tracksManager,
+    playlistsManager,
+    collaborativePlaylistsManager,
+    playerPlugin
 ) {
 
     'use strict';
@@ -55,11 +57,11 @@ define([
     var run = function runFunction() {
         
         // first initialize the splashScreen plugin
-        SplashScreenPlugin.initialize();
+        splashScreenPlugin.initialize();
         
         // then we initialize the router plugin
         // the router plugin will intialize the router
-        RouterPlugin.initialize(function(error, unsupported) {
+        routerPlugin.initialize(function(error, unsupported) {
             
             if (error) {
 
@@ -90,12 +92,12 @@ define([
             
             utilities.log('dom finished loading...');
             
-            EventsManager.trigger(EventsManager.constants.DOM_LOADED);
+            eventsLibrary.trigger(eventsLibrary.constants.DOM_LOADED);
             
         });
         
         // on event "post route" and the UI does not already exist
-        EventsManager.on(EventsManager.constants.ROUTER_POSTROUTE, function(attributes) {
+        eventsLibrary.on(eventsLibrary.constants.ROUTER_POSTROUTE, function(attributes) {
             
             if (attributes.routeName !== 'renderHomepage') {
                 
@@ -133,19 +135,22 @@ define([
         }
         
         // initialize the left navigation plugin
-        LeftNavigationPlugin.initialize();
+        leftNavigationPlugin.initialize();
         
         // initialize the header navigation plugin
-        HeaderNavigationPlugin.initialize();
+        headerNavigationPlugin.initialize();
         
         // initialize the tracks manager
-        TracksManager.initialize();
+        tracksManager.initialize();
         
         // initialize the playlists manager
-        PlaylistsManager.initialize();
+        playlistsManager.initialize();
+        
+        // initialize the collaborative playlists manager
+        collaborativePlaylistsManager.initialize();
         
         // initialize the player plugin
-        PlayerPlugin.initialize();
+        playerPlugin.initialize();
         
     };
     

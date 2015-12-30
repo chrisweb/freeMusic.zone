@@ -5,7 +5,7 @@
  * @param {type} view
  * @param {type} JST
  * @param {type} utilities
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * 
  * @returns {unresolved}
  */
@@ -13,9 +13,14 @@ define([
     'library.view',
     'templates',
     'chrisweb-utilities',
-    'library.eventsManager'
-    
-], function (view, JST, utilities, EventsManager) {
+    'library.events'
+
+], function (
+    view,
+    JST,
+    utilities,
+    EventsLibrary
+) {
     
     'use strict';
     
@@ -27,7 +32,7 @@ define([
             
             // tell the tracks cache manager that he must increment the
             // usage of this track by one
-            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: this.model.get('id'), action: 'increment' });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACKS_MANAGER_USAGE, { trackId: this.model.get('id'), action: 'increment' });
             
         },
         
@@ -46,7 +51,7 @@ define([
         
         trackPreviewStart: function trackPreviewStartFunction(event) {
 
-            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: this.model.get('id') });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_PLAY, { trackId: this.model.get('id') });
             
             this.$el.find('.trackPreview').addClass('fa-spin');
             
@@ -54,7 +59,7 @@ define([
         
         trackPreviewStop: function trackPreviewStopFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_STOP, { trackId: this.model.get('id') });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_STOP, { trackId: this.model.get('id') });
             
             this.$el.find('.trackPreview').removeClass('fa-spin');
             
@@ -62,7 +67,7 @@ define([
         
         playTrackClick: function playTrackClickFunction(event) {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_PLAY, { trackId: this.model.get('id'), playlistId: this.options.playlistId });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_PLAY, { trackId: this.model.get('id'), playlistId: this.options.playlistId });
             
             $(event.currentTarget)
                 .removeClass('fa-play')
@@ -74,7 +79,7 @@ define([
         
         pauseTrackClick: function pauseTrackClickFunction(event) {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_PAUSE);
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_PAUSE);
             
             $(event.currentTarget)
                 .removeClass('fa-pause')
@@ -86,19 +91,19 @@ define([
         
         shareOnTwitterTrackClick: function shareOnTwitterTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'twitter' });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'twitter' });
             
         },
         
         shareOnGooglePlusClick: function retweetTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'facebook' });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'facebook' });
             
         },
         
         shareOnFacebookClick: function retweetTrackClickFunction() {
             
-            EventsManager.trigger(EventsManager.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'googleplus' });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_SHARE, { trackId: this.model.get('id'), network: 'googleplus' });
             
         },
         
@@ -106,7 +111,7 @@ define([
             
             // tell the tracks cache manager that he must decrement the
             // usage of this track by one
-            EventsManager.trigger(EventsManager.constants.TRACKS_MANAGER_USAGE, { trackId: this.model.get('id'), action: 'decrement' });
+            EventsLibrary.trigger(EventsLibrary.constants.TRACKS_MANAGER_USAGE, { trackId: this.model.get('id'), action: 'decrement' });
             
         }
         

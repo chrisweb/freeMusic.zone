@@ -29,6 +29,10 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * the redis server cloud init setup script must edit the redis conf file and set the production values
 * put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
 * add this little effect (js) for homepage headline http://gabinaureche.com/TheaterJS/
+* add support for emoji using the twitter package https://www.npmjs.com/package/twemoji
+* drop bower, load all depencies with npmjs, it's easier to manage all dependencies with one tool an avoids having duplicates for the server and client, also allows to track new versions using https://david-dm.org/chrisweb/freeMusic.zone
+* replace twitter bootstrap 3 with twitter boostrap 4 (+ update documentation)
+* replace all use of glyphicons with font awsome as twitter boostrap 4 does not have glyphicons anymore (+ update grunt file)
 
 ## Other todos (damn that's a lot of todos ;) )
 

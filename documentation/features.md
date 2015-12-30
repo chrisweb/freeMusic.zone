@@ -51,13 +51,27 @@
 * invite friends by mail or social network
 
 ###### Card game
-* two players get several cards where each card represents an artist and some stats like total fans, album and tracks count, listen count and so on ... a player starts by playing a card and telling the oponent what stats he wants to use for the fight, the other player lays down a card too, if the value is higher he wins both cards, then the player who lost can play a card ... until one player owns all the cards
+* each player selects the cards from his deck that he wants to use in the fight
+* each card represents an artist and some stats like total fans, album and tracks count, listen count and so on
+* a player starts by playing a card and telling the oponent what stats he wants to use for the fight
+* the other player lays down a card too, if the value is higher he wins both cards, then the player who lost (who won?) can play a card
+* until one player owns all the cards
+* create a highscore table with players that won most games
+* when wining a game the player gets a point, he can use the points to reclaim extra epic cards that will be added to his deck
 
 ###### Hot or not
-* add a hot or not game for the new releases, every user can rate ten songs per day, highscore of the month
+* add a hot or not game for the new releases, every user can rate ten songs per day
 
 ###### a song a cat
 * for each song played, display a picture of a funny cute cate (google image search API?)
+
+###### bingo like game with albums instead of numbers
+* user chooses the amount of rows (and columns) before creating a new game
+* the user can select a music genre for the albums or select the albums himself
+* start the game fills the board with album covers
+* servers calls out an album name, the first song of the album is being played until the next album is being called out
+* the player must select the album that got called out on his board
+* the first player that has a full row or column on his board must yell "jamendo" to win the game
 
 ##### tweet2jam
 

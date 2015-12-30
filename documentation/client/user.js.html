@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -28,11 +28,11 @@
         <article>
             <pre class="prettyprint source linenums"><code>define([
     'chrisweb-utilities',
-    'library.eventsManager',
+    'library.events',
     'models.User',
     'moment'
     
-], function (utilities, EventsManager, UserModel) {
+], function (utilities, EventsLibrary, UserModel) {
     
     'use strict';
     
@@ -141,7 +141,7 @@
                         
                     }
                     
-                    EventsManager.trigger(EventsManager.constants.USER_ISLOGGED, { isLogged: isLogged });
+                    EventsLibrary.trigger(EventsLibrary.constants.USER_ISLOGGED, { isLogged: isLogged });
                     
                 });
                 
@@ -155,7 +155,7 @@
                     
                 }
                 
-                EventsManager.trigger(EventsManager.constants.USER_ISLOGGED, { isLogged: isLogged });
+                EventsLibrary.trigger(EventsLibrary.constants.USER_ISLOGGED, { isLogged: isLogged });
                 
             }
             

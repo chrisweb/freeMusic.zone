@@ -370,7 +370,7 @@ module.exports = function (grunt) {
             },
             views: {
                 files: [
-                    '<%= config.server.views.path %>/desktop_development@@.html'
+                    '<%= config.server.views.path %>/desktop@@.html'
                 ],
                 tasks: ['development-replace']
             },
@@ -417,7 +417,8 @@ module.exports = function (grunt) {
         'copy:fontellofont_desktop',
         'copy:favicon',
         'copy:robotstxt',
-        'copy:favicon'
+        'copy:favicon',
+        'copy:images'
     ]);
 
     // this task just changes the sass configuration for production builds by disbaling the source maps generation

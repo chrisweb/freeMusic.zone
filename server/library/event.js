@@ -9,12 +9,12 @@ var utilities = require('../../bower_components/chrisweb-utilities/utilities');
 // nodejs event emitter
 var EventEmitter = require('events').EventEmitter;
 
-var eventsManager = function eventsManagerFunction() {
+var eventsLibrary = function eventsManagerFunction() {
     
     utilities.log('[EVENTS MANAGER] initialized');
     
 };
 
-util.inherits(eventsManager, EventEmitter);
+util.inherits(eventsLibrary, EventEmitter);
 
-module.exports = new eventsManager();
+module.exports = new eventsLibrary();

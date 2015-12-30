@@ -18,7 +18,7 @@ var configuration = configurationModule.get(process.env.NODE_ENV);
  * @param {type} callback
  * @returns {unresolved}
  */
-module.exports.getClient = function getClientFunction(callback) {
+module.exports.getClient = function getClientFunction(options, callback) {
 
     utilities.log('[MONGO_DB] getClient', 'fontColor:cyan');
     
@@ -59,6 +59,13 @@ module.exports.getClient = function getClientFunction(callback) {
     
         var connectionParameters = 'mongodb://' + userAndPasswordPart + configuration.mongodb.host + portPart + '/' + configuration.mongodb.database.name;
         
+    }
+    
+    // use attributes defined in options
+    if (options !== undefined) {
+
+        // not used yet
+
     }
     
     if (missingConfiguration) {

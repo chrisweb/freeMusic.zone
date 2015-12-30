@@ -22,10 +22,10 @@ module.exports.get = function getConfiguration(environment) {
              * twitter
              */
             configuration.twitter = {
-                consumer_key:         '4r6g4ger46g4rg4r', // consumer_key
-                consumer_secret:      '4gr6g4er4re64r6r4e6grre644gr64r64gr64r', // consumer_secret
-                access_token_key:     'xbc44b6x46xb-gre44r64r64gre646r4re6464r', // access_token
-                access_token_secret:  '4e8r4zr6rez46rze4rz644zr6r4z6r4z4zr' // access_token_secret
+                consumer_key:         '4r6g_REPLACE-ME_rg4r', // consumer_key
+                consumer_secret:      '4gr6_REPLACE-ME_4e6grre644gr64r64gr64r', // consumer_secret
+                access_token_key:     'xbc4_REPLACE-ME_44r64r64gre646r4re6464r', // access_token
+                access_token_secret:  '4e8r_REPLACE-ME_4rz644zr6r4z6r4z4zr' // access_token_secret
             };
             
             /**
@@ -56,7 +56,7 @@ module.exports.get = function getConfiguration(environment) {
                 host: '127.0.0.1',
                 port: 27017,
                 user: 'sgdgds',
-                password: '4gs65g64sd4',
+                password: '4gs_REPLACE-ME_sd4',
                 database: {
                     name: 'database_name'
                 }
@@ -68,13 +68,21 @@ module.exports.get = function getConfiguration(environment) {
             configuration.redis = {
                 host: '127.0.0.1',
                 port: 6379,
-                auth: 'h4b4dt4rt4bt64bt46b6r4b64bt64bt6b4rt64b64',
+                auth: 'h4b4dt4rt4bt64b_REPLACE-ME_t6b4rt64b64',
                 databases: {
                     default: 0,
-                    session: 1
+                    session: 1,
+                    socketio: 2
                 }
             };
             
+            /**
+             * socket.io
+             */
+            configuration.socketio = {
+                port: 35001
+            };
+
             /**
              * application
              */
@@ -93,7 +101,7 @@ module.exports.get = function getConfiguration(environment) {
              */
             configuration.jamendoApi = {
                 clientId: 'ew56wge5gwe',
-                clientSecret: 'd4dh54h6r64d6f465hdf4hd4hf56fd',
+                clientSecret: 'd4dh54h6_REPLACE-ME_f4hd4hf56fd',
                 protocol: 'https',
                 host: 'api.jamendo.com',
                 version: 'v3.0',
@@ -111,8 +119,8 @@ module.exports.get = function getConfiguration(environment) {
             };
             
             configuration.aws = {
-                'accessKeyId': 'FJFJFJFJFJKF',
-                'secretAccessKey': 'UIEGFIUGFEIUGFEIUGFEIUGFEIU',
+                'accessKeyId': 'FJF_REPLACE-ME_JKF',
+                'secretAccessKey': 'UIEGF_REPLACE-ME_FEIUGFEIU',
                 'region': 'us-west-1'
             };
 

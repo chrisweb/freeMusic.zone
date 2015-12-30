@@ -18,7 +18,7 @@ var configuration = configurationModule.get(process.env.NODE_ENV);
  * @param {type} callback
  * @returns {unresolved}
  */
-module.exports.getClient = function getClientFunction(callback) {
+module.exports.getClient = function getClientFunction(options, callback) {
 
     utilities.log('[REDIS_DB] getClient', 'fontColor:cyan');
 
@@ -38,7 +38,13 @@ module.exports.getClient = function getClientFunction(callback) {
     }
 
     // get redis client instance
-    var redisDBClient = redis.createClient(redisPort, redisHost);
+    var redisDBClient;
+
+    if (options !== undefined) {
+        redisDBClient = redis.createClient(redisPort, redisHost, options);
+    } else {
+        redisDBClient = redis.createClient(redisPort, redisHost);
+    }
     
     if (configuration.redis.hasOwnProperty('auth')) {
     

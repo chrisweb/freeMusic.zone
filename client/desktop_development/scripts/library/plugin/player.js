@@ -3,7 +3,7 @@
  * player plugin
  * 
  * @param {type} utilities
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * @param {type} playerCore
  * @param {type} TracksManager
  * @param {type} PlaylistsManager
@@ -12,12 +12,18 @@
  */
 define([
     'chrisweb-utilities',
-    'library.eventsManager',
+    'library.events',
     'library.player.core',
-    'library.tracksManager',
-    'library.playlistsManager'
-    
-], function (utilities, EventsManager, playerCore, TracksManager, PlaylistsManager) {
+    'manager.tracks',
+    'manager.playlists'
+
+], function (
+    utilities,
+    EventsLibrary,
+    playerCore,
+    TracksManager,
+    PlaylistsManager
+) {
     
     'use strict';
     
@@ -35,7 +41,7 @@ define([
      */
     var startListening = function startListeningFunction() {
         
-        EventsManager.on(EventsManager.constants.TRACK_PLAY, function(attributes) {
+        EventsLibrary.on(EventsLibrary.constants.TRACK_PLAY, function(attributes) {
             
             TracksManager.get(attributes.trackId, function(error, trackModelsArray) {
                 
@@ -67,7 +73,7 @@ define([
             
         });
         
-        EventsManager.on(EventsManager.constants.TRACK_PAUSE, function() {
+        EventsLibrary.on(EventsLibrary.constants.TRACK_PAUSE, function() {
             
             // pause the track
             playerCore.pause();
@@ -76,7 +82,7 @@ define([
         
         // when the player tells us that a track finished playing and that
         // we should play the next one of the playlist
-        EventsManager.on(EventsManager.constants.PLAYLIST_NEXT, function(attributes) {
+        EventsLibrary.on(EventsLibrary.constants.PLAYLIST_NEXT, function(attributes) {
             
             var nextTrack = PlaylistsManager.nextTrack();
             

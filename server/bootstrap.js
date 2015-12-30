@@ -99,16 +99,26 @@ var bodyParser = require('body-parser');
 // https://github.com/visionmedia/connect-redis
 var connectRedis = require('connect-redis');
 
+// socket.io and it's redis adapter
+// https://github.com/socketio/socket.io
+var SocketIO = require('socket.io');
+var SocketIORedisAdapter = require('socket.io-redis');
+
 // configuration
 var configuration = configurationModule.get(process.env.NODE_ENV);
+
+// express cors
+var cors = require('cors');
 
 // initialize the user module
 userModule.start(configuration);
 
 var mongoClient;
 
+var mongodbOptions = {};
+
 // mongodb connection
-mongoModule.getClient(function mongooseConnectCallback(error, mongooseConnection) {
+mongoModule.getClient(mongodbOptions, function mongooseConnectCallback(error, mongooseConnection) {
     
     if (error) {
         
@@ -126,6 +136,10 @@ mongoModule.getClient(function mongooseConnectCallback(error, mongooseConnection
 
 // instantiate expressjs
 var app = express({ env: process.env.NODE_ENV });
+
+// use cors
+// TODO: do improved configuration for production, put options in configuration file
+app.use(cors());
 
 // template engine setup
 app.engine('html', ejs.renderFile);
@@ -153,11 +167,13 @@ var RedisStore = connectRedis(session);
 
 var redisClients = [];
 
-redisModule.getClient(function getClientCallback(error, client) {
+var redisClientSessionsOptions = {};
+
+redisModule.getClient(redisClientSessionsOptions, function getClientCallback(error, redisClientSessions) {
     
     if (!error) {
         
-        redisClients.push(client);
+        redisClients.push(redisClientSessions);
         
         if (!configuration.redis.hasOwnProperty('databases')
             || !configuration.redis.databases.hasOwnProperty('session')
@@ -167,25 +183,28 @@ redisModule.getClient(function getClientCallback(error, client) {
         
         }
         
-        redisModule.selectDatabase(configuration.redis.databases.session, client, function selectDatabaseCallback(error) {
+        redisModule.selectDatabase(configuration.redis.databases.session, redisClientSessions, function selectDatabaseCallback(error) {
             
             if (!error) {
                 
-                var redisOptions = { client: client };
+                var redisStoreOptions = { client: redisClientSessions };
         
-                var redisStore = new RedisStore(redisOptions);
+                var redisStoreSessions = new RedisStore(redisStoreOptions);
                 
                 if (!configuration.hasOwnProperty('application')
                     || !configuration.application.hasOwnProperty('session')
                     || !configuration.application.session.hasOwnProperty('secret')
                     || configuration.application.session.secret === '') {
 
-                    throw 'the application configuration is missing, check out /server/configuration/configuration.js';
+                    throw 'the application configuration for the sessions database is missing, check out /server/configuration/configuration.js';
 
                 }
-
+                
+                // APP SETUP
+                // TODO: put this into seperate function
                 app.use(cookieParser()); // required before session.
-                app.use(session({
+
+                var expressSession = session({
                     secret: configuration.application.session.secret,
                     proxy: false, // set to true for SSL outside of node
                     cookie: {
@@ -196,10 +215,12 @@ redisModule.getClient(function getClientCallback(error, client) {
                         // so whenhen the user closes the browser the cookie (and session) will be removed
                         maxAge: null
                     },
-                    store: redisStore,
+                    store: redisStoreSessions,
                     saveUninitialized: true,
                     resave: true
-                }));
+                });
+
+                app.use(expressSession);
                 
                 // start api
                 var apiRouter = express.Router();
@@ -260,9 +281,7 @@ redisModule.getClient(function getClientCallback(error, client) {
                 
                 // route for aws health check
                 app.use('/health-check.html', function(request, response) {
-                    
                     response.render('healthCheck');
-                    
                 });
                 
                 // add error handling last
@@ -271,11 +290,161 @@ redisModule.getClient(function getClientCallback(error, client) {
                 app.use('/desktop', desktopRouter);
                 
                 // START SERVER
+                // use the port set by pm2 or visual studio or use the default one from configuration
                 app.set('port', process.env.PORT || configuration.server.port);
-                
-                app.listen(app.get('port'));
+
+                var server = app.listen(app.get('port'));
                 
                 utilities.log('SERVER running on port: ' + app.get('port') + ', environment is: ' + app.get('env'), 'fontColor:green');
+                
+                var redisClientSocketIOPublisherOptions = {};
+
+                // SOCKET.IO
+                // TODO: put this into seperate function
+                redisModule.getClient(redisClientSocketIOPublisherOptions, function getClientCallback(error, redisClientSocketIOPublisher) {
+                    
+                    if (!error) {
+                        
+                        redisClients.push(redisClientSocketIOPublisher);
+                        
+                        if (!configuration.redis.hasOwnProperty('databases') 
+                        || !configuration.redis.databases.hasOwnProperty('session') 
+                        || configuration.redis.databases.session === '') {
+                            
+                            throw 'the redis configuration for socket.io is missing, check out /server/configuration/configuration.js';
+        
+                        }
+                        
+                        redisModule.selectDatabase(configuration.redis.databases.socketio, redisClientSocketIOPublisher, function selectDatabaseCallback(error) {
+                            
+                            if (!error) {
+                                
+                                // setup socket.io and its redis adapter
+                                var socketIO = new SocketIO(server);
+                                
+                                var pub = redisClientSocketIOPublisher;
+                                
+                                var redisClientSocketIOSubscriberOptions = {
+                                    return_buffers: true
+                                };
+
+                                redisModule.getClient(redisClientSocketIOSubscriberOptions, function getClientCallback(error, redisClientSocketIOSubscriber) {
+                                    
+                                    if (!error) {
+                                        
+                                        redisClients.push(redisClientSocketIOSubscriber);
+                                        
+                                        if (!configuration.redis.hasOwnProperty('databases') 
+                                        || !configuration.redis.databases.hasOwnProperty('session') 
+                                        || configuration.redis.databases.session === '') {
+                                            
+                                            throw 'the redis configuration for socket.io is missing, check out /server/configuration/configuration.js';
+        
+                                        }
+                                        
+                                        redisModule.selectDatabase(configuration.redis.databases.socketio, redisClientSocketIOSubscriber, function selectDatabaseCallback(error) {
+                                            
+                                            if (!error) {
+                                                
+                                                var sub = redisClientSocketIOSubscriber;
+                                                
+                                                var socketIORedisAdapter = SocketIORedisAdapter({ pubClient: pub, subClient: sub });
+                                                
+                                                socketIORedisAdapter.pubClient.on('error', function (error) {
+                                                    utilities.log(error, 'fontColor:red');
+                                                });
+                                                
+                                                socketIORedisAdapter.subClient.on('error', function (error) {
+                                                    utilities.log(error, 'fontColor:red');
+                                                });
+                                                
+                                                socketIO.adapter(socketIORedisAdapter);
+                                                
+                                                // add the session to socket.io
+                                                socketIO.use(function (socket, next) {
+                                                    expressSession(socket.request, socket.request.res, next);
+                                                });
+
+                                                var socketIONamespaceName = 'collaborativePlaylists';
+                                                
+                                                var socketIONamespace = socketIO.of('/' + socketIONamespaceName);
+                                                
+                                                socketIONamespace.on('connection', function (socketIOSocket) {
+                                                    
+                                                    utilities.log('socket.io: user joined ' + socketIONamespaceName + ' namespace', 'fontColor:yellow');
+                                                    
+                                                    socketIOSocket.roomId = null;
+                                                    socketIOSocket.username = socketIOSocket.client.request.session.user.nickname;
+
+                                                    socketIOSocket.on('disconnect', function () {
+                                                    
+                                                        utilities.log('socket.io: user left ' + socketIONamespaceName + ' namespace', 'fontColor:yellow');
+                                                    
+                                                    });
+
+                                                    socketIOSocket.on('joinCollaborativePlaylist', function (attributes) {
+                                                        
+                                                        utilities.log('socket.io: user joined ' + attributes.collaborativePlaylistId + ' collaborativePlaylist', 'fontColor:yellow');
+                                                        
+                                                        var roomId = attributes.collaborativePlaylistId;
+
+                                                        // if user is already in a room first leave it
+                                                        if (socketIOSocket.roomId !== null) {
+                                                            socketIOSocket.leave(roomId);
+                                                        }
+                                                        
+                                                        // join the new room
+                                                        socketIOSocket.join(roomId);
+                                                        
+                                                        // add the room id to the socket object
+                                                        socketIOSocket.roomId = roomId;
+                                                    
+                                                    });
+
+                                                    socketIOSocket.on('messageCollaborativePlaylist', function (attributes) {
+
+                                                        utilities.log('socket.io: collaborativePlaylist message ' + attributes.message, 'fontColor:yellow');
+                                                        
+                                                        // send a message to all the users in a room except the client that created the message
+                                                        socketIOSocket.broadcast.in(socketIOSocket.roomId).emit('messageCollaborativePlaylist', {
+                                                            message: socketIOSocket.username + ': ' + attributes.message
+                                                        });
+
+                                                    });
+
+                                                });
+
+                                            } else {
+                                                
+                                                utilities.log(error, 'fontColor:red');
+
+                                            }
+
+                                        });
+
+                                    } else {
+                                        
+                                        utilities.log(error, 'fontColor:red');
+
+                                    }
+
+                                });
+
+                            } else {
+                                
+                                utilities.log(error, 'fontColor:red');
+
+                            }
+
+                        });
+
+                    } else {
+                        
+                        utilities.log(error, 'fontColor:red');
+
+                    }
+
+                });
                 
             } else {
                 

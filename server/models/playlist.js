@@ -97,7 +97,7 @@ playlistModel.prototype.saveOne = function saveOneFunction(data, callback) {
         
         if (error) {
             
-            utilities.log('[USER MODEL] save failed', error, 'fontColor:red');
+            utilities.log('[PLAYLIST MODEL] save failed', error, 'fontColor:red');
             
             if (callback !== undefined) {
             

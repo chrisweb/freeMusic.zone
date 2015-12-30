@@ -9,15 +9,23 @@
  * @returns {unresolved}
  */
 define([
+    'underscore',
     'templates',
     'chrisweb-utilities',
-    'library.view'
-    
-], function (JST, utilities, view) {
+    'library.view',
+    'library.events'
+
+], function (
+    _,
+    JST,
+    utilities,
+    view,
+    EventsLibrary
+) {
     
     'use strict';
     
-    var TwitterChartsView = view.extend({
+    var collaborativePlaylistsView = view.extend({
         
         onInitializeStart: function() {
             
@@ -32,14 +40,14 @@ define([
             'click .newCollaborativePlaylist': 'newCollaborativePlaylistClick'
         },
         
-        newCollaborativePlaylistClick: function newCollaborativePlaylistClickFunction() {
+        newCollaborativePlaylistClick: function newCollaborativePlaylistClickFunction(event) {
             
-            
+            EventsLibrary.trigger(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_NEW);
             
         }
         
     });
     
-    return TwitterChartsView;
+    return collaborativePlaylistsView;
     
 });

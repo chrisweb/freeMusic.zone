@@ -5,7 +5,7 @@
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * @param {type} UserLibrary
  * 
  * @returns {unresolved}
@@ -14,10 +14,16 @@ define([
     'templates',
     'chrisweb-utilities',
     'library.view',
-    'library.eventsManager',
+    'library.events',
     'library.user'
-    
-], function (JST, utilities, View, EventsManager, UserLibrary) {
+
+], function (
+    JST,
+    utilities,
+    View,
+    EventsLibrary,
+    UserLibrary
+) {
     
     'use strict';
     
@@ -57,7 +63,7 @@ define([
             
             $menuButton.toggleClass('active');
             
-            EventsManager.trigger(EventsManager.constants.MENU_TOGGLE, this);
+            EventsLibrary.trigger(EventsLibrary.constants.MENU_TOGGLE, this);
             
         },
         userButtonClick: function toggleMenuEventFunction(event) {

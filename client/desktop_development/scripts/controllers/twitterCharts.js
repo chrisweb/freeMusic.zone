@@ -15,11 +15,18 @@ define([
     'chrisweb-utilities',
     'library.controller',
     'ribsjs',
-    'library.playlistsManager',
+    'manager.playlists',
     'collections.PlaylistTracks',
     'models.Playlist'
-    
-], function (utilities, Controller, Ribs, PlaylistsManager, PlaylistTracksCollection, PlaylistModel) {
+
+], function (
+    utilities,
+    Controller,
+    Ribs,
+    PlaylistsManager,
+    PlaylistTracksCollection,
+    PlaylistModel
+) {
     
     'use strict';
 
@@ -86,7 +93,7 @@ define([
                         
                         // create the twitter charts tracks list view and add it to
                         // the dom
-                        var twitterChartsTracksView = new TracksListView({
+                        var twitterChartsTracksListView = new TracksListView({
                             collection: tweetsPlaylistModel.get('playlistTracksCollection'),
                             ModelView: TrackRowView,
                             ModelViewOptions: {
@@ -99,7 +106,7 @@ define([
                         
                         Ribs.Container.clear('#twitterChartsTracks');
                         
-                        Ribs.Container.add('#twitterChartsTracks', twitterChartsTracksView);
+                        Ribs.Container.add('#twitterChartsTracks', twitterChartsTracksListView);
                         
                         Ribs.Container.dispatch('#twitterChartsTracks');
                         

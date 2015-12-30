@@ -5,7 +5,7 @@
  * @param {type} view
  * @param {type} JST
  * @param {type} utilities
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * 
  * @returns {unresolved}
  */
@@ -13,9 +13,14 @@ define([
     'library.view',
     'templates',
     'chrisweb-utilities',
-    'library.eventsManager'
-    
-], function (view, JST, utilities, EventsManager) {
+    'library.events'
+
+], function (
+    view,
+    JST,
+    utilities,
+    EventsLibrary
+) {
     
     'use strict';
     
@@ -28,14 +33,14 @@ define([
             var that = this;
             
             // listen for loading progress event
-            EventsManager.on(EventsManager.constants.TRACK_LOADING_PROGRESS, function trackLoadingProgressFunction(attributes) {
+            EventsLibrary.on(EventsLibrary.constants.TRACK_LOADING_PROGRESS, function trackLoadingProgressFunction(attributes) {
                 
                 that.$el.find('.progress-bar-loading').css('width', + attributes.percentage + '%');
                 
             });
             
             // listen for playing progress event
-            EventsManager.on(EventsManager.constants.PLAYER_PLAYING_PROGRESS, function trackPlayingProgressFunction(attributes) {
+            EventsLibrary.on(EventsLibrary.constants.PLAYER_PLAYING_PROGRESS, function trackPlayingProgressFunction(attributes) {
                 
                 that.$el.find('.progress-bar-playing').css('width', + attributes.percentage + '%');
                 
@@ -60,8 +65,8 @@ define([
             
             var positionPercentage = 100/(boundingClientRect.width/position);
             
-            EventsManager.trigger(
-                EventsManager.constants.PLAYER_POSITION_CHANGE,
+            EventsLibrary.trigger(
+                EventsLibrary.constants.PLAYER_POSITION_CHANGE,
                 {
                     originalEvent: event,
                     percentage: positionPercentage

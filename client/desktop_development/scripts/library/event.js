@@ -1,6 +1,6 @@
 /**
  * 
- * user library
+ * event library
  * 
  * @param {type} Ribs
  * 
@@ -13,13 +13,13 @@ define([
     
     'use strict';
     
-    var eventsManager = {
+    var eventsLibrary = {
         
     };
     
-    var LibraryEventsManager = _.extend(eventsManager, Ribs.EventsManager);
+    var EventsLibrary = _.extend(eventsLibrary, Ribs.EventsManager);
     
-    LibraryEventsManager.constants = {
+    EventsLibrary.constants = {
         
         // application
         'DOM_LOADED': 'application:onDOMLoad',
@@ -61,6 +61,7 @@ define([
         
         // playlists manager
         'PLAYLISTS_MANAGER_ADD': 'playlistsManager:add',
+        'PLAYLISTS_MANAGER_GET': 'playlistsManager:get',
         
         // sound
         'SOUND_ONLOAD': 'sound:onload',
@@ -69,10 +70,16 @@ define([
         'SPLASHSCREEN_OFF': 'splashscreen:off',
         
         // menu
-        'MENU_TOGGLE': 'menu:toggle'
+        'MENU_TOGGLE': 'menu:toggle',
+
+        // collaborative playlists
+        'COLLABORATIVE_PLAYLISTS_NEW': 'collaborativePlaylists:new',
+        'COLLABORATIVE_PLAYLISTS_CREATE': 'collaborativePlaylists:create',
+        'COLLABORATIVE_PLAYLISTS_JOIN': 'collaborativePlaylists:join',
+        'COLLABORATIVE_PLAYLISTS_SEND_MESSAGE': 'collaborativePlaylists:sendMessage'
         
     };
     
-    return LibraryEventsManager;
+    return EventsLibrary;
     
 });

@@ -6,7 +6,7 @@
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * @param {type} RouterLibrary
  * 
  * @returns {unresolved}
@@ -16,11 +16,18 @@ define([
     'templates',
     'chrisweb-utilities',
     'library.view',
-    'library.eventsManager',
+    'library.events',
     'library.router',
     
     'library.jquery.plugin.caretToggle'
-], function ($, JST, utilities, View, EventsManager, RouterLibrary) {
+], function (
+    $,
+    JST,
+    utilities,
+    View,
+    EventsLibrary,
+    RouterLibrary
+) {
     
     'use strict';
     
@@ -30,7 +37,7 @@ define([
             
             utilities.log('[LEFT NAVIGATION COMPONENT VIEW] initializing ...', 'fontColor:blue');
             
-            EventsManager.on(EventsManager.constants.MENU_TOGGLE, this.toggleMenu, this);
+            EventsLibrary.on(EventsLibrary.constants.MENU_TOGGLE, this.toggleMenu, this);
             
         },
 

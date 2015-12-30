@@ -13,9 +13,14 @@ define([
     'library.view',
     'templates',
     'chrisweb-utilities',
-    'library.playlistsManager'
-    
-], function (view, JST, utilities, PlaylistsManager) {
+    'manager.playlists'
+
+], function (
+    view,
+    JST,
+    utilities,
+    PlaylistsManager
+) {
     
     'use strict';
     

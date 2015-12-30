@@ -7,7 +7,7 @@
  * @param {type} JST
  * @param {type} utilities
  * @param {type} View
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * 
  * @returns {unresolved}
  */
@@ -17,9 +17,16 @@ define([
     'templates',
     'chrisweb-utilities',
     'library.view',
-    'library.eventsManager'
-    
-], function ($, _, JST, utilities, View, EventsManager) {
+    'library.events'
+
+], function (
+    $,
+    _,
+    JST,
+    utilities,
+    View,
+    EventsLibrary
+) {
     
     'use strict';
 
@@ -68,7 +75,7 @@ define([
             // jamendo requires seqrch queries to have at least two characters
             if (queryString.length > 1) {
 
-                EventsManager.trigger(EventsManager.constants.SEARCH_QUERY, { queryString: queryString }, this);
+                EventsLibrary.trigger(EventsLibrary.constants.SEARCH_QUERY, { queryString: queryString }, this);
                 
             }
             

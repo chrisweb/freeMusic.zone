@@ -25,7 +25,7 @@ define([
             
         },
         defaults: {
-            id: 0,
+            id: null,
             usageCounter: 0, // usage counter for cache collection to check usage in views
             isPlaying: false, // is player playing this song
             isCurrent: false, // is this the current track in player

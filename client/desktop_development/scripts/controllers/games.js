@@ -7,8 +7,6 @@
  * @param {type} utilities
  * @param {type} Controller
  * @param {type} container
- * @param {type} EventsManager
- * @param {type} user
  * 
  * @returns {unresolved}
  */
@@ -18,10 +16,15 @@ define([
     'chrisweb-utilities',
     'library.controller',
     'ribsjs',
-    'library.eventsManager',
-    'library.user'
-    
-], function ($, _, utilities, Controller, Ribs, EventsManager, user) {
+    'library.events'
+
+], function (
+    $,
+    _,
+    utilities,
+    Controller,
+    Ribs
+) {
     
     'use strict';
 

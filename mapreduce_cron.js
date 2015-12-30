@@ -33,8 +33,10 @@ var mongoModule = require('./server/library/mongo');
 
 var mongoClient;
 
+var mongodbOptions = {};
+
 // mongodb connection
-mongoModule.getClient(function mongooseConnectCallback(error, mongooseConnection) {
+mongoModule.getClient(mongodbOptions, function mongooseConnectCallback(error, mongooseConnection) {
     
     if (error) {
         

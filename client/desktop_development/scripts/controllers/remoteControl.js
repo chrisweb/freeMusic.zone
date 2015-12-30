@@ -14,10 +14,16 @@ define([
     'chrisweb-utilities',
     'library.controller',
     'ribsjs',
-    'library.playlistsManager',
+    'manager.playlists',
     'collections.Playlists'
-    
-], function (utilities, Controller, Ribs, PlaylistsManager, PlaylistsCollection) {
+
+], function (
+    utilities,
+    Controller,
+    Ribs,
+    PlaylistsManager,
+    PlaylistsCollection
+) {
     
     'use strict';
     

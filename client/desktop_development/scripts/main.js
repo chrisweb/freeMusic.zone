@@ -19,30 +19,33 @@ require.config({
     ],
     paths: {
 
-        // client core
+        // core
         'bootstrap': 'bootstrap',
 
-        // client configuration
+        // configuration
         'configuration': 'configuration/configuration',
         'routes': 'configuration/routes',
         
-        // client jst
+        // jst
         'templates': 'templates/templates',
         
-        // client library
+        // library
         'library.player.core': 'library/player/core',
         'library.player.ui': 'library/player/ui',
         'library.user': 'library/user',
-        'library.tracksManager': 'library/tracksManager',
-        'library.playlistsManager': 'library/playlistsManager',
         'library.router': 'library/router',
         'library.videoPlayer': 'library/videoPlayer',
-        'library.eventsManager': 'library/eventsManager',
+        'library.events': 'library/event',
         'library.controller': 'library/controller',
         'library.model': 'library/model',
         'library.collection': 'library/collection',
         'library.view': 'library/view',
         'library.oauth': 'library/oauth',
+        
+        // managers
+        'manager.tracks': 'library/manager/tracks',
+        'manager.playlists': 'library/manager/playlists',
+        'manager.collaborativePlaylists': 'library/manager/collaborativePlaylists',
         
         // helpers
         'helper.durationFormatter': 'helper/durationFormatter',
@@ -62,14 +65,18 @@ require.config({
         // collections
         'collections.Tracks': 'collections/Tracks',
         'collections.Playlists': 'collections/Playlists',
+        'collections.CollaborativePlaylists': 'collections/CollaborativePlaylists',
         'collections.PlaylistsList': 'collections/PlaylistsList',
         'collections.PlaylistTracks': 'collections/PlaylistTracks',
+        'collections.ChatMessages': 'collections/ChatMessages',
         
         // models
         'models.Track': 'models/Track',
         'models.Playlist': 'models/Playlist',
+        'models.CollaborativePlaylist': 'models/CollaborativePlaylist',
         'models.User': 'models/User',
         'models.PlaylistTrack': 'models/PlaylistTrack',
+        'models.ChatMessage': 'models/ChatMessage',
         
         // vendor
         'jquery': '../../../bower_components/jquery/dist/jquery',

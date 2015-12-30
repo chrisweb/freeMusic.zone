@@ -17,9 +17,30 @@ define([
     'chrisweb-utilities',
     'library.controller',
     'ribsjs',
-    'library.playlistsManager'
-    
-], function ($, _, utilities, Controller, Ribs, playlistsManager) {
+    'manager.collaborativePlaylists',
+    'manager.tracks',
+    'collections.CollaborativePlaylists',
+    'collections.ChatMessages',
+    'collections.PlaylistTracks',
+    'collections.Tracks',
+    'models.Track',
+    'library.events'
+
+], function (
+    $,
+    _,
+    utilities,
+    Controller,
+    Ribs,
+    collaborativePlaylistsManager,
+    tracksManager,
+    CollaborativePlaylistsCollection,
+    ChatMessagesCollection,
+    CollaborativePlaylistTracksCollection,
+    TracksCollection,
+    TrackModel,
+    EventsLibrary
+) {
     
     'use strict';
 
@@ -34,14 +55,11 @@ define([
             this.router = router;
             
         },
-        indexAction: function indexActionFunction() {
+        indexAction: function indexActionFunction(parameters) {
         
             utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] action: index', 'fontColor:blue');
-            
-            
-            
 
-            // chat message input form
+            // collaborative playlists page view
             require([
                 'views/pages/collaborativePlaylists'
             ], function(CollaborativePlaylistsView) {
@@ -54,107 +72,309 @@ define([
                 
                 Ribs.Container.dispatch('#core');
                 
-                //var userPlaylistsList = 
+                if (parameters.collaborativePlaylistId !== null) {
+                    
+                    openCollaborativePlaylist(parameters);
+
+                    return;
+
+                }
                 
-                //PlaylistsManager.get({
-                //    playlistId: userPlaylistsList,
-                //    withPlaylistTracks: false
-                //}, function(error, playlistsArray) {
+                // load existing collaborative playlists from the server
+                var collaborativePlaylistsListCollection = new CollaborativePlaylistsCollection();
+                
+                require([
+                    'views/components/collaborativePlaylists/list',
+                    'views/components/collaborativePlaylists/item'
+                ], function (CollaborativePlaylistsListView, CollaborativePlaylistsItemView) {
+                    
+                    // the dom
+                    var collaborativePlaylistsListView = new CollaborativePlaylistsListView({
+                        collection: collaborativePlaylistsListCollection,
+                        ModelView: CollaborativePlaylistsItemView,
+                        ModelViewOptions: {
+                            reRenderOnChange: true
+                        },
+                        listSelector: '.js-list'
+                    });
+                    
+                    Ribs.Container.clear('#collaborativePlaylistsList');
+                    
+                    Ribs.Container.add('#collaborativePlaylistsList', collaborativePlaylistsListView);
+                    
+                    Ribs.Container.dispatch('#collaborativePlaylistsList');
 
-            });
-            
-            /*
-            // chat messages list
-            require([
-                'views/components/chat/messagesList',
-                'views/components/chat/messageRow',
-                'models.ChatMessage',
-                'collections.ChatMessages'
-            ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {
-
-
-
-            });
-
-            // add the search bar to the main section of the layout
-            require([
-                'views/components/searchBar'
-            ], function(SearchBarView) {
-
-                var searchBarView = new SearchBarView();
-
-                container.add('#core', searchBarView);
-
-            });
-
-            // search results
-            require([
-                'views/components/tracksList',
-                'views/components/trackRow',
-                'models.Track',
-                'collections.TracksSearchResult'
-            ], function(TracksListView, TrackRowView, TrackModel, TracksSearchResultCollection) {
-
-                // initialize tracks search results collection
-                var tracksSearchResultCollection = new TracksSearchResultCollection();
-
-                // initialize the tracks list view
-                var tracksListView = new TracksListView({
-                    collection: tracksSearchResultCollection,
-                    ModelView: TrackRowView
                 });
 
-                container.add('#core', tracksListView);
+                // listen for event new collaborative playlist
+                EventsLibrary.on(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_NEW, function newCollaborativePlaylist() {
+                    
+                    // collaborative playlists page view
+                    require([
+                        'views/components/collaborativePlaylists/createForm'
+                    ], function (CreateCollaborativePlaylistView) {
+                        
+                        var createCollaborativePlaylistView = new CreateCollaborativePlaylistView();
+                        
+                        // clear previous error messages
+                        $('#createCollaborativePlaylist').text('');
+                        
+                        Ribs.Container.clear('#createCollaborativePlaylist');
+                        
+                        Ribs.Container.add('#createCollaborativePlaylist', createCollaborativePlaylistView);
+                        
+                        Ribs.Container.dispatch('#createCollaborativePlaylist');
 
-                // listen for search events
-                EventsManager.on(EventsManager.constants.SEARCH_QUERY, function(attributes) {
-
-                    handleSearch(attributes.queryString, function handleSearchCallback(error, results) {
-
-                        tracksSearchResultCollection.reset();
-
-                        if (!error) {
-
-                            _.each(results, function(value) {
-
-                                // initialize a new trqck model
-                                var trackModel = new TrackModel(value);
-
-                                // add the track to the cache
-                                TracksManager.addTrack(trackModel);
-
-                                // add the track to the search result collection
-                                tracksSearchResultCollection.add(trackModel);
-
-                            });
+                    });
+                
+                });
+                
+                EventsLibrary.on(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_CREATE, function createCollaborativePlaylist(attributes) {
+                    
+                    // hide create form
+                    Ribs.Container.clear('#createCollaborativePlaylist');
+                    
+                    // start loading animation
+                    // TODO: create and use a loading animation plugin
+                    $('#createCollaborativePlaylist').text('Loading...');
+                    
+                    // save the new collaborative playlist
+                    var collaborativePlaylist = {
+                        name: attributes.formValues.name.trim()
+                    };
+                    
+                    collaborativePlaylistsManager.saveOne(collaborativePlaylist, function saveCollaborativePlaylistCallback(error, model) {
+                        
+                        // stop loading animation
+                        $('#createCollaborativePlaylist').text('');
+                        
+                        if (error) {
+                            
+                            // display error
+                            // TODO: create and use an error messages plugin
+                            $('#createCollaborativePlaylist').text('error creating new collaborative playlist');
 
                         } else {
-
-                            //TODO: handle the error
-
-                            utilities.log('errorThrown: ' + error);
+                            
+                            //console.log(model);
+                            
+                            collaborativePlaylistsListCollection.add(model);
 
                         }
+                    
+                    });
+
+                });
+
+                EventsLibrary.on(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_JOIN, function createCollaborativePlaylist(attributes) {
+                    
+                    openCollaborativePlaylist(attributes);
+
+                });
+
+
+            });
+
+        }
+        
+    });
+    
+    var openCollaborativePlaylist = function openCollaborativePlaylistFunction(attributes) {
+        
+        collaborativePlaylistsManager.get(attributes.collaborativePlaylistId, function getCollaborativePlayistCallback(error, collaborativePlaylistModels) {
+            
+            if (!error) {
+                
+                // get the collaborative playlist model
+                var collaborativePlaylistModel = collaborativePlaylistModels[0];
+                
+                // connect with socket.io server
+                var socketIONamespaceName = 'collaborativePlaylists';
+                
+                var socketIONamespace = io('http://127.0.0.1:35000/' + socketIONamespaceName);
+                
+                // inform server that user is joining a room
+                socketIONamespace.emit('joinCollaborativePlaylist', {
+                    collaborativePlaylistId: collaborativePlaylistModel.get('id')
+                });
+                
+                socketIONamespace.on('connect', function () {
+                    utilities.log('[CHAT] user is connected', 'fontColor:cyan');
+                });
+                
+                // change url in address bar
+                var routeUrl = '/desktop/collaborative-playlists/' + collaborativePlaylistModel.get('id');
+                var routeOptions = {
+                    trigger: false,
+                    replace: false
+                };
+                
+                var router = new Ribs.Router();
+                
+                router.navigate(routeUrl, routeOptions);
+                
+                // collaborative playlists page view
+                require([
+                    'views/components/chat/messageForm',
+                    'views/components/chat/list',
+                    'views/components/chat/item',
+                    'views/components/search/bar',
+                    'views/components/track/list',
+                    'views/components/track/row'
+                ], function (
+                    ChatMessageFormView,
+                    ChatMessagesListView,
+                    ChatMessageItemView,
+                    SearchBarView,
+                    TracksListView,
+                    TrackRowView
+                ) {
+                    
+                    // chat message form
+                    var chatMessageFormView = new ChatMessageFormView();
+                    
+                    Ribs.Container.clear('#collaborativePlaylistChatMessageForm');
+                    
+                    Ribs.Container.add('#collaborativePlaylistChatMessageForm', chatMessageFormView);
+                    
+                    Ribs.Container.dispatch('#collaborativePlaylistChatMessageForm');
+                    
+                    // collaborative playlist track search
+                    var searchBarView = new SearchBarView();
+                    
+                    Ribs.Container.clear('#collaborativePlaylistSearchForm');
+                    
+                    Ribs.Container.add('#collaborativePlaylistSearchForm', searchBarView);
+                    
+                    Ribs.Container.dispatch('#collaborativePlaylistSearchForm');
+                    
+                    // chat messages list
+                    var chatMessagesCollection = new ChatMessagesCollection();
+
+                    var chatMessagesListView = new ChatMessagesListView({
+                        collection: chatMessagesCollection,
+                        ModelView: ChatMessageItemView,
+                        ModelViewOptions: {
+                            reRenderOnChange: true
+                        },
+                        listSelector: '.js-list'
+                    });
+                    
+                    Ribs.Container.clear('#collaborativePlaylistChatMessagesList');
+                    
+                    Ribs.Container.add('#collaborativePlaylistChatMessagesList', chatMessagesListView);
+                    
+                    Ribs.Container.dispatch('#collaborativePlaylistChatMessagesList');
+                    
+                    // collaborative playlist tracks list
+                    var collaborativePlaylistTracksCollection = new CollaborativePlaylistTracksCollection();
+
+                    var collaborativePlaylistTracksListView = new TracksListView({
+                        collection: collaborativePlaylistTracksCollection,
+                        ModelView: TrackRowView,
+                        ModelViewOptions: {
+                            reRenderOnChange: true
+                        },
+                        listSelector: '.js-list'
+                    });
+                    
+                    Ribs.Container.clear('#collaborativePlaylistTracksList');
+                    
+                    Ribs.Container.add('#collaborativePlaylistTracksList', collaborativePlaylistTracksListView);
+                    
+                    Ribs.Container.dispatch('#collaborativePlaylistTracksList');
+                    
+                    // search results list
+                    var tracksSearchResultCollection = new TracksCollection();
+
+                    var tracksListView = new TracksListView({
+                        collection: tracksSearchResultCollection,
+                        ModelView: TrackRowView,
+                        ModelViewOptions: {
+                            reRenderOnChange: true
+                        },
+                        listSelector: '.js-list'
+                    });
+                    
+                    Ribs.Container.clear('#collaborativePlaylistSearchResults');
+                    
+                    Ribs.Container.add('#collaborativePlaylistSearchResults', tracksListView);
+                    
+                    Ribs.Container.dispatch('#collaborativePlaylistSearchResults');
+                    
+                    // listen for chat messages by the user
+                    EventsLibrary.on(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_SEND_MESSAGE, function createCollaborativePlaylist(attributes) {
+                        
+                        utilities.log('[CHAT] sending a message', 'fontColor:cyan');
+
+                        socketIONamespace.emit('messageCollaborativePlaylist', {
+                            message: attributes.formValues.message.trim()
+                        });
+
+                    });
+                    
+                    // on new message add it to the messages collection
+                    socketIONamespace.on('messageCollaborativePlaylist', function (attributes) {
+                        
+                        utilities.log('[CHAT] received a message', 'fontColor:cyan');
+
+                        chatMessagesCollection.add({
+                            message: attributes.message
+                        });
+
+                    });
+                    
+                    // listen for search events
+                    EventsLibrary.on(EventsLibrary.constants.SEARCH_QUERY, function (attributes) {
+                        
+                        searchQuery(attributes.queryString, function handleSearchCallback(error, results) {
+                            
+                            tracksSearchResultCollection.reset();
+                            
+                            if (!error) {
+                                
+                                _.each(results, function (result) {
+                                    
+                                    // initialize a new track model
+                                    var trackModel = new TrackModel(result);
+                                    
+                                    // add the track to the cache
+                                    tracksManager.add(trackModel);
+                                    
+                                    // add the track to the search result collection
+                                    tracksSearchResultCollection.add(trackModel);
+
+                                });
+
+                            } else {
+                                
+                                //TODO: handle the error
+                                
+                                utilities.log('errorThrown: ' + error, 'fontColor:red');
+
+                            }
+
+                        });
 
                     });
 
                 });
 
-                container.dispatch();
+            } else {
 
-            });*/
+                // TODO: collaborative playlist not found error
 
-        }
-        
-    });
+            }
+                    
+        });
+    
+    };
     
     var jqXHR;
     
     var searchQuery = function searchQueryFunction(queryString, callback) {
         
         // TODO: filter query string
-
-        var configuration = configurationModule.get();
 
         // abort previous request if it is still ongoing
         if (jqXHR !== undefined && jqXHR.readyState !== 4) {
@@ -164,7 +384,7 @@ define([
         }
 
         jqXHR = $.ajax({
-            url: configuration.server.path + '/api/search',
+            url: '/api/search',
             type: 'GET',
             data: { q: queryString },
             dataType: 'json'

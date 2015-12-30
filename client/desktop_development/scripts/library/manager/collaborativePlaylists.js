@@ -1,11 +1,11 @@
 /**
  * 
- * playlists manager
+ * collaborative playlists manager
  * 
  * @param {type} _
  * @param {type} utilities
- * @param {type} EventsManager
- * @param {type} PlaylistsCollection
+ * @param {type} EventsLibrary
+ * @param {type} collaborativePlaylistsCollection
  * @param {type} PlaylistsListCollection
  * @param {type} tracksManager
  * @param {type} PlaylistTracksCollection
@@ -16,19 +16,30 @@
 define([
     'underscore',
     'chrisweb-utilities',
-    'library.eventsManager',
-    'collections.Playlists',
+    'library.events',
+    'collections.CollaborativePlaylists',
+    'models.CollaborativePlaylist',
     'collections.PlaylistsList',
-    'library.tracksManager',
+    'manager.tracks',
     'collections.PlaylistTracks',
     'async'
-    
-], function (_, utilities, EventsManager, PlaylistsCollection, PlaylistsListCollection, tracksManager, PlaylistTracksCollection, async) {
+
+], function (
+    _,
+    utilities,
+    EventsLibrary,
+    CollaborativePlaylistsCollection,
+    CollaborativePlaylistModel,
+    PlaylistsListCollection,
+    tracksManager,
+    PlaylistTracksCollection,
+    async
+) {
     
     'use strict';
     
     // the collection which contains all the playlists of the app
-    var playlistsCollection;
+    var collaborativePlaylistsCollection;
     
     // are the listeners already on
     var alreadyListening = false;
@@ -41,7 +52,7 @@ define([
      */
     var initialize = function initializeFunction() {
         
-        playlistsCollection = new PlaylistsCollection();
+        collaborativePlaylistsCollection = new CollaborativePlaylistsCollection();
         
         // avoid duplicate listeners
         if (!alreadyListening) {
@@ -54,12 +65,12 @@ define([
 
     /**
      * 
-     * add one or more playlist(s) to the playlists manager
+     * add one or more collaborative playlist(s) to the collaborative playlists manager
      * 
      * @param {type} addMe
      * @returns {undefined}
      */
-    var add = function addFunction(addMe) {
+    var add = function addFunction(addMe, callback) {
         
         if (!_.isArray(addMe)) {
             
@@ -67,25 +78,65 @@ define([
             
         }
         
-        _.each(addMe, function(playlistModel) {
+        var modelsToAdd = [];
         
-            var existingPlaylistModel = playlistsCollection.get(playlistModel.get('id'));
+        _.each(addMe, function addEach(collaborativePlaylistModel) {
+        
+            var existingCollaborativePlaylistModel = collaborativePlaylistsCollection.get(collaborativePlaylistModel.get('id'));
 
-            // check if the playlist is not already in the playlistManager
-            // playlists collection
-            if (existingPlaylistModel === undefined) {
+            // check if the collaborative playlist is not already in the collaborative playlistManager
+            if (existingCollaborativePlaylistModel === undefined) {
 
-                playlistsCollection.add(playlistModel);
+                modelsToAdd.push(collaborativePlaylistModel);
                 
             }
             
         });
+
+        collaborativePlaylistsCollection.add(modelsToAdd);
+
+        if (callback) {
+
+            callback(false, addMe);
+
+        }
         
+    };
+    
+    var saveOne = function saveOneFunction(saveMe, callback) {
+
+        var collaborativePlaylistModel = new CollaborativePlaylistModel(saveMe);
+        
+        collaborativePlaylistModel.save(
+            saveMe,
+            {
+                error: function (model, response, options) {
+        
+                    //utilities.log(model, response, options);
+        
+                    callback('error while saving a collaborative playlist, status: ' + response.status);
+                
+                },
+                success: function (model, response, options) {
+                    
+                    //utilities.log(model, response, options);
+                    
+                    add(model, callback);
+                
+                }
+            });
+        
+    };
+    
+    var save = function saveFunction(saveMe, callback) {
+        
+        
+
     };
     
     /**
      * 
-     * get one or more playlist(s)
+     * get one or more collaborative playlist(s)
      * 
      * @param {type} getMe
      * @param {type} callback
@@ -102,15 +153,15 @@ define([
         
         var getMeObjects = [];
             
-        _.each(getMe, function eachGetMeCallback(getMePlaylist) {
+        _.each(getMe, function eachGet(getMeCollaborativePlaylist) {
             
             var getMeObject;
             
             // if its an id and not yet an object, then create the object
-            if (!_.isObject(getMePlaylist)) {
+            if (!_.isObject(getMeCollaborativePlaylist)) {
                 
                 getMeObject = {
-                    playlistId: getMePlaylist,
+                    collaborativePlaylistId: getMeCollaborativePlaylist,
                     withPlaylistTracks: false
                 };
                 
@@ -119,11 +170,11 @@ define([
             } else {
                 
                 if (
-                    _.has(getMePlaylist, 'playlistId')
+                    _.has(getMePlaylist, 'collaborativePlaylistId')
                     && _.has(getMePlaylist, 'withPlaylistTracks')
                 ) {
                 
-                    getMeObjects.push(getMePlaylist);
+                    getMeObjects.push(getMeCollaborativePlaylist);
                     
                 } else {
                     
@@ -136,24 +187,24 @@ define([
         });
         
         var fetchMe = [];
-        var playlistsAlreadyLoaded = [];
+        var collaborativePlaylistsAlreadyLoaded = [];
         
         // are there any playlists that need to get fetched or are they all
         // already available in the client
         _.each(getMeObjects, function eachGetMeObjectsCallback(getMeObject) {
             
             // get the playlist from collection, undefined if it doesnt exist
-            var existingPlaylistModel = playlistsCollection.get(getMeObject.playlistId);
+            var existingCollaborativePlaylistModel = collaborativePlaylistsCollection.get(getMeObject.collaborativePlaylistId);
             
             // check if the playlist is not already in the playlistManager
             // playlists collection
-            if (existingPlaylistModel === undefined) {
+            if (existingCollaborativePlaylistModel === undefined) {
                 
-                fetchMe.push(getMeObject.playlistId);
+                fetchMe.push(getMeObject.collaborativePlaylistId);
                 
             } else {
                 
-                playlistsAlreadyLoaded.push(existingPlaylistModel);
+                collaborativePlaylistsAlreadyLoaded.push(existingCollaborativePlaylistModel);
                 
             }
             
@@ -162,13 +213,13 @@ define([
         // did we find playlists that need to get fetched
         if (fetchMe.length > 0) {
             
-            fetch(fetchMe, function(error, serverPlaylistsArray) {
+            fetch(fetchMe, function(error, serverCollaborativePlaylistsArray) {
                 
                 if (!error) {
                     
-                    var returnMe = playlistsAlreadyLoaded.concat(serverPlaylistsArray);
+                    var returnMe = collaborativePlaylistsAlreadyLoaded.concat(serverCollaborativePlaylistsArray);
                     
-                    getPlaylistTracks(returnMe, getMeObjects, callback);
+                    getCollaborativePlaylistTracks(returnMe, getMeObjects, callback);
                     
                 } else {
                     
@@ -180,7 +231,7 @@ define([
             
         } else {
             
-            getPlaylistTracks(playlistsAlreadyLoaded, getMeObjects, callback);
+            getCollaborativePlaylistTracks(collaborativePlaylistsAlreadyLoaded, getMeObjects, callback);
             
         }
         
@@ -188,7 +239,7 @@ define([
     
     /**
      * 
-     * we don't have the playlist(s), fetch it/them from the server
+     * we don't have the collaborative playlist(s), fetch it/them from the server
      * 
      * @param {type} fetchMe
      * @param {type} callback
@@ -197,19 +248,17 @@ define([
      */
     var fetch = function fetchFunction(fetchMe, callback) {
         
-        utilities.log('[PLAYLISTSMANAGER] fetch the playlist(s) data from the server, fetchMe:', fetchMe);
+        utilities.log('[COLLABORATIVE PLAYLISTS MANAGER] fetch the playlist(s) data from the server, fetchMe:', fetchMe);
         
-        var playlistsCollection = new PlaylistsCollection();
-        
-        playlistsCollection.fetch({
+        collaborativePlaylistsCollection.fetch({
             data: {
-                playlistsIds: fetchMe
+                collaborativePlaylistsIds: fetchMe
             },
             error: function(collection, response, options) {
                 
                 //utilities.log(collection, response, options);
                 
-                callback('error fetching playlist(s), status: ' + response.status);
+                callback('error fetching collaborative playlist(s), status: ' + response.status);
                 
             },
             success: function(collection, response, options) {
@@ -225,7 +274,7 @@ define([
     
     /**
      * 
-     * fetch a list of playlists ids of a page or of a user
+     * fetch a list of collaborative playlists ids of a page or of a user
      * 
      * this is a different method then fetch, because here we don't know the
      * playlist ids, we have to ask the server which playlists need to get
@@ -241,43 +290,43 @@ define([
      */
     var fetchList = function fetchListFunction(options, callback) {
         
-        utilities.log('[PLAYLISTSMANAGER] fetch the list data from the server, options:', options);
+        utilities.log('[COLLABORATIVE PLAYLISTS MANAGER] fetch the list data from the server, options:', options);
         
-        var playlistsListCollection = new PlaylistsListCollection();
+        var collaborativePlaylistsListCollection = new collaborativePlaylistsListCollection();
         
-        playlistsListCollection.comparator = 'name';
+        collaborativePlaylistsListCollection.comparator = 'name';
         
         var fetchQuery = {
             whereKey: options.whereKey,
             whereValue: options.whereValue
         };
         
-        playlistsListCollection.fetch({
+        collaborativePlaylistsListCollection.fetch({
             data: fetchQuery,
             error: function(collection, response, options) {
 
                 utilities.log(collection, response, options);
                 
-                callback('error fetching playlists list, status: ' + response.status);
+                callback('error fetching collaborative playlists list, status: ' + response.status);
 
             },
             success: function(collection, response, options) {
 
                 utilities.log(collection, response, options);
                 
-                var playlistsIds = [];
+                var collaborativePlaylistsIds = [];
                 
-                _.each(collection.models, function(playlistModel, index) {
+                _.each(collection.models, function(collaborativePlaylistModel, index) {
                     
                     // note to self: we only need the IDs, as we will return
                     // the list of IDs so that later on we can use
                     // playlistManager.get to get the playlist data, but it's
                     // not possible with the API as is to just get the IDs
-                    playlistsIds.push(playlistModel.get('id'));
+                    collaborativePlaylistsIds.push(collaborativePlaylistModel.get('id'));
                     
                 });
                 
-                callback(false, playlistsIds);
+                callback(false, collaborativePlaylistsIds);
                 
             }
         });
@@ -286,7 +335,7 @@ define([
     
     /**
      * 
-     * get playlist tracks (private)
+     * get collaborative playlist tracks (private)
      * 
      * @param {type} playlistModelsArray
      * @param {type} getMeObjects
@@ -294,20 +343,20 @@ define([
      * 
      * @returns {undefined}
      */
-    var getPlaylistTracks = function getPlaylistTracksFunction(playlistModelsArray, getMeObjects, callback) {
+    var getCollaborativePlaylistTracks = function getCollaborativePlaylistTracksFunction(collaborativePlaylistModelsArray, getMeObjects, callback) {
         
-        var asynchronousPlaylistTracksQueries = [];
+        var asynchronousCollaborativePlaylistTracksQueries = [];
         
         // build an array of playlistTracks query functions
-        _.each(playlistModelsArray, function(playlistModel) {
+        _.each(collaborativePlaylistModelsArray, function(collaborativePlaylistModel) {
             
-            var getMeObject = _.findWhere(getMeObjects, { playlistId: playlistModel.get('id') });
+            var getMeObject = _.findWhere(getMeObjects, { collaborativePlaylistId: collaborativePlaylistModel.get('id') });
             
             if (getMeObject.withPlaylistTracks) {
                 
-                asynchronousPlaylistTracksQueries.push(function(callbackForAsync) {
+                asynchronousCollaborativePlaylistTracksQueries.push(function(callbackForAsync) {
                     
-                    getPlaylistTracksQuery(playlistModel, callbackForAsync);
+                    getCollaborativePlaylistTracksQuery(collaborativePlaylistModel, callbackForAsync);
                     
                 });
                 
@@ -315,10 +364,10 @@ define([
             
         });
         
-        if (asynchronousPlaylistTracksQueries.length > 0) {
+        if (asynchronousCollaborativePlaylistTracksQueries.length > 0) {
         
-            // execute all the getPlaylistTracks queries asynchronously
-            async.parallel(asynchronousPlaylistTracksQueries, function(error, results){
+            // execute all the getCollaborativePlaylistTracks queries asynchronously
+            async.parallel(asynchronousCollaborativePlaylistTracksQueries, function(error, results){
 
                 if (!error) {
 
@@ -334,7 +383,7 @@ define([
             
         } else {
             
-            callback(false, playlistModelsArray);
+            callback(false, collaborativePlaylistModelsArray);
             
         }
         
@@ -342,19 +391,19 @@ define([
     
     /**
      * 
-     * get playlistTracks query (private)
+     * get collaborativePlaylistTracks query (private)
      * 
-     * @param {type} playlistModel
+     * @param {type} collaborativePlaylistModel
      * @param {type} callback
      * 
      * @returns {undefined}
      */
-    var getPlaylistTracksQuery = function getPlaylistTracksQueryFunction(playlistModel, callback) {
+    var getCollaborativePlaylistTracksQuery = function getCollaborativePlaylistTracksQueryFunction(collaborativePlaylistModel, callback) {
         
-        var playlistTracksCollection = new PlaylistTracksCollection([], { playlistId: playlistModel.get('id') });
+        var collaborativePlaylistTracksCollection = new CollaborativePlaylistTracksCollection([], { collaborativePlaylistId: collaborativePlaylistModel.get('id') });
 
-        // get all the tracks needed by this playlist
-        playlistTracksCollection.fetch({
+        // get all the tracks needed by this collaborative playlist
+        collaborativePlaylistTracksCollection.fetch({
             error: function(collection, response, options) {
 
                 utilities.log(collection, response, options);
@@ -379,32 +428,32 @@ define([
 
                         _.each(tracksArray, function(trackData, index) {
 
-                            // get the playlistTrack model
-                            // note to self: a playlist track is
+                            // get the collaborative playlistTrack model
+                            // note to self: a collaborative playlist track is
                             // not the same as a track, the track
                             // only contains the universal track
-                            // informations but the playlistTrack
-                            // contains playlist specific
+                            // informations but the collaborativePlaylistTrack
+                            // contains collaborative playlist specific
                             // informations about the track, like
-                            // it's position inside of the playlist,
-                            // the date it got added to the playlist,
+                            // it's position inside of the collaborative playlist,
+                            // the date it got added to the collaborative playlist,
                             // or data like the userId of the user
-                            // that added the track to the playlist
-                            var playlistTrack = collection.get(trackData.get('id'));
+                            // that added the track to the collaborative playlist
+                            var collaborativePlaylistTrack = collection.get(trackData.get('id'));
 
                             // put the trackData into the
-                            // playlistTrack model
-                            playlistTrack.set({
+                            // collaborativePlaylistTrack model
+                            collaborativePlaylistTrack.set({
                                 trackModel: trackData
                             });
 
                         });
                         
-                        playlistModel.set({
-                            playlistTracksCollection: collection
+                        collaborativePlaylistModel.set({
+                            collaborativePlaylistTracksCollection: collection
                         });
                         
-                        callback(false, playlistModel);
+                        callback(false, collaborativePlaylistModel);
 
                     } else {
 
@@ -430,9 +479,21 @@ define([
         
         alreadyListening = true;
         
-        EventsManager.on(EventsManager.constants.PLAYLISTS_MANAGER_ADD, function addPlaylistEventFunction(attributes) {
+        EventsLibrary.on(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_MANAGER_ADD, function addPlaylistEventFunction(attributes) {
             
             add(attributes.model);
+            
+        });
+
+        EventsLibrary.on(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_MANAGER_GET, function getEventFunction(attributes) {
+            
+            var collaborativePlaylistsIds = attributes.ids;
+
+            get(collaborativePlaylistsIds, function getCollaborativePlaylistsManagerCallback() {
+                
+                //EventsLibrary.trigger
+
+            });
             
         });
         
@@ -440,7 +501,7 @@ define([
     
     /**
      * 
-     * get the next track in the playlist
+     * get the next track in the collaborative playlist
      * 
      * @returns {undefined}
      */
@@ -453,6 +514,8 @@ define([
     return {
         initialize: initialize,
         add: add,
+        save: save,
+        saveOne: saveOne,
         get: get,
         fetch: fetch,
         fetchList: fetchList,

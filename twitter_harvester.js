@@ -32,8 +32,10 @@ var mongoModule = require('./server/library/mongo');
 
 var mongoClient;
 
+var mongodbOptions = {};
+
 // mongodb connection
-mongoModule.getClient(function mongooseConnectCallback(error, mongooseConnection) {
+mongoModule.getClient(mongodbOptions, function mongooseConnectCallback(error, mongooseConnection) {
     
     if (error) {
         
@@ -67,48 +69,6 @@ try {
     utilities.log(exception);
     
 }
-
-/**
- * 
- * save a tweet
- * 
- * @param {type} trackId
- * @returns {undefined}
- */
-var saveTweet = function(trackId) {
-    
-    utilities.log('harvester saveTweet.. ', 'fontColor:blue');
-    
-    var message = this.message;
-    
-    //utilities.log(message);
-
-    var twitterData = {
-        jamendo_unit_id: trackId,
-        jamendo_unit: 'track',
-        twitter_user_id: message.user.id_str,
-        twitter_user_name: message.user.screen_name,
-        twitter_user_image: message.profile_image_url,
-        twitter_tweet_date: message.raw.created_at,
-        twitter_tweet_id: message.id_str,
-        twitter_tweet_original_text: message.fulltext
-    };
-
-    tweetModel.saveOne(twitterData, function(error) {
-        
-        if (error) {
-            
-            utilities.log('error: ' + error, 'fontColor:red');
-            
-        } else {
-            
-            utilities.log('success: saved', 'fontColor:green');
-            
-        }
-        
-    });
-    
-};
 
 // get an harvester
 var harvester = new JamendoFromTwitter(configuration);
@@ -161,11 +121,53 @@ harvester.on('error', function(error) {
     
 });
 
+/**
+ * 
+ * save a tweet
+ * 
+ * @param {type} trackId
+ * @returns {undefined}
+ */
+var saveTweet = function (trackId) {
+    
+    utilities.log('harvester saveTweet.. ', 'fontColor:blue');
+    
+    var message = this.message;
+    
+    //utilities.log(message);
+    
+    var twitterData = {
+        jamendo_unit_id: trackId,
+        jamendo_unit: 'track',
+        twitter_user_id: message.user.id_str,
+        twitter_user_name: message.user.screen_name,
+        twitter_user_image: message.profile_image_url,
+        twitter_tweet_date: message.raw.created_at,
+        twitter_tweet_id: message.id_str,
+        twitter_tweet_original_text: message.fulltext
+    };
+    
+    tweetModel.saveOne(twitterData, function (error) {
+        
+        if (error) {
+            
+            utilities.log('error: ' + error, 'fontColor:red');
+            
+        } else {
+            
+            utilities.log('success: saved', 'fontColor:green');
+            
+        }
+        
+    });
+    
+};
+
 var streamOptions = {};
 var searchOptions = {};
 
-streamOptions.track = ['jamendo', 'jamen.do', '@jamendo', '#cooldiscovery', '#freedownload', '#goodmusic'];
-searchOptions.track = 'jamendo OR jamen.do';
+streamOptions.track = ['jamendo', 'jamen.do', '@jamendo', '#JAMENDO'];
+searchOptions.track = '#JAMENDO OR jamen.do';
 
 try {
     

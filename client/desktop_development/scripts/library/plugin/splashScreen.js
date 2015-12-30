@@ -2,15 +2,17 @@
  * 
  * splashScreen plugin
  * 
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * 
  * @returns {_L17.Anonym$1}
  */
 define([
-    'library.eventsManager',
+    'library.events',
     
     'velocity'
-], function (EventsManager) {
+], function (
+    EventsLibrary
+) {
     
     'use strict';
     
@@ -22,7 +24,7 @@ define([
      */
     var initialize = function initializeFunction() {
         
-        EventsManager.once(EventsManager.constants.ROUTER_POSTROUTE, function() {
+        EventsLibrary.once(EventsLibrary.constants.ROUTER_POSTROUTE, function() {
             
             var $body = $('body');
 
@@ -65,7 +67,7 @@ define([
         
         $splashScreen.remove();
         
-        EventsManager.trigger(EventsManager.constants.SPLASHSCREEN_OFF);
+        EventsLibrary.trigger(EventsLibrary.constants.SPLASHSCREEN_OFF);
         
     };
     

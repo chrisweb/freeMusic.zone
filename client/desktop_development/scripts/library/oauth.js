@@ -5,7 +5,7 @@
  * @param {type} $
  * @param {type} Configuration
  * @param {type} utilities
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * 
  * @returns {oauth_L9.oauthAnonym$1}
  */
@@ -13,9 +13,14 @@ define([
     'jquery',
     'configuration',
     'chrisweb-utilities',
-    'library.eventsManager'
-    
-], function($, Configuration, utilities, EventsManager) {
+    'library.events'
+
+], function (
+    $,
+    Configuration,
+    utilities,
+    EventsLibrary
+) {
 
     'use strict';
     
@@ -35,7 +40,7 @@ define([
 
             utilities.log('oauth connected');
 
-            EventsManager.trigger(EventsManager.constants.OAUTH_CONNECTED);
+            EventsLibrary.trigger(EventsLibrary.constants.OAUTH_CONNECTED);
 
         };
         

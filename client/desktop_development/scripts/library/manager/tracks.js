@@ -3,7 +3,7 @@
  * tracks manager
  * 
  * @param {type} utilities
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * @param {type} TracksCollection
  * @param {type} moment
  * 
@@ -11,12 +11,17 @@
  */
 define([
     'chrisweb-utilities',
-    'library.eventsManager',
+    'library.events',
     'collections.Tracks',
     'models.Track',
     'moment'
-    
-], function (utilities, EventsManager, TracksCollection, moment) {
+
+], function (
+    utilities,
+    EventsLibrary,
+    TracksCollection,
+    moment
+) {
     
     'use strict';
     
@@ -59,6 +64,8 @@ define([
             
         }
         
+        var modelsToAdd = [];
+        
         _.each(addMe, function(trackModel) {
             
             var results = tracksCollection.where({ jamendo_id: trackModel.get('jamendo_id') });
@@ -66,11 +73,13 @@ define([
             // check if the track is not already in the cache
             if (results.length === 0) {
 
-                tracksCollection.add(trackModel);
+                modelsToAdd.push(trackModel);
 
             }
             
         });
+
+        tracksCollection.add(modelsToAdd);
         
     };
     
@@ -236,7 +245,7 @@ define([
      */
     var startListening = function startListeningFunction() {
         
-        EventsManager.on(EventsManager.constants.TRACKS_MANAGER_USAGE, function incrementUsage(attributes) {
+        EventsLibrary.on(EventsLibrary.constants.TRACKS_MANAGER_USAGE, function incrementUsage(attributes) {
             
             var results = tracksCollection.where({ jamendo_id: attributes.trackId });
             
@@ -264,13 +273,13 @@ define([
             
         });
         
-        EventsManager.on(EventsManager.constants.TRACKS_MANAGER_ADD, function incrementUsage(attributes) {
+        EventsLibrary.on(EventsLibrary.constants.TRACKS_MANAGER_ADD, function incrementUsage(attributes) {
             
             add(attributes.model);
             
         });
         
-        EventsManager.on(EventsManager.constants.SOUND_ONLOAD, function setLoaded(attributes) {
+        EventsLibrary.on(EventsLibrary.constants.SOUND_ONLOAD, function setLoaded(attributes) {
             
             var results = tracksCollection.where({ jamendo_id: attributes.trackId });
             

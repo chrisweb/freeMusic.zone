@@ -6,7 +6,7 @@
  * @param {type} JST
  * @param {type} utilities
  * @param {type} view
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * @param {type} UserLibrary
  * @param {type} videoPlayer
  * @param {type} libraryOauth
@@ -20,7 +20,7 @@ define([
     'templates',
     'chrisweb-utilities',
     'library.view',
-    'library.eventsManager',
+    'library.events',
     'library.user',
     'library.videoPlayer',
     'library.oauth',
@@ -28,7 +28,18 @@ define([
     'skrollr',
     
     'velocity'
-], function ($, JST, utilities, view, EventsManager, UserLibrary, videoPlayer, libraryOauth, RouterLibrary, skrollr) {
+], function (
+    $,
+    JST,
+    utilities,
+    view,
+    EventsLibrary,
+    UserLibrary,
+    videoPlayer,
+    libraryOauth,
+    RouterLibrary,
+    skrollr
+) {
     
     'use strict';
     
@@ -45,7 +56,7 @@ define([
             // as soon as the user has been redirected back to the app, from
             // the jamendo website, a page will get loaded that will trigger
             // the oauth connected event
-            EventsManager.on(EventsManager.constants.OAUTH_CONNECTED, function loginOauthConnected() {
+            EventsLibrary.on(EventsLibrary.constants.OAUTH_CONNECTED, function loginOauthConnected() {
                 
                 var $loginBox = that.$el.find('.loginBox');
 
@@ -78,7 +89,7 @@ define([
                         
                         $loginLegend.text('Welcome ' + userModel.get('nickname'));
                         
-                        EventsManager.trigger(EventsManager.constants.OAUTH_ISLOGGED, { isLogged: userModel.get('isLogged') });
+                        EventsLibrary.trigger(EventsLibrary.constants.OAUTH_ISLOGGED, { isLogged: userModel.get('isLogged') });
                         
                         // listen for click on "let's rock" button
                         $loginButton.one('click', function(event) {
@@ -96,7 +107,7 @@ define([
             });
             
             // initialize skrollr 
-            EventsManager.once(EventsManager.constants.SPLASHSCREEN_OFF, function() {
+            EventsLibrary.once(EventsLibrary.constants.SPLASHSCREEN_OFF, function() {
             
                 if (routerLibrary.getCurrentRoute() === 'desktop') {
                     

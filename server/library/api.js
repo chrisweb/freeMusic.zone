@@ -3,6 +3,9 @@
 // utilities module
 var utilities = require('../../bower_components/chrisweb-utilities/utilities');
 
+// moment js
+var moment = require('moment');
+
 // tweets charts day model
 var ChartTweetModel = require('../models/chartTweet');
 
@@ -11,6 +14,9 @@ var TrackModel = require('../models/track');
 
 // playlist model
 var PlaylistModel = require('../models/playlist');
+
+// collaborative playlist model
+var CollaborativePlaylistModel = require('../models/collaborativePlaylist');
 
 // user library
 var userLibrary = require('../library/user');
@@ -33,7 +39,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
     apiRouter.get('/search', function (request, response, next) {
 
-        utilities.log('[API LIBRARY] /api/search hit');
+        utilities.log('[API LIBRARY] /api/search (GET) hit');
 
         //utilities.log(request);
         //utilities.log(request.query.q);
@@ -50,7 +56,10 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
                     utilities.log('[API LIBRARY] ' + error, 'fontColor:red');
 
-                    response.json({error: '[API LIBRARY] ' + error});
+                    response.json({
+                        message: 'search failed',
+                        code: 500
+                    });
 
                 } else {
 
@@ -77,7 +86,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
     
     apiRouter.get('/user', function (request, response, next) {
         
-        utilities.log('[API LIBRARY] /user hit');
+        utilities.log('[API LIBRARY] /user (GET) hit');
         
         // clone the original object to avoid modifying the original object
         // on delete later on
@@ -113,7 +122,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
     
     apiRouter.get('/playlists', function (request, response, next) {
         
-        utilities.log('[API LIBRARY] /playlists hit');
+        utilities.log('[API LIBRARY] /playlists (GET) hit');
         
         var options = {
             
@@ -131,6 +140,12 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 // if the db query fails all playlists will get fetched
                 // using the API
                 utilities.log('[API LIBRARY] playlistModel -> findMultipleByJamendoId -> ' + error, 'fontColor:red');
+
+                response.status(500);
+                response.json({
+                    message: 'playlists get failed',
+                    code: 500
+                });
                 
             } else {
                 
@@ -169,7 +184,10 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                         utilities.log('[API LIBRARY] getPlaylistsByQuery: ' + error, 'fontColor:red');
                         
                         response.status(500);
-                        response.json('error while fetching the playlists');
+                        response.json({
+                            message: 'error while fetching the playlists',
+                            code: 500
+                        });
                         
                     } else {
                         
@@ -218,7 +236,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
     
     apiRouter.get('/playlists/list', function (request, response, next) {
         
-        utilities.log('[API LIBRARY] /playlists/list hit');
+        utilities.log('[API LIBRARY] /playlists/list (GET) hit');
         
         if (request.query.whereKey === 'user') {
             
@@ -239,7 +257,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                     
                     response.status(401);
                     response.json({
-                        error: error
+                        message: error,
+                        code: 401
                     });
                     
                 } else {
@@ -248,7 +267,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                         
                         queryData.access_token = oauthToken;
                         
-                        getPlaylists(queryData, response);
+                        getPlaylists(queryData, response, true);
                         
                     });
                     
@@ -258,7 +277,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 
                 queryData.user_id = request.query.whereKey;
                 
-                getPlaylists(queryData, response);
+                getPlaylists(queryData, response, true);
                 
             }
             
@@ -272,7 +291,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
     
     apiRouter.get('/playlists/tracks/:playlistid', function (request, response, next) {
         
-        utilities.log('[API LIBRARY] /playlists/tracks/:playlistid hit', 'playlistid: ' + request.params.playlistid);
+        utilities.log('[API LIBRARY] /playlists/tracks/:playlistid (GET) hit', 'playlistid: ' + request.params.playlistid);
         
         if (request.params.playlistid === 'twitter_charts_day') {
             
@@ -297,7 +316,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                     
                     response.status(500);
                     response.json({
-                        errorMessage: 'server error while fetching the charts tweets'
+                        message: 'server error while fetching the charts tweets',
+                        code: 500
                     });
                     
                 } else {
@@ -343,7 +363,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                     
                     response.status(500);
                     response.json({
-                        errorMessage: 'server error while fetching the playlist tracks'
+                        message: 'server error while fetching the playlist tracks',
+                        code: 500
                     });
                     
                 } else {
@@ -428,12 +449,112 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
     });
     
+    
+    apiRouter.get('/collaborativeplaylists', function (request, response, next) {
+        
+        utilities.log('[API LIBRARY] /collaborativeplaylists (GET) hit');
+        
+        var options = {
+            ids: request.query.collaborativePlaylistsIds
+        };
+        
+        // get the collaborative playlist(s) from our database
+        var collaborativePlaylistModel = new CollaborativePlaylistModel();
+        
+        collaborativePlaylistModel.getMultipleById(options, function (error, mongoCollaborativePlaylistsResult) {
+            
+            if (error) {
+                
+                // if the db query fails all playlists will get fetched
+                // using the API
+                utilities.log('[API LIBRARY] playlistModel -> findMultipleByJamendoId -> ' + error, 'fontColor:red');
+
+                response.status(500);
+                response.json({
+                    message: 'collaborativeplaylist get failed',
+                    code: 500
+                });
+                
+            } else {
+                
+                utilities.log('[API LIBRARY] playlistModel -> findMultipleByJamendoId -> success', 'fontColor:green');
+                
+                response.status(200);
+                response.json(mongoCollaborativePlaylistsResult);
+                
+            }
+            
+        });
+        
+    });
+    
+    apiRouter.post('/collaborativeplaylist', function (request, response, next) {
+        
+        utilities.log('[API LIBRARY] /collaborativeplaylist (POST) hit');
+        
+        var userSessionData = request.session.user;
+        
+        if (userSessionData === undefined) {
+            
+            var error = 'user is not logged';
+            
+            utilities.log('[API LIBRARY] error: ' + error, 'fontColor:red');
+            
+            response.status(401);
+            response.json({
+                message: error,
+                code: 401
+            });
+                    
+        } else {
+            
+            var data = {
+                author_id: userSessionData.id,
+                name: request.body.name
+            };
+            
+            var collaborativePlaylistModel = new CollaborativePlaylistModel();
+
+            collaborativePlaylistModel.saveOne(data, function (error, collaborativePlaylistResult) {
+                
+                if (error) {
+                    
+                    // if the db query fails log error
+                    utilities.log('[API LIBRARY] collaborativeplaylist -> post -> ' + error, 'fontColor:red');
+                    
+                    response.status(500);
+                    response.json({
+                        message: 'collaborativeplaylist post failed',
+                        code: 500
+                    });
+                
+                } else {
+                    
+                    response.status(200);
+                    response.json(collaborativePlaylistResult.toJSON());
+                        
+                }
+        
+            });
+                    
+        }
+        
+    });
+    
+    apiRouter.get('/collaborativeplaylists/list', function (request, response, next) {
+        
+        utilities.log('[API LIBRARY] /collaborativeplaylists/list (GET) hit');
+        
+
+        
+    });
+    
     /**
      * 
      */
     apiRouter.get('/tracks', function fetchTracksFunction(request, response, next) {
         
-        utilities.log('[API LIBRARY] /tracks hit');
+        utilities.log('[API LIBRARY] /tracks (GET) hit');
         
         var options = {};
         
@@ -449,6 +570,12 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 // if the db query fails all tracks will get fetched
                 // using the API
                 utilities.log('[API LIBRARY] trackModel -> findMultipleByJamendoId -> ' + error, 'fontColor:red');
+
+                response.status(500);
+                response.json({
+                    message: 'tracks get failed',
+                    code: 500
+                });
                 
             } else {
                 
@@ -488,7 +615,10 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                         utilities.log('[API LIBRARY] ' + error);
                         
                         response.status(500);
-                        response.json('error while fetching the tracks');
+                        response.json({
+                            message: 'error while fetching the tracks',
+                            code: 500
+                        });
                         
                     } else {
                         
@@ -547,13 +677,26 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
  * @param {Object} response
  * 
  */
-var getPlaylists = function getPlaylistsFunction(queryData, response) {
+var getPlaylists = function getPlaylistsFunction(queryData, response, getList) {
     
     var jamendoAPI = new JamendoAPI();
-        
+    
     jamendoAPI.getPlaylistsByQuery(queryData, function getPlaylistsByQueryCallback(error, playlistsResult) {
+        
+        // if the jamendo api error code is 12 it means the oauth token is not valid anymore
+        // this means something went wront because the check if the token is
+        // valid or it 's reneval happens in the /playlist/list route
+        if (error && _.has(error, 'code' && error.code === 12) ) {
 
-        if (error) {
+            utilities.log('[API LIBRARY] invalid oauth token, but token should have been checked earlier, original error: ' + error, 'fontColor:red');
+            
+            // return need authentification code and enforce new login
+            response.json({
+                code: 401,
+                message: '[API LIBRARY] error: ' + error
+            });
+
+        } else if (error) {
 
             response.status(500);
 
@@ -563,14 +706,14 @@ var getPlaylists = function getPlaylistsFunction(queryData, response) {
 
                 response.json({
                     code: 300,
-                    error: '[API LIBRARY] error: ' + error
+                    message: '[API LIBRARY] error: ' + error
                 });
 
             } else {
 
                 response.json({
                     code: 300,
-                    error: '[API LIBRARY] error: failed to retrieve the user playlists using the jamendo api'
+                    message: '[API LIBRARY] error: failed to retrieve the user playlists using the jamendo api'
                 });
 
             }
@@ -578,9 +721,33 @@ var getPlaylists = function getPlaylistsFunction(queryData, response) {
         } else {
 
             // TODO: put the playlists in our database
+            
+            // if getList we just need the list of playlist ids and their fetch date
+            if (getList === true) {
+                
+                var playlistsList = [];
+                
+                _.each(playlistsResult.results, function (playlist) {
+                
+                    var playlistsItem = {
+                        id: playlist.id,
+                        fetchDate: moment().unix()
+                    }
 
-            response.status(200);
-            response.json(playlistsResult.results);
+                    playlistsList.push(playlistsItem);
+
+                });
+
+                response.status(200);
+                response.json(playlistsList);
+
+            } else {
+
+                response.status(200);
+                response.json(playlistsResult.results);
+
+            }
+
 
         }
 

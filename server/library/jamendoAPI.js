@@ -98,20 +98,42 @@ jamendoAPI.prototype.getPlaylistsByQuery = function getPlaylistsByQueryFunction(
         //utilities.log(data);
         //utilities.log('*******');
         
+        var response = {
+            message: '',
+            code: 0
+        };
+        
         if (!_.isObject(data) && _.isNull(error)) {
             
-            callback('invalid jamendo api server response');
+            response.message = 'invalid jamendo api server response';
+
+            callback(response);
             
         } else if (_.has(data, 'headers') && data.headers.error_message !== '') {
             
-            callback(data.headers.error_message);
+            response.message = data.headers.error_message;
+            response.code = parseInt(data.headers.code);
+
+            callback(response);
             
         } else if (_.has(data, 'headers') && data.headers.warnings !== '') {
             
-            callback(data.headers.warnings);
+            // handle warnings as errors for now, as most warnings will result in a
+            // response that is not what we expected and might leed to bugs further
+            // in the process
+            // TODO: need to reconsider this?
+            response.message = data.headers.warnings;
+
+            callback(response);
             
         } else if (error) {
             
+            if (typeof error === 'string') {
+                response.message = error;
+            } else {
+                response.message = 'unknown error in jamendo api server response';
+            }
+
             callback(error);
             
         } else {

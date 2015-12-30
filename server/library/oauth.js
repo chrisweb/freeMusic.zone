@@ -8,8 +8,8 @@ var https = require('https');
 // nodejs query string
 var querystring = require('querystring');
 
-// library event (eventsManager)
-var eventsManager = require('./event');
+// library event (eventsLibrary)
+var eventsLibrary = require('./event');
 
 // underscore vendor module
 var _ = require('underscore');
@@ -126,7 +126,7 @@ module.exports.start = function initialize(configuration, app, oauthRouter) {
             
                 // emit an "userOauth" event that will get catched by the
                 // user library module
-                eventsManager.emit('userOauth', { 'userOauthData': userOauthData, 'request': request, 'response': response, 'next': next });
+                eventsLibrary.emit('userOauth', { 'userOauthData': userOauthData, 'request': request, 'response': response, 'next': next });
 
             } else {
                 

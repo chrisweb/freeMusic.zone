@@ -3,16 +3,20 @@
  * video player (fullscreen background)
  *   
  * @param {type} utilities
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * 
  * @returns {_L7.Anonym$1}
  */
 define([
     'jquery',
     'chrisweb-utilities',
-    'library.eventsManager'
-    
-], function ($, utilities, EventsManager) {
+    'library.events'
+
+], function (
+    $,
+    utilities,
+    EventsLibrary
+) {
     
     'use strict';
 

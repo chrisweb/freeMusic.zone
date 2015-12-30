@@ -1,10 +1,17 @@
 define([
     'chrisweb-utilities',
-    'library.eventsManager',
+    'library.events',
     'models.User',
-    'moment'
-    
-], function (utilities, EventsManager, UserModel) {
+    'moment',
+    'collections.PlaylistsList'
+
+], function (
+    utilities,
+    EventsLibrary,
+    UserModel,
+    moment,
+    PlaylistsListCollection
+) {
     
     'use strict';
     
@@ -67,11 +74,19 @@ define([
          * 
          * @param {string} attributeName
          */
-        getAttribute: function getAttributeFunction(attributeName) {
+        getAttribute: function getAttributeFunction(attributeName, getAttributeCallback) {
 
             var attributeValue = this.model.get(attributeName);
             
-            return attributeValue;
+            if (getAttributeCallback !== undefined) {
+
+                getAttributeCallback(false, attributeValue);
+
+            } else {
+
+                return attributeValue;
+
+            }
 
         },
         
@@ -82,9 +97,15 @@ define([
          * @param {string} attributeName
          * @param {*} attributeValue
          */
-        setAttribute: function setAttributeFunction(attributeName, attributeValue) {
+        setAttribute: function setAttributeFunction(attributeName, attributeValue, setAttributeCallback) {
 
             this.model.set(attributeName, attributeValue);
+            
+            if (setAttributeCallback !== undefined) {
+            
+                setAttributeCallback(false);
+            
+            }
 
         },
         
@@ -113,7 +134,7 @@ define([
                         
                     }
                     
-                    EventsManager.trigger(EventsManager.constants.USER_ISLOGGED, { isLogged: isLogged });
+                    EventsLibrary.trigger(EventsLibrary.constants.USER_ISLOGGED, { isLogged: isLogged });
                     
                 });
                 
@@ -127,10 +148,64 @@ define([
                     
                 }
                 
-                EventsManager.trigger(EventsManager.constants.USER_ISLOGGED, { isLogged: isLogged });
+                EventsLibrary.trigger(EventsLibrary.constants.USER_ISLOGGED, { isLogged: isLogged });
                 
             }
             
+        },
+
+        getPlaylistsList: function getPlaylistsListFunction(getPlaylistsListCallback) {
+            
+            var attributeName = 'playlistsList';
+            
+            var that = this;
+
+            this.getAttribute(attributeName, function getAttributeCallback(error, playlistsList) {
+                
+                if (!error && playlistsList !== undefined) {
+                    
+                    // TODO: check the age of the data, if too old redo query
+
+                    getPlaylistsListCallback(false, playlistsList);
+
+                } else {
+                    
+                    var playlistsListCollection = new PlaylistsListCollection();
+                    var queryData = {
+                        whereKey: 'user',
+                        whereValue: 'me'
+                    };
+
+                    playlistsListCollection.fetch({
+                        data: queryData,
+                        success: function (collection, response, options) {
+                            
+                            getPlaylistsListCallback(false, collection);
+                            
+                            that.setAttribute(attributeName, collection, function setAttributeCallback(error) {
+                                
+                                if (error) {
+
+                                    utilities.log('failed to set user model attribute playlistsList', 'fontColor:red');
+
+                                }
+                                
+                            });
+                    
+                        },
+                        error: function (collection, response, options) {
+                            
+                            utilities.log(response, 'fontColor:red');
+                            
+                            getPlaylistsListCallback(true);
+                    
+                        }
+                    });
+
+                }
+
+            });
+
         }
         
     };

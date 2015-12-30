@@ -4,7 +4,7 @@
  * 
  * @param {type} utilities
  * @param {type} Ribs
- * @param {type} EventsManager
+ * @param {type} EventsLibrary
  * @param {type} routes
  * @param {type} UserLibrary
  * @param {type} Configuration
@@ -14,12 +14,19 @@
 define([
     'chrisweb-utilities',
     'ribsjs',
-    'library.eventsManager',
+    'library.events',
     'routes',
     'library.user',
     'configuration'
-    
-], function (utilities, Ribs, EventsManager, routes, UserLibrary, Configuration) {
+
+], function (
+    utilities,
+    Ribs,
+    EventsLibrary,
+    routes,
+    UserLibrary,
+    Configuration
+) {
     
     'use strict';
 
@@ -44,17 +51,17 @@ define([
             execute: function routerExecute(callback, routeArguments, routeName, internalCallback) {
                 
                 // initialize the user library
-                var userLibrary = UserLibrary();
+                var userLibrary = new UserLibrary();
                 
                 // trigger the pre-route event
-                EventsManager.trigger(EventsManager.constants.ROUTER_PREROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
+                EventsLibrary.trigger(EventsLibrary.constants.ROUTER_PREROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
                 
                 var that = this;
                 
                 // for any page the user visits he needs to be loggged in
                 // except the homepage
                 // so we check if the user isn't already on the homepage
-                if (routeName !== 'renderHomepage') {
+                if (routeName === 'controllerActionDispatcher') {
                     
                     // check if the user is logged in
                     userLibrary.isLogged(function isLoggedCallback(error, isLogged) {
@@ -78,7 +85,39 @@ define([
                             }
                             
                             // post route event
-                            EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
+                            EventsLibrary.trigger(EventsLibrary.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
+                            
+                            internalCallback(true);
+                            
+                        }
+                        
+                    });
+
+                } else if (routeName === 'renderCollaborativePlaylist') {
+
+                    // check if the user is logged in
+                    userLibrary.isLogged(function isLoggedCallback(error, isLogged) {
+                        
+                        // if the user is not yet logged in, redirect him to
+                        // the homepage
+                        if (!isLogged) {
+                            
+                            // stop the dispatcher
+                            internalCallback(false);
+                            
+                            // redirect to the homapage
+                            that.navigate('desktop', { trigger: true });
+                            
+                        } else {
+                            
+                            if (callback) {
+                                
+                                callback.apply(this, routeArguments);
+                                
+                            }
+                            
+                            // post route event
+                            EventsLibrary.trigger(EventsLibrary.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
                             
                             internalCallback(true);
                             
@@ -111,7 +150,7 @@ define([
                             }
                             
                             // post route event
-                            EventsManager.trigger(EventsManager.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
+                            EventsLibrary.trigger(EventsLibrary.constants.ROUTER_POSTROUTE, { 'routeArguments': routeArguments, 'routeName': routeName });
                             
                             internalCallback(true);
                             
@@ -140,7 +179,7 @@ define([
         
         var configuration = Configuration.get();
         
-        router.on('route:renderHomepage', function() {
+        router.on('route:renderHomepage', function renderHomepageRouteCallback() {
             
             var options = {};
             
@@ -154,7 +193,7 @@ define([
 
         });
         
-        router.on('route:controllerActionDispatcher', function(controllerName, actionName) {
+        router.on('route:controllerActionDispatcher', function controllerActionDispatcherRouteCallback(controllerName, actionName) {
             
             utilities.log('route:controllerActionDispatcher, controller: ' + controllerName + ', action: ' + actionName);
             
@@ -207,7 +246,50 @@ define([
 
         });
         
-        router.on('route:render404', function() {
+        router.on('route:renderCollaborativePlaylist', function renderCollaborativePlaylistRouteCallback(collaborativePlaylistId) {
+            
+            utilities.log('route:renderCollaborativePlaylist, collaborativePlaylistId: ' + collaborativePlaylistId);
+            
+            var actionName = configuration.client.defaults.action;
+            var controllerFileName = 'collaborativePlaylists';
+            
+            var options = {};
+            var parameters = {
+                collaborativePlaylistId: collaborativePlaylistId
+            };
+            
+            // load the controller and call the action
+            require(['controllers/' + controllerFileName], function (Controller) {
+                
+                // check if the controller exists
+                if (Controller !== undefined) {
+                    
+                    var controller = new Controller(options, configuration, router);
+                    
+                    // check if the action exists
+                    if (controller[actionName + 'Action'] !== undefined) {
+                        
+                        controller[actionName + 'Action'](parameters);
+                        
+                    } else {
+                        
+                        // action not found trigger 404
+                        router.trigger('route:render404');
+                        
+                    }
+                    
+                } else {
+                    
+                    // controller not found trigger 404
+                    router.trigger('route:render404');
+                    
+                }
+                
+            });
+
+        });
+        
+        router.on('route:render404', function render404RouteCallback() {
 
             require(['controllers/error'], function(ErrorController) {
                 

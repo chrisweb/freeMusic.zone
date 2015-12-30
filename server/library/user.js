@@ -6,8 +6,11 @@ var utilities = require('../../bower_components/chrisweb-utilities/utilities');
 // load the jamendo api wrapper module
 var Jamendo = require('jamendo');
 
-// library event (eventsManager)
-var eventsManager = require('./event');
+// library event (eventsLibrary)
+var eventsLibrary = require('./event');
+
+// oauth library
+var oauthLibrary = require('./oauth');
 
 // user model
 var UserModel = require('../models/user');
@@ -17,7 +20,7 @@ var moment = require('moment');
 
 module.exports.start = function initialize(configuration) {
     
-    eventsManager.on('userOauth', function(parameters) {
+    eventsLibrary.on('userOauth', function(parameters) {
         
         utilities.log('[USER LIBRARY] on userOauth event');
         
@@ -186,7 +189,8 @@ module.exports.getOauthToken = function getOauthTokenFunction(userSessionData, c
     var expiryDate = userSessionData.oauth.expiryDate;
     
     // do we need to refresh the token
-    if (dateInTenMinutes.diff(expiryDate, 'seconds') < 0) {
+    // the difference is a negative value if the token is still valid and a positive value if not valid anymore
+    if (dateInTenMinutes.diff(expiryDate, 'seconds') > 0) {
         
         utilities.log('[USER LIBRARY] update oauth token, it will expire soon', 'fontColor:green');
         
