@@ -84,17 +84,20 @@ define([
                 // get the playlist and trigger the playlistTrack populate
                 PlaylistsManager.get({
                     playlistId: playlistModel.get('id'),
-                    withPlaylistTracks: true
+                    withTracksList: true
                 }, function(error, playlistsArray) {
                     
                     if (!error) {
                         
                         var tweetsPlaylistModel = playlistsArray[0];
                         
+                        // TODO: each playlistTrack get the corresponding track (model)
+                        // tracksManager.get(tweetsPlaylistModel.tracksList, function getTracksCallback() {});
+                        
                         // create the twitter charts tracks list view and add it to
                         // the dom
                         var twitterChartsTracksListView = new TracksListView({
-                            collection: tweetsPlaylistModel.get('playlistTracksCollection'),
+                            collection: tweetsPlaylistModel.get('tracksList'),
                             ModelView: TrackRowView,
                             ModelViewOptions: {
                                 context: 'twitterCharts',

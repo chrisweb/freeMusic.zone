@@ -162,7 +162,7 @@ define([
                 
                 getMeObject = {
                     collaborativePlaylistId: getMeCollaborativePlaylist,
-                    withPlaylistTracks: false
+                    withTracksList: false
                 };
                 
                 getMeObjects.push(getMeObject);
@@ -171,7 +171,7 @@ define([
                 
                 if (
                     _.has(getMePlaylist, 'collaborativePlaylistId')
-                    && _.has(getMePlaylist, 'withPlaylistTracks')
+                    && _.has(getMePlaylist, 'withTracksList')
                 ) {
                 
                     getMeObjects.push(getMeCollaborativePlaylist);
@@ -352,7 +352,7 @@ define([
             
             var getMeObject = _.findWhere(getMeObjects, { collaborativePlaylistId: collaborativePlaylistModel.get('id') });
             
-            if (getMeObject.withPlaylistTracks) {
+            if (getMeObject.withTracksList) {
                 
                 asynchronousCollaborativePlaylistTracksQueries.push(function(callbackForAsync) {
                     
@@ -367,7 +367,7 @@ define([
         if (asynchronousCollaborativePlaylistTracksQueries.length > 0) {
         
             // execute all the getCollaborativePlaylistTracks queries asynchronously
-            async.parallel(asynchronousCollaborativePlaylistTracksQueries, function(error, results){
+            async.parallel(asynchronousCollaborativePlaylistTracksQueries, function(error, results) {
 
                 if (!error) {
 
@@ -450,7 +450,7 @@ define([
                         });
                         
                         collaborativePlaylistModel.set({
-                            collaborativePlaylistTracksCollection: collection
+                            tracksList: collection
                         });
                         
                         callback(false, collaborativePlaylistModel);

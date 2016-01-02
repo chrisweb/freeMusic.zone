@@ -73,7 +73,10 @@ jamendoAPI.prototype.getTracksByQuery = function getTracksByQueryFunction(query,
             _.each(data.results, function(value) {
                 
                 // string to integer for ids
-                value.album_id = parseInt(value.album_id);
+                if (value.album_id !== '') {
+                    value.album_id = parseInt(value.album_id);
+                }
+                
                 value.id = parseInt(value.id);
                 value.artist_id = parseInt(value.artist_id);
                 

@@ -124,7 +124,7 @@ define([
                 
                 getMeObject = {
                     playlistId: getMePlaylist,
-                    withPlaylistTracks: false
+                    withTracksList: false
                 };
                 
                 getMeObjects.push(getMeObject);
@@ -133,7 +133,7 @@ define([
                 
                 if (
                     _.has(getMePlaylist, 'playlistId')
-                    && _.has(getMePlaylist, 'withPlaylistTracks')
+                    && _.has(getMePlaylist, 'withTracksList')
                 ) {
                 
                     getMeObjects.push(getMePlaylist);
@@ -148,7 +148,7 @@ define([
             
         });
         
-        var fetchMe = [];
+        var fetchMeObjectsArray = [];
         var playlistsAlreadyLoaded = [];
         
         // are there any playlists that need to get fetched or are they all
@@ -162,7 +162,7 @@ define([
             // playlists collection
             if (existingPlaylistModel === undefined) {
                 
-                fetchMe.push(getMeObject.playlistId);
+                fetchMeObjectsArray.push(getMeObject.playlistId);
                 
             } else {
                 
@@ -173,15 +173,15 @@ define([
         });
         
         // did we find playlists that need to get fetched
-        if (fetchMe.length > 0) {
+        if (fetchMeObjectsArray.length > 0) {
             
-            fetch(fetchMe, function(error, serverPlaylistsArray) {
+            fetch(fetchMeObjectsArray, function(error, serverPlaylistsArray) {
                 
                 if (!error) {
                     
                     var returnMe = playlistsAlreadyLoaded.concat(serverPlaylistsArray);
                     
-                    getPlaylistTracks(returnMe, getMeObjects, callback);
+                    getTracksList(returnMe, getMeObjects, callback);
                     
                 } else {
                     
@@ -193,7 +193,7 @@ define([
             
         } else {
             
-            getPlaylistTracks(playlistsAlreadyLoaded, getMeObjects, callback);
+            getTracksList(playlistsAlreadyLoaded, getMeObjects, callback);
             
         }
         
@@ -203,20 +203,20 @@ define([
      * 
      * we don't have the playlist(s), fetch it/them from the server
      * 
-     * @param {type} fetchMe
-     * @param {type} callback
+     * @param array fetchMeObjectsArray
+     * @param function callback
      * 
      * @returns {undefined}
      */
-    var fetch = function fetchFunction(fetchMe, callback) {
+    var fetch = function fetchFunction(fetchMeObjectsArray, callback) {
         
-        utilities.log('[PLAYLISTSMANAGER] fetch the playlist(s) data from the server, fetchMe:', fetchMe);
+        utilities.log('[PLAYLISTSMANAGER] fetch the playlist(s) data from the server, fetchMeObjectsArray:', fetchMeObjectsArray);
         
         var playlistsCollection = new PlaylistsCollection();
         
         playlistsCollection.fetch({
             data: {
-                playlistsIds: fetchMe
+                fetchMeObjectsArray: fetchMeObjectsArray
             },
             error: function(collection, response, options) {
                 
@@ -307,7 +307,7 @@ define([
      * 
      * @returns {undefined}
      */
-    var getPlaylistTracks = function getPlaylistTracksFunction(playlistModelsArray, getMeObjects, callback) {
+    var getTracksList = function getTracksListFunction(playlistModelsArray, getMeObjects, callback) {
         
         var asynchronousPlaylistTracksQueries = [];
         
@@ -316,11 +316,11 @@ define([
             
             var getMeObject = _.findWhere(getMeObjects, { playlistId: playlistModel.get('id') });
             
-            if (getMeObject.withPlaylistTracks) {
+            if (getMeObject.withTracksList) {
                 
                 asynchronousPlaylistTracksQueries.push(function(callbackForAsync) {
                     
-                    getPlaylistTracksQuery(playlistModel, callbackForAsync);
+                    getTracksListQuery(playlistModel, callbackForAsync);
                     
                 });
                 
@@ -330,7 +330,7 @@ define([
         
         if (asynchronousPlaylistTracksQueries.length > 0) {
         
-            // execute all the getPlaylistTracks queries asynchronously
+            // execute all the getTracksList queries asynchronously
             async.parallel(asynchronousPlaylistTracksQueries, function(error, results){
 
                 if (!error) {
@@ -362,70 +362,24 @@ define([
      * 
      * @returns {undefined}
      */
-    var getPlaylistTracksQuery = function getPlaylistTracksQueryFunction(playlistModel, callback) {
+    var getTracksListQuery = function getTracksListQueryFunction(playlistModel, callback) {
         
         var playlistTracksCollection = new PlaylistTracksCollection([], { playlistId: playlistModel.get('id') });
 
-        // get all the tracks needed by this playlist
+        // get all the playlistTracks from this playlist
         playlistTracksCollection.fetch({
-            error: function(collection, response, options) {
-
+            error: function (collection, response, options) {
+                
                 utilities.log(collection, response, options);
 
+                callback('fetching trackslist failed');
+
             },
-            success: function(collection, response, options) {
+            success: function (collection, response, options) {
 
-                //utilities.log(collection, response, options);
-
-                var tracksList = [];
-
-                // get all the track ids
-                _.each(collection.models, function(model) {
-
-                    tracksList.push(model.get('id'));
-
-                });
-
-                tracksManager.get(tracksList, function(error, tracksArray) {
-
-                    if (!error) {
-
-                        _.each(tracksArray, function(trackData, index) {
-
-                            // get the playlistTrack model
-                            // note to self: a playlist track is
-                            // not the same as a track, the track
-                            // only contains the universal track
-                            // informations but the playlistTrack
-                            // contains playlist specific
-                            // informations about the track, like
-                            // it's position inside of the playlist,
-                            // the date it got added to the playlist,
-                            // or data like the userId of the user
-                            // that added the track to the playlist
-                            var playlistTrack = collection.get(trackData.get('id'));
-
-                            // put the trackData into the
-                            // playlistTrack model
-                            playlistTrack.set({
-                                trackModel: trackData
-                            });
-
-                        });
-                        
-                        playlistModel.set({
-                            playlistTracksCollection: collection
-                        });
-                        
-                        callback(false, playlistModel);
-
-                    } else {
-
-                        callback(error);
-
-                    }
-
-                });
+                playlistModel.set('tracksList', collection);
+                
+                callback(false, playlistModel);
 
             }
 

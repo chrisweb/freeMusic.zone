@@ -97,7 +97,7 @@ define([
         
         // every time there is a click on a link element, take the url and
         // use the backbone router navigate function
-        $body.on('click', 'a:not(.external)', function(event) {
+        $body.on('click', 'a:not(.external,[rel=nofollow])', function(event) {
             
             event.preventDefault();
             

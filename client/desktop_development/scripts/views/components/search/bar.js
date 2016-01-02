@@ -70,10 +70,10 @@ define([
             
             var queryString = searchInputElement.val();
             
-            utilities.log('queryString: ' + queryString);
-            
             // jamendo requires seqrch queries to have at least two characters
             if (queryString.length > 1) {
+                
+                utilities.log('queryString: ' + queryString);
 
                 EventsLibrary.trigger(EventsLibrary.constants.SEARCH_QUERY, { queryString: queryString }, this);
                 

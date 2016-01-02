@@ -1,6 +1,6 @@
 /**
  * 
- * collaborative playlist model
+ * search model
  * 
  * @param {type} utilities
  * @param {type} _
@@ -17,24 +17,23 @@ define([
     
     'use strict';
 
-    var CollaborativePlaylistModel = Model.extend({
+    var SearchQueryModel = Model.extend({
             
         onInitialize: function() {
             
-            utilities.log('[COLLABORATIVE PLAYLIST MODEL] initializing ...', 'fontColor:blue');
+            utilities.log('[SEARCH QUERY MODEL] initializing ...', 'fontColor:blue');
             
         },
         defaults: {
             tracksList: null,
-            id: null,
+            query: ''
         },
-        url: '/api/collaborativeplaylist',
         validate: function(attrs) {
             
         }
 
     });
 
-    return CollaborativePlaylistModel;
+    return SearchQueryModel;
     
 });

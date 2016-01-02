@@ -43,6 +43,8 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
         //utilities.log(request);
         //utilities.log(request.query.q);
+        
+        var queryString = request.query.q;
 
         var jamendoAPI = new JamendoAPI();
 
@@ -63,22 +65,38 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
 
                 } else {
 
-                    response.json({error: '[API LIBRARY] failed to retrieve the tracks using the jamendo api'});
+                    response.json({error: '[API LIBRARY] failed to retrieve the search queries results using the jamendo api'});
 
                 }
 
             } else {
+                
+                var searchResultsResponse = [];
+
+                searchResults.results.forEach(function eachSearchResultsFunction(searchResult) {
+                    
+                    var searchQueryTrack = {
+                        id: searchResult.id,
+                        position: searchResult.position
+                    };
+
+                    searchResultsResponse.push(searchQueryTrack);
+                
+                });
 
                 response.status(200);
-                response.json(searchResults);
+                response.json({
+                    query: queryString,
+                    tracksList: searchResultsResponse
+                });
 
             }
 
         };
 
         jamendoAPI.getTracksByQuery({
-            namesearch: request.query.q,
-            include: ['musicinfo', 'lyrics'],
+            namesearch: queryString,
+            //include: ['musicinfo', 'lyrics'],
             audioformat: 'ogg'
         }, callback);
         
@@ -128,7 +146,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
             
         };
         
-        options.ids = request.query.playlistsIds;
+        options.ids = request.query.fetchMeObjectsArray;
         
         // get the playlists that are already in our database
         var playlistModel = new PlaylistModel();
@@ -176,7 +194,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 jamendoAPI.getPlaylistsByQuery({
                     id: options.ids,
                     limit: 100,
-                    audioformat: 'mp32' // no ogg yet!?
+                    audioformat: 'ogg' // or mp31 / mp32
                 }, function getPlaylistsByQueryCallback(error, apiResponse) {
                     
                     if (error) {
@@ -390,7 +408,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                     jamendoAPI.getPlaylistTracksByQuery({
                         id: options.ids,
                         limit: 100,
-                        audioformat: 'mp32' // no ogg yet!?
+                        audioformat: 'ogg' // or mp31 / mp32
                     }, function getPlaylistTracksByQueryCallback(error, apiResponse) {
                         
                         if (error) {
@@ -607,7 +625,7 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
                 jamendoAPI.getTracksByQuery({
                     id: options.ids,
                     include: ['musicinfo', 'lyrics'],
-                    audioformat: 'ogg'
+                    audioformat: 'ogg' // or mp31 / mp32
                 }, function getTracksByQueryCallback(error, apiResponse) {
                     
                     if (error) {

@@ -6,7 +6,7 @@
     <ProjectGuid>{756fe875-1b83-414e-9445-cdf00607ece9}</ProjectGuid>
     <ProjectHome>..\..\</ProjectHome>
     <ProjectView>ShowAllFiles</ProjectView>
-    <StartupFile>twitter_harvester.js</StartupFile>
+    <StartupFile>server.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -27,10 +27,15 @@
     <Compile Include="audio_data_analyzer.js" />
     <Compile Include="client\desktop_development\scripts\collections\ChatMessages.js" />
     <Compile Include="client\desktop_development\scripts\collections\CollaborativePlaylists.js" />
+    <Compile Include="client\desktop_development\scripts\collections\SearchQueryTracks.js" />
+    <Compile Include="client\desktop_development\scripts\collections\SearchQueries.js" />
     <Compile Include="client\desktop_development\scripts\controllers\playlists.js" />
     <Compile Include="client\desktop_development\scripts\library\manager\collaborativePlaylists.js" />
+    <Compile Include="client\desktop_development\scripts\library\manager\searchQueries.js" />
     <Compile Include="client\desktop_development\scripts\models\ChatMessage.js" />
     <Compile Include="client\desktop_development\scripts\models\CollaborativePlaylist.js" />
+    <Compile Include="client\desktop_development\scripts\models\SearchQueryResultTrack.js" />
+    <Compile Include="client\desktop_development\scripts\models\SearchQuery.js" />
     <Compile Include="client\desktop_development\scripts\views\components\chat\item.js" />
     <Compile Include="client\desktop_development\scripts\views\components\chat\list.js" />
     <Compile Include="client\desktop_development\scripts\views\components\chat\messageForm.js" />

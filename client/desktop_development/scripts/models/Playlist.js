@@ -25,7 +25,7 @@ define([
             
         },
         defaults: {
-            playlistTracksCollection: null,
+            tracksList: null,
             id: null
         },
         validate: function(attrs) {

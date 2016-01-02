@@ -19,6 +19,7 @@ define([
     'ribsjs',
     'manager.collaborativePlaylists',
     'manager.tracks',
+    'manager.searchQueries',
     'collections.CollaborativePlaylists',
     'collections.ChatMessages',
     'collections.PlaylistTracks',
@@ -34,6 +35,7 @@ define([
     Ribs,
     collaborativePlaylistsManager,
     tracksManager,
+    searchQueriesManager,
     CollaborativePlaylistsCollection,
     ChatMessagesCollection,
     CollaborativePlaylistTracksCollection,
@@ -291,7 +293,8 @@ define([
                         collection: tracksSearchResultCollection,
                         ModelView: TrackRowView,
                         ModelViewOptions: {
-                            reRenderOnChange: true
+                            reRenderOnChange: true,
+                            context: 'collaborativePlaylistSearch'
                         },
                         listSelector: '.js-list'
                     });
@@ -324,36 +327,23 @@ define([
 
                     });
                     
+                    // only call the server once every second
+                    var debouncedExecuteQuery = _.debounce(searchQueriesManager.get, 1000);
+
                     // listen for search events
                     EventsLibrary.on(EventsLibrary.constants.SEARCH_QUERY, function (attributes) {
                         
-                        searchQuery(attributes.queryString, function handleSearchCallback(error, results) {
+                        debouncedExecuteQuery(attributes.queryString, function queryGetCallback(error, results) {
                             
+                            var searchResultModel = results[0];
+
                             tracksSearchResultCollection.reset();
                             
-                            if (!error) {
-                                
-                                _.each(results, function (result) {
-                                    
-                                    // initialize a new track model
-                                    var trackModel = new TrackModel(result);
-                                    
-                                    // add the track to the cache
-                                    tracksManager.add(trackModel);
-                                    
-                                    // add the track to the search result collection
-                                    tracksSearchResultCollection.add(trackModel);
+                            // TODO: get the tracks from tracks manager
+                            // searchResultModel.tracksList.models
 
-                                });
-
-                            } else {
-                                
-                                //TODO: handle the error
-                                
-                                utilities.log('errorThrown: ' + error, 'fontColor:red');
-
-                            }
-
+                            tracksSearchResultCollection.add();
+                        
                         });
 
                     });
@@ -368,48 +358,6 @@ define([
                     
         });
     
-    };
-    
-    var jqXHR;
-    
-    var searchQuery = function searchQueryFunction(queryString, callback) {
-        
-        // TODO: filter query string
-
-        // abort previous request if it is still ongoing
-        if (jqXHR !== undefined && jqXHR.readyState !== 4) {
-
-            jqXHR.abort();
-
-        }
-
-        jqXHR = $.ajax({
-            url: '/api/search',
-            type: 'GET',
-            data: { q: queryString },
-            dataType: 'json'
-        });
-
-        jqXHR.done(function(dataJson, textStatus, jqXHR) {
-
-            //utilities.log(dataJson);
-            utilities.log(textStatus);
-            utilities.log(jqXHR);
-
-            callback(false, dataJson.results);
-
-        });
-
-        jqXHR.fail(function(jqXHR, textStatus, errorThrown) {
-
-            //utilities.log(jqXHR);
-            utilities.log(textStatus);
-            utilities.log(errorThrown);
-
-            callback(errorThrown);
-
-        });
-        
     };
 
     return CollaborativePlaylistsController;

@@ -26,6 +26,7 @@ define([
     'manager.tracks',
     'manager.playlists',
     'manager.collaborativePlaylists',
+    'manager.searchQueries',
     'library.plugin.player',
     
     'library.jquery.plugin.hasAttr' // adds a new hasAttr function to $ (jquery)
@@ -40,6 +41,7 @@ define([
     tracksManager,
     playlistsManager,
     collaborativePlaylistsManager,
+    searchQueriesManager,
     playerPlugin
 ) {
 
@@ -149,6 +151,9 @@ define([
         // initialize the collaborative playlists manager
         collaborativePlaylistsManager.initialize();
         
+        // initialize the search queries manager
+        searchQueriesManager.initialize();
+
         // initialize the player plugin
         playerPlugin.initialize();
         

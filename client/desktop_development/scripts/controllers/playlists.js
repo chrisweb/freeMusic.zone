@@ -30,11 +30,11 @@ define([
     
     'use strict';
     
-    var CollaborativePlaylistsController = Controller.extend({
+    var PlaylistsController = Controller.extend({
         
         onInitialize: function (options, configuration, router) {
             
-            utilities.log('[COLLABORATIVE PLAYLISTS CONTROLLER] initializing ...', 'fontColor:blue');
+            utilities.log('[PLAYLISTS CONTROLLER] initializing ...', 'fontColor:blue');
             
             this.options = options;
             this.configuration = configuration;
@@ -71,7 +71,7 @@ define([
                             
                             playlistsToGet.push({
                                 playlistId: model.get('id'),
-                                withPlaylistTracks: false
+                                withTracksList: false
                             });
 
                         });
@@ -84,18 +84,18 @@ define([
                                 collection: tweetsPlaylistModel.get('playlistTracksCollection'),
                                 ModelView: TrackRowView,
                                 ModelViewOptions: {
-                                    context: 'twitterCharts',
+                                    context: 'playlist',
                                     reRenderOnChange: true,
                                     playlistId: tweetsPlaylistModel.get('id')
                                 },
                                 listSelector: '.tracksList'
                             });
                             
-                            Ribs.Container.clear('#twitterChartsTracks');
+                            Ribs.Container.clear('#playlistTracks');
                             
-                            Ribs.Container.add('#twitterChartsTracks', twitterChartsTracksView);
+                            Ribs.Container.add('#playlistTracks', twitterChartsTracksView);
                             
-                            Ribs.Container.dispatch('#twitterChartsTracks');
+                            Ribs.Container.dispatch('#playlistTracks');
 
                     
                         });
@@ -115,6 +115,6 @@ define([
     });
    
 
-    return CollaborativePlaylistsController;
+    return PlaylistsController;
     
 });

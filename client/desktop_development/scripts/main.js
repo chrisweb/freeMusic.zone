@@ -46,6 +46,7 @@ require.config({
         'manager.tracks': 'library/manager/tracks',
         'manager.playlists': 'library/manager/playlists',
         'manager.collaborativePlaylists': 'library/manager/collaborativePlaylists',
+        'manager.searchQueries': 'library/manager/searchQueries',
         
         // helpers
         'helper.durationFormatter': 'helper/durationFormatter',
@@ -69,6 +70,8 @@ require.config({
         'collections.PlaylistsList': 'collections/PlaylistsList',
         'collections.PlaylistTracks': 'collections/PlaylistTracks',
         'collections.ChatMessages': 'collections/ChatMessages',
+        'collections.SearchQueries': 'collections/SearchQueries',
+        'collections.SearchQueryTracks': 'collections/SearchQueryTracks',
         
         // models
         'models.Track': 'models/Track',
@@ -77,6 +80,8 @@ require.config({
         'models.User': 'models/User',
         'models.PlaylistTrack': 'models/PlaylistTrack',
         'models.ChatMessage': 'models/ChatMessage',
+        'models.SearchQuery': 'models/SearchQuery',
+        'models.SearchQueryResultTrack': 'models/SearchQueryResultTrack',
         
         // vendor
         'jquery': '../../../bower_components/jquery/dist/jquery',

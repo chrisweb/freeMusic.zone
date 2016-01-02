@@ -45,7 +45,7 @@ define([
             
             var playlistQuery = {
                 playlistId: playlistId,
-                withPlaylistTracks: true
+                withTracksList: true
             };
             
             PlaylistsManager.get(playlistQuery, function(error, playlistModelsArray) {
