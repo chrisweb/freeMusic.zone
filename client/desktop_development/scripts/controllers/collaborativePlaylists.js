@@ -215,6 +215,8 @@ define([
                 
                 router.navigate(routeUrl, routeOptions);
                 
+                // TODO: put the url to be shared in an input field
+                
                 // collaborative playlists page view
                 require([
                     'views/components/chat/messageForm',
@@ -292,6 +294,7 @@ define([
                     var tracksListView = new TracksListView({
                         collection: tracksSearchResultCollection,
                         ModelView: TrackRowView,
+                        context: 'collaborativePlaylistSearch',
                         ModelViewOptions: {
                             reRenderOnChange: true,
                             context: 'collaborativePlaylistSearch'
@@ -336,13 +339,31 @@ define([
                         debouncedExecuteQuery(attributes.queryString, function queryGetCallback(error, results) {
                             
                             var searchResultModel = results[0];
-
-                            tracksSearchResultCollection.reset();
                             
-                            // TODO: get the tracks from tracks manager
-                            // searchResultModel.tracksList.models
+                            // clear the tracks search result collection, before adding new results
+                            tracksSearchResultCollection.reset();
 
-                            tracksSearchResultCollection.add();
+                            var searchQueryTracksList = searchResultModel.get('tracksList');
+                            
+                            if (searchQueryTracksList.length > 0) {
+                            
+                                // TODO: get the tracks from tracks manager
+                                // searchResultModel.tracksList.models
+                                tracksManager.get(searchQueryTracksList.models, function getTracksCallback(error, searchQueryResultTracks) {
+                                    
+                                    if (!error) {
+
+                                        tracksSearchResultCollection.add(searchQueryResultTracks);
+
+                                    } else {
+
+                                        // TODO: create and use an error messages plugin
+
+                                    }
+
+                                });
+
+                            }
                         
                         });
 

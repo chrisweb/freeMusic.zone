@@ -18,16 +18,21 @@
     </td>
     <td class="trackActions">
         <button type="button" class="icon fa fa-play js-playTrack"></button>
-        <a href="https://twitter.com/share?url=http://jamen.do/t/<%- id %>&amp;via=freeMusicZone&amp;related=Jamendo&amp;hashtags=JAMENDO%2CFreeMusicZone%2CMUSIC&amp;text=<%= 'Discover ' + encodeURIComponent(trackModel.get('jamendo_name')) + ' on Jamendo Music' %>" type="button" class="icon fa fa-twitter js-shareOnTwitterTrack" rel="nofollow" target="_blank" style="target-new: tab;"></a>
+        
+		<% if (this.options.context !== 'collaborativePlaylistSearch') { %>
+		
+			<a href="https://twitter.com/share?url=http://jamen.do/t/<%- id %>&amp;via=freeMusicZone&amp;related=Jamendo&amp;hashtags=JAMENDO%2CFreeMusicZone%2CMUSIC&amp;text=<%= 'Discover ' + encodeURIComponent(trackModel.get('jamendo_name')) + ' on Jamendo Music' %>" type="button" class="icon fa fa-twitter js-shareOnTwitterTrack" rel="nofollow" target="_blank" style="target-new: tab;"></a>
 
-        <% if (this.options.context !== 'twitterCharts') { %>
+			<% if (this.options.context !== 'twitterCharts') { %>
 
-            <a href="" type="button" class="icon fa fa-facebook js-shareOnFacebookTrack" target="_blank" style="target-new: tab;"></a>
-            <a href="" type="button" class="icon fa fa-google-plus js-shareOnGooglePlusTrack" target="_blank" style="target-new: tab;"></a>
-			<a href="" type="button" class="icon fa fa-weibo js-shareOnWeiboTrack" target="_blank" style="target-new: tab;"></a>
-			<% /* icon does not yet exist in fa: fa-vk-ru https://github.com/FortAwesome/Font-Awesome/issues/3785 */ %>
+				<a href="" type="button" class="icon fa fa-facebook js-shareOnFacebookTrack" target="_blank" style="target-new: tab;"></a>
+				<a href="" type="button" class="icon fa fa-google-plus js-shareOnGooglePlusTrack" target="_blank" style="target-new: tab;"></a>
+				<a href="" type="button" class="icon fa fa-weibo js-shareOnWeiboTrack" target="_blank" style="target-new: tab;"></a>
+				<% /* icon does not yet exist in fa: fa-vk-ru https://github.com/FortAwesome/Font-Awesome/issues/3785 */ %>
 
-        <% } %>
+			<% } %>
+
+		<% } %>
 
     </td>
         

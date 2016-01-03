@@ -13,14 +13,15 @@ define([
     'chrisweb-utilities',
     'library.events',
     'collections.Tracks',
-    'models.Track',
-    'moment'
+    'moment',
+    'ribsjs'
 
 ], function (
     utilities,
     EventsLibrary,
     TracksCollection,
-    moment
+    moment,
+    Ribs
 ) {
     
     'use strict';
@@ -94,21 +95,35 @@ define([
      */
     var get = function getFunction(getMe, callback) {
         
+        var getMeArray = [];
+
         if (!_.isArray(getMe)) {
-            
-            getMe = [getMe];
-            
+            getMeArray = [getMe];
+        } else {
+            getMeArray = getMe;
         }
         
         var fetchMe = [];
-        var tracksAlreadyLoaded = [];
+        var tracksAlreadyLoadedArray = [];
+        var isInputAModel;
         
-        _.each(getMe, function(trackId) {
-        
-            var results = tracksCollection.where({ jamendo_id: trackId });
+        _.each(getMeArray, function (getMe) {
+            
+            var trackId;
+            
+            // is getMe a model or an id
+            if (getMe instanceof Ribs.Model) {
+                trackId = getMe.get('id');
+                isInputAModel = true;
+            } else {
+                trackId = getMe;
+                isInputAModel = false;
+            }
+
+            var result = tracksCollection.findWhere({ jamendo_id: trackId });
 
             // check if the track is in the tracksmananger cache
-            if (results.length === 0) {
+            if (result === undefined) {
 
                 // if its not in the cache, fetch it from server
                 fetchMe.push(trackId);
@@ -116,21 +131,31 @@ define([
             } else {
 
                 // if the track is already in the trackmanager return it
-                tracksAlreadyLoaded.push(results[0]);
+                tracksAlreadyLoadedArray.push(results[0]);
 
             }
             
         });
         
+        // did new models get fetched or did we have all we needed in cache
         if (fetchMe.length > 0) {
             
             fetch(fetchMe, function(error, serverTracksArray) {
                 
                 if (!error) {
-                
-                    var returnMe = tracksAlreadyLoaded.concat(serverTracksArray);
                     
-                    callback(false, returnMe);
+                    // merge the newly fetched models with the ones from cache into single array
+                    var allModelsArray = tracksAlreadyLoadedArray.concat(serverTracksArray);
+                    
+                    var returnMeArray;
+
+                    if (isInputAModel) {
+                        returnMeArray = addToInitialModel(allModelsArray, getMeArray);
+                    } else {
+                        returnMeArray = allModelsArray;
+                    }
+                    
+                    callback(false, returnMeArray);
                     
                 } else {
                     
@@ -142,10 +167,51 @@ define([
             
         } else {
             
-            callback(false, tracksAlreadyLoaded);
+            var returnMeArray = [];
+
+            if (isInputAModel) {
+                returnMeArray = addToInitialModel(tracksAlreadyLoadedArray, getMeArray);
+            } else {
+                returnMeArray = tracksAlreadyLoadedArray;
+            }
+
+            callback(false, returnMeArray);
             
         }
         
+    };
+    
+    /**
+     * if the requested IDs were in models, take the response and put it back into those models
+     */
+    var addToInitialModel = function addToInitialModelFunction(returnMeArray, getMeArray) {
+        
+        var mergedModelsArray = [];
+
+        _.each(getMeArray, function eachReturnMeCallback(getMeModel) {
+            
+            var matchingModel = _.find(returnMeArray, function findMatchingModelCallback(returnMeModel) {
+                return returnMeModel.get('jamendo_id') === getMeModel.get('id');
+            })
+            
+            var trackModel = null;
+            
+            if (matchingModel !== undefined) {
+                trackModel = matchingModel;
+            }
+            
+            getMeModel.set({
+                trackModel: trackModel
+            }, {
+                silent: true
+            });
+
+            mergedModelsArray.push(getMeModel);
+
+        });
+
+        return mergedModelsArray;
+
     };
 
     /**

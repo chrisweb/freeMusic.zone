@@ -12,19 +12,16 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Next todos
 
+* fully test player when bug "access control" of the streaming server is resolved
+* player automatically play next track
 * in the api module "/tweet/charts/day" save the tracks we got from jamendo api call into mongodb
 * in the api module "/tweet/charts/day" dont do an api call if all tracks have been found in database already
-* add player to tweets page
-* get the user playlists for collaborative playlists page
-* create chat for collaborative playlists
 * add bot to chat that can answer questions
 * create javascript library to log all kind of client javascript errors
 * fetch the charts from server and display them in the client
+* my playlists: fetch the user playlists and their songs
 * (finish player / tracksCache library) add a play button (player bar) to play the the songs listed in the charts
-* socket io chat (one room per playlist)
 * list of playlists (for collaborative module) sort by (popularity / date)
-* playlist detail page (for collaborative module)
-* look at the source of desktop_development@@ we need a bunch of icons and slpash screens
 * the cloud init script for the nodejs web server must create the configuration.js file, using the "wite_files" option in cloud init or using wget from a secure server
 * the redis server cloud init setup script must edit the redis conf file and set the production values
 * put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
@@ -33,15 +30,19 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * drop bower, load all depencies with npmjs, it's easier to manage all dependencies with one tool an avoids having duplicates for the server and client, also allows to track new versions using https://david-dm.org/chrisweb/freeMusic.zone
 * replace twitter bootstrap 3 with twitter boostrap 4 (+ update documentation)
 * replace all use of glyphicons with font awsome as twitter boostrap 4 does not have glyphicons anymore (+ update grunt file)
+* refactoring the managers
+** add adapters
+** create an abstract manager
+* server API should return a count of results, set a default limit for results, if above the limit return a pagination
+* refactor bootstrap, especailly move the socket.io related stuff into a library file
 
 ## Other todos (damn that's a lot of todos ;) )
 
 * finish the tracksCache "soundsGarbageCollector" method
 * add an infinite scroll to the twitter charts page if there are more then 10 results
-* create a cron job module that refreshes the data of a track using the api, for tracks where the last refresh date is older then a month
+* (?) create a cron job module that refreshes the data of a track using the api, for tracks where the last refresh date is older then a month
 * mechanism to replace all the /desktop pathes with /mobile when not in desktop mode
 * images versioning, add the package.json version number to the javascript configuration file so that it can retrieve the images from the correct path
-* create a mechanism that checks if the user has refresh token and if so and if its is about to expire use it to refresh the oauth token
 * use the ribs views loader instead of the require calls
 * search queries cache on server with redis
 * track infos cache on server with redis
@@ -63,7 +64,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * Use geolocation to find concerts: https://developers.google.com/web/fundamentals/device-access/user-location/
 * add log rotation for the forever log files http://stackoverflow.com/questions/15231968/nodejs-forever-archive-logs
 * add hi-redis (https://www.npmjs.com/package/hiredis) for production into package.json
-* * make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io and other places of the app, instead if cookies (stateless REST)
+* make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io and other places of the app, instead if cookies (stateless REST)
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 * create responsive jquery ui dialog
@@ -147,3 +148,10 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: make the settings and user icon in the header clickable, on click redirect to their page
 * DONE: add the jamendo twitter charts page to the app, create a list of tracks from mongodb map reduce results
 * DONE: add icon retweet this song (share) to the track row of the twitter charts page
+* DONE: create a mechanism that checks if the user has refresh token and if so and if its is about to expire use it to refresh the oauth token
+* DONE: playlist detail page (for collaborative module)
+* DONE: collaborative playlist track search (by name)
+* DONE: add player to tweets page
+* DONE: get the user playlists for collaborative playlists page
+* DONE: create chat for collaborative playlists, socket io chat (one room per playlist)
+* DONE: let the user create a new collaborative playlist (with an url that can be shared)

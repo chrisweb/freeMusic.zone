@@ -16,15 +16,19 @@ define([
     'library.controller',
     'ribsjs',
     'manager.playlists',
+    'manager.tracks',
     'collections.PlaylistTracks',
+    'collections.Tracks',
     'models.Playlist'
 
 ], function (
     utilities,
     Controller,
     Ribs,
-    PlaylistsManager,
+    playlistsManager,
+    tracksManager,
     PlaylistTracksCollection,
+    TracksCollection,
     PlaylistModel
 ) {
     
@@ -79,10 +83,10 @@ define([
                 Ribs.Container.dispatch('#core');
                 
                 // add the playlist to the playlistmanager
-                PlaylistsManager.add(playlistModel);
+                playlistsManager.add(playlistModel);
                 
                 // get the playlist and trigger the playlistTrack populate
-                PlaylistsManager.get({
+                playlistsManager.get({
                     playlistId: playlistModel.get('id'),
                     withTracksList: true
                 }, function(error, playlistsArray) {
@@ -91,13 +95,41 @@ define([
                         
                         var tweetsPlaylistModel = playlistsArray[0];
                         
-                        // TODO: each playlistTrack get the corresponding track (model)
-                        // tracksManager.get(tweetsPlaylistModel.tracksList, function getTracksCallback() {});
+                        // for each playlistTrack get the corresponding track (model)
+                        var tweetsPlaylistTracksList = tweetsPlaylistModel.get('tracksList');
+                        
+                        var tweetsPlaylistTracksCollection = new TracksCollection();
+                        
+                        // set the comparator to position to sort the tracks
+                        tweetsPlaylistTracksCollection.comparator = 'position';
+
+                        if (tweetsPlaylistTracksList.length > 0) {
+                            
+                            // TODO: get the tracks from tracks manager
+                            // searchResultModel.tracksList.models
+                            tracksManager.get(tweetsPlaylistTracksList.models, function getTracksCallback(error, tweetsPlaylistTracks) {
+                                
+                                if (!error) {
+                                    
+                                    tweetsPlaylistTracksCollection.add(tweetsPlaylistTracks);
+
+                                } else {
+
+                                    // TODO: create and use an error messages plugin
+
+                                }
+
+                            });
+
+                        }
+                        
+                        // sort the tweets based on the comparator
+                        tweetsPlaylistTracksCollection.sort();
                         
                         // create the twitter charts tracks list view and add it to
                         // the dom
                         var twitterChartsTracksListView = new TracksListView({
-                            collection: tweetsPlaylistModel.get('tracksList'),
+                            collection: tweetsPlaylistTracksCollection,
                             ModelView: TrackRowView,
                             ModelViewOptions: {
                                 context: 'twitterCharts',

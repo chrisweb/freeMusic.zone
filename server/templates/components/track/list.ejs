@@ -2,7 +2,9 @@
     <thead>
         <tr>
             <th><!-- image --></th>
-            <th>Position</th>
+            <% if (this.options.context !== 'collaborativePlaylistSearch') { %>
+              <th>Position</th>
+            <% } %>
             <th>Track title and artist name</th>
             <th class="col-md-2">Actions</th>
         </tr>
