@@ -27,17 +27,19 @@ define([
     
     'use strict';
     
+    /**
+     * initialize the player plugin
+     */
     var initialize = function initializeFunction(callback) {
         
+        utilities.log('[PLAYER PLUGIN] initializing ...', 'fontColor:blue');
+
         startListening();
         
     };
     
     /**
-     * 
      * start listening to events
-     * 
-     * @returns {undefined}
      */
     var startListening = function startListeningFunction() {
         

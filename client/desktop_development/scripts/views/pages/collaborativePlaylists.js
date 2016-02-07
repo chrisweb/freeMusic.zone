@@ -37,12 +37,19 @@ define([
         
         // view events
         events: {
-            'click .newCollaborativePlaylist': 'newCollaborativePlaylistClick'
+            'click .js-newCollaborativePlaylist-button': 'newCollaborativePlaylistClick',
+            'click .js-listCollaborativePlaylists-button': 'listCollaborativePlaylistsClick'
         },
         
         newCollaborativePlaylistClick: function newCollaborativePlaylistClickFunction(event) {
             
-            EventsLibrary.trigger(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_NEW);
+            EventsLibrary.trigger(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_NEW, { originalEvent: event });
+            
+        },
+        
+        listCollaborativePlaylistsClick: function listCollaborativePlaylistsClickFunction(event) {
+            
+            EventsLibrary.trigger(EventsLibrary.constants.COLLABORATIVE_PLAYLISTS_LIST, { originalEvent: event });
             
         }
         

@@ -66,7 +66,7 @@ module.exports.start = function initialize(configuration) {
                 
             } else {
                 
-                utilities.log('[USER LIBRARY] getting user data success', 'fontColor:green');
+                utilities.log('[USER LIBRARY] getting user data from jamendo API, success', 'fontColor:green');
                 
                 // check if user exists in database
                 var userModel = new UserModel();

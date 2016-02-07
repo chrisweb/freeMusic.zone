@@ -1,6 +1,6 @@
 /**
  * 
- * header navigation
+ * header navigation plugin
  * 
  * @param {type} utilities
  * @param {type} Ribs
@@ -19,14 +19,11 @@ define([
     'use strict';
     
     /**
-     * 
-     * initialize the header navigation
-     * 
-     * @returns {undefined}
+     * initialize the header navigation plugin
      */
     var initialize = function initializeFunction() {
         
-        utilities.log('[HEADER NAVIGATION] initializing ...', 'fontColor:blue');
+        utilities.log('[HEADER NAVIGATION PLUGIN] initializing ...', 'fontColor:blue');
         
         // add the header navigation to the header element of the layout
         require([

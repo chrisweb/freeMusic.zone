@@ -41,3 +41,6 @@ configuration.js
 templates.js
 desktop.html
 _fonts-paths.scss
+
+# visual studio
+visualstudio/project

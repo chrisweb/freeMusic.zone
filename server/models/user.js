@@ -179,7 +179,7 @@ userModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataTo
  */
 userModel.prototype.exists = function existsFunction(query, callback) {
     
-    utilities.log('[USER MODEL] exists');
+    utilities.log('[USER MODEL] does the model exist in our database');
     
     this.Model.count(query, function (error, count) {
         

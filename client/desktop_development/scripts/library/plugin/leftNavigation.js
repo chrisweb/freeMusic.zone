@@ -1,6 +1,6 @@
 /**
  * 
- * left navigation
+ * left navigation plugin
  * 
  * @param {type} utilities
  * @param {type} Ribs
@@ -19,14 +19,11 @@ define([
     'use strict';
     
     /**
-     * 
-     * initialize the left navigation
-     * 
-     * @returns {undefined}
+     * initialize the left navigation plugin
      */
     var initialize = function initializeFunction() {
         
-        utilities.log('[LEFT NAVIGATION] initializing ...', 'fontColor:blue');
+        utilities.log('[LEFT NAVIGATION PLUGIN] initializing ...', 'fontColor:blue');
         
         // add the header navigation to the header element of the layout
         require(['views/components/left/navigation'], function(LeftNavigationView) {

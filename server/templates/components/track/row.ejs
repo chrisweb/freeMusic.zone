@@ -25,12 +25,25 @@
 
 			<% if (this.options.context !== 'twitterCharts') { %>
 
-				<a href="" type="button" class="icon fa fa-facebook js-shareOnFacebookTrack" target="_blank" style="target-new: tab;"></a>
-				<a href="" type="button" class="icon fa fa-google-plus js-shareOnGooglePlusTrack" target="_blank" style="target-new: tab;"></a>
+				<a href="https://www.facebook.com/sharer/sharer.php?u=" type="button" class="icon fa fa-facebook js-shareOnFacebookTrack" target="_blank" style="target-new: tab;"></a>
+				<a href="https://plus.google.com/share?url=" type="button" class="icon fa fa-google-plus js-shareOnGooglePlusTrack" target="_blank" style="target-new: tab;"></a>
 				<a href="" type="button" class="icon fa fa-weibo js-shareOnWeiboTrack" target="_blank" style="target-new: tab;"></a>
 				<% /* icon does not yet exist in fa: fa-vk-ru https://github.com/FortAwesome/Font-Awesome/issues/3785 */ %>
+				<a href="https://pinterest.com/pin/create/button/?url=&description=&media=" type="button" class="icon fa fa-facebook js-shareOnFacebookTrack" target="_blank" style="target-new: tab;"></a>
+				<a href="http://www.reddit.com/submit?url=&title="></a>
+				<a href="https://www.tumblr.com/widgets/share/tool?canonicalUrl={url}&title={title}&caption={desc}"></a>
+				<% /* weibo? http://service.weibo.com/share/share.php?url=&appkey=&title=&pic=&ralateUid=&language=zh_cn */ %>
+				<% /* tencent QQ? http://share.v.t.qq.com/index.php?c=share&a=index&url='+encodeURIComponent(url)+'&title='+encodeURIComponent(title)+'&appkey='+appkey */ %>
+				<% /* whatsup? whatsapp://send?text= */ %>
+				<% /* https://github.com/bradvin/social-share-urls */ %>
 
 			<% } %>
+
+		<% } %>
+
+		<% if (this.options.context === 'collaborativePlaylistSearch') { %>
+
+			<button type="button" class="icon fa fa-plus js-addTrackToCollaborative"></button>
 
 		<% } %>
 

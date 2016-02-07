@@ -5,7 +5,8 @@
  * @param {type} _
  * @param {type} utilities
  * @param {type} EventsLibrary
- * @param {type} collaborativePlaylistsCollection
+ * @param {type} CollaborativePlaylistsCollection
+ * @param {type} CollaborativePlaylistsListCollection
  * @param {type} PlaylistsListCollection
  * @param {type} tracksManager
  * @param {type} PlaylistTracksCollection
@@ -18,6 +19,7 @@ define([
     'chrisweb-utilities',
     'library.events',
     'collections.CollaborativePlaylists',
+    'collection.CollaborativePlaylistsList',
     'models.CollaborativePlaylist',
     'collections.PlaylistsList',
     'manager.tracks',
@@ -29,6 +31,7 @@ define([
     utilities,
     EventsLibrary,
     CollaborativePlaylistsCollection,
+    CollaborativePlaylistsListCollection,
     CollaborativePlaylistModel,
     PlaylistsListCollection,
     tracksManager,
@@ -274,35 +277,63 @@ define([
     
     /**
      * 
-     * fetch a list of collaborative playlists ids of a page or of a user
+     * fetch a list of entity ids of a page, of a user based on some query parameters
      * 
      * this is a different method then fetch, because here we don't know the
-     * playlist ids, we have to ask the server which playlists need to get
-     * fetched, we don't fetch the playlist data, just the ids of the playlists
+     * entity ids, we have to ask the server which entity match our query, then we need to get
+     * those entites in another query
      * 
-     * we don't fetch all the playlist data as the playlist data may already be
-     * in the client cache because if got loaded previously
+     * we don't fetch all the entity data as the entity data may already be
+     * in the client cache, it might have been fetched previously
      * 
-     * @param {type} options
-     * @param {type} callback
+     * list can / should have a lot lower expiry time then entity, maybe we don't even cache them (at least client side)
      * 
-     * @returns {undefined}
+     * @param Object options
+     * @param Function callback
+     * 
+     * @returns void
      */
     var fetchList = function fetchListFunction(options, callback) {
         
         utilities.log('[COLLABORATIVE PLAYLISTS MANAGER] fetch the list data from the server, options:', options);
         
-        var collaborativePlaylistsListCollection = new collaborativePlaylistsListCollection();
+        var collaborativePlaylistsListCollection = new CollaborativePlaylistsListCollection();
         
-        collaborativePlaylistsListCollection.comparator = 'name';
+        // where
+        where = [];
         
-        var fetchQuery = {
-            whereKey: options.whereKey,
-            whereValue: options.whereValue
+        // TODO: allow multiple where key/values
+        where.push({
+            key: options.whereKey,
+            value: options.whereValue,
+            operator: '='
+        });
+        
+        // order by
+        var defaultComparator = 'id';
+        
+        if ('comparator' in options) {
+            playlistsListCollection.comparator = options.comparator;
+        } else {
+            playlistsListCollection.comparator = defaultComparator;
+        }
+        
+        // limit
+        var limit = '100';
+
+        if ('limit' in options) {
+            limit = options.limit;
+        }
+        
+        // query parameters
+        var queryParameters = {
+            where: where,
+            comparator: playlistsListCollection.comparator,
+            limit: limit
         };
         
         collaborativePlaylistsListCollection.fetch({
-            data: fetchQuery,
+            data: queryParameters,
             error: function(collection, response, options) {
 
                 utilities.log(collection, response, options);
@@ -314,19 +345,7 @@ define([
 
                 utilities.log(collection, response, options);
                 
-                var collaborativePlaylistsIds = [];
-                
-                _.each(collection.models, function(collaborativePlaylistModel, index) {
-                    
-                    // note to self: we only need the IDs, as we will return
-                    // the list of IDs so that later on we can use
-                    // playlistManager.get to get the playlist data, but it's
-                    // not possible with the API as is to just get the IDs
-                    collaborativePlaylistsIds.push(collaborativePlaylistModel.get('id'));
-                    
-                });
-                
-                callback(false, collaborativePlaylistsIds);
+                callback(false, collection);
                 
             }
         });

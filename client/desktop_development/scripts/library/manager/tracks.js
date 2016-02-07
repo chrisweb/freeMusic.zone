@@ -260,6 +260,34 @@ define([
     
     /**
      * 
+     * fetch a list of entity ids of a page, of a user based on some query parameters
+     * 
+     * this is a different method then fetch, because here we don't know the
+     * entity ids, we have to ask the server which entity match our query, then we need to get
+     * those entites in another query
+     * 
+     * we don't fetch all the entity data as the entity data may already be
+     * in the client cache, it might have been fetched previously
+     * 
+     * list can / should have a lot lower expiry time then entity, maybe we don't even cache them (at least client side)
+     * 
+     * @param Object options
+     * @param Function callback
+     * 
+     * @returns void
+     */
+    var fetchList = function fetchListFunction(options, callback) {
+       
+        utilities.log('[TRACKS MANAGER] fetch the list of entites from the server based on a query, options:', options);
+
+        // not yet implemented, as most entities have their own tracks list
+
+        callback('not implemented');
+         
+    };
+    
+    /**
+     * 
      * remove the track models of all the tracks that don't get used right now
      * 
      * @returns {undefined}

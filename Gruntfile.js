@@ -349,7 +349,7 @@ module.exports = function (grunt) {
                 files: [
                     '<%= config.client.desktop.development.stylesheets.path %>/main.scss'
                 ],
-                tasks: ['gitinfo', 'development-replace', 'sass']
+                tasks: ['development-replace', 'sass']
             },
             sass_dependencies: {
                 files: [
@@ -372,7 +372,7 @@ module.exports = function (grunt) {
                 files: [
                     '<%= config.server.views.path %>/desktop@@.html'
                 ],
-                tasks: ['development-replace']
+                tasks: ['development-replace', 'sass']
             },
             watchReload: {
                 files: ['Gruntfile.js'],

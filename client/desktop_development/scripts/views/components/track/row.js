@@ -44,9 +44,17 @@ define([
             'mouseup .js-trackPreview': 'trackPreviewStop',
             'click .js-playTrack': 'playTrackClick',
             'click .js-pauseTrack': 'pauseTrackClick',
+            'click .js-addTrackToCollaborative ': 'addTrackToCollaborative',
             'click .js-shareOnTwitterTrack': 'shareOnTwitterTrackClick',
             'click .js-shareOnFacebookTrack': 'shareOnFacebookClick',
-            'click .js-shareOnGooglePlusTrack': 'shareOnGooglePlusClick'
+            'click .js-shareOnGooglePlusTrack': 'shareOnGooglePlusClick',
+            'click .js-shareOnVKontakteTrack': 'shareOnVKontakteClick', // russian facebook
+            'click .js-shareOnWeiboTrack': 'shareOnWeiboClick', // chinese twitter
+            'click .js-shareOnPinterestTrack': 'shareOnPinterestClick',
+            'click .js-shareOnTumblrTrack': 'shareOnTumblrClick',
+            'click .js-shareOnRedditTrack': 'shareOnRedditClick',
+            'click .js-shareOnTencentQQTrack': 'shareOnTencentQQClick', // chinese social network
+            'click .js-shareOnQZoneTrack': 'shareOnQZoneClick' // chinese tumblr
         },
         
         trackPreviewStart: function trackPreviewStartFunction(event) {
@@ -87,6 +95,12 @@ define([
                 .removeClass('js-pauseTrack')
                 .addClass('js-playTrack');
             
+        },
+        
+        addTrackToCollaborative: function addTrackToCollaborativeFunction(event) {
+            
+            EventsLibrary.trigger(EventsLibrary.constants.TRACK_ADD_TO_COLLABORATIVE, { trackId: this.model.get('id'), playlistId: this.options.playlistId });
+
         },
         
         shareOnTwitterTrackClick: function shareOnTwitterTrackClickFunction() {

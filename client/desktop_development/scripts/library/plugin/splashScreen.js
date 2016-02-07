@@ -7,23 +7,24 @@
  * @returns {_L17.Anonym$1}
  */
 define([
+    'chrisweb-utilities',
     'library.events',
     
     'velocity'
 ], function (
+    utilities,
     EventsLibrary
 ) {
     
     'use strict';
     
     /**
-     * 
-     * public initialize splash screen
-     * 
-     * @returns {undefined}
+     * public initialize splash screen plugin
      */
     var initialize = function initializeFunction() {
         
+        utilities.log('[SPLASH SCREEN PLUGIN] initializing ...', 'fontColor:blue');
+
         EventsLibrary.once(EventsLibrary.constants.ROUTER_POSTROUTE, function() {
             
             var $body = $('body');

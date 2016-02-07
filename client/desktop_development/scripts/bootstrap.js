@@ -59,6 +59,7 @@ define([
     var run = function runFunction() {
         
         // first initialize the splashScreen plugin
+        // as it listens for route events
         splashScreenPlugin.initialize();
         
         // then we initialize the router plugin
@@ -136,12 +137,7 @@ define([
             
         }
         
-        // initialize the left navigation plugin
-        leftNavigationPlugin.initialize();
-        
-        // initialize the header navigation plugin
-        headerNavigationPlugin.initialize();
-        
+        // MANAGERS
         // initialize the tracks manager
         tracksManager.initialize();
         
@@ -153,6 +149,13 @@ define([
         
         // initialize the search queries manager
         searchQueriesManager.initialize();
+        
+        // PLUGINS
+        // initialize the left navigation plugin
+        leftNavigationPlugin.initialize();
+        
+        // initialize the header navigation plugin
+        headerNavigationPlugin.initialize();
 
         // initialize the player plugin
         playerPlugin.initialize();

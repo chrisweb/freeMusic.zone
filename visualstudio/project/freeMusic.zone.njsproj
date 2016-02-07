@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{756fe875-1b83-414e-9445-cdf00607ece9}</ProjectGuid>
     <ProjectHome>..\..\</ProjectHome>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <StartupFile>server.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -27,13 +27,16 @@
     <Compile Include="audio_data_analyzer.js" />
     <Compile Include="client\desktop_development\scripts\collections\ChatMessages.js" />
     <Compile Include="client\desktop_development\scripts\collections\CollaborativePlaylists.js" />
+    <Compile Include="client\desktop_development\scripts\collections\CollaborativePlaylistsList.js" />
     <Compile Include="client\desktop_development\scripts\collections\SearchQueryTracks.js" />
     <Compile Include="client\desktop_development\scripts\collections\SearchQueries.js" />
     <Compile Include="client\desktop_development\scripts\controllers\playlists.js" />
     <Compile Include="client\desktop_development\scripts\library\manager\collaborativePlaylists.js" />
     <Compile Include="client\desktop_development\scripts\library\manager\searchQueries.js" />
+    <Compile Include="client\desktop_development\scripts\library\plugin\messages.js" />
     <Compile Include="client\desktop_development\scripts\models\ChatMessage.js" />
     <Compile Include="client\desktop_development\scripts\models\CollaborativePlaylist.js" />
+    <Compile Include="client\desktop_development\scripts\models\CollaborativePlaylistTrack.js" />
     <Compile Include="client\desktop_development\scripts\models\SearchQueryResultTrack.js" />
     <Compile Include="client\desktop_development\scripts\models\SearchQuery.js" />
     <Compile Include="client\desktop_development\scripts\views\components\chat\item.js" />
@@ -42,10 +45,13 @@
     <Compile Include="client\desktop_development\scripts\views\components\collaborativePlaylists\createForm.js" />
     <Compile Include="client\desktop_development\scripts\views\components\collaborativePlaylists\list.js" />
     <Compile Include="client\desktop_development\scripts\views\components\collaborativePlaylists\item.js" />
+    <Compile Include="client\desktop_development\scripts\views\components\messages\list.js" />
+    <Compile Include="client\desktop_development\scripts\views\components\messages\message.js" />
     <Compile Include="client\desktop_development\scripts\views\pages\playlists.js" />
     <Compile Include="Gruntfile.js" />
     <Compile Include="mapreduce_cron.js" />
     <Compile Include="server.js" />
+    <Compile Include="server\library\socketio.js" />
     <Compile Include="server\models\collaborativePlaylist.js" />
     <Compile Include="twitter_harvester.js" />
     <Compile Include="video_convertor.js" />
@@ -266,6 +272,8 @@
     <Content Include="server\templates\components\collaborativePlaylists\createForm.ejs" />
     <Content Include="server\templates\components\collaborativePlaylists\list.ejs" />
     <Content Include="server\templates\components\collaborativePlaylists\item.ejs" />
+    <Content Include="server\templates\components\messages\list.ejs" />
+    <Content Include="server\templates\components\messages\message.ejs" />
     <Content Include="server\views\404.html" />
     <Content Include="server\views\5xx.html" />
     <Content Include="server\views\desktop@@.html" />
@@ -318,6 +326,7 @@
     <Folder Include="client\desktop_development\scripts\views\components\header" />
     <Folder Include="client\desktop_development\scripts\views\components\left" />
     <Folder Include="client\desktop_development\scripts\views\components\collaborativePlaylists\" />
+    <Folder Include="client\desktop_development\scripts\views\components\messages\" />
     <Folder Include="client\desktop_development\scripts\views\components\player" />
     <Folder Include="client\desktop_development\scripts\views\components\playlist" />
     <Folder Include="client\desktop_development\scripts\views\components\search" />
@@ -422,6 +431,7 @@
     <Folder Include="server\templates\components\left" />
     <Folder Include="server\templates\components\collaborativePlaylists\" />
     <Folder Include="server\templates\components\chat\" />
+    <Folder Include="server\templates\components\messages\" />
     <Folder Include="server\templates\components\player" />
     <Folder Include="server\templates\components\playlist" />
     <Folder Include="server\templates\components\search" />

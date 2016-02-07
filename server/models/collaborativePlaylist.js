@@ -67,9 +67,16 @@ var createSchema = function createSchemaFunction(options) {
     // String / Number / Date / Buffer / Boolean / Mixed / ObjectId / Array
     var schema = new Schema({
         // _id is created by default by mongoose
-        creation_date: { type: Date },
+        date_created: { type: Date, default: Date.now },
         name: { type: String, trim: true, required: true },
-        author_id: { type: Number, trim: true }
+        author_id: { type: Number, trim: true },
+        tracks: [
+            {
+                author_id: { type: Number, trim: true },
+                track_id: { type: Number, trim: true },
+                date_added: { type: Date, default: Date.now }
+            }
+        ]
     },
     defaultOptions);
     
@@ -264,5 +271,51 @@ collaborativePlaylistModel.prototype.getMultipleByQuery = function getAllFunctio
     });
     
 };
+
+/**
+ * push a value or array of values into an array field
+ */
+collaborativePlaylistModel.prototype.appendById = function appendByIdFunction(id, field, value, callback) {
+    
+    var pushValue = {};
+
+    if (typeof value === Array) {
+
+        pushValue[field] = { $each: value };
+
+    } else {
+
+        pushValue[field] = value;
+
+    }
+
+    var pushObject = { $push: pushValue };
+    
+    var query = { _id: id };
+    
+    var options = {
+        safe: true,
+        upsert: true,
+        new: true // return the modified document rather than the original
+    };
+
+    this.Model.findByIdAndUpdate(query, pushObject, options, function (error, document) {
+        
+        if (error) {
+            
+            utilities.log('[COLLABORATIVE PLAYLIST MODEL] appendById failed', error, 'fontColor:red');
+            
+            callback(error);
+            
+        } else {
+            
+            callback(false, document);
+            
+        }
+        
+    });
+
+}
+
 
 module.exports = collaborativePlaylistModel;

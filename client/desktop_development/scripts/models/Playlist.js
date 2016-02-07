@@ -26,7 +26,8 @@ define([
         },
         defaults: {
             tracksList: null,
-            id: null
+            id: 0,
+            fetchDate: null
         },
         validate: function(attrs) {
             

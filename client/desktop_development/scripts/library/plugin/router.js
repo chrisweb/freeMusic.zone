@@ -18,21 +18,28 @@ define([
     'library.router',
     'modernizrTestsLoader',
     'Modernizr'
-    
-], function ($, utilities, Backbone, RouterLibrary, modernizrTestsLoader, Modernizr) {
+
+], function (
+    $,
+    utilities,
+    Backbone,
+    RouterLibrary,
+    modernizrTestsLoader,
+    Modernizr
+) {
     
     'use strict';
     
     /**
      * 
-     * public initialize router
+     * public initialize router plugin
      * 
      * @param {type} callback
      * @returns {undefined}
      */
     var initialize = function initializeFunction(callback) {
 
-        utilities.log('[ROUTER PLUGIN] initializeRouter', 'fontColor:blue');
+        utilities.log('[ROUTER PLUGIN] initializing ...', 'fontColor:blue');
         
         // initialize the router and get an instance of the router library
         var routerLibrary = RouterLibrary();

@@ -256,53 +256,59 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
         
         utilities.log('[API LIBRARY] /playlists/list (GET) hit');
         
-        if (request.query.whereKey === 'user') {
+        var whereArray = request.query.where;
+        
+        var limit = 200;
+        
+        if ('limit' in request.query) {
+            limit = request.query.limit;
+        }
+        
+        var comparator = 'name';
+        
+        if ('comparator' in request.query) {
+            comparator = request.query.comparator;
+        }
+        
+        var queryParameters = {
+            limit: limit,
+            order: comparator
+        };
+
+        if (request.query.whereArray[0].key === 'user' && request.query.whereArray[0].value === 'me') {
             
-            var queryData = {
-                limit: '200',
-                order: 'name'
-            };
-            
-            if (request.query.whereValue === 'me') {
+            var userSessionData = request.session.user;
                 
-                var userSessionData = request.session.user;
-                
-                if (userSessionData === undefined) {
+            if (userSessionData === undefined) {
                     
-                    var error = 'user is not logged';
+                var error = 'user is not logged';
                     
-                    utilities.log('[API LIBRARY] error: ' + error, 'fontColor:red');
+                utilities.log('[API LIBRARY] error: ' + error, 'fontColor:red');
                     
-                    response.status(401);
-                    response.json({
-                        message: error,
-                        code: 401
-                    });
+                response.status(401);
+                response.json({
+                    message: error,
+                    code: 401
+                });
                     
-                } else {
-                    
-                    userLibrary.getOauthToken(userSessionData, configuration, function (error, oauthToken) {
-                        
-                        queryData.access_token = oauthToken;
-                        
-                        getPlaylists(queryData, response, true);
-                        
-                    });
-                    
-                }
-                
             } else {
-                
-                queryData.user_id = request.query.whereKey;
-                
-                getPlaylists(queryData, response, true);
-                
+                    
+                userLibrary.getOauthToken(userSessionData, configuration, function (error, oauthToken) {
+                    
+                    queryParameters.access_token = oauthToken;
+                        
+                    getPlaylists(queryParameters, response, true);
+                        
+                });
+                    
             }
             
         } else {
             
-            // TODO: retrieve playlists by ...
-            
+            queryParameters.where = request.query.where;
+                
+            getPlaylists(queryParameters, response, true);
+                
         }
         
     });
@@ -695,11 +701,18 @@ module.exports.start = function initialize(configuration, app, apiRouter) {
  * @param {Object} response
  * 
  */
-var getPlaylists = function getPlaylistsFunction(queryData, response, getList) {
+var getPlaylists = function getPlaylistsFunction(queryParameters, response, getList) {
     
     var jamendoAPI = new JamendoAPI();
     
-    jamendoAPI.getPlaylistsByQuery(queryData, function getPlaylistsByQueryCallback(error, playlistsResult) {
+    var apiQueryParameters = {
+        whereKey: queryParameters.where[0].key,
+        whereValue: queryParameters.where[0].value,
+        order: queryParameters.order,
+        limit: queryParameters.limit
+    }
+
+    jamendoAPI.getPlaylistsByQuery(apiQueryParameters, function getPlaylistsByQueryCallback(error, playlistsResult) {
         
         // if the jamendo api error code is 12 it means the oauth token is not valid anymore
         // this means something went wront because the check if the token is

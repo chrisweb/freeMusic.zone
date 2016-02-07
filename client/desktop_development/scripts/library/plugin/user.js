@@ -10,12 +10,21 @@
 define([
     'chrisweb-utilities',
     'library.user'
-], function (utilities, UserLibrary) {
+
+], function (
+    utilities,
+    UserLibrary
+) {
     
     'use strict';
     
+    /**
+     * initialize the user plugin
+     */
     var initialize = function initializeFunction(callback) {
         
+        utilities.log('[USER PLUGIN] initializing ...', 'fontColor:blue');
+
         // check if the user is logged in
         UserLibrary.isLoggedIn(callback);
         

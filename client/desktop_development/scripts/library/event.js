@@ -43,6 +43,7 @@ define([
         'TRACK_STOP': 'track:stop',
         'TRACK_PAUSE': 'track:pause',
         'TRACK_SHARE': 'track:share',
+        'TRACK_ADD_TO_COLLABORATIVE': 'track:addToCollaborative',
         
         // player
         'PLAYER_PLAY': 'player:play',
@@ -76,7 +77,9 @@ define([
         'COLLABORATIVE_PLAYLISTS_NEW': 'collaborativePlaylists:new',
         'COLLABORATIVE_PLAYLISTS_CREATE': 'collaborativePlaylists:create',
         'COLLABORATIVE_PLAYLISTS_JOIN': 'collaborativePlaylists:join',
-        'COLLABORATIVE_PLAYLISTS_SEND_MESSAGE': 'collaborativePlaylists:sendMessage'
+        'COLLABORATIVE_PLAYLISTS_LEAVE': 'collaborativePlaylists:leave',
+        'COLLABORATIVE_PLAYLISTS_SEND_MESSAGE': 'collaborativePlaylists:sendMessage',
+        'COLLABORATIVE_PLAYLISTS_LIST': 'collaborativePlaylists:list'
         
     };
     

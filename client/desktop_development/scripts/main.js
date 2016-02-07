@@ -58,6 +58,7 @@ require.config({
         'library.plugin.router': 'library/plugin/router',
         'library.plugin.splashScreen': 'library/plugin/splashScreen',
         'library.plugin.player': 'library/plugin/player',
+        'library.plugin.messages': 'library/plugin/messages',
         
         // library jquery plugins
         'library.jquery.plugin.caretToggle': 'library/jquery/plugin/caretToggle',
@@ -76,9 +77,10 @@ require.config({
         // models
         'models.Track': 'models/Track',
         'models.Playlist': 'models/Playlist',
-        'models.CollaborativePlaylist': 'models/CollaborativePlaylist',
-        'models.User': 'models/User',
         'models.PlaylistTrack': 'models/PlaylistTrack',
+        'models.CollaborativePlaylist': 'models/CollaborativePlaylist',
+        'models.CollaborativePlaylistTrack': 'models/CollaborativePlaylistTrack',
+        'models.User': 'models/User',
         'models.ChatMessage': 'models/ChatMessage',
         'models.SearchQuery': 'models/SearchQuery',
         'models.SearchQueryResultTrack': 'models/SearchQueryResultTrack',
