@@ -5,7 +5,7 @@
 var mongoose = require('mongoose');
 
 // utilities module
-var utilities = require('../../bower_components/chrisweb-utilities/utilities');
+var utilities = require('chrisweb-utilities');
 
 // underscore module
 var _ = require('underscore');

@@ -1,5 +1,9 @@
 
-define([], function() {
+define([
+
+], function(
+
+) {
 
     var getConfiguration = function() {
         
@@ -7,7 +11,7 @@ define([], function() {
             
             application: {
                 
-                jamendoApiKey: '9bce5f56f9d47bbdc529913b1d3f1459',
+                jamendoApiKey: 'hssjdjfjdsffdjsjfdsdjfsjfdsfdjs',
                 canvasElement: {
             
                     id: 'worldCanvas',

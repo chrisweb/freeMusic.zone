@@ -20,7 +20,7 @@ If you haven't done this already, install nodejs (which includes npm, the nodejs
 
 http://nodejs.org/
 
-### Nodejs modules
+### Nodejs modules - Server and Client dependencies
 
 The next step is to fetch the needed nodejs modules using npm.
 
@@ -35,26 +35,6 @@ to install the npm dependencies use the following command:
 This will fetch all the dependencies from https://www.npmjs.org/ that are listed in the project package.json and put them into a directory called node_modules.
 
 !!! If you want to install the dependencies from within a Virtual Machine with a Linux operating system, but your shared folder is in windows then user "npm install --no-bin-link" (as windows does not support symlinks)
-
-### Client dependencies (bower)
-
-(still from within the root directory of the project)
-
-Install bower (the client dependencies packet maanger), using the following command (we use the minus "-g" option to install bower gloablly so that other projects can use it too):
-
-```npm install bower -g```
-
-If you already bower, ensure you are using the latest version by updating it to the latest version:
-
-```npm update bower -g```
-
-!! Git is a bower depency, so if you haven't installed git previously, for example because you use github for windows, then do it now: http://git-scm.com/download
-
-Install the client dependencies using bower:
-
-```bower install```
-
-This will fetch all the dependencies from http://bower.io/ (the github repositories) that are listed in the project bower.json and in our case put them into a directory called "bower_components" as defined in the .bowerrc file.
 
 ### Building
 
@@ -222,35 +202,12 @@ or check out the logs in this directory:
 ### Databases
 
 ##### mongodb
-on the mongo shell type:
-switch to the "database_name" database (or whatever name you have set in the configuration file):
-```use database_name```
 
-get the collection names:
-```db.getCollectionNames()```
-
-find items in the "users" collection:
-```db.users.find().pretty()```
-
-access help to get all methods information:
-```db.users.help()```
+check out mongodb.md
 
 ##### redis
 
-open your command line tool and then type the following command to open the redis command line utility:
-```redis-cli```
-
-or open the redis command line utility with a password (if you have set one in your redis configuration):
-```redis-cli -a 'password'```
-
-switch to the "sessions" database:
-```SELECT 1```
-
-to list the session keys:
-```KEYS *sess*```
-
-get a value corresponding to a key:
-```GET <key>```
+check out redis.md
 
 ### Useful development tools
 

@@ -5,8 +5,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{756fe875-1b83-414e-9445-cdf00607ece9}</ProjectGuid>
     <ProjectHome>..\..\</ProjectHome>
-    <ProjectView>ProjectFiles</ProjectView>
-    <StartupFile>server.js</StartupFile>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile>prototypes\google_vision_cloud\server.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -14,7 +14,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <NodejsPort>35000</NodejsPort>
     <StartWebBrowser>True</StartWebBrowser>
-    <LaunchUrl>http://127.0.0.1/desktop</LaunchUrl>
+    <LaunchUrl>http://127.0.0.1</LaunchUrl>
     <Environment>NODE_ENV=development</Environment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
@@ -23,6 +23,15 @@
     <Content Include="javascript_error_tracking_logging.txt" />
     <Content Include="bower.json" />
     <Content Include="package.json" />
+    <Content Include="prototypes\get_user_media\documentation.md" />
+    <Content Include="prototypes\google vision cloud\documentation.md" />
+    <Content Include="prototypes\google_vision_cloud\node_modules\gcloud\AUTHORS" />
+    <Content Include="prototypes\google_vision_cloud\node_modules\gcloud\CONTRIBUTORS" />
+    <Content Include="prototypes\google_vision_cloud\node_modules\gcloud\COPYING" />
+    <Content Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\datastore_v1.proto" />
+    <Content Include="prototypes\google_vision_cloud\node_modules\gcloud\package.json" />
+    <Content Include="prototypes\google_vision_cloud\node_modules\gcloud\README.md" />
+    <Content Include="prototypes\web_speech_api\documentation.md" />
     <Content Include="README.md" />
     <Compile Include="audio_data_analyzer.js" />
     <Compile Include="client\desktop_development\scripts\collections\ChatMessages.js" />
@@ -30,6 +39,8 @@
     <Compile Include="client\desktop_development\scripts\collections\CollaborativePlaylistsList.js" />
     <Compile Include="client\desktop_development\scripts\collections\SearchQueryTracks.js" />
     <Compile Include="client\desktop_development\scripts\collections\SearchQueries.js" />
+    <Compile Include="client\desktop_development\scripts\configuration\configuration.js" />
+    <Compile Include="client\desktop_development\scripts\controllers\webcamMoodPlaylist.js" />
     <Compile Include="client\desktop_development\scripts\controllers\playlists.js" />
     <Compile Include="client\desktop_development\scripts\library\manager\collaborativePlaylists.js" />
     <Compile Include="client\desktop_development\scripts\library\manager\searchQueries.js" />
@@ -50,6 +61,61 @@
     <Compile Include="client\desktop_development\scripts\views\pages\playlists.js" />
     <Compile Include="Gruntfile.js" />
     <Compile Include="mapreduce_cron.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\bigquery\dataset.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\bigquery\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\bigquery\job.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\bigquery\table.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\common\grpc-service-object.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\common\grpc-service.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\common\service-object.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\common\service.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\common\stream-router.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\common\util.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\address.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\disk.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\firewall.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\network.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\operation.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\region.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\snapshot.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\vm.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\zone.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\dataset.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\entity.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\pb.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\query.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\request.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\transaction.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\dns\change.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\dns\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\dns\record.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\dns\zone.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\logging\entry.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\logging\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\logging\log.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\logging\sink.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\prediction\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\prediction\model.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\pubsub\iam.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\pubsub\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\pubsub\subscription.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\pubsub\topic.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\resource\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\resource\project.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\search\document.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\search\field.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\search\index-class.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\search\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\storage\acl.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\storage\bucket.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\storage\channel.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\storage\file.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\storage\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\translate\index.js" />
+    <Compile Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\vision\index.js" />
     <Compile Include="server.js" />
     <Compile Include="server\library\socketio.js" />
     <Compile Include="server\models\collaborativePlaylist.js" />
@@ -403,6 +469,25 @@
     <Folder Include="prototypes\backbone_reset_collection\javascripts\vendor\underscore-1.6.0" />
     <Folder Include="prototypes\drag_n_drop_player" />
     <Folder Include="prototypes\drag_n_drop_player\javascripts" />
+    <Folder Include="prototypes\get_user_media\" />
+    <Folder Include="prototypes\google vision cloud\" />
+    <Folder Include="prototypes\google_vision_cloud\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\bigquery\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\common\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\compute\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\datastore\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\dns\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\logging\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\prediction\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\pubsub\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\resource\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\search\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\storage\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\translate\" />
+    <Folder Include="prototypes\google_vision_cloud\node_modules\gcloud\lib\vision\" />
     <Folder Include="prototypes\music_world" />
     <Folder Include="prototypes\music_world\cascadingStyleSheets" />
     <Folder Include="prototypes\music_world\javascript" />
@@ -421,6 +506,7 @@
     <Folder Include="prototypes\video-requirejs\javascripts\vendor\underscore-1.6.0" />
     <Folder Include="prototypes\video-requirejs\videos" />
     <Folder Include="prototypes\visualizer" />
+    <Folder Include="prototypes\web_speech_api\" />
     <Folder Include="server" />
     <Folder Include="server\configuration" />
     <Folder Include="server\library" />

@@ -8,7 +8,11 @@ If you want to contribute but don't know what would be helpful then check out th
 
 ### Code style
 
-Regarding code style like indentation and whitespace, read the code style "documentation/code_styling" document
+Regarding code style like indentation and whitespace, read the code style "documentation/code_style_guide" document
+
+### SASS/CSS style
+
+Read the code style "documentation/sass_style_guide" document
 
 ### Comments
 

@@ -4,7 +4,13 @@
  * @param {type} Modernizr
  * @returns {_L4.Anonym$0}
  */
-define(['Modernizr', 'utilities'], function(Modernizr, utilities) {
+define([
+	'Modernizr',
+	'utilities'
+], function(
+	Modernizr,
+	utilities
+) {
 
     var Modernizr = window.Modernizr;
 

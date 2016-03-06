@@ -70,7 +70,7 @@ define([
                 
                 $loginButton.find('span').text('Loading...');
                 
-                $loginButton.velocity({ width: 162, height: 49, padding: '10px 16px 16px 10px' }, 'easeInSine');
+                $loginButton.velocity({ width: 162, height: 49, padding: '10px 16px 16px 10px', backgroundColor: 'transparent', borderColor: '#fff' }, 'easeInSine');
                 
                 // hide the create an account and lost password links, we dont
                 // need them as the user has successfully logged in
@@ -108,8 +108,9 @@ define([
             
             // initialize skrollr 
             EventsLibrary.once(EventsLibrary.constants.SPLASHSCREEN_OFF, function() {
-            
-                if (routerLibrary.getCurrentRoute() === 'desktop') {
+                
+                // '' means the homepage
+                if (routerLibrary.getCurrentRoute() === '') {
                     
                     initializeSkrollr();
                     
@@ -150,7 +151,7 @@ define([
             
             $loginButton.find('span').text('');
             
-            $loginButton.velocity({ width: 454, height: 404, padding: '0px' }, 'easeInSine');
+            $loginButton.velocity({ width: 454, height: 404, padding: '0px', backgroundColor: '#fff', backgroundColorAlpha: 1, borderColor: '#FF005A' }, 'easeInSine');
             
             var $oauthIFrame = this.$el.find('iframe.jamendo');
             
@@ -196,6 +197,8 @@ define([
      */
     var initializeSkrollr = function initializeSkrollrFunction() {
         
+        utilities.log('[LOGIN PAGE VIEW] skrollr initializing ...', 'fontColor:blue');
+
         // initialize skrollr
         var skrollrInstance = skrollr.init({
             smoothScrollingDuration: 1000,

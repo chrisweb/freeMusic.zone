@@ -1,7 +1,13 @@
 /**
  * 
  */
-define(['jquery', 'configuration'], function($, configuration) {
+define([
+	'jquery',
+	'configuration'
+], function(
+	$,
+	configuration
+) {
 
     /**
      * 

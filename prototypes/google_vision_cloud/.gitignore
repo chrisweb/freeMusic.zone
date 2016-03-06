@@ -1,0 +1,8 @@
+# vendor modules
+/node_modules
+
+# configuration file
+configuration.js
+
+# keyfile
+keyfile.json

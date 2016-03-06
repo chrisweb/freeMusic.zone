@@ -12,22 +12,33 @@
 }
 
 .progress {
-
     z-index: $progressZIndex;
     position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
     height: 10px;
-    border-radius: 0px;
+    background-color: transparent;
+}
+
+.progress[value] {
+    // Set overall background
     background-color: transparent;
 
-    .progress-bar-loading {
-        background-color: $color-highlight;
-        line-height: 10px;
-        -webkit-transition: none;
-        -o-transition: none;
-        transition: none;
-    }
-    
+    // Set overall border radius
+    @include border-radius(0);
+}
+
+// Unfilled portion of the bar
+.progress[value]::-webkit-progress-bar {
+  background-color: transparent;
+}
+
+base::-moz-progress-bar, // Absurd-but-syntactically-valid selector to make these styles Firefox-only
+.progress[value] {
+  background-color: transparent;
+}
+
+.progress-welcome {
+  @include progress-variant($color-highlight);
 }

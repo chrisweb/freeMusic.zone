@@ -5,7 +5,13 @@
  * @param {type} socket
  * @returns {_L4.Anonym$0}
  */
-define(['socket.io', 'utilities'], function(socket, utilities) {
+define([
+	'socket.io',
+	'utilities'
+], function(
+	io,
+	utilities
+) {
 
     /**
      * 

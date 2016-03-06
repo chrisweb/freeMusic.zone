@@ -1,6 +1,6 @@
 
 // utilities module
-var utilities = require('../../bower_components/chrisweb-utilities/utilities');
+var utilities = require('chrisweb-utilities');
 
 // nodejs https
 var https = require('https');

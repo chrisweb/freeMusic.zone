@@ -2,7 +2,7 @@
  * 
  * Server Bootstrap
  * 
- * Copyright 2014 weber chris and other contributors
+ * Copyright 2016 weber chris
  * Released under the MIT license
  * 
  * https://chris.lu
@@ -24,7 +24,7 @@ winston.add(winston.transports.File, {
 winston.remove(winston.transports.Console);
 
 // utilities module
-var utilities = require('../bower_components/chrisweb-utilities/utilities');
+var utilities = require('chrisweb-utilities');
 
 // NODE_ENV can be "development", "staging" or "production"
 if (typeof(process.env.NODE_ENV) === 'undefined') {
@@ -137,6 +137,15 @@ mongoLibrary.getClient(mongodbOptions, function mongooseConnectCallback(error, m
 // instantiate expressjs
 var app = express({ env: process.env.NODE_ENV });
 
+// remove express x-powered-by by in header
+app.disable('x-powered-by');
+
+// set new x-powered-by header
+app.use(function setGlobalHeader(request, response, next) {
+	response.set('X-powered-by', 'check out github.com/chrisweb/freeMusic.zone')
+	next();
+})
+
 // use cors
 // TODO: do improved configuration for production, put options in configuration file
 app.use(cors());
@@ -243,9 +252,18 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                     
                     desktopRouter.use('/client/desktop_development', express.static(__dirname + '/../client/desktop_development'));
                     desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
-                    desktopRouter.use('/bower_components', express.static(__dirname + '/../bower_components'));
-                    desktopRouter.use('/node_modules/async', express.static(__dirname + '/../node_modules/async'));
-                    desktopRouter.use('/node_modules/moment', express.static(__dirname + '/../node_modules/moment'));
+                    desktopRouter.use('/vendor/requirejs', express.static(__dirname + '/../node_modules/requirejs'));
+                    desktopRouter.use('/vendor/async', express.static(__dirname + '/../node_modules/async'));
+                    desktopRouter.use('/vendor/moment', express.static(__dirname + '/../node_modules/moment'));
+                    desktopRouter.use('/vendor/modernizr', express.static(__dirname + '/../node_modules/modernizr'));
+                    desktopRouter.use('/vendor/web-audio-api-player', express.static(__dirname + '/../node_modules/web-audio-api-player'));
+                    desktopRouter.use('/vendor/velocity-animate', express.static(__dirname + '/../node_modules/velocity-animate'));
+                    desktopRouter.use('/vendor/underscore', express.static(__dirname + '/../node_modules/underscore'));
+                    desktopRouter.use('/vendor/backbone', express.static(__dirname + '/../node_modules/backbone'));
+                    desktopRouter.use('/vendor/ribsjs', express.static(__dirname + '/../node_modules/ribsjs'));
+                    desktopRouter.use('/vendor/skrollr', express.static(__dirname + '/../node_modules/skrollr'));
+                    desktopRouter.use('/vendor/jquery', express.static(__dirname + '/../node_modules/jquery'));
+                    desktopRouter.use('/vendor/chrisweb-utilities', express.static(__dirname + '/../node_modules/chrisweb-utilities'));
                     desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
                     desktopRouter.use('/videos', express.static(__dirname + '/../videos'));
                     
@@ -260,20 +278,24 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                 // always invoked
                 desktopRouter.use(function(request, response, next) {
                     
-                    utilities.log('[BOOTSTRAP] /desktop, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
+                    utilities.log('[BOOTSTRAP] /, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
                     
                     var assetsPath = 'desktop_build';
                     
                     if (app.get('env') === 'development') {
                     
-                        assetsPath = 'desktop_development';
+                        assetsPath = '/client/desktop_development';
                         
+                    } else {
+
+                        assetsPath = 'https://xxx.cloudfront.com/client/desktop_build';
+
                     }
                     
                     response.render('desktop', {
                         splashScreenName: 'splashScreen',
                         splashScreenExtension: 'png',
-                        splashScreenPath: '/desktop/client/' + assetsPath + '/images/splashScreen',
+                        splashScreenPath: assetsPath + '/images/splashScreen',
                         environment: app.get('env'),
                         assetsPath: assetsPath
                     });
@@ -288,7 +310,7 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                 // add error handling last
                 addErrorRoutes(desktopRouter);
                 
-                app.use('/desktop', desktopRouter);
+                app.use('/', desktopRouter);
                 
                 // START SERVER
                 // use the port set by pm2 or visual studio or use the default one from configuration

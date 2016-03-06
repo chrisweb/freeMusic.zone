@@ -29,29 +29,40 @@ define([
             
             var $body = $('body');
 
-            var $progress = $body.find('.progress');
+            var $progressContainer = $body.find('.progressContainer');
             
-            $progress.removeClass('hidden');
-        
-            var $progressBarLoading = $progress.find('.progress-bar-loading');
+            $progressContainer.removeClass('hidden');
             
-            $progressBarLoading
-                .velocity(
-                    { 
-                        width: '100%'
-                    },
-                    {
-                        duration: 2000,
-                        easing: 'easeInCubic',
-                        complete: function() {
-                            $progress.addClass('hidden');
-                            hideSplashScreen();
-                        }
-                    }
-                );
+            // listen for video buffering progress events
+            EventsLibrary.on(EventsLibrary.WELCOME_VIDEO_PLAYER_PROGRESS, onVideoBufferingProgress.bind($progressContainer));
             
         });
         
+    };
+    
+    var onVideoBufferingProgress = function onVideoBufferingProgressFunction(attributes) {
+
+        var progress = attributes.percentageBuffered;
+        
+        var $progressContainer = this;
+        
+        var $progress = $progressContainer.find('progress');
+        
+        $progress.val(progress);
+        
+        $progress.text(progress + '%');
+
+        if (progress === 100) {
+            
+            setTimeout(function aLittleBitLater() {
+            
+                $progressContainer.addClass('hidden');
+                hideSplashScreen();
+
+            }, 500);
+            
+        }
+
     };
     
     /**
@@ -69,6 +80,9 @@ define([
         $splashScreen.remove();
         
         EventsLibrary.trigger(EventsLibrary.constants.SPLASHSCREEN_OFF);
+
+        // clear progress listener
+        EventsLibrary.off(EventsLibrary.WELCOME_VIDEO_PLAYER_PROGRESS, onVideoBufferingProgress);
         
     };
     

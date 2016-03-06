@@ -27,7 +27,7 @@ All the documentation can be found in the documentation directory.
 
 First read the "/documentation/development_setup.md" documentation to ensure everything is set up.
 
-Read the documents before you start coding, especially the "/documentation/code_styling.md" and "/documentation/conventions.md" are important, so read them before you start.
+Read the documents before you start coding, especially the "/documentation/code_style_guide.md", "/documentation/sass_style_guide.md" and "/documentation/conventions.md" are important, so read them before you start.
 
 ### Contributing
 

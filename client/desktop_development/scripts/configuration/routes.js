@@ -13,9 +13,9 @@ define([], function () {
     // else only "foo" will be used as parameter name and "bar" will be stripped
     // a hyphen as route part (fragment) is not a problem, like collaborative-playlists
     var routesDefinitions = {
-        'desktop': 'renderHomepage',
-        'desktop/collaborative-playlists(/:collaborativePlaylistId)': 'renderCollaborativePlaylist',
-        'desktop/:controller(/:action)': 'controllerActionDispatcher',
+        '': 'renderHomepage',
+        'collaborative-playlists(/:collaborativePlaylistId)': 'renderCollaborativePlaylist',
+        ':controller(/:action)': 'controllerActionDispatcher',
         '*other': 'render404'
     };
     

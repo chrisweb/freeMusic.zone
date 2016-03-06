@@ -2,14 +2,11 @@
 // FONTS PATHES
 //*****************
 
-// moved the bootstrap glyphicons font to another folder, overwriting icons font path before loading bootstrap
-$icon-font-path: '/desktop/client/desktop_build/fonts/bootstrap/@@version/';
-
 // moved the font-awesome font to another folder, owerwriting icons font path before loading font-awesome
-$fa-font-path: '/desktop/client/desktop_build/fonts/fontawesome/@@version';
+$fa-font-path: '/client/desktop_build/fonts/fontawesome/@@version';
 
 // fontello
-$fontello-font-path: '/desktop/client/desktop_build/fonts/fontello/@@version';
+$fontello-font-path: '/client/desktop_build/fonts/fontello/@@version';
 
 // google font
 @import url(http://fonts.googleapis.com/css?family=Dosis);

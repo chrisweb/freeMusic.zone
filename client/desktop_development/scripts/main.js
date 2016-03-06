@@ -9,12 +9,12 @@
  * 
  */
 require.config({
-    baseUrl: '/desktop/client/desktop_development/scripts',
+    baseUrl: '/client/desktop_development/scripts',
     packages: [
         {
             name: 'ribsjs',
             main: 'ribs',
-            location: '../../../bower_components/ribs.js/build'
+            location: '../../../vendor/ribsjs/build'
         }
     ],
     paths: {
@@ -68,6 +68,7 @@ require.config({
         'collections.Tracks': 'collections/Tracks',
         'collections.Playlists': 'collections/Playlists',
         'collections.CollaborativePlaylists': 'collections/CollaborativePlaylists',
+        'collections.CollaborativePlaylistsList': 'collections/CollaborativePlaylistsList',
         'collections.PlaylistsList': 'collections/PlaylistsList',
         'collections.PlaylistTracks': 'collections/PlaylistTracks',
         'collections.ChatMessages': 'collections/ChatMessages',
@@ -86,14 +87,14 @@ require.config({
         'models.SearchQueryResultTrack': 'models/SearchQueryResultTrack',
         
         // vendor
-        'jquery': '../../../bower_components/jquery/dist/jquery',
-        'backbone': '../../../bower_components/backbone/backbone',
-        'underscore': '../../../bower_components/underscore/underscore',
-        'moment': '../../../node_modules/moment/moment',
-        'velocity': '../../../bower_components/velocity/velocity',
-        'velocity.ui': '../../../bower_components/velocity/velocity.ui',
-        'skrollr': '../../../bower_components/skrollr/src/skrollr',
-        'async': '../../../node_modules/async/lib/async',
+        'jquery': '../../../vendor/jquery/dist/jquery',
+        'backbone': '../../../vendor/backbone/backbone',
+        'underscore': '../../../vendor/underscore/underscore',
+        'moment': '../../../vendor/moment/moment',
+        'velocity': '../../../vendor/velocity-animate/velocity',
+        'velocity.ui': '../../../vendor/velocity/velocity.ui',
+        'skrollr': '../../../vendor/skrollr/src/skrollr',
+        'async': '../../../vendor/async/lib/async',
         
         // modernizr
         'modernizrTestsLoader': 'library/modernizr/loader',
@@ -103,21 +104,21 @@ require.config({
         'addTest': 'library/modernizr/addTest',
         
         // modernizr detects
-        'test/audio': '../../../bower_components/modernizr/feature-detects/audio',
-        'test/webaudio': '../../../bower_components/modernizr/feature-detects/audio/webaudio',
-        'test/video': '../../../bower_components/modernizr/feature-detects/video',
-        'test/videoautoplay': '../../../bower_components/modernizr/feature-detects/video/autoplay',
-        'test/canvas': '../../../bower_components/modernizr/feature-detects/canvas',
-        'test/history': '../../../bower_components/modernizr/feature-detects/history',
-        'test/websockets': '../../../bower_components/modernizr/feature-detects/websockets',
+        'test/audio': '../../../vendor/modernizr/feature-detects/audio',
+        'test/webaudio': '../../../vendor/modernizr/feature-detects/audio/webaudio',
+        'test/video': '../../../vendor/modernizr/feature-detects/video',
+        'test/videoautoplay': '../../../vendor/modernizr/feature-detects/video/autoplay',
+        'test/canvas': '../../../vendor/modernizr/feature-detects/canvas',
+        'test/history': '../../../vendor/modernizr/feature-detects/history',
+        'test/websockets': '../../../vendor/modernizr/feature-detects/websockets',
         
         // chrisweb-web-audio-api-player
-        'chrisweb.player.ajax': '../../../bower_components/chrisweb-web-audio-api-player/source/ajax',
-        'chrisweb.player.audio': '../../../bower_components/chrisweb-web-audio-api-player/source/audio',
-        'chrisweb.player.core': '../../../bower_components/chrisweb-web-audio-api-player/source/core',
+        'chrisweb.player.ajax': '../../../vendor/web-audio-api-player/source/ajax',
+        'chrisweb.player.audio': '../../../vendor/web-audio-api-player/source/audio',
+        'chrisweb.player.core': '../../../vendor/web-audio-api-player/source/core',
         
         // chrisweb-utilities
-        'chrisweb-utilities': '../../../bower_components/chrisweb-utilities/utilities'
+        'chrisweb-utilities': '../../../vendor/chrisweb-utilities/utilities'
         
     },
     

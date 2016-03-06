@@ -5,7 +5,15 @@
  * @param {type} socket
  * @returns {_L4.Anonym$0}
  */
-define(['jquery', 'configuration', 'utilities'], function($, configuration, utilities) {
+define([
+	'jquery',
+	'configuration',
+	'utilities'
+], function(
+	$,
+	configuration,
+	utilities
+) {
 
     var startXModifier = 0;
     var startYModifier = 0;

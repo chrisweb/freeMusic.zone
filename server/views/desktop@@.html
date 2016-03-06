@@ -64,11 +64,11 @@
         <!-- iOS 6 iPhone -->
         <link href="/static/images/apple-touch-startup-image-320x460.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
         
-        <meta content="/desktop/client/<%= assetsPath %>/images/freeMusic_zone_favicon_128.png" itemprop="image">
+        <meta content="<%= assetsPath %>/images/freeMusic_zone_favicon_128.png" itemprop="image">
         
-        <link rel="shortcut icon" href="/desktop/client/<%= assetsPath %>/favicon.ico">
+        <link rel="shortcut icon" href="<%= assetsPath %>/favicon.ico">
         
-        <link rel="stylesheet" href="/desktop/client/desktop_build/stylesheets/@@version/main.css">
+        <link rel="stylesheet" href="/client/desktop_build/stylesheets/@@version/main.css">
         <style>
             .splashScreenImage {
                 /* Chrome10+,Safari5.1+ */
@@ -94,7 +94,7 @@
         
         <% if (environment === 'development') { %>
         
-            <script data-main="/desktop/client/desktop_development/scripts/main" src="/desktop/bower_components/requirejs/require.js"></script>
+            <script data-main="/client/desktop_development/scripts/main" src="/vendor/requirejs/require.js"></script>
             
         <% } else { %>
         
@@ -128,10 +128,8 @@
         
         <div id="hidden">
             <div class="messages hidden"></div>
-            <div class="progress hidden">
-                <div class="progress-bar progress-bar-loading" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                    <span class="sr-only">Apllication loading <span class="valuenow">0</span>% complete</span>
-                </div>
+            <div class="progressContainer hidden">
+                <progress class="progress progress-welcome" value="0" max="100">0%</progress>
             </div>
         </div>
         

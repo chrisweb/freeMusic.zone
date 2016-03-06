@@ -1,0 +1,9 @@
+managers
+* fetch
+** only by id (or cant check if already in cache or know if a new item is not server but not yet cached)
+* get
+** can get main entity
+** can get main entity and sub entities list
+*** ? if without subentites have at least a subentites count attribute?
+(** can get main entity and sub-entities if needed?)
+** always return all attributes of an entity or else need to check all the time if cached object has the needed attributes

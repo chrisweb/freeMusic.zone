@@ -30,7 +30,7 @@ npm uninstall packageName --save
 If you develop on windows use a shared folder, for your linux installed in a virtual machine, then add the no link argument argument (package gets installed without symlinks):
 npm install packageName --save --no-bin-links
 
-##### Project dependencies
+##### Server dependencies
 
 To install (vendor) nodejs modules:
 
@@ -66,10 +66,49 @@ npm install moment --save
 
 npm install async --save
 
+npm install --save gcloud
+
 if intsalling mongoose on windows fails, install visual studio (express) 2012 (or 2013) and use this command:
 npm install mongoose --save--msvs_version=2012
 
+### Client dependencies
 
+npm install underscore --save // npm package.json will load this one, will be used in backend and frontend js code
+
+// install backbone from github as npm is not the latest version, some features from master are needed
+npm install git://github.com/jashkenas/backbone.git#master --save
+
+npm install jquery --save
+
+npm install requirejs --save
+
+// install the twitter bootstrap from github as we use the not yet released twitter bootstrap 4 (alpha)
+npm install git://github.com/twbs/bootstrap.git#v4-dev --save
+
+// chrisweb web audio api player from github
+npm install git://github.com/chrisweb/web-audio-api-player.git#master --save
+
+// install font-awesome from github as npm has not official / up to date version
+npm install git://github.com/FortAwesome/Font-Awesome.git#master --save
+
+npm install momentjs --save // npm package json will load this one, will be used in backend and frontend js code
+
+// install chrisweb javascript utilities belt from github
+npm install git://github.com/chrisweb/chrisweb-utilities.js.git#master --save
+
+// install ribsjs - backbone extended from github
+npm install git://github.com/chrisweb/ribs.js.git#master --save
+
+npm install almond --save
+
+// install modernizr from github as we just need the depency checks and build our own "async checks loader""
+npm install git://github.com/Modernizr/Modernizr.git#master --save
+
+npm install velocity --save
+
+npm install skrollr --save
+
+npm install async --save // npm package.json will load this one, will be used in backend and frontend js code
 
 ##### The development dependencies
 

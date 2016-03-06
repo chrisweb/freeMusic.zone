@@ -27,14 +27,28 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
 * add this little effect (js) for homepage headline http://gabinaureche.com/TheaterJS/
 * add support for emoji using the twitter package https://www.npmjs.com/package/twemoji
-* drop bower, load all depencies with npmjs, it's easier to manage all dependencies with one tool an avoids having duplicates for the server and client, also allows to track new versions using https://david-dm.org/chrisweb/freeMusic.zone
-* replace twitter bootstrap 3 with twitter boostrap 4 (+ update documentation)
+* replace twitter bootstrap 3 with twitter boostrap 4 (+ update documentation) https://github.com/twbs/bootstrap/tree/v4-dev / documentation: http://v4-alpha.getbootstrap.com/
 * replace all use of glyphicons with font awsome as twitter boostrap 4 does not have glyphicons anymore (+ update grunt file)
 * refactoring the managers
 ** add adapters
 ** create an abstract manager
 * server API should return a count of results, set a default limit for results, if above the limit return a pagination
-* refactor bootstrap, especailly move the socket.io related stuff into a library file
+* refactor server bootstrap, especailly move the socket.io related stuff into a library file
+* use clipboard js to let users copy collaborative playlist urls https://clipboardjs.com/#example-target
+* create voice commands prototype using the web speech API
+* create a camera (webcam photo) prototype (find solution for iOS thaz does not support getUserMedia)
+* write a google vision cloud prototype
+* add a sass style guide https://github.com/bigcommerce/sass-style-guide
+* explain managers documentation/how_managers_work.txt (create md file)
+* finish the client error loggin library and then document it documentation/javascript_error_tracking_logging.txt (create md file)
+* improve security https://securityheaders.io/, dnssec, csp (check out documentation/security.md)
+* create mobile icons, windows tile setup (browser.xml) and android manifest.json https://realfavicongenerator.net/
+* update ffmpeg to version 3 https://github.com/FFmpeg/FFmpeg
+* create the player ui prototype
+* improve nodejs deployment script, check out this article https://certsimple.com/blog/deploy-node-on-linux
+* improve the chat message input field to render emoji in the field itself, see this little test fiddle https://jsfiddle.net/zvb154do/2/
+* update the project page with useful information and links to documentation as well as some screenshot and a link to website http://chrisweb.github.io/freeMusic.zone/
+* maybe this can help improve the gif quality for mobile background video http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
 
 ## Other todos (damn that's a lot of todos ;) )
 
@@ -64,7 +78,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * Use geolocation to find concerts: https://developers.google.com/web/fundamentals/device-access/user-location/
 * add log rotation for the forever log files http://stackoverflow.com/questions/15231968/nodejs-forever-archive-logs
 * add hi-redis (https://www.npmjs.com/package/hiredis) for production into package.json
-* make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io and other places of the app, instead if cookies (stateless REST)
+* make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io (token based authentification) and other places of the app, instead if cookies (stateless REST)
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 * create responsive jquery ui dialog
@@ -91,19 +105,19 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: create an utilities.js file to log messges to server and client console with colors support
 * DONE: add copy script to grunt to copy assests like images and fonts from development into production directory
 * DONE: to bust the browser cache of fonts use package json version number, rename fonts using grunt and automatically replace new fontname in scss files
-* DONE: html5 canvas 3D cubes (my music world) prototype, every playlist is cube on the map and the height depends on the active users
-* DONE: client side browser music visualization prototype using audiocontext (html5 audio api)
+* DONE: create new prototype with html5 canvas 3D cubes (my music world) prototype, every playlist is cube on the map and the height depends on the active users
+* DONE: create new client side browser music visualization prototype using audiocontext (html5 audio api)
 * DONE: aws video converter server with ffmpeg (with png / web / mp4 libs) setup
-* DONE: drag and drop song onto player prototype
+* DONE: create a drag and drop song onto player prototype
 * DONE: put ribs.js and chrisweb utilities on github as seperate projects
 * DONE: put ribs.js (with bower) and chrisweb-utilities (with npm) back into project
-* DONE: twitter harvester to get jamendo tracks related tweets
-* DONE: save tweets into mongodb
+* DONE: write a twitter harvester to get jamendo tracks related tweets
+* DONE: save harvested tweets into mongodb
 * DONE: add nodejs express router
 * DONE: create redis connection library for nodejs server script
 * DONE: create nodejs mongodb connection library
 * DONE: use redis to save express sessions
-* DONE: tweets map reduce script that based creates charts of jamendo tracks based on the amount of times somebody tweeted about them during a defined period of time
+* DONE: harvested tweets map reduce script that based creates charts of jamendo tracks based on the amount of times somebody tweeted about them during a defined period of time
 * DONE: replace production client build loading by almond instead of using requirejs
 * DONE: create backbone view / model / collection prototypes to quickly learn the basics
 * DONE: write a nodejs video convertor script to transform the mov video into a webm and mp4 video (using fluent ffmpeg)
@@ -155,3 +169,9 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: get the user playlists for collaborative playlists page
 * DONE: create chat for collaborative playlists, socket io chat (one room per playlist)
 * DONE: let the user create a new collaborative playlist (with an url that can be shared)
+* DONE: drop bower, load all depencies with npmjs, it's easier to manage all dependencies with one tool an avoids having duplicates for the server and client, also allows to track new versions using https://david-dm.org/chrisweb/freeMusic.zone
+* DONE: clean Gruntfile code and remove duplicate copy calls
+* DONE: add listener to background html5 video player for progress and "can play through" event
+* DONE: replace the fake loading of the splashscreen with a real html5 progress element, as progress value use the video buffering values from background html5 video player
+* DONE: remove express x-powered-by header and replace with own (link to github project repository)
+

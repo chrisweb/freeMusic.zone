@@ -67,9 +67,13 @@ define([
         // sound
         'SOUND_ONLOAD': 'sound:onload',
         
-        // splashscreen end
+        // splashscreen end3
+        'SPLASHSCREEN_ON': 'splashscreen:on',
         'SPLASHSCREEN_OFF': 'splashscreen:off',
         
+        // splashscreen end3
+        'WELCOME_VIDEO_PLAYER_PROGRESS': 'welcomeVideo:progress',
+
         // menu
         'MENU_TOGGLE': 'menu:toggle',
 

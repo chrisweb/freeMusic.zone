@@ -4,7 +4,7 @@
 var util = require('util');
 
 // utilities module
-var utilities = require('../../bower_components/chrisweb-utilities/utilities');
+var utilities = require('chrisweb-utilities');
 
 // nodejs event emitter
 var EventEmitter = require('events').EventEmitter;

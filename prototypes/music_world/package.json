@@ -1,0 +1,19 @@
+{
+  "name": "music_world",
+  "version": "0.0.1",
+  "description": "music world prototype",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "chrisweb <chris963@gmail.com> (https://chris.lu)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.13.4",
+    "socket.io": "1.4.5"
+  },
+  "devDependencies": {
+    "grunt-modernizr": "^1.0.2"
+  }
+}

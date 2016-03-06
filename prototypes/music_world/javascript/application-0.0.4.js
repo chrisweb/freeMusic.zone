@@ -5,7 +5,21 @@
  * @param {type} socket
  * @returns {_L4.Anonym$0}
  */
-define(['jquery', 'configuration', 'html5Tests', 'serverCommunication', 'utilities', 'canvas'], function($, configuration, html5Tests, serverCommunication, utilities, canvas) {
+define([
+	'jquery',
+	'configuration',
+	'html5Tests',
+	'serverCommunication',
+	'utilities',
+	'canvas'
+], function(
+	$,
+	configuration,
+	html5Tests,
+	serverCommunication,
+	utilities,
+	canvas
+) {
 
     var loopHandler = null;
 

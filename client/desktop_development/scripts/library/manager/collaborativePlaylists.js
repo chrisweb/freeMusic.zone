@@ -19,7 +19,7 @@ define([
     'chrisweb-utilities',
     'library.events',
     'collections.CollaborativePlaylists',
-    'collection.CollaborativePlaylistsList',
+    'collections.CollaborativePlaylistsList',
     'models.CollaborativePlaylist',
     'collections.PlaylistsList',
     'manager.tracks',

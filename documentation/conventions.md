@@ -16,4 +16,9 @@ The versioning of this application follows the semver versioning rules: http://s
 
 ## code style guide
 
-Also check out the code style guide at "/documentation/code_styling.md".
+Also check out the code style guide at "/documentation/code_style_guide.md".
+
+## SASS / CSS style guide
+
+Also check out the SASS / CSS style guide at "/documentation/sass_style_guide.md".
+

@@ -1,13 +1,16 @@
-# Features
+# features
 
-## For sure
+## for sure
 
-* cooperative multi user playlist with chat
-* twitter charts, scan twitter stream of accounts like the jamendo account, each time a song gets posted on twitter record the tweet, map reduce to create charts of most tweeted tracks
+* collaborative playlist rooms
+* twitter (viral) charts
+* remote controlling of your jamendo playlists (with voice recognition)
+* webcam mood playlist generator
+* cards game or quiz
 
-## Maybe
+## maybe
 
-* remote, use the app on a tablet or phone as a remote for another session of the app on a desktop or tv, login into both apps with same account, pub sub sync the state of both apps for that account
+* more games for games section
 * video paylist, jamendo playlist 2 youtube, create a playlist of jamendo tracks, then a script checks if those videos exist on youtube (via youtube search api?) and create a videos playlist based on the jamendo playlist
 * playlist 2 google drive, google drive download / backup, download tracks directly into your google drive account or backup entire playlists
 * hot or not for songs, like or dislike it (add to playlist), swipe for next song, the app suggests a song if you dont like you swipe if you like you listen until the end and then next song gets played
@@ -15,19 +18,20 @@
 * user points, give user points, achievements, badges for certain actions they can perform in the app
 * show concerts based on the browser location API
 
-## Nice to have, but probably not enough time
+## nice to have, but probably not enough time
 
 * recommendation, use a recommendation tool to create a discovery page per genre updated once a day, improvement create personal dicovery page based on user data (jamendo likes, facebook likes, ...)
 * song visualizer, use a script to calculate a track fourier transform or wave form, html5 canvas to visualize
 
-### App sections
+### app sections
 
-##### Remote fuctionality
+##### remote fuctionality
 
 * control one instance of the player on for example your tv using the same instance on your tablet or phone
 * can be enabled or disabled
+* use the voice recognition to accept voice commands
 
-##### Jam with friends
+##### jam with friends
 
 * team playlist where every user can add songs
 * up or downvote songs
@@ -38,9 +42,9 @@
 * choose playlist name
 * choose existing playlist to start
 
-##### Games (fun)
+##### games (fun)
 
-###### Quiz
+###### quiz
 * tracks quiz created by the community
 * choose a track and add chalanges
 ** find at least three instruments used in the song
@@ -50,7 +54,7 @@
 ** find if there is one singer or more, female or male or both
 * invite friends by mail or social network
 
-###### Card game
+###### card game (battle)
 * each player selects the cards from his deck that he wants to use in the fight
 * each card represents an artist and some stats like total fans, album and tracks count, listen count and so on
 * a player starts by playing a card and telling the oponent what stats he wants to use for the fight
@@ -59,7 +63,7 @@
 * create a highscore table with players that won most games
 * when wining a game the player gets a point, he can use the points to reclaim extra epic cards that will be added to his deck
 
-###### Hot or not
+###### hot or not
 * add a hot or not game for the new releases, every user can rate ten songs per day
 
 ###### a song a cat
@@ -73,13 +77,26 @@
 * the player must select the album that got called out on his board
 * the first player that has a full row or column on his board must yell "jamendo" to win the game
 
-##### tweet2jam
+##### tweet 2 jam
 
 * twitter music charts
 * tweet about a track to increase its position in playlist
 
+##### face photo 2 mood playlist
+
+* take a photo of the users face using his webcam
+* convert his face into mood data using the google cloud vision API
+* search for tracks by mood based on the data from the photo
+
+### player
+
+* play bar on top or bottom
+* no player bar at all, display actions as big animations on screen that fade in / fade out quickly
+* realtime music visualizer (see prototype)
+
 ### just4fun
 
+* goose menu http://codepen.io/lbebber/pen/RNgBPP
 * web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API + https://github.com/TalAter/annyang/blob/master/annyang.js
 * change the favicon to animated gif if sound is played and turn of (set back to default icon) when no sound (song) is played, like: https://github.com/tommoor/tinycon
 * play "system" sounds on some actions, like user gets new notification, on click on button, on error ... like realoperating system
@@ -87,6 +104,9 @@
 * pointer events for mobile (and desktop) http://www.polymer-project.org/platform/pointer-events.html
 * shadow dom improved views with shadow dom: http://www.polymer-project.org/platform/shadow-dom.html
 * custom animations using bounceJS: http://bouncejs.com/ or snabbtJS http://daniel-lundin.github.io/snabbt.js/index.html
+* animation button clicks using mo.js http://tympanus.net/codrops/2016/02/23/icon-animations-powered-by-mo-js/
+* animated letters for homepage logo http://tympanus.net/codrops/2016/03/02/creative-svg-letter-animations/
+* for games page title use http://www.voxelcss.com/
 * grid loading for playlists or jamendo news: http://tympanus.net/Tutorials/SamsungGrid/index2.html
 * preview play button, loading then play: http://tympanus.net/Tutorials/CircularProgressButton/
 * login button that morphs into login box: http://tympanus.net/Development/ButtonComponentMorph/
@@ -98,3 +118,4 @@
 * detect beats using web audio api: http://tech.beatport.com/2014/web-audio/beat-detection-using-web-audio/
 * create a nice app introduction using: introJS: https://github.com/usablica/intro.js or boostraptour:  https://github.com/sorich87/bootstrap-tour or joyride: https://github.com/zurb/joyride
 * lots of interesting web audio repositories https://github.com/cwilso?tab=repositories
+* wheel navigation http://wheelnavjs.softwaretailoring.net/examples.html

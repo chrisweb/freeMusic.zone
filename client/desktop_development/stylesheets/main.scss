@@ -8,16 +8,22 @@
 // import fonts pathes
 @import "fonts-paths";
 
-// import twitter bootstrap */
+// import twitter bootstrap
 @import "bootstrap";
 
-// import font-awesome */
+// import font-awesome
 @import "font-awesome";
 
-// import fontello */
+// import fontello
 @import "fontello";
 
 // import freeMusic.zone custom css bootstrap
+@import "progress";
+
+// import freeMusic.zone utilities
+@import "utilities";
+
+// progress element style
 @import "theme";
 
 // components

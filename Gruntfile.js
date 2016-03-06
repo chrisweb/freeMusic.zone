@@ -5,7 +5,6 @@ module.exports = function (grunt) {
     // grunt
     grunt.initConfig({
         packageJson: grunt.file.readJSON('package.json'),
-        bowerJson: grunt.file.readJSON('bower.json'),
         config: {
             client: {
                 desktop: {
@@ -47,14 +46,11 @@ module.exports = function (grunt) {
                     }
                 },
                 vendor: {
-                    bootstrap: {
-                        path: 'bower_components/bootstrap-sass-official/assets'
-                    },
                     fontawesome: {
-                        path: 'bower_components/fontawesome'
+                        path: 'node_modules/font-awesome'
                     },
                     almond: {
-                        path: 'bower_components/almond'
+                        path: 'node_modules/almond'
                     }
                 }
             },
@@ -124,7 +120,7 @@ module.exports = function (grunt) {
                     baseUrl: '<%= config.client.desktop.development.scripts.path %>',
                     mainConfigFile: '<%= config.client.desktop.development.scripts.path %>/main.js',
                     
-                    name: 'bower_components/almond/almond',
+                    name: 'node_modules/almond/almond',
                     out: '<%= config.client.desktop.build.scripts.path %>/<%= gitinfo.local.branch.current.lastCommitNumber %>/main.js',
                     findNestedDependencies: true,
                     optimize: 'uglify2',
@@ -275,17 +271,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: '<%= config.client.desktop.development.images.path %>/',
                         src: ['**'],
-                        dest: '<%= config.client.desktop.build.images.path %>/<%= packageJson.version %>/'
-                    }
-                ]
-            },
-            glyphiconsfont_desktop: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/',
-                        src: ['**'],
-                        dest: '<%= config.client.desktop.build.fonts.path %>/bootstrap/<%= gitinfo.local.branch.current.lastCommitNumber %>/'
+                        dest: '<%= config.client.desktop.build.images.path %>/<%= gitinfo.local.branch.current.lastCommitNumber %>/'
                     }
                 ]
             },
@@ -333,10 +319,6 @@ module.exports = function (grunt) {
         watch: {
             fonts: {
                 files: [
-                    '<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.eot',
-                    '<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.svg',
-                    '<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.ttf',
-                    '<%= config.client.vendor.bootstrap.path %>/fonts/bootstrap/*.woff',
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.eot',
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.svg',
                     '<%= config.client.vendor.fontawesome.path %>/fonts/*.ttf',
@@ -399,20 +381,14 @@ module.exports = function (grunt) {
     // update the fonts, takes the fonts in the original directory and then
     // copies them into a directory which name is the latest git revision number
     // this a maintenance task that needs to run after a font has been updated,
-    // either the bootstrap or the fontawesome font, watch will execute this
+    // either the font-awesome or the fontello font, watch will execute this
     // task if the fonts change
     grunt.registerTask('updatefonts', [
-        'gitinfo',
-        'copy:glyphiconsfont_desktop',
-        'copy:fontawesomefont_desktop',
-        'copy:fontellofont_desktop',
-        'replace:sass_fonts_version',
-        'sass'
+        'replace:sass_fonts_version'
     ]);
 
     // regroups all the development copy tasks
     grunt.registerTask('copy_desktop', [
-        'copy:glyphiconsfont_desktop',
         'copy:fontawesomefont_desktop',
         'copy:fontellofont_desktop',
         'copy:favicon',
@@ -439,7 +415,7 @@ module.exports = function (grunt) {
         // no source maps for prod
         grunt.config.set('config.environment', 'development');
 
-        grunt.task.run('gitinfo', 'replace:desktop_view');
+        grunt.task.run('replace:desktop_view');
 
     });
 
@@ -449,7 +425,7 @@ module.exports = function (grunt) {
         // no source maps for prod
         grunt.config.set('config.environment', 'beta');
 
-        grunt.task.run('gitinfo', 'replace:desktop_view');
+        grunt.task.run('replace:desktop_view');
 
     });
 
@@ -459,7 +435,7 @@ module.exports = function (grunt) {
         // no source maps for prod
         grunt.config.set('config.environment', 'production');
 
-        grunt.task.run('gitinfo', 'replace:desktop_view');
+        grunt.task.run('replace:desktop_view');
 
     });
 
@@ -467,11 +443,11 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint']);
 
     // build for production export
-    grunt.registerTask('buildprod', ['production-replace', 'jst', 'requirejs', 'production-sass', 'copy', 'cssmin', 'compress']);
+    grunt.registerTask('buildprod', ['gitinfo', 'production-replace', 'jst', 'requirejs', 'production-sass', 'copy', 'cssmin', 'compress']);
 
-    grunt.registerTask('buildbeta', ['beta-replace', 'jshint', 'jst', 'requirejs', 'sass', 'copy', 'cssmin', 'compress']);
+    grunt.registerTask('buildbeta', ['gitinfo', 'beta-replace', 'jshint', 'jst', 'requirejs', 'sass', 'copy', 'cssmin', 'compress']);
 
     // templates and css for development
-    grunt.registerTask('builddev', ['updatefonts', 'development-replace', 'jst', 'copy_desktop']);
+    grunt.registerTask('builddev', ['gitinfo', 'updatefonts', 'development-replace', 'sass', 'jst', 'copy_desktop']);
 
 };

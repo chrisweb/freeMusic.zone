@@ -2,6 +2,16 @@
 // VARIABLES
 //****************
 
+// quickly modify global styling by enabling or disabling optional features.
+$enable-flex:               true;
+$enable-rounded:            true;
+$enable-shadows:            false;
+$enable-gradients:          false;
+$enable-transitions:        false;
+$enable-hover-media-query:  false;
+$enable-grid-classes:       true;
+$enable-print-styles:       true;
+
 // basic colors
 $color-gray: rgb(160, 160, 160);
 $color-highlight: rgb(255, 0, 90);
@@ -41,29 +51,8 @@ $progressZIndex: 1000;
 // ratio
 $ratio: 1.61803398875;
 
-// line height
-$line-height-base: $ratio;
-
 // font family
 $font-family-sans-serif:  'Dosis', Arial, sans-serif;
 
 // font sizes
-$font-size-base: 16px;
-$font-size-extra-large: ceil(($font-size-base * ($ratio * 2))); // 42px
-$font-size-large: ceil(($font-size-base * $ratio)); // 26px
-$font-size-small: ceil(($font-size-base / $ratio)); // 10px
-$font-size-extra-small: floor(($font-size-base / ($ratio * 2))); // 6px
-
-// spaces
-$space-base: $font-size-base;
-$space-extra-large: $font-size-extra-large;
-$space-large: $font-size-large;
-$space-small: $font-size-small;
-$space-extra-small: $font-size-extra-small;
-
-// headings font size
-$font-size-h1: $font-size-extra-large;
-$font-size-h2: $font-size-large;
-$font-size-h3: $font-size-base;
-$font-size-h4: $font-size-small;
-$font-size-h5: $font-size-extra-small;
+$font-size-base: 1rem;

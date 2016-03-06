@@ -4,7 +4,7 @@ I was unhappy about the way you have to include modernizr into your project, I d
 
 That's why I rewrote some parts of its core to be able to include it as AMD modules into the project without having to make a build first
 
-Maybe I should fork modernizr and put my modified core into the fork and then replace the original project in the bower.json with the fork url
+Maybe I should fork modernizr and put my modified core into the fork and then replace the original project in the package.json with the fork url
 
 ## feature detection used by this project
 
