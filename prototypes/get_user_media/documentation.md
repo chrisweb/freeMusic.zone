@@ -50,3 +50,11 @@ damn ... after having finished testing this I found this adapter:
 https://github.com/webrtc/adapter
 live demo: https://webrtc.github.io/samples/src/content/getusermedia/resolution/
 use this for next version
+
+converting the photo (canvas) into an image:
+
+to get the canvas as image we can choose between toDataURL and getImageData
+toDataURL creates an image based on the mime type you provide, a jpg image for example is pretty small in size .toDataURL("image/jpeg", 1.0);
+toDataURL documentation: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+getImageData returns the raw image data, so the result is probably much bigger in size compared to a jpg created using toDataURL
+getImageData documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData

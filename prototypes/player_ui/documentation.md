@@ -22,4 +22,30 @@ https://dribbble.com/tags/player
 
 http://inspirationui.com/tags/144
 
+## web components
+
+### web components specifications
+
+https://github.com/w3c/webcomponents
+
+#### shadow dom
+
+https://w3c.github.io/webcomponents/spec/shadow/
+
+#### custom elements
+
+https://w3c.github.io/webcomponents/spec/custom/
+
+#### html imports
+
+https://w3c.github.io/webcomponents/spec/imports/
+
+### polymer web components
+
+https://www.polymer-project.org
+https://github.com/polymer
+
+###  webcomponents.org
+
+http://webcomponents.org/
 

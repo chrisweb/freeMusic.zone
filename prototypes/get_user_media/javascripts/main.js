@@ -42,8 +42,13 @@ require([
 	 *
 	 */
 	
+	// get the canvas element
 	var $canvas = $('#canvas');
+	// get the canvas 2D context
+	var context = $canvas[0].getContext('2d');
+	
 	var $takePhotoButton = $('#takePhoto');
+	var $savePhotoButton = $('#savePhoto');
 	var $video = $('#video');
 	
 	var videoWidth = 0;
@@ -92,16 +97,47 @@ require([
 		$canvas.prop('width', videoWidth);
 		$canvas.prop('height', videoHeight);
 		
-		// get the canvas 2D context
-		var context = $canvas[0].getContext('2d');
-		
 		// draw the photo onto the canvas using the video as image source
 		context.drawImage($video[0], 0, 0, videoWidth, videoHeight);
 		
 	};
-	
+		
 	// listen for take photo button click event
 	$takePhotoButton.on('click', onTakePhotoButtonClick);
+	
+	/**
+	 * Note to self
+	 * to get the canvas as image we can choose between toDataURL and getImageData
+	 * toDataURL creates an image based on the mime type you provide, a jpg image for example is pretty small in size .toDataURL("image/jpeg", 1.0);
+	 * toDataURL documentation: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+	 * getImageData returns the raw image data, so the result is probably much bigger in size compared to a jpg created using toDataURL
+	 * getImageData documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData
+	 */
+	
+	var onSavePhotoButtonClick = function onSavePhotoButtonClickFunction(jqueryEvent) {
+		
+		jqueryEvent.preventDefault();
+		
+		console.log('on save photo button click');
+		
+		var imageDataUrl = $canvas[0].toDataURL('image/jpeg', 1.0);
+		
+		console.log(imageDataUrl);
+		
+		$.ajax({
+			type: 'POST',
+			url: '/saveimage',
+			data: { 
+				imgBase64: imageDataUrl
+			}
+		}).done(function() {
+			console.log('saved');
+		});
+		
+	};
+
+	// listen for save photo button click event
+	$savePhotoButton.on('click', onSavePhotoButtonClick);
 	
 	var getMediaStream = function getMediaStreamFunction(mediaStream) {
 

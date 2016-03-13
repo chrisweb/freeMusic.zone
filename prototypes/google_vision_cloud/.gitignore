@@ -1,5 +1,6 @@
 # vendor modules
 /node_modules
+npm-debug.log
 
 # configuration file
 configuration.js

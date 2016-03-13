@@ -75,19 +75,19 @@
                         
                     });
                     
-                    bodyElement.find('#touchend_button').on('touchstart', function(event) {
+                    bodyElement.find('#touch_button').on('touchstart', function(event) {
                         
-                        console.log('touchend_button on touchstart');
+                        console.log('touch_button on touchstart');
                         
                         touchedElement = '';
                         
                     });
                     
-                    bodyElement.find('#touchend_button').on('touchend', function(event) {
+                    bodyElement.find('#touch_button').on('touchend', function(event) {
                         
                         e.preventDefault();
                         
-                        console.log('touchend_button on touchend');
+                        console.log('touch_button on touchend');
                         
                     });
                     
@@ -102,7 +102,7 @@
         <h1>buttons in a mobile touch environment prototype (300ms delay problem)</h1>
         
         <button id="default_button">default_button</button>
-        <button id="touchend_button">touchend_button</button>
+        <button id="touch_button">touch_button</button>
 
     </body>
 </html>

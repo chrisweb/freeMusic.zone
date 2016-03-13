@@ -10,6 +10,7 @@
   "author": "chrisweb <chris963@gmail.com> (https://chris.lu)",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.15.0",
     "express": "4.13.4"
   }
 }

@@ -21,7 +21,7 @@ desktop.ini
 # sass cache directory
 .sass-cache
 
-# log files and directories
+# npm log file
 npm-debug.log
 
 # vendor modules
