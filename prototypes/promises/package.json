@@ -1,0 +1,18 @@
+{
+  "name": "promises-prototypes",
+  "version": "0.0.1",
+  "description": "promises prototypes",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "chrisweb <chris963@gmail.com> (https://chris.lu)",
+  "license": "MIT",
+  "dependencies": {
+    "FSPromise": "git://github.com/MasGaNo/FSPromise.git#stable-0.1.9",
+	"es6-promise": "git://github.com/stefanpenner/es6-promise.git#v3.2.1",
+	"requirejs": "2.1.22",
+	"mocha": "2.4.5"
+  }
+}

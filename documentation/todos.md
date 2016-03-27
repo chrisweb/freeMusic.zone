@@ -79,6 +79,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * add log rotation for the forever log files http://stackoverflow.com/questions/15231968/nodejs-forever-archive-logs
 * add hi-redis (https://www.npmjs.com/package/hiredis) for production into package.json
 * make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io (token based authentification) and other places of the app, instead if cookies (stateless REST)
+* bug to fix: on welcome page iframe for login is created three times, one per parallax lvl, only create one, then duplicate?
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 * create responsive jquery ui dialog
