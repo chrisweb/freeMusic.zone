@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>sortable</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<style>
+		ul {
+			list-style-type: none;
+		}
+	
+		li.draggable {
+			width: 532px;
+			height: 44px;
+			border-bottom: 1px solid gray;
+			/* disable Cut, Copy and Paste */
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		.myHandle {
+			background-color: black;
+			width: 44px;
+			height: 44px;
+			float: left;
+			cursor: move;
+			cursor: -webkit-grabbing;
+		}
+		
+		.content {
+			width: 400px;
+			height: 44px;
+			float: left;
+			padding-left: 44px;
+		}
+		
+		.close {
+			width: 44px;
+			height: 44px;
+			float: left;
+		}
+		
+		.clearfix {
+			clear: both;
+		}
+		
+		#template {
+			display: none;
+		}
+		
+		.sortableChosen {
+			border: 1px solid blue;
+		}
+		
+		.sortableChosen .myHandle {
+			background-color: blue;
+		}
+		
+		.sortableGhost {
+			border: 1px solid red;
+		}
+		
+		.sortableGhost .myHandle {
+			background-color: red;
+		}
+
+	</style>
+</head>
+<body>
+
+	<ul id="list" class="list">
+	</ul>
+	
+	<ul id="template">
+		<li class="draggable">
+			<div class="myHandle"></div>
+			<div class="content"></div>
+			<div class="close">
+				<div clas="aghshgash">
+					<div clas="cnqegniuwelaniuclg">
+						<div clas="gaoshluhiogmasaiuhl">
+							<div clas="largvnsunghksjhkgsnkhjlvr">
+								X
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</li>
+	</ul>
+	
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="node_modules/sortablejs/jquery.fn.sortable.js"></script>
+	<script>
+	
+		$template = $('#template > li').clone();
+		
+		for (i=1;i<201;i++) {
+			$template.find('.content').text(i);
+			$('ul').append($template);
+		}
+	
+		$("#list").sortable({
+			group: 'name',  // or { name: '...', pull: [true, false, clone], put: [true, false, array] }
+			sort: true,  // sorting inside list
+			delay: 0, // time in milliseconds to define when the sorting should start
+			disabled: false, // Disables the sortable if set to true.
+			store: null,  // @see Store
+			animation: 150,  // ms, animation speed moving items when sorting, `0` — without animation
+			handle: '.myHandle',  // Drag handle selector within list items
+			filter: '.ignoreElements',  // Selectors that do not lead to dragging (String or Function)
+			draggable: '.draggable',  // Specifies which items inside the element should be sortable
+			ghostClass: 'sortableGhost',  // Class name for the drop placeholder
+			chosenClass: 'sortableChosen',  // Class name for the chosen item
+			dataIdAttr: 'data-jam-id',
+
+			forceFallback: false,  // ignore the HTML5 DnD behaviour and force the fallback to kick in
+			fallbackClass: 'sortable-fallback',  // Class name for the cloned DOM Element when using forceFallback
+			fallbackOnBody: false,  // Appends the cloned DOM Element into the Document's Body
+
+			scroll: true, // or HTMLElement
+			scrollSensitivity: 30, // px, how near the mouse must be to an edge to start scrolling.
+			scrollSpeed: 10, // px
+
+			setData: function (dataTransfer, dragEl) {
+			
+				dataTransfer.setData('Text', dragEl.textContent);
+				
+			},
+
+			// dragging started
+			onStart: function (event) {
+			
+				// element index within parent
+				event.oldIndex;
+				
+			},
+
+			// dragging ended
+			onEnd: function (event) {
+			
+				// element's old index within parent
+				event.oldIndex;
+				
+				// element's new index within parent
+				event.newIndex;
+				
+			},
+
+			// Element is dropped into the list from another list
+			onAdd: function (event) {
+			
+				// dragged HTMLElement
+				var itemEl = event.item;
+				event.from;  // previous list
+				
+				// + indexes from onEnd
+				
+			},
+
+			// Changed sorting within list
+			onUpdate: function (event) {
+			
+				// dragged HTMLElement
+				var itemEl = event.item;  
+				
+				// + indexes from onEnd
+				
+			},
+
+			// Called by any change to the list (add / update / remove)
+			onSort: function (event) {
+			
+				// same properties as onUpdate
+				
+			},
+
+			// Element is removed from the list into another list
+			onRemove: function (event) {
+			
+				// same properties as onUpdate
+				
+			},
+
+			// Attempt to drag a filtered element
+			onFilter: function (event) {
+			
+				// HTMLElement receiving the `mousedown|tapstart` event
+				var itemEl = event.item;  
+				
+			},
+
+			// Event when you move an item in the list or between lists
+			onMove: function (event) {
+			
+				// Example: http://jsbin.com/tuyafe/1/edit?js,output
+				
+				event.dragged; // dragged HTMLElement
+				event.draggedRect; // TextRectangle {left, top, right ? bottom}
+				event.related; // HTMLElement on which have guided
+				event.relatedRect; // TextRectangle
+				
+				// return false; — for cancel
+				
+			}
+		});
+	</script>
+	
+</body>
+</html>
