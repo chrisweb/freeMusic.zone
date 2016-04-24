@@ -3,6 +3,7 @@ https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html
 
 can i use: speech recognition
 http://caniuse.com/#feat=speech-recognition
+!! Supported in Firefox in about:config using the media.webspeech.recognition.enable flag.
 
 MDN web speech API
 https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API
