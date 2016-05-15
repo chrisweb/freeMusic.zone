@@ -21,11 +21,18 @@
   <ItemGroup>
     <Content Include="package.json" />
     <Content Include="prototypes\web_speech_api\package.json" />
+    <Content Include="prototypes\web_speech_api\prototype-recognition.html" />
+    <Content Include="prototypes\web_speech_api\prototype-synthesis.html" />
+    <Content Include="prototypes\web_speech_api\README.md" />
     <Content Include="tsd.json" />
     <Content Include="README.md" />
     <Compile Include="audio_data_analyzer.js" />
     <Compile Include="Gruntfile.js" />
     <Compile Include="mapreduce_cron.js" />
+    <Compile Include="prototypes\web_speech_api\javascripts\main-recognition.js" />
+    <Compile Include="prototypes\web_speech_api\javascripts\main-synthesis.js" />
+    <Compile Include="prototypes\web_speech_api\server-recognition.js" />
+    <Compile Include="prototypes\web_speech_api\server-synthesis.js" />
     <Compile Include="prototypes\web_speech_api\server.js" />
     <Compile Include="prototypes\web_speech_api\javascripts\main.js" />
     <Compile Include="prototypes\web_speech_api\javascripts\vendor\jquery-2.2.1\jquery.min.js" />
@@ -61,6 +68,8 @@
     <TypeScriptCompile Include="node_modules\chrisweb-utilities\typings\utilities.d.ts" />
     <TypeScriptCompile Include="node_modules\chrisweb-utilities\typings\utilities.d.ts" />
     <TypeScriptCompile Include="node_modules\chrisweb-utilities\typings\utilities.d.ts" />
+    <TypeScriptCompile Include="node_modules\chrisweb-utilities\typings\utilities.d.ts" />
+    <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\backbone\backbone.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\backbone\backbone.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\backbone\backbone.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\backbone\backbone.d.ts" />
@@ -71,6 +80,8 @@
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\ribs\ribs.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\ribs\ribs.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\ribs\ribs.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\ribs\ribs.d.ts" />
@@ -81,11 +92,14 @@
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="node_modules\ribsjs\scripts\typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\es6-promise\es6-promise.d.ts" />
+    <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\es6-promise\es6-promise.d.ts" />
+    <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\fspromise\fspromise.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\fspromise\fspromise.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\fspromise\fspromise.d.ts" />
     <TypeScriptCompile Include="prototypes\promises\node_modules\FSPromise\scripts\typings\fspromise\fspromise.d.ts" />
@@ -95,6 +109,8 @@
     <TypeScriptCompile Include="typings\async\async.d.ts" />
     <TypeScriptCompile Include="typings\async\async.d.ts" />
     <TypeScriptCompile Include="typings\async\async.d.ts" />
+    <TypeScriptCompile Include="typings\async\async.d.ts" />
+    <TypeScriptCompile Include="typings\backbone\backbone-global.d.ts" />
     <TypeScriptCompile Include="typings\backbone\backbone-global.d.ts" />
     <TypeScriptCompile Include="typings\backbone\backbone-global.d.ts" />
     <TypeScriptCompile Include="typings\backbone\backbone-global.d.ts" />
@@ -103,6 +119,8 @@
     <TypeScriptCompile Include="typings\backbone\backbone.d.ts" />
     <TypeScriptCompile Include="typings\backbone\backbone.d.ts" />
     <TypeScriptCompile Include="typings\backbone\backbone.d.ts" />
+    <TypeScriptCompile Include="typings\backbone\backbone.d.ts" />
+    <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
     <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
     <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
     <TypeScriptCompile Include="typings\body-parser\body-parser.d.ts" />
@@ -111,6 +129,8 @@
     <TypeScriptCompile Include="typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="typings\cookie-parser\cookie-parser.d.ts" />
     <TypeScriptCompile Include="typings\cookie-parser\cookie-parser.d.ts" />
     <TypeScriptCompile Include="typings\cookie-parser\cookie-parser.d.ts" />
     <TypeScriptCompile Include="typings\cookie-parser\cookie-parser.d.ts" />
@@ -119,6 +139,8 @@
     <TypeScriptCompile Include="typings\cors\cors.d.ts" />
     <TypeScriptCompile Include="typings\cors\cors.d.ts" />
     <TypeScriptCompile Include="typings\cors\cors.d.ts" />
+    <TypeScriptCompile Include="typings\cors\cors.d.ts" />
+    <TypeScriptCompile Include="typings\cron\cron.d.ts" />
     <TypeScriptCompile Include="typings\cron\cron.d.ts" />
     <TypeScriptCompile Include="typings\cron\cron.d.ts" />
     <TypeScriptCompile Include="typings\cron\cron.d.ts" />
@@ -127,6 +149,8 @@
     <TypeScriptCompile Include="typings\ejs\ejs.d.ts" />
     <TypeScriptCompile Include="typings\ejs\ejs.d.ts" />
     <TypeScriptCompile Include="typings\ejs\ejs.d.ts" />
+    <TypeScriptCompile Include="typings\ejs\ejs.d.ts" />
+    <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
     <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
     <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
     <TypeScriptCompile Include="typings\errorhandler\errorhandler.d.ts" />
@@ -135,6 +159,8 @@
     <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
     <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
     <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
+    <TypeScriptCompile Include="typings\express-serve-static-core\express-serve-static-core.d.ts" />
+    <TypeScriptCompile Include="typings\express-session\express-session.d.ts" />
     <TypeScriptCompile Include="typings\express-session\express-session.d.ts" />
     <TypeScriptCompile Include="typings\express-session\express-session.d.ts" />
     <TypeScriptCompile Include="typings\express-session\express-session.d.ts" />
@@ -143,6 +169,8 @@
     <TypeScriptCompile Include="typings\express\express.d.ts" />
     <TypeScriptCompile Include="typings\express\express.d.ts" />
     <TypeScriptCompile Include="typings\express\express.d.ts" />
+    <TypeScriptCompile Include="typings\express\express.d.ts" />
+    <TypeScriptCompile Include="typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="typings\jquery\jquery.d.ts" />
@@ -151,6 +179,8 @@
     <TypeScriptCompile Include="typings\mime\mime.d.ts" />
     <TypeScriptCompile Include="typings\mime\mime.d.ts" />
     <TypeScriptCompile Include="typings\mime\mime.d.ts" />
+    <TypeScriptCompile Include="typings\mime\mime.d.ts" />
+    <TypeScriptCompile Include="typings\mocha\mocha.d.ts" />
     <TypeScriptCompile Include="typings\mocha\mocha.d.ts" />
     <TypeScriptCompile Include="typings\mocha\mocha.d.ts" />
     <TypeScriptCompile Include="typings\mocha\mocha.d.ts" />
@@ -159,6 +189,8 @@
     <TypeScriptCompile Include="typings\modernizr\modernizr.d.ts" />
     <TypeScriptCompile Include="typings\modernizr\modernizr.d.ts" />
     <TypeScriptCompile Include="typings\modernizr\modernizr.d.ts" />
+    <TypeScriptCompile Include="typings\modernizr\modernizr.d.ts" />
+    <TypeScriptCompile Include="typings\moment\moment-node.d.ts" />
     <TypeScriptCompile Include="typings\moment\moment-node.d.ts" />
     <TypeScriptCompile Include="typings\moment\moment-node.d.ts" />
     <TypeScriptCompile Include="typings\moment\moment-node.d.ts" />
@@ -167,6 +199,8 @@
     <TypeScriptCompile Include="typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="typings\moment\moment.d.ts" />
+    <TypeScriptCompile Include="typings\moment\moment.d.ts" />
+    <TypeScriptCompile Include="typings\mongoose\mongoose.d.ts" />
     <TypeScriptCompile Include="typings\mongoose\mongoose.d.ts" />
     <TypeScriptCompile Include="typings\mongoose\mongoose.d.ts" />
     <TypeScriptCompile Include="typings\mongoose\mongoose.d.ts" />
@@ -175,6 +209,8 @@
     <TypeScriptCompile Include="typings\node\node.d.ts" />
     <TypeScriptCompile Include="typings\node\node.d.ts" />
     <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\node\node.d.ts" />
+    <TypeScriptCompile Include="typings\redis\redis.d.ts" />
     <TypeScriptCompile Include="typings\redis\redis.d.ts" />
     <TypeScriptCompile Include="typings\redis\redis.d.ts" />
     <TypeScriptCompile Include="typings\redis\redis.d.ts" />
@@ -183,10 +219,13 @@
     <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
     <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
     <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
+    <TypeScriptCompile Include="typings\serve-static\serve-static.d.ts" />
     <TypeScriptCompile Include="typings\socket.io-redis\socket.io-redis.d.ts" />
     <TypeScriptCompile Include="typings\socket.io-redis\socket.io-redis.d.ts" />
     <TypeScriptCompile Include="typings\socket.io-redis\socket.io-redis.d.ts" />
     <TypeScriptCompile Include="typings\socket.io-redis\socket.io-redis.d.ts" />
+    <TypeScriptCompile Include="typings\socket.io-redis\socket.io-redis.d.ts" />
+    <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
     <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
     <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
     <TypeScriptCompile Include="typings\socket.io\socket.io.d.ts" />
@@ -555,11 +594,14 @@
     <TypeScriptCompile Include="typings\tsd.d.ts" />
     <TypeScriptCompile Include="typings\tsd.d.ts" />
     <TypeScriptCompile Include="typings\tsd.d.ts" />
+    <TypeScriptCompile Include="typings\tsd.d.ts" />
     <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
     <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="typings\underscore\underscore.d.ts" />
+    <TypeScriptCompile Include="typings\velocity-animate\velocity-animate.d.ts" />
     <TypeScriptCompile Include="typings\velocity-animate\velocity-animate.d.ts" />
     <TypeScriptCompile Include="typings\velocity-animate\velocity-animate.d.ts" />
     <TypeScriptCompile Include="typings\velocity-animate\velocity-animate.d.ts" />
@@ -568,6 +610,7 @@
     <TypeScriptCompile Include="typings\winston\winston.d.ts" />
     <Content Include="videos\video2\hompage-thumbnail_1_1.png" />
     <Content Include="videos\video2\hompage-video_1.gif" />
+    <TypeScriptCompile Include="typings\winston\winston.d.ts" />
     <TypeScriptCompile Include="typings\winston\winston.d.ts" />
     <TypeScriptCompile Include="typings\winston\winston.d.ts" />
     <TypeScriptCompile Include="typings\winston\winston.d.ts" />

@@ -23,242 +23,99 @@ require([
 
     var startup = function startupFunction() {
 
-        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        if (!('webkitSpeechSynthesis' in window) && !('speechSynthesis' in window)) {
 
-            $('.error').text('web speech not supported');
+            $('.error').text('web speech API not supported in your browser, try this prototype in chrome');
 
             return false;
 
         }
 
-        var $commandsOutput = $('.commands_output');
+        var synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
 
-        var Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        var GrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList
+        
 
-        var recognition = new Recognition();
+        // empty at this point in chrome, as in chrome the list is determined asynchronously, see specs for more details
+        if (speechSynthesis.getVoices().length === 0) {
+            
+            speechSynthesis.addEventListener('voiceschanged', populateVoices);
 
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 1;
-        recognition.lang = 'en-GB';
+        } else {
 
-        // speech recognition grammar
-        // https://www.w3.org/TR/jsgf/
-        // chrome does not seem to support this, yet
-        var grammarList = new GrammarList();
+            populateVoices();
 
-        var grammar = '#JSGF V1.0; grammar actions; public <action> = play | stop | pause | next | previous;';
+        }
 
-        grammarList.addFromString(grammar, 1);
-
-        recognition.grammars = grammarList;
-
-        // start
-        recognition.start();
-
-        recognition.onstart = function () {
-
-            console.log('recognition started');
-
-        };
-
-        recognition.onerror = function (event) {
-
-            console.log('recognition error');
-
-            console.log(event.error);
-
-        };
-
-        recognition.onend = function () {
-
-            console.log('recognition stopped');
-
-        };
-
-        var foundResultInInterim = false;
-
-        recognition.onresult = function (event) {
-
-            console.log('recognition result', event.results);
-
-            for (var i = event.resultIndex; i < event.results.length; ++i) {
-
-                if (event.results[i].isFinal) {
-
-                    var dictionaryResult = checkInDictionary(event.results[i][0].transcript, event.results[i][0].confidence);
-
-                    console.log('FINAL result: ', event.results[i][0].transcript + ' (' + event.results[i][0].confidence + ')', event.results[i]);
-
-                    if (!foundResultInInterim) {
-
-                        if (dictionaryResult.match !== '') {
-
-                            if (dictionaryResult.direct) {
-
-                                $commandsOutput.append('<li>[FINAL] loud and clear "' + dictionaryResult.match + '" (' + event.results[i][0].confidence + ')</li>');
-
-                            } else {
-
-                                $commandsOutput.append('<li>[FINAL] you said "' + event.results[i][0].transcript + '" and I understood "' + dictionaryResult.match + '" (' + event.results[i][0].confidence + ')</li>');
-
-                            }
-
-                        } else {
-
-                            $commandsOutput.append('<li>I don\'t understand</li>');
-
-                        }
-
-                    }
-
-                    foundResultInInterim = false;
-
-                } else {
-
-                    var dictionaryResult = checkInDictionary(event.results[i][0].transcript, event.results[i][0].confidence);
-
-                    console.log('INTERIM result: ', event.results[i][0].transcript + ' (' + event.results[i][0].confidence + ')', event.results[i]);
-
-                    if (dictionaryResult.match !== '') {
-
-                        if (dictionaryResult.direct) {
-
-                            $commandsOutput.append('<li>[INTERIM] loud and clear "' + dictionaryResult.match + '" (' + event.results[i][0].confidence + ')</li>');
-
-                        } else {
-
-                            $commandsOutput.append('<li>[INTERIM] you said "' + event.results[i][0].transcript + '" and I understood "' + dictionaryResult.match + '" (' + event.results[i][0].confidence + ')</li>');
-
-                        }
-
-                        foundResultInInterim = true;
-
-                    }
-
-                }
-
-            }
-
-
-
-        };
+        console.log(synthesis);
 
     };
 
-    var checkInDictionary = function checkInDictionaryFunction(detectedString, detectedConfidence) {
+    // events gets called several times in chrome, no idea why
+    var alreadyInitialized = false;
 
-        var soundsLikePlay = [
-            'play',
-            'aye',
-            'pay',
-            'stay',
-            'may',
-            'say',
-            'gay',
-            'yay',
-            'gray',
-            'grey',
-            'they',
-            'tray',
-            'way',
-            'pray',
-            'prey',
-            'okay',
-            'hey'
-        ];
+    var populateVoices = function populateVoicesFunction(voiceschangedEvent) {
 
-        var soundsLikeStop = [
-            'stop',
-            'cop',
-            'pop',
-            'stop',
-            'hop',
-            'shop',
-            'flop'
-        ];
+        if (!alreadyInitialized) {
 
-        var soundsLikePause = [
-            'pause',
-            'cause',
-            'gauze',
-            'was',
-            'post',
-            'photos',
-            'bus',
-            'porsche'
-        ];
+            alreadyInitialized = true;
 
-        var soundsLikeNext = [
-            'next',
-            'text',
-            'max'
-        ];
+            var synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
 
-        var soundsLikePrevious = [
-            'previous',
-            'previews',
-            'bridges',
-            'pictures'
-        ];
+            var voicesList = synthesis.getVoices();
 
-        var soundsLikeDictionaries = [soundsLikePlay, soundsLikeStop, soundsLikePause, soundsLikeNext, soundsLikePrevious];
+            var $voiceList = $('.voicesList');
 
-        var dictionayMatch = '';
+            voicesList.forEach(function (voice) {
 
-        // TODO: change 0 to whatever to ensure minimal confidence?
-        if (detectedConfidence > 0.1) {
+                var $voice = $('<li>');
 
-            var actionNames = [
-                'play',
-                'stop',
-                'pause',
-                'next',
-                'previous'
-            ];
+                var voiceText = 'name: ' + voice.name + ', language: ' + voice.lang;
 
-            var actionNamesIndex = -1;
+                if (voice.default) {
+                    voiceText += ' (default)';
+                }
 
-            if (actionNames.length > 0) {
+                console.log(voice);
 
-                actionNamesIndex = actionNames.indexOf(detectedString.trim().toLowerCase());
+                $voice.text(voiceText);
 
-            }
+                $voiceList.append($voice);
 
-            if (actionNamesIndex !== -1) {
+            });
 
-                dictionayMatch = actionNames[actionNamesIndex];
+            speakSentence(synthesis);
 
-                return { 'match': dictionayMatch, 'direct': true };
+        }
 
-            } else {
-                
-                soundsLikeDictionaries.forEach(function (soundsLikeDictionary) {
+    };
 
-                    var soundsLikeIndex = -1;
+    var speakSentence = function speakSentenceFunction(synthesis) {
 
-                    if (soundsLikeDictionary.length > 0) {
+        var voicesList = synthesis.getVoices();
 
-                        soundsLikeIndex = soundsLikeDictionary.indexOf(detectedString.trim().toLowerCase());
+        var utterance = new SpeechSynthesisUtterance('Hello World, this is your computer speaking');
 
-                    }
+        // set a voice index
+        var voiceIndex = 1;
 
-                    if (soundsLikeIndex !== -1) {
+        //find the google uk female voice if available
+        var voiceUriGoogleFemale = 'Google UK English Female';
 
-                        dictionayMatch = soundsLikeDictionary[0];
+        for (var i = 0; i < voicesList.length; i++) {
 
-                        return { 'match': dictionayMatch, 'direct': false };
+            if (voicesList[i].voiceURI === voiceUriGoogleFemale) {
 
-                    }
-
-                });
+                voiceIndex = i;
 
             }
 
         }
 
-        return { 'match': dictionayMatch, 'direct': false };
+        utterance.voice = voicesList[voiceIndex];
+        utterance.pitch = 2; // something between 0 and 2
+        utterance.rate = 0.5; // something between 0,5 and 2
+
+        synthesis.speak(utterance);
 
     };
 

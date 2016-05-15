@@ -6,10 +6,10 @@ app.use('/javascripts', express.static('javascripts'));
 
 app.get('/', function (req, res) {
 
-    res.sendFile(path.join(__dirname + '/prototype.html'));
+    res.sendFile(path.join(__dirname + '/prototype-synthesis.html'));
 
 });
 
 app.listen(35000);
 
-console.log('running at Port 35000');
+console.log('running on port 35000');

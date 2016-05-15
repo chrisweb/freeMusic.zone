@@ -23,9 +23,10 @@ require([
 
     var startup = function startupFunction() {
 
+        // prefixed version for chrome, not supported in firefox yet and might be coming to IE, no information for safari, see documentation.md
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
 
-            $('.error').text('web speech not supported');
+            $('.error').text('web speech API not supported in your browser, try this prototype in chrome');
 
             return false;
 
@@ -52,6 +53,7 @@ require([
 
         grammarList.addFromString(grammar, 1);
 
+        // not supported by chrome, see documentation.md, even though the methods exist they have no influence on the result
         recognition.grammars = grammarList;
 
         // start
@@ -59,7 +61,11 @@ require([
 
         recognition.onstart = function () {
 
-            console.log('recognition started');
+            var message = 'recognition started';
+
+            console.log(message);
+
+            $commandsOutput.append('<li>' + message + '</li>');
 
         };
 
@@ -73,7 +79,11 @@ require([
 
         recognition.onend = function () {
 
-            console.log('recognition stopped');
+            var message = 'recognition stopped';
+
+            console.log(message);
+
+            $commandsOutput.append('<li>' + message + '</li>');
 
         };
 

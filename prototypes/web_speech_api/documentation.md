@@ -13,6 +13,7 @@ MDN web speech API
 * https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API
 * https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
 * https://github.com/mdn/web-speech-api
+* https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis
 
 mozilla web speech api sample code
 * https://github.com/mdn/web-speech-api/tree/master/speech-color-changer
