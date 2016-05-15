@@ -6,7 +6,7 @@
   "dependencies": {
     "express": "4.13.4"
   },
-  "description": "freeMusic zone",
+  "description": "web speech api prototype",
   "devDependencies": {
 
   },
@@ -20,7 +20,7 @@
     "api"
   ],
   "license": "MIT",
-  "main": "server.js",
+  "main": "server-recognition.js",
   "name": "web_speech_api_prototype",
   "private": true,
   "repository": {
@@ -28,8 +28,8 @@
     "url": "https://github.com/chrisweb/freeMusic.zone.git"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node server-recognition.js",
     "test": ""
   },
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
