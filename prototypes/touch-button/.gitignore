@@ -1,0 +1,6 @@
+# npm node_modules
+/node_modules
+npm-debug.log
+
+# vendor modules (modernizr build)
+/javascripts/vendor

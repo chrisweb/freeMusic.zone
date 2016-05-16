@@ -1,7 +1,7 @@
 {
-  "name": "swipe-prototype",
+  "name": "video-prototypes",
   "version": "0.0.1",
-  "description": "swipe prototype",
+  "description": "video prototypes",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,11 +10,11 @@
   "author": "chrisweb <chris963@gmail.com> (https://chris.lu)",
   "license": "MIT",
   "dependencies": {
-    "hammerjs": "2.0.6",
     "jquery": "2.2.0",
-    "requirejs": "2.1.22"
+    "requirejs": "2.1.22",
+    "underscore": "1.8.3"
   },
   "devDependencies": {
-
+    "grunt-modernizr": "^1.0.2"
   }
 }

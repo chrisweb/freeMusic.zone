@@ -115,6 +115,7 @@
                     
                     // analyzer node
                     analyserNode = audioContext.createAnalyser();
+
                     //analyserNode.smoothingTimeConstant = 0.8;
                     analyserNode.fftSize = 1024;
 
@@ -122,6 +123,7 @@
 
                     // chain both nodes
                     sourceNode.connect(analyserNode);
+
                     // connect the source to the context's destination (the speakers)
                     analyserNode.connect(audioContext.destination);
                     

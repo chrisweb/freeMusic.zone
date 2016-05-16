@@ -31,7 +31,7 @@ require([
 	var initialize = function initializeFunction() {
 		
 		/**
-		 * Note to self: After a tap (on touch end) also a click (event) is being triggered
+		 * Note to self: after a tap (on touch end) also a click (event) is being triggered
 		 */
 		
 		// (re-)enables text selection in browser using the mouse
@@ -58,7 +58,7 @@ require([
 		var $page = $('#page');
 		var $detected = $page.find('#detected');
 		
-		//var hammerManager = new Hammer.Manager($page[0], hammerOptions);
+		var hammerManager = new Hammer.Manager($page[0], hammerOptions);
 
 		hammerManager.on('panleft panright tap press click', function(event) {
 			

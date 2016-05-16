@@ -1,7 +1,7 @@
 {
-  "name": "swipe-prototype",
+  "name": "touch-button-prototype",
   "version": "0.0.1",
-  "description": "swipe prototype",
+  "description": "touch button prototype",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,11 +10,11 @@
   "author": "chrisweb <chris963@gmail.com> (https://chris.lu)",
   "license": "MIT",
   "dependencies": {
-    "hammerjs": "2.0.6",
-    "jquery": "2.2.0",
-    "requirejs": "2.1.22"
-  },
-  "devDependencies": {
-
+    "requirejs": "2.2.0",
+    "jquery": "2.2.3",
+    "underscore": "1.8.3",
+    "hammer-timejs": "1.1.0",
+    "fastclick": "1.0.6",
+    "pepjs": "0.4.1"
   }
 }

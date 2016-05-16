@@ -1,9 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>video prototype</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script data-main="javascripts/main2" src="javascripts/vendor/requirejs-2.1.11/require.js"></script>
+
         <style>
             body {
                 width: 100%;
@@ -41,23 +43,21 @@
             }
             
         </style>
+
+        <script data-main="javascripts/main-video_prototype" src="node_modules/requirejs/require.js"></script>
+
     </head>
     <body>
-            
-        <!-- http://www.html5rocks.com/en/tutorials/video/basics/ -->
-        <!-- https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_HTML5_audio_and_video -->
-
+        
         <div class="video_container">
-            
-            <canvas></canvas>
 
-            <video poster="images/clouds.jpg" autoplay="autoplay" loop>
+            <video poster="images/clouds.jpg" preload="auto" autoplay="autoplay" muted="muted" loop="loop">
                 <source src="videos/clouds.webm" type='video/webm;codecs="vp8, vorbis"'/>
                 <source src="videos/clouds.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"'/>
             </video>
 
         </div>
-        
+
         <div class="box">
             Hello World<br>
             <button>Play/Pause</button>

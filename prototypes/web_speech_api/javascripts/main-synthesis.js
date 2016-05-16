@@ -32,9 +32,7 @@ require([
         }
 
         var synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
-
         
-
         // empty at this point in chrome, as in chrome the list is determined asynchronously, see specs for more details
         if (speechSynthesis.getVoices().length === 0) {
             

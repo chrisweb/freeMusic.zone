@@ -5,7 +5,7 @@ npm install
 
 now build modernizr, run the following command:
 
-grunt modernizr
+grunt
 
 to launch the server, type:
 

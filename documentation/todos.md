@@ -27,17 +27,12 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
 * add this little effect (js) for homepage headline http://gabinaureche.com/TheaterJS/
 * add support for emoji using the twitter package https://www.npmjs.com/package/twemoji
-* replace twitter bootstrap 3 with twitter boostrap 4 (+ update documentation) https://github.com/twbs/bootstrap/tree/v4-dev / documentation: http://v4-alpha.getbootstrap.com/
-* replace all use of glyphicons with font awsome as twitter boostrap 4 does not have glyphicons anymore (+ update grunt file)
 * refactoring the managers
 ** add adapters
 ** create an abstract manager
 * server API should return a count of results, set a default limit for results, if above the limit return a pagination
 * refactor server bootstrap, especailly move the socket.io related stuff into a library file
 * use clipboard js to let users copy collaborative playlist urls https://clipboardjs.com/#example-target
-* create voice commands prototype using the web speech API
-* create a camera (webcam photo) prototype (find solution for iOS thaz does not support getUserMedia)
-* write a google vision cloud prototype
 * add a sass style guide https://github.com/bigcommerce/sass-style-guide
 * explain managers documentation/how_managers_work.txt (create md file)
 * finish the client error loggin library and then document it documentation/javascript_error_tracking_logging.txt (create md file)
@@ -49,6 +44,13 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * improve the chat message input field to render emoji in the field itself, see this little test fiddle https://jsfiddle.net/zvb154do/2/
 * update the project page with useful information and links to documentation as well as some screenshot and a link to website http://chrisweb.github.io/freeMusic.zone/
 * maybe this can help improve the gif quality for mobile background video http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
+* bug to fix: on welcome page iframe for login is created three times, one per parallax lvl, only create one, then duplicate?
+* improve the background video player based on the improved prototype, add mute (firefox icon) and also use improved autoplay detection that replaces video element with gif (iOS)
+* create a passportjs prototype
+* replace twitter bootstrap 3 with twitter boostrap 4 (+ update documentation) https://github.com/twbs/bootstrap/tree/v4-dev / documentation: http://v4-alpha.getbootstrap.com/
+* replace all use of glyphicons with font awsome as twitter boostrap 4 does not have glyphicons anymore (+ update grunt file)
+* add voice commands recognition feature to remote based on web speech recognition prototype
+* add "sing my song" page using the web speech synthesis prototype (add one balled and one hiphop song as example) (see features.md)
 
 ## Other todos (damn that's a lot of todos ;) )
 
@@ -77,11 +79,14 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * the twitter harvester code should have it's own branch so that you don't have to checkout the entire project on production machines that only need to harvest
 * Use geolocation to find concerts: https://developers.google.com/web/fundamentals/device-access/user-location/
 * add log rotation for the forever log files http://stackoverflow.com/questions/15231968/nodejs-forever-archive-logs
-* add hi-redis (https://www.npmjs.com/package/hiredis) for production into package.json
 * make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io (token based authentification) and other places of the app, instead if cookies (stateless REST)
-* bug to fix: on welcome page iframe for login is created three times, one per parallax lvl, only create one, then duplicate?
+
+## Special todo
+
+* add hi-redis (https://www.npmjs.com/package/hiredis) for production into package.json / is not in package.json right now as its does not install on my windows development machine
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
+
 * create responsive jquery ui dialog
 * put the modernizr modifications into a seperate repository by forking the original project, finish the rewrite of the core for all parts that are not used by this project (check out the modernizr documentation.md for more about this task)
 * create a nodejs script that setups all the cloud services using the aws api
@@ -175,4 +180,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: add listener to background html5 video player for progress and "can play through" event
 * DONE: replace the fake loading of the splashscreen with a real html5 progress element, as progress value use the video buffering values from background html5 video player
 * DONE: remove express x-powered-by header and replace with own (link to github project repository)
-
+* DONE: improve the prototypes documentation.md files with gathered know how_managers_work
+* DONE: create voice commands prototype using the web speech API
+* DONE: create a camera (webcam photo) prototype (find solution for iOS thaz does not support getUserMedia)
+* DONE: write a google vision cloud prototype

@@ -2,11 +2,12 @@
 
 ## for sure
 
-* collaborative playlist rooms
+* collaborative playlist rooms (with chat, messages emoticons and simple chat bot)
 * twitter (viral) charts
-* remote controlling of your jamendo playlists (with voice recognition)
+* remote controlling of your jamendo playlists (with voice commands recognition)
 * webcam mood playlist generator
 * cards game or quiz
+* sing my song (two examples, one balled (duo of two voices, female and male) and one hiphop song, let user change voice, lyrics, rate and pitch for each sentence)
 
 ## maybe
 
@@ -25,13 +26,13 @@
 
 ### app sections
 
-##### remote fuctionality
+#### remote fuctionality
 
 * control one instance of the player on for example your tv using the same instance on your tablet or phone
 * can be enabled or disabled
 * use the voice recognition to accept voice commands
 
-##### jam with friends
+#### jam with friends
 
 * team playlist where every user can add songs
 * up or downvote songs
@@ -42,9 +43,9 @@
 * choose playlist name
 * choose existing playlist to start
 
-##### games (fun)
+#### games
 
-###### quiz
+##### quiz
 * tracks quiz created by the community
 * choose a track and add chalanges
 ** find at least three instruments used in the song
@@ -54,7 +55,7 @@
 ** find if there is one singer or more, female or male or both
 * invite friends by mail or social network
 
-###### card game (battle)
+##### card game (battle)
 * each player selects the cards from his deck that he wants to use in the fight
 * each card represents an artist and some stats like total fans, album and tracks count, listen count and so on
 * a player starts by playing a card and telling the oponent what stats he wants to use for the fight
@@ -63,13 +64,13 @@
 * create a highscore table with players that won most games
 * when wining a game the player gets a point, he can use the points to reclaim extra epic cards that will be added to his deck
 
-###### hot or not
+##### hot or not
 * add a hot or not game for the new releases, every user can rate ten songs per day
 
-###### a song a cat
+##### a song a cat
 * for each song played, display a picture of a funny cute cate (google image search API?)
 
-###### bingo like game with albums instead of numbers
+##### bingo like game with albums instead of numbers
 * user chooses the amount of rows (and columns) before creating a new game
 * the user can select a music genre for the albums or select the albums himself
 * start the game fills the board with album covers
@@ -77,16 +78,23 @@
 * the player must select the album that got called out on his board
 * the first player that has a full row or column on his board must yell "jamendo" to win the game
 
-##### tweet 2 jam
+#### tweet 2 jam
 
 * twitter music charts
 * tweet about a track to increase its position in playlist
 
-##### face photo 2 mood playlist
+#### face photo 2 mood playlist
 
 * take a photo of the users face using his webcam
 * convert his face into mood data using the google cloud vision API
 * search for tracks by mood based on the data from the photo
+
+#### sing my song
+
+* lyrics speaker using the web speech synthesis and an accoustic version of a song playing simultaneously
+* let user define poses between sentences
+* two examples, one balled (duo of two voices, female and male) and one hiphop song
+* let user change voice, lyrics, rate and pitch for each sentence
 
 ### player
 
@@ -94,7 +102,7 @@
 * no player bar at all, display actions as big animations on screen that fade in / fade out quickly
 * realtime music visualizer (see prototype)
 
-### just4fun
+### additional app features
 
 * goose menu http://codepen.io/lbebber/pen/RNgBPP
 * web speech api: http://updates.html5rocks.com/2014/01/Web-apps-that-talk---Introduction-to-the-Speech-Synthesis-API + https://github.com/TalAter/annyang/blob/master/annyang.js

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+        <!-- add the following meta tag and the delay is gone in the latest iOS and android browsers -->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+
+        <title>buttons in a mobile touch environment prototype (300ms delay problem)</title>
+        
+        <style>
+            
+            body {
+                font-size: 16px;
+            }
+            
+            button {
+                width: 160px;
+                height: 60px;
+                background-color: #4e284f;
+                text-decoration: none;
+                color: #fff;
+                padding: 20px;
+                display: inline-block;
+                box-shadow: 1px 1px #9650b4, 2px 2px #9b4bb4, 3px 3px #a046b4, 4px 4px #a54bb4, 5px 5px #aa46b4, 6px 6px #af41b4, 7px 7px #aa3cb4, 8px 8px #af37b4;
+                position: relative;
+                margin: 0px;
+                border: 0;
+            }
+            
+            button:hover {
+                background-color: #7a477c;
+            }
+
+            button:active {
+                top: 5px;
+                left: 5px;
+                box-shadow: 1px 1px #9650b4, 2px 2px #9b4bb4, 3px 3px #a046b4;
+            }
+            
+        </style>
+
+        <script data-main="javascripts/main-fastclick_prototype" src="node_modules/requirejs/require.js"></script>
+
+    </head>
+    <body>
+
+        <h1>buttons in a mobile touch environment prototype (300ms delay problem)</h1>
+        
+        <button id="default_button">default click</button>
+        <button id="touch_button">using fastclick</button>
+
+        <ul id="output"></ul>
+
+    </body>
+</html>
