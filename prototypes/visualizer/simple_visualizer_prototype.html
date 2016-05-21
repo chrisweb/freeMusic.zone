@@ -1,10 +1,12 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
     <head>
 
-        <title>web audio api example tested with chrome 28 and firefox aurora 24.0a2</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>simple visualizer prototype</title>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.js"></script>
 
         <script>
 
@@ -206,9 +208,8 @@
     </head>
     <body>
 
-        <h1>web audio api example tested with chrome 28 and firefox aurora 24.0a2</h1>
-        <div class="play" data-song-url="http://upload.wikimedia.org/wikipedia/en/1/1f/%22Layla%22%2C_Derek_and_the_Dominos_song_%28sample%29.ogg">Play wikipedia</div>
-        <div class="play" data-song-url="//storage-new.newjamendo.com/?trackid=196250&format=mp31">Play jamendo</div>
+        <h1>simple visualizer prototype</h1>
+        <button class="play" data-song-url="https://storage-new.newjamendo.com/?trackid=196250&format=mp31">Play song "Stories from Emona VI" (2008) by MAYA FILIPIČ from jamendo.com</button><br />
         <canvas id="visualizerCanvas" width="800" height="400"></canvas>
 
     </body>
