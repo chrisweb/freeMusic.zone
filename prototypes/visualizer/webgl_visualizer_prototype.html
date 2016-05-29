@@ -5,6 +5,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>webgl visualizer prototype</title>
+        <style>
+            .hidden {
+                display: none;
+            }
+        </style>
         <script data-main="javascripts/main-webgl_visualizer_prototype" src="vendor/requirejs/require.js"></script>
         
     </head>
@@ -12,7 +17,9 @@
 
         <h1>webgl visualizer prototype</h1>
         <div class="play" data-song-url="https://storage-new.newjamendo.com/?trackid=196250&format=mp31">Play song "Stories from Emona VI" (2008) by MAYA FILIPI? from jamendo.com</div>
+        <div class="animationContainer"></div>
         <p>GPU particle system plugin by <a href="http://charliehoey.com">Charlie Hoey</a></p>
+        <div class="texturesPreload hidden"></div>
 
     </body>
 </html>

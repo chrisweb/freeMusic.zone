@@ -1,0 +1,295 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>waveform visualizer prototype</title>
+
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+
+        <script>
+
+            (function($, window, undefined) {
+
+                /*
+ 
+                // web audio api offline mode to pre-render next song
+                // http://stackoverflow.com/questions/8074152/is-there-a-way-to-use-the-web-audio-api-to-sample-audio-faster-than-real-time/8101383#8101383
+
+                // fft explained
+                // http://stackoverflow.com/questions/14789283/what-does-the-fft-data-in-the-web-audio-api-correspond-to
+
+                // AnalyserNode documentation:
+                // http://docs.webplatform.org/wiki/apis/webaudio/AnalyserNode
+
+                */
+               
+                var sourceNode;
+                var analyserNode;
+                var canvasContext;
+                var canvasWidth;
+                var canvasHeight;
+                var audioContext;
+                var audioBuffer;
+                
+                // https://developer.mozilla.org/en-US/docs/Web/API/window.requestAnimationFrame
+                var requestAnimationFrame = window.requestAnimationFrame ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame;
+
+                try {
+
+                    var AudioContext = window.AudioContext || window.webkitAudioContext;
+                    audioContext = new AudioContext();
+                    
+                }
+                catch (e) {
+
+                    console.log('web audio API is not supported by this browser');
+
+                }
+
+                var loadSound = function(url) {
+                    
+                    console.log('loadSound, url: ' + url);
+                    
+                    var request = new XMLHttpRequest();
+                    
+                    request.open('GET', url, true);
+                    request.responseType = 'arraybuffer';
+
+                    // when loaded decode the data
+                    request.onload = function() {
+                        
+                        console.log('request onload');
+
+                        audioContext.decodeAudioData(
+                            request.response,
+                            function onDecodeSuccess(audioBuffer) {
+
+                                // success
+                                
+                                console.log('sound got loaded, buffer: ');
+                                console.log(audioBuffer);
+
+                                // when the audio is decoded play the sound
+                                playSound(audioBuffer);
+
+                            },
+                            function onDecodeFailure(error) {
+
+                                // error
+                                
+                                console.log(error);
+
+                            }
+                        );
+                        
+                    };
+                    
+                    request.send();
+                    
+                };
+                
+                var playSound = function(audioBuffer) {
+                
+                    console.log('playSound');
+                    
+                    if ($.type(sourceNode) !== 'undefined') {
+                        
+                        sourceNode.disconnect();
+                        
+                    }
+
+                    // http://www.html5rocks.com/en/tutorials/webaudio/intro/
+                    // https://hacks.mozilla.org/2013/07/web-audio-api-comes-to-firefox/
+                    // creates a sound source
+                    sourceNode = audioContext.createBufferSource();
+
+                    // tell the source which sound to play
+                    sourceNode.buffer = audioBuffer;
+
+                    // connect the source to the audioContext's destination (the speakers)
+                    sourceNode.connect(audioContext.destination);
+
+                    // create the peaks
+                    createPeaks(audioBuffer);
+                    
+                     // play the sound
+                    sourceNode.start(0);
+                
+                };
+                
+                var createPeaks = function(audioBuffer) {
+                    
+                    // http://stackoverflow.com/questions/22073716/create-a-waveform-of-the-full-track-with-web-audio-api
+
+                    //var audioBuffer = this;
+
+                    // request next animation frame
+                    //requestAnimationFrame(drawSound.bind(audioBuffer));
+
+                    /*var leftChannel = audioBuffer.getChannelData(0); // Float32Array describing left channel     
+                    var lineOpacity = canvasWidth / leftChannel.length;
+
+                    canvasContext.save();
+                    canvasContext.fillStyle = '#222';
+                    canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
+                    canvasContext.strokeStyle = '#121';
+                    canvasContext.globalCompositeOperation = 'lighter';
+                    canvasContext.translate(0, canvasHeight / 2);
+                    canvasContext.globalAlpha = 0.06; // lineOpacity
+
+                    for (var i = 0; i < leftChannel.length; i++) {
+
+                        // on which line do we get ?
+                        var x = Math.floor(canvasWidth * i / leftChannel.length);
+                        var y = leftChannel[i] * canvasHeight / 2;
+                        canvasContext.beginPath();
+                        canvasContext.moveTo(x, 0);
+                        canvasContext.lineTo(x + 1, y);
+                        canvasContext.stroke();
+
+                    }
+
+                    canvasContext.restore();*/
+
+                    var length = 200;
+                    var sampleSize = audioBuffer.length / length;
+                    var sampleStep = Math.floor(sampleSize / 10) || 1;
+                    var channels = audioBuffer.numberOfChannels;
+                    var splitPeaks = [];
+                    var mergedPeaks = [];
+
+                    for (var c = 0; c < channels; c++) {
+                        var peaks = splitPeaks[c] = [];
+                        var chan = audioBuffer.getChannelData(c);
+
+                        for (var i = 0; i < length; i++) {
+                            var start = Math.floor(i * sampleSize);
+                            var end = Math.floor(start + sampleSize);
+                            var min = 0;
+                            var max = 0;
+
+                            for (var j = start; j < end; j += sampleStep) {
+                                var value = chan[j];
+
+                                if (value > max) {
+                                    max = value;
+                                }
+
+                                if (value < min) {
+                                    min = value;
+                                }
+                            }
+
+                            peaks[2 * i] = max;
+                            peaks[2 * i + 1] = min;
+
+                            if (c == 0 || max > mergedPeaks[2 * i]) {
+                                mergedPeaks[2 * i] = max;
+                            }
+
+                            if (c == 0 || min < mergedPeaks[2 * i + 1]) {
+                                mergedPeaks[2 * i + 1] = min;
+                            }
+                        }
+                    }
+
+                    console.log(splitPeaks);
+                    console.log(mergedPeaks);
+
+                    drawPeaks.call(splitPeaks[0]);
+                    
+                    
+                };
+
+                var drawPeaks = function () {
+
+                    var peaks = this;
+                    var peaksLength = peaks.length;
+
+                    canvasContext.save();
+                    canvasContext.fillStyle = 'blue';
+                    canvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
+                    canvasContext.strokeStyle = 'red';
+                    canvasContext.globalCompositeOperation = 'lighter';
+                    canvasContext.translate(0, canvasHeight / 2);
+                    canvasContext.globalAlpha = 1; // lineOpacity
+
+                    var i;
+
+                    for (i = 0; i < peaksLength; i++) {
+
+                        var peak = peaks[i];
+
+                        if (peak < 0) {
+                            peak = Math.abs(peak);
+                        }
+
+                        // on which line do we get ?
+                        var x = Math.floor(canvasWidth * i / peaksLength);
+                        var y = peak * canvasHeight / 2;
+                        canvasContext.beginPath();
+                        canvasContext.moveTo(x, 0);
+                        canvasContext.lineTo(x + 1, y);
+                        canvasContext.stroke();
+
+                    }
+
+                    canvasContext.restore();
+
+                    // draw next
+                    requestAnimationFrame(drawPeaks.bind(this));
+
+                }
+
+
+                // on dom ready
+                $(function() {
+                    
+                    console.log('DOM is ready');
+
+                    canvasContext = $('#visualizerCanvas')[0].getContext('2d');
+                    
+                    console.log(canvasContext);
+
+                    canvasWidth = $('#visualizerCanvas').width();
+                    canvasHeight = $('#visualizerCanvas').height();
+
+                    console.log('canvasWidth: ' + canvasWidth);
+                    console.log('canvasHeight: ' + canvasHeight);
+                    
+                    initializeListeners();
+                    
+                });
+                
+                var initializeListeners = function() {
+                    
+                    $('body').find('.play').on('click', function(e) {
+                        
+                        e.preventDefault();
+                        
+                        console.log('play ...');
+                        
+                        var url = $(this).attr('data-song-url');
+
+                        loadSound(url);
+                        
+                    });
+                    
+                };
+                
+            })(jQuery, window);
+
+        </script>
+    </head>
+    <body>
+
+        <h1>waveform visualizer prototype</h1>
+        <button class="play" data-song-url="https://storage-new.newjamendo.com/?trackid=196250&format=mp31">Play song "Stories from Emona VI" (2008) by MAYA FILIPIČ from jamendo.com</button><br />
+        <canvas id="visualizerCanvas" width="800" height="400"></canvas>
+
+    </body>
+</html>
