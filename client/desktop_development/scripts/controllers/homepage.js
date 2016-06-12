@@ -50,25 +50,33 @@ define([
 
                     var videoFormat = chooseVideoFormat(testsResults);
 
-                    oauthLibrary.fetchOauthUrl(function(error, response) {
+                    oauthLibrary.fetchOauthUrl(function (error, response) {
 
-                        var oauthUrl = response.url;
+                        if (!error && 'url' in response) {
 
-                        // initialize the view
-                        require(['views/pages/login'], function(LoginView) {
+                            var oauthUrl = response.url;
 
-                            var loginView = new LoginView({
-                                oauthUrl: oauthUrl,
-                                videoFormat: videoFormat
+                            // initialize the view
+                            require(['views/pages/login'], function (LoginView) {
+
+                                var loginView = new LoginView({
+                                    oauthUrl: oauthUrl,
+                                    videoFormat: videoFormat
+                                });
+
+                                Ribs.Container.clear('#core');
+
+                                Ribs.Container.add('#core', loginView);
+
+                                Ribs.Container.dispatch('#core');
+
                             });
 
-                            Ribs.Container.clear('#core');
+                        } else {
 
-                            Ribs.Container.add('#core', loginView);
+                            utilities.log('[CONTROLLER HOMEPAGE] failed getting the oauth url, error: ' + error, 'fontColor:red');
 
-                            Ribs.Container.dispatch('#core');
-
-                        });
+                        }
 
                     });
 

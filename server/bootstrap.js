@@ -54,6 +54,9 @@ try {
     
 }
 
+// filesystem nodejs module
+var fs = require('fs');
+
 // api module
 var apiModule = require('./library/api');
 
@@ -103,7 +106,7 @@ var bodyParser = require('body-parser');
 var connectRedis = require('connect-redis');
 
 // configuration
-var configuration = configurationModule.get(process.env.NODE_ENV);
+var configuration = configurationModule.get();
 
 // express cors
 var cors = require('cors');
@@ -247,9 +250,53 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                 
                 // desktop router
                 var desktopRouter = express.Router();
+
+                // obviously performance wise this is not the best idea to generate the confirguration file dynamically, but for now flexibility wins over performance ;)
+                // TODO: it would be better to grunt / gulp script that builds custom configuration files when needed
+                desktopRouter.use('/client/desktop_development/scripts/configuration/configuration.js', function (request, response, next) {
+
+                    fs.readFile('client/desktop_development/scripts/configuration/configuration.js', {
+                        encoding: 'utf8'
+                    }, function readConfigurationCallback(error, fileContent) {
+
+                        if (!error) {
+
+                            var environment = app.get('env');
+
+                            // first get the configuration that we want to keep
+                            var regex = new RegExp('\/\*(.*?)' + environment + '(.*?)\*\/(.+)\/\*(.*?)' + environment + '(.*?)\*\/', 'i');
+                            var configurationToKeep = fileContent.match(regex)[0];
+
+                            // now clear all the other definitions and replace them with the configuration definition of the current environment
+
+
+                            var replacements = {
+                                '__PORT__': app.get('port')
+                            };
+
+                            var configuration = utilities.replacePlaceholders(fileContent, replacements);
+
+                            response.setHeader('content-type', 'text/javascript');
+                            response.send(configuration);
+
+                        } else {
+
+                            utilities.log('[BOOTSTRAP] reading configuration file failed, error: ' + error, 'fontColor:red');
+
+                        }
+
+                    });
+
+                });
                 
+                // route for aws health check
+                desktopRouter.use('/health-check.html', function(request, response) {
+                    response.render('healthCheck');
+                });
+
+                // static files
                 if (app.get('env') === 'development') {
-                    
+
                     desktopRouter.use('/client/desktop_development', express.static(__dirname + '/../client/desktop_development'));
                     desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
                     desktopRouter.use('/vendor/requirejs', express.static(__dirname + '/../node_modules/requirejs'));
@@ -266,32 +313,32 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                     desktopRouter.use('/vendor/chrisweb-utilities', express.static(__dirname + '/../node_modules/chrisweb-utilities'));
                     desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
                     desktopRouter.use('/videos', express.static(__dirname + '/../videos'));
-                    
+
                 } else {
-                    
+
                     desktopRouter.use('/client/desktop_build', express.static(__dirname + '/../client/desktop_build'));
                     desktopRouter.use('/server/library/shared', express.static(__dirname + '/library/shared'));
                     desktopRouter.use('/videos', express.static(__dirname + '/../videos'));
-                    
+
                 }
-                
+
                 // always invoked
-                desktopRouter.use(function(request, response, next) {
-                    
+                desktopRouter.use(function (request, response, next) {
+
                     utilities.log('[BOOTSTRAP] /, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
-                    
+
                     var assetsPath = 'desktop_build';
-                    
+
                     if (app.get('env') === 'development') {
-                    
+
                         assetsPath = '/client/desktop_development';
-                        
+
                     } else {
 
                         assetsPath = 'https://xxx.cloudfront.com/client/desktop_build';
 
                     }
-                    
+
                     response.render('desktop', {
                         splashScreenName: 'splashScreen',
                         splashScreenExtension: 'png',
@@ -299,12 +346,7 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                         environment: app.get('env'),
                         assetsPath: assetsPath
                     });
-                    
-                });
-                
-                // route for aws health check
-                app.use('/health-check.html', function(request, response) {
-                    response.render('healthCheck');
+
                 });
                 
                 // add error handling last
@@ -314,7 +356,7 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                 
                 // START SERVER
                 // use the port set by pm2 or visual studio or use the default one from configuration
-                app.set('port', process.env.PORT || configuration.server.port);
+                app.set('port', process.env.port || configuration.server.port);
 
                 var server = app.listen(app.get('port'));
                 

@@ -2,8 +2,9 @@
 
 module.exports.version = '0.0.1';
 
-module.exports.get = function getConfiguration(environment) {
+module.exports.get = function getConfiguration() {
 
+    var environment = process.env.NODE_ENV;
     var configuration = {};
 
     switch (environment) {
@@ -34,7 +35,7 @@ module.exports.get = function getConfiguration(environment) {
             configuration.server = {
                 host: '127.0.0.1',
                 protocol: 'http',
-                port: 35000,
+                port: process.env.port,
                 staticFiles: {
                     header: {
                         //maxAge: 604800 // 7 days
@@ -46,7 +47,8 @@ module.exports.get = function getConfiguration(environment) {
                     errorFile: true,
                     warnFile: true,
                     infoFile: true
-                }
+                },
+                environment: process.env.NODE_ENV
             };
                
             /**

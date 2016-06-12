@@ -81,9 +81,13 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * add log rotation for the forever log files http://stackoverflow.com/questions/15231968/nodejs-forever-archive-logs
 * make api really restfull, (no cookie?), socket.io jwt https://github.com/auth0/socketio-jwt, use jwt for socket.io (token based authentification) and other places of the app, instead if cookies (stateless REST)
 
-## Special todo
+## Special todo (production)
 
 * add hi-redis (https://www.npmjs.com/package/hiredis) for production into package.json / is not in package.json right now as its does not install on my windows development machine
+* the client configuration file should only contain the values needed for production (so don't transfer the development / staging values)
+** the configuration file should have a cascade of key values, so that only the options that differ from production get overwritten by the staging / development options but those that are the same get taken over (instead of having to be duplicated)
+* javascript client files build or use http2
+** http2 seems to have problems, the http2 nodejs library is not compatible with the current express request object
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 
@@ -184,3 +188,4 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: create voice commands prototype using the web speech API
 * DONE: create a camera (webcam photo) prototype (find solution for iOS thaz does not support getUserMedia)
 * DONE: write a google vision cloud prototype
+* DONE: refactoring of the client configuration file, make it dynamic so that we can pass the current environment and port (for devepment)

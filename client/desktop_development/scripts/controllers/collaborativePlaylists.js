@@ -16,6 +16,7 @@ define([
     'underscore',
     'chrisweb-utilities',
     'library.controller',
+    'configuration',
     'ribsjs',
     'manager.collaborativePlaylists',
     'manager.tracks',
@@ -34,6 +35,7 @@ define([
     _,
     utilities,
     Controller,
+    configuration,
     Ribs,
     collaborativePlaylistsManager,
     tracksManager,
@@ -257,8 +259,8 @@ define([
                 
                 // connect with socket.io server
                 var socketIONamespaceName = 'collaborativePlaylists';
-                
-                var socketIONamespace = io('http://127.0.0.1:35000/' + socketIONamespaceName);
+
+                var socketIONamespace = io(configuration.server.rootUrl + '/' + socketIONamespaceName);
                 
                 // inform server that user is joining a room
                 socketIONamespace.emit('joinCollaborativePlaylist', {

@@ -9,7 +9,7 @@
     "backbone": "git://github.com/jashkenas/backbone.git#master",
     "body-parser": "1.15.0",
     "bootstrap": "git://github.com/twbs/bootstrap.git#v4-dev",
-    "chrisweb-utilities": "git://github.com/chrisweb/chrisweb-utilities.js.git#master",
+    "chrisweb-utilities": "git://github.com/chrisweb/chrisweb-utilities.js.git#0.1.5",
     "connect-redis": "3.0.2",
     "cookie-parser": "1.4.1",
     "cors": "2.7.1",

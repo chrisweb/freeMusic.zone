@@ -152,13 +152,11 @@ node server```
 
 Open your browser and use the following address:
 
-```127.0.0.1:THE_PORT_YOU_HAVE_SET_IN_THE_CONFIGURATION/desktop```
+```127.0.0.1:THE_PORT_YOU_HAVE_SET_IN_THE_CONFIGURATION```
 
 by default it should be
 
-```127.0.0.1:35000/desktop```
-
-!!! currently you need to use 127.0.0.1:/desktop as this is the default entry point (route), just 127.0.0.1:35000 won't work
+```127.0.0.1:35000```
 
 ### twitter harvester
 

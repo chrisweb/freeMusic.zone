@@ -61,7 +61,7 @@ define([
         var configuration = Configuration.get();
         
         var jqXHR = $.ajax({
-            url: configuration.server.path + '/oauth/url',
+            url: configuration.server.rootUrl + '/oauth/url',
             type: 'GET',
             dataType: 'json'
         });

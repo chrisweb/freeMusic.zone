@@ -41,3 +41,5 @@ github annyang repository (a tiny javascript SpeechRecognition library)
 do another prototype with pocketsphinx so that we can use this as fallback?
 * http://syl22-00.github.io/pocketsphinx.js/
 
+speech recognition article (mozilla opensource)
+* http://chrislord.net/index.php/2016/06/01/open-source-speech-recognition/
