@@ -144,7 +144,11 @@ npm install grunt-gitinfo --save-dev
 
 npm install mocha --save-dev
 
+##### the type definitions (dts files for typescript)
 
+* as of now declaration files for libraries can be installed using npm as any other package (read more about it here: https://blogs.msdn.microsoft.com/typescript/2016/06/15/the-future-of-declaration-files/)
+* requires typescript > 1.9
+* To find declaration files use this search engine http://microsoft.github.io/TypeSearch/ or checkout https://github.com/DefinitelyTyped/DefinitelyTyped
 
 ##### Other (not yet used) packages that might be usefull:
 
@@ -155,3 +159,4 @@ https://github.com/pghalliday/grunt-mocha-test
 https://github.com/gruntjs/grunt-contrib-clean
 
 https://github.com/kmiyashiro/grunt-mocha
+

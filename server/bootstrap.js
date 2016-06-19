@@ -264,10 +264,20 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                             var environment = app.get('env');
 
                             // first get the configuration that we want to keep
-                            var regex = new RegExp('\/\*(.*?)' + environment + '(.*?)\*\/(.+)\/\*(.*?)' + environment + '(.*?)\*\/', 'i');
-                            var configurationToKeep = fileContent.match(regex)[0];
+                            /*var regex = new RegExp('\/\*(.*?)' + environment + '(.*?)\*\/(.+)\/\*(.*?)' + environment + '(.*?)\*\/', 'i');
+                            var configurationToKeep = fileContent.match(regex)[0];*/
 
                             // now clear all the other definitions and replace them with the configuration definition of the current environment
+
+                            var stagingEnvironment = 'staging';
+                            var stagingRegex = new RegExp('\/\*(.*?)' + stagingEnvironment + '(.*?)\*\/(.+)\/\*(.*?)' + stagingEnvironment + '(.*?)\*\/', 'i');
+
+                            fileContent = fileContent.replace(stagingRegex, '');
+
+                            var productionEnvironment = 'production';
+                            var productionRegex = new RegExp('\/\*(.*?)' + productionEnvironment + '(.*?)\*\/(.+)\/\*(.*?)' + productionEnvironment + '(.*?)\*\/', 'i');
+
+                            fileContent = fileContent.replace(productionRegex, '');
 
 
                             var replacements = {

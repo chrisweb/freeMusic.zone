@@ -43,4 +43,7 @@ desktop.html
 _fonts-paths.scss
 
 # visual studio
-visualstudio/project
+.vs
+visual-studio/project
+visual-studio/bin
+visual-studio/obj
