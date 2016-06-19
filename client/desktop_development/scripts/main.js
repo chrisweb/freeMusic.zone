@@ -94,7 +94,7 @@ require.config({
         'velocity': '../../../vendor/velocity-animate/velocity',
         'velocity.ui': '../../../vendor/velocity/velocity.ui',
         'skrollr': '../../../vendor/skrollr/src/skrollr',
-        'async': '../../../vendor/async/lib/async',
+        'async': '../../../vendor/async/dist/async',
         
         // modernizr
         'modernizrTestsLoader': 'library/modernizr/loader',
