@@ -14,11 +14,13 @@ can i use: speech recognition
 MDN web speech API
 * https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API
 * https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API
-* https://github.com/mdn/web-speech-api
 * https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis
 
 mozilla web speech api sample code
 * https://github.com/mdn/web-speech-api/tree/master/speech-color-changer
+
+mozilla MDN demos on github
+* https://github.com/mdn/web-speech-api/
 
 details of Firefox implementation
 * https://wiki.mozilla.org/SpeechRTC_-_Speech_enabling_the_open_web
@@ -44,11 +46,7 @@ do another prototype with pocketsphinx so that we can use this as fallback?
 speech recognition article (mozilla opensource)
 * http://chrislord.net/index.php/2016/06/01/open-source-speech-recognition/
 
-## the text manipulation field
+another web speech demo on github where the currently spoken words are highlighted
+* http://eeejay.github.io/webspeechdemos/
 
-* in the first place I used a textarea
-* I then wanted to highlight the line that gets currently read by the synthesis script
-* as textarea is not suited for this I changed the textarea to a content editable div
-* this brought a new problem, retrieving the plain text as it is rendered in the browser (so for me this basically meant that I wanted to keep the same line breaks)
-* I wondered if there was an easy solution, so I searched for a native solution before looking if jquery had a solution for this 
-* I found this great article that explains the differencies between innerText and textContent http://perfectionkills.com/the-poor-misunderstood-innerText/
+see also the text_input prototypes regarding the speech synthesis text input field

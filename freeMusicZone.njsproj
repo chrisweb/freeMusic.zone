@@ -20,6 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
+    <Content Include="prototypes\text_input\documentation.md" />
     <Content Include="tsd.json" />
     <Content Include="README.md" />
     <Compile Include="audio_data_analyzer.js" />
@@ -624,6 +625,7 @@
     <Folder Include="prototypes\music_world\javascript\vendor\jquery-2.2.1" />
     <Folder Include="prototypes\music_world\javascript\vendor\modernizr_build" />
     <Folder Include="prototypes\music_world\javascript\vendor\requirejs-2.1.11" />
+    <Folder Include="prototypes\text_input\" />
     <Folder Include="prototypes\player_ui" />
     <Folder Include="prototypes\promises" />
     <Folder Include="prototypes\promises\test" />

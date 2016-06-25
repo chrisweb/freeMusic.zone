@@ -16,7 +16,7 @@ require([
 	'jquery'
 	
 ], function (
-	$
+    $
 ) {
 
     'use strict';
@@ -32,10 +32,10 @@ require([
         }
 
         var synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
-        
+
         // empty at this point in chrome, as in chrome the list is determined asynchronously, see specs for more details
         if (speechSynthesis.getVoices().length === 0) {
-            
+
             speechSynthesis.addEventListener('voiceschanged', readyToSing);
 
         } else {
@@ -51,6 +51,10 @@ require([
     // events gets called several times in chrome, no idea why
     var alreadyInitialized = false;
 
+    // cached elements
+    var $singItButton = $('.singIt');
+    var $stopItButton = $('.stopIt');
+
     var readyToSing = function populateVoicesFunction(voiceschangedEvent) {
 
         if (!alreadyInitialized) {
@@ -58,79 +62,164 @@ require([
             alreadyInitialized = true;
 
             var synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
-            
-            var $singItButton = $('.singIt');
-
+                
             $singItButton.on('click', { synthesis: synthesis }, startSong);
+            $stopItButton.on('click', stopSong);
+
+            $singItButton.prop('disabled', false);
 
         }
 
     };
 
-    var startSong = function startSongFunction(event) {
+    var toggleButtons = function () {
 
-        singIt(event);
-        
-        playMusic('//storage-new.newjamendo.com/?trackid=1311527&format=mp31', event);
+        // check the disabled attribute is set on the $singItButton
+        if ($singItButton.prop('disabled')) {
+
+            $singItButton.prop('disabled', false);
+            $stopItButton.prop('disabled', true);
+
+        } else {
+
+            $singItButton.prop('disabled', true);
+            $stopItButton.prop('disabled', false);
+
+        }
 
     }
 
-    var lines;
-    var i = -1;
-    var synthesisData;
-    
-    var singIt = function singItFunction(event) {
+    var startSong = function startSongFunction(event) {
 
-        synthesisData = event.data.synthesis;
+        startSinging(event.data.synthesis);
 
-        var $myLyrics = $('.myLyrics');
+        playMusic('//storage-new.newjamendo.com/?trackid=1311527&format=mp31');
 
-        var myLyrics = $myLyrics.val();
+        toggleButtons();
+
+    }
+
+    var stopSong = function stopSongFunction(event) {
+
+        stopSinging();
+
+        stopMusic();
+
+        toggleButtons();
+
+    }
+
+    var lines = null;
+    var i = 0;
+    var syntheticSpeaker;
+
+    var startSinging = function startSingingFunction(speechSynthesis) {
+
+        syntheticSpeaker = speechSynthesis;
+
+        formatTextInContenteditable();
         
-        lines = myLyrics.split('\n');
-
         speakIt();
 
     };
 
+    var stopSinging = function stopSingingFunction() {
+
+        // reset lines and lines pointer
+        lines = null;
+        i = 0;
+
+        syntheticSpeaker.cancel();
+
+    }
+
     var speakIt = function speakItFunction() {
 
-        if (typeof lines[i] !== 'undefined') {
+        // if we reached the end stop repeating the speak process
+        if (lines !== null && typeof lines[i] !== 'undefined') {
 
-            if (synthesisData.speaking) {
+            // if already speaking a line and not yet finished, try again for next line in 100ms
+            if (syntheticSpeaker.speaking) {
 
                 window.setTimeout(speakIt, 100);
 
                 return;
 
-            } else {
+            }
+
+            var currentLine = lines[i];
+
+            // ignore empty lines
+            if (currentLine === '') {
 
                 i++;
 
+                speakIt();
+
+                return;
+
             }
 
-            if (lines[i].substring(0, 5) === 'pause') {
+            highlightCurrentLine(i);
 
-                var pauseTime = lines[i].match(/\(([^)]+)\)/)[1];
+            i++;
+
+            if (currentLine.substring(0, 5) === 'pause') {
+
+                var pauseTime = currentLine.match(/\(([^)]+)\)/)[1];
 
                 var pauseMilliseconds = parseInt(pauseTime) * 1000;
 
                 window.setTimeout(speakIt, pauseMilliseconds);
 
-                return;
-
             } else {
+                
+                var utterance;
+                var femaleVoice;
 
-                var utterance = new SpeechSynthesisUtterance(lines[i]);
+                var voicesList = syntheticSpeaker.getVoices();
 
-                var voicesList = synthesisData.getVoices();
+                // if female voice was specified
+                if (currentLine.slice(-3) === '(f)') {
 
-                utterance.voice = voicesList[0];
-                utterance.pitch = 0.1; // something between 0 and 2
-                utterance.rate = 0.8; // something between 0,5 and 2
-                utterance.volume = 1;
+                    currentLine = currentLine.substring(0, currentLine.length - 3);
 
-                synthesisData.speak(utterance);
+                    // search for a female voice in the available voices list
+                    // chrome on windows has a voice with female in the name
+                    // firefox on windows uses a microsoft voice with zira in its name
+                    voicesList.forEach(function (voice) {
+
+                        if (voice.name.search(/Female/i) !== -1 || voice.name.search(/Zira/i) !== -1) {
+
+                            femaleVoice = voice;
+
+                        }
+
+                    });
+
+                }
+
+                if (femaleVoice !== undefined) {
+
+                    utterance = new SpeechSynthesisUtterance(currentLine);
+
+                    utterance.voice = femaleVoice;
+                    utterance.pitch = 1; // something between 0 and 2, default is 1
+                    utterance.rate = 0.9; // something between 0,5 and 2, default is 1
+                    utterance.volume = 1;
+
+                } else {
+
+                    utterance = new SpeechSynthesisUtterance(currentLine);
+
+                    utterance.voice = voicesList[0];
+                    utterance.pitch = 0.6; // something between 0 and 2, default is 1
+                    utterance.rate = 0.7; // something between 0,5 and 2, default is 1
+                    utterance.volume = 1;
+
+                }
+
+                syntheticSpeaker.speak(utterance);
 
                 speakIt();
 
@@ -140,7 +229,37 @@ require([
 
     };
 
-    var playMusic = function playMusicFunction(url, event) {
+    var highlightCurrentLine = function highlightCurrentLineFunction(i) {
+
+        var $myLyrics = $('.myLyrics');
+
+        var $spansArray = $myLyrics.children('span');
+
+        if (i !== 0) {
+            var previousSpanIndex = i - 1;
+            $spansArray.eq(previousSpanIndex).css('background-color', '');
+        }
+
+        $spansArray.eq(i).css('background-color', 'yellow');
+
+    }
+
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    var audioContext;
+
+    var initializeAudioContext = function initializeAudioContextFunction() {
+
+        if (audioContext === undefined) {
+
+            audioContext = new AudioContext();
+
+        }
+
+    }
+    
+    var sourceNode;
+
+    var playMusic = function playMusicFunction(url) {
 
         console.log('loadSound, url: ' + url);
 
@@ -151,12 +270,10 @@ require([
 
         // when loaded decode the data
         request.onload = function () {
-            
+
             console.log('request onload');
-
-            var AudioContext = window.AudioContext || window.webkitAudioContext;
-
-            var audioContext = new AudioContext();
+            
+            initializeAudioContext();
 
             audioContext.decodeAudioData(
                 request.response,
@@ -172,7 +289,7 @@ require([
                     // http://www.html5rocks.com/en/tutorials/webaudio/intro/
                     // https://hacks.mozilla.org/2013/07/web-audio-api-comes-to-firefox/
                     // creates a sound source
-                    var sourceNode = audioContext.createBufferSource();
+                    sourceNode = audioContext.createBufferSource();
 
                     var gainNode = audioContext.createGain();
 
@@ -203,6 +320,53 @@ require([
         request.send();
 
     };
+
+    var stopMusic = function stopMusicFunction() {
+
+        if (sourceNode !== undefined) {
+
+            sourceNode.stop();
+
+        } else {
+
+            console.log('error source node is undefined');
+
+        }
+
+    }
+
+    var formatTextInContenteditable = function formatTextInContenteditableFunction() {
+
+        var $myLyrics = $('.myLyrics');
+        var myLyricsHtml = $myLyrics.html();
+        var output = '';
+
+        // remove line breaks added by chrome
+        myLyricsHtml = myLyricsHtml.replace('/<div><br></div>/g', '\n');
+
+        // remove linebreaks added by firefox
+        myLyricsHtml = myLyricsHtml.replace('/<br><br>/g', '\n');
+
+        // replace wrapper divs of chrome by line break
+        myLyricsHtml = myLyricsHtml.replace('/<div>/g', '').replace('</div>', '\n');
+
+        $myLyrics.html(myLyricsHtml);
+
+        var myLyricsText = $myLyrics.text();
+
+        lines = myLyricsText.split('\n');
+
+        lines.forEach(function (value, index, array) {
+
+            output += '<span>' + value + '</span>\n';
+
+        });
+        
+        $myLyrics.html(output);
+
+        return lines;
+
+    }
 
     $(function () {
 
