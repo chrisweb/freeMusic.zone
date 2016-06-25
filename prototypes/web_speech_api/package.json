@@ -4,7 +4,9 @@
     "url": "https://github.com/chrisweb/freeMusic.zone/issues"
   },
   "dependencies": {
-    "express": "4.13.4"
+    "express": "4.13.4",
+    "jquery": "3.0.0",
+    "requirejs": "2.2.0"
   },
   "description": "web speech api prototype",
   "devDependencies": {

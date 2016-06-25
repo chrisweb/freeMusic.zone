@@ -7,7 +7,7 @@
 require.config({
     baseUrl: 'javascripts/',
     paths: {
-        'jquery': 'vendor/jquery-2.2.1/jquery.min'
+        'jquery': 'vendor/jquery/dist/jquery'
     }
     
 });
@@ -272,6 +272,10 @@ require([
 
     };
 
-	startup();
+    $(function () {
+
+        startup();
+
+    });
 
 });

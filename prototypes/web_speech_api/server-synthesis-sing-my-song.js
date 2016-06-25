@@ -2,6 +2,7 @@
 var app = express();
 var path = require("path");
 
+app.use('/javascripts/vendor', express.static('node_modules'));
 app.use('/javascripts', express.static('javascripts'));
 
 app.get('/', function (req, res) {

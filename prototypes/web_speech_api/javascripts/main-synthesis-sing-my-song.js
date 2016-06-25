@@ -7,7 +7,7 @@
 require.config({
     baseUrl: 'javascripts/',
     paths: {
-        'jquery': 'vendor/jquery-2.2.1/jquery.min'
+        'jquery': 'vendor/jquery/dist/jquery'
     }
     
 });
@@ -95,42 +95,46 @@ require([
 
     var speakIt = function speakItFunction() {
 
-        if (synthesisData.speaking) {
+        if (typeof lines[i] !== 'undefined') {
 
-            window.setTimeout(speakIt, 100);
+            if (synthesisData.speaking) {
 
-            return;
+                window.setTimeout(speakIt, 100);
 
-        } else {
+                return;
 
-            i++;
+            } else {
 
-        }
+                i++;
 
-        if (lines[i].substring(0,5) === 'pause') {
+            }
 
-            var pauseTime = lines[i].match(/\(([^)]+)\)/)[1];
+            if (lines[i].substring(0, 5) === 'pause') {
 
-            var pauseMilliseconds = parseInt(pauseTime) * 1000;
+                var pauseTime = lines[i].match(/\(([^)]+)\)/)[1];
 
-            window.setTimeout(speakIt, pauseMilliseconds);
+                var pauseMilliseconds = parseInt(pauseTime) * 1000;
 
-            return;
+                window.setTimeout(speakIt, pauseMilliseconds);
 
-        } else {
+                return;
 
-            var utterance = new SpeechSynthesisUtterance(lines[i]);
+            } else {
 
-            var voicesList = synthesisData.getVoices();
+                var utterance = new SpeechSynthesisUtterance(lines[i]);
 
-            utterance.voice = voicesList[0];
-            utterance.pitch = 0.1; // something between 0 and 2
-            utterance.rate = 0.8; // something between 0,5 and 2
-            utterance.volume = 1;
+                var voicesList = synthesisData.getVoices();
 
-            synthesisData.speak(utterance);
+                utterance.voice = voicesList[0];
+                utterance.pitch = 0.1; // something between 0 and 2
+                utterance.rate = 0.8; // something between 0,5 and 2
+                utterance.volume = 1;
 
-            speakIt();
+                synthesisData.speak(utterance);
+
+                speakIt();
+
+            }
 
         }
 
@@ -200,6 +204,10 @@ require([
 
     };
 
-	startup();
+    $(function () {
+
+        startup();
+
+    });
 
 });

@@ -43,3 +43,12 @@ do another prototype with pocketsphinx so that we can use this as fallback?
 
 speech recognition article (mozilla opensource)
 * http://chrislord.net/index.php/2016/06/01/open-source-speech-recognition/
+
+## the text manipulation field
+
+* in the first place I used a textarea
+* I then wanted to highlight the line that gets currently read by the synthesis script
+* as textarea is not suited for this I changed the textarea to a content editable div
+* this brought a new problem, retrieving the plain text as it is rendered in the browser (so for me this basically meant that I wanted to keep the same line breaks)
+* I wondered if there was an easy solution, so I searched for a native solution before looking if jquery had a solution for this 
+* I found this great article that explains the differencies between innerText and textContent http://perfectionkills.com/the-poor-misunderstood-innerText/
