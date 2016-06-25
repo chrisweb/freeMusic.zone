@@ -99,7 +99,7 @@ tweetModel.prototype.saveOne = function(data, callback) {
 
             if (callback !== undefined) {
 
-                callback(false, model);
+                callback(null, model);
 
             }
 

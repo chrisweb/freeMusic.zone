@@ -204,7 +204,7 @@ module.exports.getOauthToken = function getOauthTokenFunction(userSessionData, c
                 
                 userSessionData.oauth = oauthData;
                 
-                getOauthTokenCallback(false, oauthData.token);
+                getOauthTokenCallback(null, oauthData.token);
                 
             } else {
                 
@@ -222,7 +222,7 @@ module.exports.getOauthToken = function getOauthTokenFunction(userSessionData, c
         
         var token = userSessionData.oauth.token;
         
-        getOauthTokenCallback(false, token);
+        getOauthTokenCallback(null, token);
         
     }
     

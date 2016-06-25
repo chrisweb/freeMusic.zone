@@ -100,7 +100,7 @@ define([
 
         if (callback) {
 
-            callback(false, addMe);
+            callback(null, addMe);
 
         }
         
@@ -268,7 +268,7 @@ define([
                 
                 //utilities.log(collection, response, options);
                 
-                callback(false, collection.models);
+                callback(null, collection.models);
                 
             }
         });
@@ -345,7 +345,7 @@ define([
 
                 utilities.log(collection, response, options);
                 
-                callback(false, collection);
+                callback(null, collection);
                 
             }
         });
@@ -390,7 +390,7 @@ define([
 
                 if (!error) {
 
-                    callback(false, results);
+                    callback(null, results);
 
                 } else {
 
@@ -402,7 +402,7 @@ define([
             
         } else {
             
-            callback(false, collaborativePlaylistModelsArray);
+            callback(null, collaborativePlaylistModelsArray);
             
         }
         
@@ -472,7 +472,7 @@ define([
                             tracksList: collection
                         });
                         
-                        callback(false, collaborativePlaylistModel);
+                        callback(null, collaborativePlaylistModel);
 
                     } else {
 

@@ -47,3 +47,4 @@ _fonts-paths.scss
 visual-studio/project
 visual-studio/bin
 visual-studio/obj
+*.njsperf

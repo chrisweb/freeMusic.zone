@@ -215,7 +215,7 @@ module.exports.updateOauthToken = function updateOauthTokenFunction(refreshToken
                     expiryDate: datetimeOfExpiry
                 };
                 
-                callback(false, userOauthData);
+                callback(null, userOauthData);
 
             } else {
 
@@ -407,7 +407,7 @@ var getOauthToken = function getOauthTokenFunction(code, configuration, callback
                     expiryDate: datetimeOfExpiry
                 };
                 
-                callback(false, userOauthData);
+                callback(null, userOauthData);
 
             } else {
 

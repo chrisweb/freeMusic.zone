@@ -82,7 +82,7 @@ require([
                 loadedCount++;
 
                 if(loadedCount === imagesCount) {
-                    callback(false);
+                    callback(null);
                 }
 
             });

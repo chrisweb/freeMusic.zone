@@ -187,25 +187,28 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
         
         redisClients.push(redisClientSessions);
         
-        if (!configuration.redis.hasOwnProperty('databases')
+        if (configuration === undefined
+            || !configuration.redis.hasOwnProperty('databases')
             || !configuration.redis.databases.hasOwnProperty('session')
             || configuration.redis.databases.session === '') {
         
             throw 'the redis configuration is missing, check out /server/configuration/configuration.js';
         
         }
-        
+
         redisLibrary.selectDatabase(configuration.redis.databases.session, redisClientSessions, function selectDatabaseCallback(error) {
             
             if (!error) {
-                
+
                 var redisStoreOptions = { client: redisClientSessions };
         
                 var redisStoreSessions = new RedisStore(redisStoreOptions);
-                
-                if (!configuration.hasOwnProperty('application')
+
+                if (configuration === undefined
+                    || !configuration.hasOwnProperty('application')
                     || !configuration.application.hasOwnProperty('session')
                     || !configuration.application.session.hasOwnProperty('secret')
+                    || configuration.application.session.secret === undefined
                     || configuration.application.session.secret === '') {
 
                     throw 'the application configuration for the sessions database is missing, check out /server/configuration/configuration.js';
@@ -264,8 +267,10 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                             var environment = app.get('env');
 
                             // first get the configuration that we want to keep
-                            /*var regex = new RegExp('\/\*(.*?)' + environment + '(.*?)\*\/(.+)\/\*(.*?)' + environment + '(.*?)\*\/', 'i');
-                            var configurationToKeep = fileContent.match(regex)[0];*/
+                            var regex = new RegExp('\/\*(.*?)' + environment + '(.*?)\*\/(.+)\/\*(.*?)' + environment + '(.*?)\*\/', 'i');
+                            //var configurationToKeep = fileContent.match(regex)[0];
+
+                            console.log(fileContent); process.exit(0);
 
                             // now clear all the other definitions and replace them with the configuration definition of the current environment
 

@@ -181,7 +181,7 @@ define([
                     
                     var returnMe = searchQueriesResultsAlreadyLoaded.concat(serverSearchQueriesResultsArray);
 
-                    callback(false, returnMe);
+                    callback(null, returnMe);
                     
                 } else {
                     
@@ -227,7 +227,7 @@ define([
                 
                 if (!error) {
                     
-                    callback(false, queryResults);
+                    callback(null, queryResults);
 
                 } else {
                     
@@ -281,7 +281,7 @@ define([
                 searchQueryModel.set('tracksList', tracksList);
                 
                 // return the model
-                callback(false, searchQueryModel);
+                callback(null, searchQueryModel);
                 
             }
 

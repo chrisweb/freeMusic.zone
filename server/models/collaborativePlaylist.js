@@ -118,7 +118,7 @@ collaborativePlaylistModel.prototype.saveOne = function saveOneFunction(data, ca
             
             if (callback !== undefined) {
             
-                callback(false, model);
+                callback(null, model);
                 
             }
             
@@ -162,7 +162,7 @@ collaborativePlaylistModel.prototype.updateOne = function updateOneFunction(jame
             
             if (callback !== undefined) {
             
-                callback(false, model);
+                callback(null, model);
                 
             }
             
@@ -194,7 +194,7 @@ collaborativePlaylistModel.prototype.getOneById = function getOneFunction(id, ca
             
         } else {
         
-            callback(false, document);
+            callback(null, document);
             
         }
         
@@ -234,7 +234,7 @@ collaborativePlaylistModel.prototype.getOneByQuery = function getOneFunction(que
             
         } else {
         
-            callback(false, document);
+            callback(null, document);
             
         }
         
@@ -264,7 +264,7 @@ collaborativePlaylistModel.prototype.getMultipleByQuery = function getAllFunctio
             
         } else {
         
-            callback(false, document);
+            callback(null, document);
             
         }
         
@@ -309,7 +309,7 @@ collaborativePlaylistModel.prototype.appendById = function appendByIdFunction(id
             
         } else {
             
-            callback(false, document);
+            callback(null, document);
             
         }
         

@@ -113,7 +113,7 @@ userModel.prototype.saveOne = function saveOneFunction(data, callback) {
             
             if (callback !== undefined) {
                 
-                callback(false, model);
+                callback(null, model);
                 
             }
             
@@ -159,7 +159,7 @@ userModel.prototype.updateOne = function updateOneFunction(jamendoUserId, dataTo
             
             if (callback !== undefined) {
                 
-                callback(false, model);
+                callback(null, model);
                 
             }
             
@@ -195,11 +195,11 @@ userModel.prototype.exists = function existsFunction(query, callback) {
             
             if (count > 0) {
                 
-                callback(false, true);
+                callback(null, true);
                 
             } else {
                 
-                callback(false, false);
+                callback(null, false);
                 
             }
             
@@ -231,7 +231,7 @@ userModel.prototype.getOneById = function getOneFunction(id, callback) {
             
         } else {
             
-            callback(false, document);
+            callback(null, document);
             
         }
         
@@ -261,7 +261,7 @@ userModel.prototype.getOneByQuery = function getOneFunction(query, callback) {
             
         } else {
             
-            callback(false, document);
+            callback(null, document);
             
         }
         
@@ -291,7 +291,7 @@ userModel.prototype.getMultipleByQuery = function getAllFunction(query, callback
             
         } else {
             
-            callback(false, document);
+            callback(null, document);
             
         }
         

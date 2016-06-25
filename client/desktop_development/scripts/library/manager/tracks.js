@@ -155,7 +155,7 @@ define([
                         returnMeArray = allModelsArray;
                     }
                     
-                    callback(false, returnMeArray);
+                    callback(null, returnMeArray);
                     
                 } else {
                     
@@ -175,7 +175,7 @@ define([
                 returnMeArray = tracksAlreadyLoadedArray;
             }
 
-            callback(false, returnMeArray);
+            callback(null, returnMeArray);
             
         }
         
@@ -251,7 +251,7 @@ define([
                 tracksCollection.add(collection.models);
                 
                 // return the tracks list
-                callback(false, collection.models);
+                callback(null, collection.models);
                 
             }
         });

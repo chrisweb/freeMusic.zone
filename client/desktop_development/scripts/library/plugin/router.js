@@ -65,7 +65,7 @@ define([
 
                         if (callback !== undefined) {
                             
-                            callback(false);
+                            callback(null);
                             
                         }
                         

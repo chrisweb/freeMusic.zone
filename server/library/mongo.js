@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 
 // get configuration
 var configurationModule = require('../configuration/configuration.js');
-var configuration = configurationModule.get(process.env.NODE_ENV);
+var configuration = configurationModule.get();
 
 /**
  * 
@@ -24,7 +24,8 @@ module.exports.getClient = function getClientFunction(options, callback) {
     
     var userAndPasswordPart = '';
     
-    if (configuration.hasOwnProperty('mongodb')
+    if (configuration !== undefined
+        && configuration.hasOwnProperty('mongodb')
         && configuration.mongodb.hasOwnProperty('user')
         && configuration.mongodb.user !== ''
         && configuration.mongodb.hasOwnProperty('password')
@@ -38,7 +39,8 @@ module.exports.getClient = function getClientFunction(options, callback) {
     
     var portPart = '';
     
-    if (configuration.hasOwnProperty('mongodb')
+    if (configuration !== undefined
+        && configuration.hasOwnProperty('mongodb')
         && configuration.mongodb.hasOwnProperty('port')
         && configuration.mongodb.port !== '') {
         
@@ -50,7 +52,8 @@ module.exports.getClient = function getClientFunction(options, callback) {
         
     }
     
-    if (configuration.hasOwnProperty('mongodb')
+    if (configuration !== undefined
+        && configuration.hasOwnProperty('mongodb')
         && configuration.mongodb.hasOwnProperty('host')
         && configuration.mongodb.host !== ''
         && configuration.mongodb.hasOwnProperty('database')
@@ -70,7 +73,11 @@ module.exports.getClient = function getClientFunction(options, callback) {
     
     if (missingConfiguration) {
         
-        throw 'the mongodb configuration is missing, check out /server/configuration/configuration.js';
+        var errorMessage = 'the mongodb configuration is missing, check out /server/configuration/configuration.js';
+
+        utilities.log('[MONGO_DB] configuration file error: ' + errorMessage, 'error');
+
+        callback(errorMessage);
         
     } else {
         
@@ -84,7 +91,7 @@ module.exports.getClient = function getClientFunction(options, callback) {
     
     mongooseConnection.on('open', function () {
         
-        callback(false, mongooseConnection);
+        callback(null, mongooseConnection);
         
     });
     
@@ -120,7 +127,7 @@ module.exports.disconnect = function disconnectFunction(mongooseConnection, call
 
             mongooseConnection.close(function() {
 
-                callback(false);
+                callback(null);
 
             });
 

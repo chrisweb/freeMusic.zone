@@ -84,7 +84,7 @@ jamendoAPI.prototype.getTracksByQuery = function getTracksByQueryFunction(query,
                 
             });
             
-            callback(false, newData);
+            callback(null, newData);
             
         }
         
@@ -155,7 +155,7 @@ jamendoAPI.prototype.getPlaylistsByQuery = function getPlaylistsByQueryFunction(
                 
             });
             
-            callback(false, newData);
+            callback(null, newData);
             
         }
         
@@ -204,7 +204,7 @@ jamendoAPI.prototype.getPlaylistTracksByQuery = function getPlaylistTracksByQuer
                 
             });
             
-            callback(false, newData);
+            callback(null, newData);
             
         }
         

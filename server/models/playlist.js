@@ -40,7 +40,6 @@ var playlistModel = function playlistModelFunction(options) {
  * 
  * create a schema for this model
  * 
- * @returns {module.exportsexports@new;Mongoose.Schema|_L1.exports.require|Function.require|createSchemaFunction.schema|Schema|bson.require.Schema}
  */
 var createSchema = function createSchemaFunction(options) {
     
@@ -109,7 +108,7 @@ playlistModel.prototype.saveOne = function saveOneFunction(data, callback) {
             
             if (callback !== undefined) {
             
-                callback(false, model);
+                callback(null, model);
                 
             }
             
@@ -153,7 +152,7 @@ playlistModel.prototype.updateOne = function updateOneFunction(jamendoUserId, da
             
             if (callback !== undefined) {
             
-                callback(false, model);
+                callback(null, model);
                 
             }
             
@@ -185,7 +184,7 @@ playlistModel.prototype.getOneById = function getOneFunction(id, callback) {
             
         } else {
         
-            callback(false, document);
+            callback(null, document);
             
         }
         
@@ -215,7 +214,7 @@ playlistModel.prototype.getOneByQuery = function getOneFunction(query, callback)
             
         } else {
         
-            callback(false, document);
+            callback(null, document);
             
         }
         
@@ -245,7 +244,7 @@ playlistModel.prototype.getMultipleByQuery = function getAllFunction(query, call
             
         } else {
         
-            callback(false, document);
+            callback(null, document);
             
         }
         

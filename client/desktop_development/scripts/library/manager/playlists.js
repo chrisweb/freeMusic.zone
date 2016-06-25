@@ -229,7 +229,7 @@ define([
                 
                 //utilities.log(collection, response, options);
                 
-                callback(false, collection.models);
+                callback(null, collection.models);
                 
             }
         });
@@ -306,7 +306,7 @@ define([
 
                 utilities.log(collection, response, options);
 
-                callback(false, collection);
+                callback(null, collection);
                 
             }
         });
@@ -351,7 +351,7 @@ define([
 
                 if (!error) {
 
-                    callback(false, results);
+                    callback(null, results);
 
                 } else {
 
@@ -363,7 +363,7 @@ define([
             
         } else {
             
-            callback(false, playlistModelsArray);
+            callback(null, playlistModelsArray);
             
         }
         
@@ -395,7 +395,7 @@ define([
 
                 playlistModel.set('tracksList', collection);
                 
-                callback(false, playlistModel);
+                callback(null, playlistModel);
 
             }
 

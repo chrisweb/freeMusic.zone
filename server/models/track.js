@@ -116,7 +116,7 @@ trackModel.prototype.saveOne = function saveOneFunction(document, callback) {
 
             if (callback !== undefined) {
 
-                callback(false, insertedDocument);
+                callback(null, insertedDocument);
 
             }
 
@@ -154,7 +154,7 @@ trackModel.prototype.saveMultiple = function saveMultipleFunction(documents, cal
 
             if (callback !== undefined) {
 
-                callback(false, insertedDocuments);
+                callback(null, insertedDocuments);
 
             }
 

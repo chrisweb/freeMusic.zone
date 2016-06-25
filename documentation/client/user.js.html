@@ -69,7 +69,7 @@
                     
                     if (userDataCallback !== undefined) {
                     
-                        userDataCallback(false, model);
+                        userDataCallback(null, model);
                         
                     }
                     
@@ -80,7 +80,7 @@
                     
                     if (userDataCallback !== undefined) {
                     
-                        userDataCallback(true);
+                        userDataCallback('error while fetching the user model');
                         
                     }
                     

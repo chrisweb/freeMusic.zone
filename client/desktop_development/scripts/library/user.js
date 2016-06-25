@@ -48,7 +48,7 @@ define([
                     
                     if (userDataCallback !== undefined) {
                     
-                        userDataCallback(false, model);
+                        userDataCallback(null, model);
                         
                     }
                     
@@ -59,7 +59,7 @@ define([
                     
                     if (userDataCallback !== undefined) {
                     
-                        userDataCallback(true);
+                        userDataCallback('error while fetching user data');
                         
                     }
                     
@@ -80,7 +80,7 @@ define([
             
             if (getAttributeCallback !== undefined) {
 
-                getAttributeCallback(false, attributeValue);
+                getAttributeCallback(null, attributeValue);
 
             } else {
 
@@ -103,7 +103,7 @@ define([
             
             if (setAttributeCallback !== undefined) {
             
-                setAttributeCallback(false);
+                setAttributeCallback(null);
             
             }
 
@@ -130,7 +130,7 @@ define([
                     if (isLoggedCallback !== undefined) {
                     
                         // check if the user is logged
-                        isLoggedCallback(false, isLogged);
+                        isLoggedCallback(null, isLogged);
                         
                     }
                     
@@ -144,7 +144,7 @@ define([
                 
                 if (isLoggedCallback !== undefined) {
                 
-                    isLoggedCallback(false, isLogged);
+                    isLoggedCallback(null, isLogged);
                     
                 }
                 
@@ -166,7 +166,7 @@ define([
                     
                     // TODO: check the age of the data, if too old redo query
 
-                    getPlaylistsListCallback(false, playlistsList);
+                    getPlaylistsListCallback(null, playlistsList);
 
                 } else {
                     
@@ -180,7 +180,7 @@ define([
                         data: queryData,
                         success: function (collection, response, options) {
                             
-                            getPlaylistsListCallback(false, collection);
+                            getPlaylistsListCallback(null, collection);
                             
                             that.setAttribute(attributeName, collection, function setAttributeCallback(error) {
                                 
@@ -197,7 +197,7 @@ define([
                             
                             utilities.log(response, 'fontColor:red');
                             
-                            getPlaylistsListCallback(true);
+                            getPlaylistsListCallback('error while getting the playlists list');
                     
                         }
                     });

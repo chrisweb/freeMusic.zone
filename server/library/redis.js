@@ -9,7 +9,7 @@ var redis = require('redis');
 
 // get configuration
 var configurationModule = require('../configuration/configuration.js');
-var configuration = configurationModule.get(process.env.NODE_ENV);
+var configuration = configurationModule.get();
 
 /**
  * 
@@ -22,7 +22,8 @@ module.exports.getClient = function getClientFunction(options, callback) {
 
     utilities.log('[REDIS_DB] getClient', 'fontColor:cyan');
 
-    if (configuration.hasOwnProperty('redis')
+    if (configuration !== undefined
+        && configuration.hasOwnProperty('redis')
         && configuration.redis.hasOwnProperty('port')
         && configuration.redis.port !== ''
         && configuration.redis.hasOwnProperty('host')
@@ -32,8 +33,12 @@ module.exports.getClient = function getClientFunction(options, callback) {
         var redisHost = configuration.redis.host;
         
     } else {
-        
-        throw 'the redis configuration is missing, check out /server/configuration/configuration.js';
+
+        var errorMessage = 'the redis configuration is missing, check out /server/configuration/configuration.js';
+
+        utilities.log('[REDIS_DB] configuration file error: ' + errorMessage, 'error');
+
+        callback(errorMessage);
         
     }
 
@@ -97,7 +102,7 @@ module.exports.getClient = function getClientFunction(options, callback) {
 
         }
         
-        return callback(false, redisDBClient);
+        return callback(null, redisDBClient);
         
     });
     
@@ -128,14 +133,14 @@ var redisSelectDatabase = function redisSelectDatabaseFunction(databaseIndex, re
 
     utilities.log('[REDIS_DB] redisSelectDatabase', 'fontColor:cyan');
 
-    if (typeof(databaseIndex) === 'undefined' || databaseIndex === null) {
+    if (databaseIndex === 'undefined' || databaseIndex === null) {
 
         databaseIndex = configuration.redis.databases.default;
 
     }
 
     // select database
-    redisDBClient.select(databaseIndex, function(error) {
+    redisDBClient.select(databaseIndex, function redisDBClientSelectDatabaseCallback(error) {
 
         if (error) {
 
@@ -143,7 +148,7 @@ var redisSelectDatabase = function redisSelectDatabaseFunction(databaseIndex, re
 
         }
             
-        return callback(false);
+        return callback(null);
 
     });
 
@@ -162,7 +167,7 @@ module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, r
     
     utilities.log('[REDIS_DB] selectDatabase, databaseIndex: ' + databaseIndex, 'fontColor:cyan');
 
-    if (typeof(redisDBClient) === 'undefined' || redisDBClient === null) {
+    if (redisDBClient === undefined || redisDBClient === null) {
 
         this.getRedisClient(true, function(error, redisDBClient) {
 
@@ -172,33 +177,13 @@ module.exports.selectDatabase = function selectDatabaseFunction(databaseIndex, r
                 
             }
             
-            redisSelectDatabase(databaseIndex, redisDBClient, function(error) {
-                
-                if (error) {
-
-                    return callback(error);
-
-                }
-
-                return callback(false, redisDBClient);
-                
-            });
+            redisSelectDatabase(databaseIndex, redisDBClient, callback);
             
         });
 
     } else {
         
-        redisSelectDatabase(databaseIndex, redisDBClient, function(error) {
-
-            if (error) {
-
-                return callback(error);
-
-            }
-
-            return callback(false, redisDBClient);
-
-        });
+        redisSelectDatabase(databaseIndex, redisDBClient, callback);
         
     }
     
@@ -222,7 +207,7 @@ module.exports.disconnect = function disconnectFunction(redisDBClient, callback)
 
             redisDBClient.quit(function() {
 
-                callback(false);
+                callback(null);
 
             });
 
@@ -270,7 +255,7 @@ module.exports.keyExists = function keyExistsFunction(redisDBClient, key, callba
 
         }
 
-        return callback(false, existsResponse);
+        return callback(null, existsResponse);
 
     });
 
@@ -310,7 +295,7 @@ module.exports.readString = function readStringFunction(redisDBClient, key, call
             
         }
         
-        return callback(false, string);
+        return callback(null, string);
         
     });
 
@@ -364,7 +349,7 @@ module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClien
 
                 }
                 
-                return callback(false, isTimestampValid);
+                return callback(null, isTimestampValid);
                 
             });
         
@@ -372,7 +357,7 @@ module.exports.isTimestampValid = function isTimestampValidFunction(redisDBClien
             
             isTimestampValid = false;
             
-            return callback(false, isTimestampValid);
+            return callback(null, isTimestampValid);
             
         }
 
@@ -426,13 +411,13 @@ module.exports.getCachedObjectByKey = function getCachedObjectByKeyFunction(redi
 
                 }
                 
-                return callback(false, cacheObject);
+                return callback(null, cacheObject);
 
             });
             
         } else {
             
-            return callback(false);
+            return callback(null, false);
 
         }
         

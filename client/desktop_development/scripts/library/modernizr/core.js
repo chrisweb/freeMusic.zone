@@ -129,7 +129,7 @@ define([
 
             } else {
 
-                callback(false, testResult);
+                callback(null, testResult);
 
             }
             

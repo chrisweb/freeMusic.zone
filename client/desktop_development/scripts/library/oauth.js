@@ -72,7 +72,7 @@ define([
             //utilities.log(textStatus);
             //utilities.log(jqXHR);
 
-            callback(false, dataJson);
+            callback(null, dataJson);
 
         });
 
