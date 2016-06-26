@@ -15,5 +15,17 @@ the html5 w3c specification recommends to use the style pre-wrap for white-space
 article from medium about the problems you will get while using contenteditable
 * https://medium.engineering/why-contenteditable-is-terrible-122d8a40e480
 
+as inserting images in the contenteditable is all about ranges this could be useful
+* https://github.com/timdown/rangy
+
+the createContextualFragment documentation at MDN
+* https://developer.mozilla.org/en-US/docs/Web/API/Range/createContextualFragment
+
+using createContextualFragment by timdown the creator of rangy
+* http://stackoverflow.com/questions/2213376/how-to-find-cursor-position-in-a-contenteditable-div/2213514#2213514
+
+execCommand on MDN
+* https://developer.mozilla.org/en/docs/Web/API/Document/execCommand
+
 chrome and firefox different behaviors  
 * seems like firefox adds two br elements when doing a line break, chrome adds some divs around the text  

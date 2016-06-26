@@ -69,6 +69,9 @@ module.exports = function (grunt) {
             prototypes: {
                 root: 'prototypes'
             },
+            nodemodules: {
+                root: 'node_modules'
+            },
             'sass_source': 'auto',
             'assetsPath': 'desktop_development',
             'environment': 'development'
@@ -93,8 +96,10 @@ module.exports = function (grunt) {
                 '<%= config.client.desktop.development.scripts.path %>/**/*.js',
                 '!<%= config.client.desktop.development.scripts.path %>/templates/*.js',
                 '<%= config.server.root %>/*.js',
-                '<%= config.server.root %>/**/*.js'
-                //'<%= config.prototypes.root %>/**/*.js'
+                '<%= config.server.root %>/**/*.js',
+                //'<%= config.prototypes.root %>/**/*.js',
+                //'!<%= config.prototypes.root %>/**/node_modules/**/*.js',
+                //'!<%= config.nodemodules.root %>/**/*.js'
             ],
             options: {
                 jshintrc: '.jshintrc',
