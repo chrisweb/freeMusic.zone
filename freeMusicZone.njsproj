@@ -20,12 +20,17 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
-    <Content Include="prototypes\text_input\documentation.md" />
+    <Content Include="prototypes\text_editor\documentation.md" />
+    <Content Include="prototypes\text_editor\package.json" />
+    <Content Include="prototypes\text_editor\prototype.html" />
+    <Content Include="prototypes\text_editor\README.md" />
     <Content Include="tsd.json" />
     <Content Include="README.md" />
     <Compile Include="audio_data_analyzer.js" />
     <Compile Include="Gruntfile.js" />
     <Compile Include="mapreduce_cron.js" />
+    <Compile Include="prototypes\text_editor\javascripts\main.js" />
+    <Compile Include="prototypes\text_editor\server.js" />
     <Compile Include="server.js" />
     <Compile Include="twitter_harvester.js" />
     <Compile Include="video_convertor.js" />
@@ -625,7 +630,7 @@
     <Folder Include="prototypes\music_world\javascript\vendor\jquery-2.2.1" />
     <Folder Include="prototypes\music_world\javascript\vendor\modernizr_build" />
     <Folder Include="prototypes\music_world\javascript\vendor\requirejs-2.1.11" />
-    <Folder Include="prototypes\text_input\" />
+    <Folder Include="prototypes\text_editor\" />
     <Folder Include="prototypes\player_ui" />
     <Folder Include="prototypes\promises" />
     <Folder Include="prototypes\promises\test" />
@@ -634,6 +639,7 @@
     <Folder Include="prototypes\prototype-menu\js" />
     <Folder Include="prototypes\swipe" />
     <Folder Include="prototypes\swipe\javascripts" />
+    <Folder Include="prototypes\text_editor\javascripts\" />
     <Folder Include="prototypes\touch-button" />
     <Folder Include="prototypes\touch-button\javascripts" />
     <Folder Include="prototypes\video-requirejs" />

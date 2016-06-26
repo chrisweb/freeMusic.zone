@@ -84,7 +84,7 @@
   ],
   "license": "MIT",
   "main": "server.js",
-  "name": "freeMusic.zone",
+  "name": "freemusic.zone",
   "private": true,
   "repository": {
     "type": "git",
@@ -94,5 +94,9 @@
     "start": "node server.js",
     "test": ""
   },
-  "version": "0.0.3"
+  "version": "0.0.4",
+  "pre-commit": [
+    "eslint:source",
+    "test"
+  ]
 }

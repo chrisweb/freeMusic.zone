@@ -1,0 +1,38 @@
+{
+  "author": "chrisweb <chris963@gmail.com> (https://chris.lu)",
+  "bugs": {
+    "url": "https://github.com/chrisweb/freeMusic.zone/issues"
+  },
+  "dependencies": {
+    "express": "4.13.4",
+    "jquery": "3.0.0",
+    "requirejs": "2.2.0",
+    "twemoji": "2.0.5"
+  },
+  "description": "text editor prototype",
+  "devDependencies": {
+
+  },
+  "engines": {
+    "node": ">=5.0.0"
+  },
+  "homepage": "https://github.com/chrisweb/freeMusic.zone",
+  "keywords": [
+    "web",
+    "speech",
+    "api"
+  ],
+  "license": "MIT",
+  "main": "server-recognition.js",
+  "name": "text_editor_prototype",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisweb/freeMusic.zone.git"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": ""
+  },
+  "version": "0.0.1"
+}

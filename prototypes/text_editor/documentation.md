@@ -1,4 +1,4 @@
-# text input (contenteditable) prototypes
+# text editor (contenteditable) prototypes
 
 w3c contenteditable attribute in the html(5) specification
 * https://w3c.github.io/html/editing.html#making-document-regions-editable-the-contenteditable-content-attribute

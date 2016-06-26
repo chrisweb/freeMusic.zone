@@ -49,4 +49,4 @@ speech recognition article (mozilla opensource)
 another web speech demo on github where the currently spoken words are highlighted
 * http://eeejay.github.io/webspeechdemos/
 
-see also the text_input prototypes regarding the speech synthesis text input field
+see also the text_editor prototypes regarding the speech synthesis text input field
