@@ -21,6 +21,8 @@ require([
 
     'use strict';
 
+    var synthesis;
+
     var startup = function startupFunction() {
 
         if (!('webkitSpeechSynthesis' in window) && !('speechSynthesis' in window)) {
@@ -31,20 +33,18 @@ require([
 
         }
 
-        var synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
+        synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
 
         // empty at this point in chrome, as in chrome the list is determined asynchronously, see specs for more details
         if (speechSynthesis.getVoices().length === 0) {
 
-            speechSynthesis.addEventListener('voiceschanged', readyToSing);
+            synthesis.addEventListener('voiceschanged', readyToSing);
 
         } else {
 
             readyToSing();
 
         }
-
-        console.log(synthesis);
 
     };
 
@@ -55,15 +55,13 @@ require([
     var $singItButton = $('.singIt');
     var $stopItButton = $('.stopIt');
 
-    var readyToSing = function populateVoicesFunction(voiceschangedEvent) {
+    var readyToSing = function readyToSingFunction() {
 
         if (!alreadyInitialized) {
 
             alreadyInitialized = true;
-
-            var synthesis = window.speechSynthesis || window.webkitSpeechSynthesis;
                 
-            $singItButton.on('click', { synthesis: synthesis }, startSong);
+            $singItButton.on('click', startSong);
             $stopItButton.on('click', stopSong);
 
             $singItButton.prop('disabled', false);
@@ -72,7 +70,7 @@ require([
 
     };
 
-    var toggleButtons = function () {
+    var toggleButtons = function toggleButtonsFunction() {
 
         // check the disabled attribute is set on the $singItButton
         if ($singItButton.prop('disabled')) {
@@ -91,7 +89,7 @@ require([
 
     var startSong = function startSongFunction(event) {
 
-        startSinging(event.data.synthesis);
+        startSinging();
 
         playMusic('//storage-new.newjamendo.com/?trackid=1311527&format=mp31');
 
@@ -110,12 +108,9 @@ require([
     }
 
     var lines = null;
-    var i = 0;
-    var syntheticSpeaker;
+    var lineIndex = 0;
 
-    var startSinging = function startSingingFunction(speechSynthesis) {
-
-        syntheticSpeaker = speechSynthesis;
+    var startSinging = function startSingingFunction() {
 
         formatTextInContenteditable();
         
@@ -127,32 +122,37 @@ require([
 
         // reset lines and lines pointer
         lines = null;
-        i = 0;
+        lineIndex = 0;
 
-        syntheticSpeaker.cancel();
+        synthesis.cancel();
 
     }
 
     var speakIt = function speakItFunction() {
 
         // if we reached the end stop repeating the speak process
-        if (lines !== null && typeof lines[i] !== 'undefined') {
+        if (lines !== null && typeof lines[lineIndex] !== 'undefined') {
 
-            // if already speaking a line and not yet finished, try again for next line in 100ms
-            if (syntheticSpeaker.speaking) {
+            // if already speaking a line and not yet finished
+            // try again for next line in 200ms
+            var isSpeaking = synthesis.speaking;
 
-                window.setTimeout(speakIt, 100);
+            //console.log(isSpeaking);
+
+            if (isSpeaking) {
+
+                window.setTimeout(speakIt, 200);
 
                 return;
 
             }
 
-            var currentLine = lines[i];
+            var currentLine = lines[lineIndex];
 
             // ignore empty lines
             if (currentLine === '') {
 
-                i++;
+                lineIndex++;
 
                 speakIt();
 
@@ -160,9 +160,9 @@ require([
 
             }
 
-            highlightCurrentLine(i);
+            highlightCurrentLine(lineIndex);
 
-            i++;
+            lineIndex++;
 
             if (currentLine.substring(0, 5) === 'pause') {
 
@@ -177,7 +177,7 @@ require([
                 var utterance;
                 var femaleVoice;
 
-                var voicesList = syntheticSpeaker.getVoices();
+                var voicesList = synthesis.getVoices();
 
                 // if female voice was specified
                 if (currentLine.slice(-3) === '(f)') {
@@ -219,9 +219,12 @@ require([
 
                 }
 
-                syntheticSpeaker.speak(utterance);
+                synthesis.speak(utterance);
 
-                speakIt();
+                // firefox has some problems when calling next speakIt asap
+                // seems like the speaking property is not refreshed immediatly after speaking stops
+                // so add a little delay
+                window.setTimeout(speakIt, 100);
 
             }
 
@@ -229,18 +232,20 @@ require([
 
     };
 
-    var highlightCurrentLine = function highlightCurrentLineFunction(i) {
+    var highlightCurrentLine = function highlightCurrentLineFunction(currentSpanIndex) {
+
+        //console.log(currentSpanIndex);
 
         var $myLyrics = $('.myLyrics');
 
         var $spansArray = $myLyrics.children('span');
 
-        if (i !== 0) {
-            var previousSpanIndex = i - 1;
+        if (currentSpanIndex !== 0) {
+            var previousSpanIndex = currentSpanIndex - 1;
             $spansArray.eq(previousSpanIndex).css('background-color', '');
         }
 
-        $spansArray.eq(i).css('background-color', 'yellow');
+        $spansArray.eq(currentSpanIndex).css('background-color', 'yellow');
 
     }
 
@@ -261,7 +266,7 @@ require([
 
     var playMusic = function playMusicFunction(url) {
 
-        console.log('loadSound, url: ' + url);
+        //console.log('loadSound, url: ' + url);
 
         var request = new XMLHttpRequest();
 
@@ -271,7 +276,7 @@ require([
         // when loaded decode the data
         request.onload = function () {
 
-            console.log('request onload');
+            //console.log('request onload');
             
             initializeAudioContext();
 
@@ -281,10 +286,10 @@ require([
 
                     // success
 
-                    console.log('sound got loaded, buffer: ');
-                    console.log(audioBuffer);
+                    //console.log('sound got loaded, buffer: ');
+                    //console.log(audioBuffer);
 
-                    console.log('playSound');
+                    //console.log('playSound');
 
                     // http://www.html5rocks.com/en/tutorials/webaudio/intro/
                     // https://hacks.mozilla.org/2013/07/web-audio-api-comes-to-firefox/
@@ -368,10 +373,6 @@ require([
 
     }
 
-    $(function () {
-
-        startup();
-
-    });
+    startup();
 
 });

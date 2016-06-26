@@ -117,10 +117,6 @@ require([
 
     };
 
-    $(function () {
-
-        startup();
-
-    });
+    startup();
 
 });

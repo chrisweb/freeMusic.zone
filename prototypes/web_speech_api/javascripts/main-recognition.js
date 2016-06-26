@@ -272,10 +272,6 @@ require([
 
     };
 
-    $(function () {
-
-        startup();
-
-    });
+    startup();
 
 });
