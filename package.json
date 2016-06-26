@@ -68,6 +68,7 @@
     "grunt-replace": "1.0.1",
     "jshint-stylish": "2.2.0",
     "mocha": "2.5.3",
+    "chai": "3.5.0",
     "rjs-build-analysis": "0.0.3"
   },
   "engines": {
@@ -92,11 +93,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": ""
+    "test": "mocha"
   },
-  "version": "0.0.4",
-  "pre-commit": [
-    "eslint:source",
-    "test"
-  ]
+  "version": "0.0.4"
 }

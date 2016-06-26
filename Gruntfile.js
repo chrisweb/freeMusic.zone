@@ -64,9 +64,10 @@ module.exports = function (grunt) {
                 }
             },
             test: {
-                client: {
-                    root: 'test/client'
-                }
+                root: 'test'
+            },
+            prototypes: {
+                root: 'prototypes'
             },
             'sass_source': 'auto',
             'assetsPath': 'desktop_development',
@@ -90,7 +91,10 @@ module.exports = function (grunt) {
                 'Gruntfile.js',
                 '<%= config.client.desktop.development.scripts.path %>/*.js',
                 '<%= config.client.desktop.development.scripts.path %>/**/*.js',
-                '!<%= config.client.desktop.development.scripts.path %>/templates/*.js'
+                '!<%= config.client.desktop.development.scripts.path %>/templates/*.js',
+                '<%= config.server.root %>/*.js',
+                '<%= config.server.root %>/**/*.js'
+                //'<%= config.prototypes.root %>/**/*.js'
             ],
             options: {
                 jshintrc: '.jshintrc',
