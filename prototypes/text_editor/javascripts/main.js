@@ -55,26 +55,31 @@ require([
             range.deleteContents();
 
             // create a new document fragment for the element we want to insert
-            var fragment = range.createContextualFragment(tagString);
-            //var fragment = document.createDocumentFragment(tagString);
+            // createContextualFragment is not supported by IE lower than 11
+            var documentFragment = range.createContextualFragment(tagString);
+
+            // or use createDocumentFragment, but this means a lot more code
+            // the advantage is that createDocumentFragment is supported by all browser even IE6
+            /*var documentFragment = document.createDocumentFragment();
+            var img = document.createElement('img');
+            img.src = 'https://example.com/foo.jpg';
+            documentFragment.appendChild(img);*/
 
             // insert the new fragment at the cursors location
-            range.insertNode(fragment);
+            range.insertNode(documentFragment);
 
-            //$textEditor.focus();
-
-            range.setEndAfter(fragment); // error node has no parent
-
-            //range.setStartAfter(fragment);
-            //range.collapse(true);
-
-            //range.setStartBefore(fragment);
-            //range.setEndAfter(fragment)
+            // to update the cursor (carret) position we can use a combination of setEndAfter and setStartAfter
+            // but if the setEndAfter is called using the fragment itself (who has no parent nodes) this error gets triggered "Uncaught InvalidNodeTypeError: Failed to execute 'setEndAfter' on 'Range': the given Node has no parent."
+            // a way around this would be to extract it's child node(s) and insert them before doing the setEndAfter and setStartAfter
+            //var documentFragmentChild = documentFragment.childNodes[0];
+            //range.setStartAfter(documentFragmentChild);
+            //range.setEndAfter(documentFragmentChild);
+            
+            // but it's easier to use collapse in this case
+            range.collapse(false);
 
             selection.removeAllRanges();
             selection.addRange(range);
-
-            console.log('foo');
 
         }
 
