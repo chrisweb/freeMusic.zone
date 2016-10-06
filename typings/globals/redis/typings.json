@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/4dc266fcf4ab03c36e647a867dd6e81e00013895/redis/redis.d.ts",
+    "raw": "registry:dt/redis#0.12.1+20160728132028",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/4dc266fcf4ab03c36e647a867dd6e81e00013895/redis/redis.d.ts"
+  }
+}
