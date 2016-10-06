@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{c96ab1f9-9752-4d74-836a-cddc813ea08c}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>server.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -688,60 +688,12 @@
     <Folder Include="tracks" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
-    <Folder Include="typings\globals\async\" />
-    <Folder Include="typings\globals\backbone\" />
-    <Folder Include="typings\globals\body-parser\" />
-    <Folder Include="typings\globals\bootstrap\" />
-    <Folder Include="typings\globals\chai\" />
-    <Folder Include="typings\globals\connect-redis\" />
-    <Folder Include="typings\globals\cookie-parser\" />
-    <Folder Include="typings\globals\cors\" />
-    <Folder Include="typings\globals\cron\" />
-    <Folder Include="typings\globals\ejs\" />
-    <Folder Include="typings\globals\errorhandler\" />
-    <Folder Include="typings\globals\express-session\" />
-    <Folder Include="typings\globals\express\" />
-    <Folder Include="typings\globals\jquery\" />
-    <Folder Include="typings\globals\mocha\" />
-    <Folder Include="typings\globals\modernizr\" />
-    <Folder Include="typings\globals\moment\" />
-    <Folder Include="typings\globals\mongoose\" />
     <Folder Include="typings\globals\node\" />
-    <Folder Include="typings\globals\redis\" />
-    <Folder Include="typings\globals\socket.io-redis\" />
-    <Folder Include="typings\globals\socket.io\" />
-    <Folder Include="typings\globals\underscore\" />
-    <Folder Include="typings\globals\velocity-animate\" />
-    <Folder Include="typings\globals\winston\" />
     <Folder Include="videos" />
     <Folder Include="videos\video2" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="typings\globals\async\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\backbone\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\body-parser\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\bootstrap\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\chai\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\connect-redis\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\cookie-parser\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\cors\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\cron\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\ejs\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\errorhandler\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\express-session\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\mocha\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\modernizr\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\moment\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\mongoose\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\redis\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\socket.io-redis\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\socket.io\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\underscore\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\velocity-animate\index.d.ts" />
-    <TypeScriptCompile Include="typings\globals\winston\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />

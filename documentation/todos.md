@@ -51,7 +51,6 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * replace all use of glyphicons with font awsome as twitter boostrap 4 does not have glyphicons anymore (+ update grunt file)
 * add voice commands recognition feature to remote based on web speech recognition prototype
 * add "sing my song" page using the web speech synthesis prototype (add one balled and one hiphop song as example) (see features.md)
-* use https://howlerjs.com/ as audio lib?
 
 ## Other todos (damn that's a lot of todos ;) )
 

@@ -118,11 +118,6 @@ var mongoClient;
 
 var mongodbOptions = {};
 
-// client configuration for given environment
-var clientConfiguration = require('client/desktop_development/scripts/configuration/configuration');
-
-var clientConfigurationByEnvironment = clientConfiguration.get(process.env.NODE_ENV);
-
 // mongodb connection
 mongoLibrary.getClient(mongodbOptions, function mongooseConnectCallback(error, mongooseConnection) {
     
@@ -259,11 +254,53 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                 // desktop router
                 var desktopRouter = express.Router();
 
-                // send back the configuration for a given environment
+                // obviously performance wise this is not the best idea to generate the confirguration file dynamically, but for now flexibility wins over performance ;)
+                // TODO: it would be better to grunt / gulp script that builds custom configuration files when needed
                 desktopRouter.use('/client/desktop_development/scripts/configuration/configuration.js', function (request, response, next) {
-                    
-                    response.setHeader('content-type', 'text/javascript');
-                    response.send(clientConfigurationByEnvironment);
+
+                    fs.readFile('client/desktop_development/scripts/configuration/configuration.js', {
+                        encoding: 'utf8'
+                    }, function readConfigurationCallback(error, fileContent) {
+
+                        if (!error) {
+
+                            var environment = app.get('env');
+
+                            // first get the configuration that we want to keep
+                            var regex = new RegExp('\/\*(.*?)' + environment + '(.*?)\*\/(.+)\/\*(.*?)' + environment + '(.*?)\*\/', 'i');
+                            //var configurationToKeep = fileContent.match(regex)[0];
+
+                            console.log(fileContent); process.exit(0);
+
+                            // now clear all the other definitions and replace them with the configuration definition of the current environment
+
+                            var stagingEnvironment = 'staging';
+                            var stagingRegex = new RegExp('\/\*(.*?)' + stagingEnvironment + '(.*?)\*\/(.+)\/\*(.*?)' + stagingEnvironment + '(.*?)\*\/', 'i');
+
+                            fileContent = fileContent.replace(stagingRegex, '');
+
+                            var productionEnvironment = 'production';
+                            var productionRegex = new RegExp('\/\*(.*?)' + productionEnvironment + '(.*?)\*\/(.+)\/\*(.*?)' + productionEnvironment + '(.*?)\*\/', 'i');
+
+                            fileContent = fileContent.replace(productionRegex, '');
+
+
+                            var replacements = {
+                                '__PORT__': app.get('port')
+                            };
+
+                            var configuration = utilities.replacePlaceholders(fileContent, replacements);
+
+                            response.setHeader('content-type', 'text/javascript');
+                            response.send(configuration);
+
+                        } else {
+
+                            utilities.log('[BOOTSTRAP] reading configuration file failed, error: ' + error, 'fontColor:red');
+
+                        }
+
+                    });
 
                 });
                 
@@ -303,7 +340,7 @@ redisLibrary.getClient(redisClientSessionsOptions, function getClientCallback(er
                 // always invoked
                 desktopRouter.use(function (request, response, next) {
 
-                    utilities.log('[BOOTSTRAP] desktop router: method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
+                    utilities.log('[BOOTSTRAP] /, method: ' + request.method + ', url:' + request.url + ', path:' + request.path);
 
                     var assetsPath = 'desktop_build';
 
