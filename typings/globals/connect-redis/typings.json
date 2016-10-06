@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/6513e0853e3522c0e06d346e048d815cb0331809/connect-redis/connect-redis.d.ts",
+    "raw": "registry:dt/connect-redis#0.0.0+20160305170114",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/6513e0853e3522c0e06d346e048d815cb0331809/connect-redis/connect-redis.d.ts"
+  }
+}
