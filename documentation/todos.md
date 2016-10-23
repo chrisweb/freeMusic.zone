@@ -26,7 +26,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * the redis server cloud init setup script must edit the redis conf file and set the production values
 * put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
 * add this little effect (js) for homepage headline http://gabinaureche.com/TheaterJS/
-* add support for emoji using the twitter package https://www.npmjs.com/package/twemoji
+* add support for emoji using the twitter package https://www.npmjs.com/package/twemoji (or use google font https://www.google.com/get/noto/ for emoji as font)
 * refactoring the managers
 ** add adapters
 ** create an abstract manager
@@ -41,7 +41,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * update ffmpeg to version 3 https://github.com/FFmpeg/FFmpeg
 * create the player ui prototype
 * improve nodejs deployment script, check out this article https://certsimple.com/blog/deploy-node-on-linux
-* improve the chat message input field to render emoji in the field itself, see this little test fiddle https://jsfiddle.net/zvb154do/2/
+* improve the chat message input field to render emoji in the field itself, see this little test fiddle https://jsfiddle.net/zvb154do/2/ (see also new prototype "text_editor")
 * update the project page with useful information and links to documentation as well as some screenshot and a link to website http://chrisweb.github.io/freeMusic.zone/
 * maybe this can help improve the gif quality for mobile background video http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
 * bug to fix: on welcome page iframe for login is created three times, one per parallax lvl, only create one, then duplicate?

@@ -6,6 +6,9 @@ http://stackoverflow.com/questions/8074152/is-there-a-way-to-use-the-web-audio-a
 fft explained:  
 http://stackoverflow.com/questions/14789283/what-does-the-fft-data-in-the-web-audio-api-correspond-to  
 
+another ftt related question / answer:  
+http://stackoverflow.com/questions/14789283/what-does-the-fft-data-in-the-web-audio-api-correspond-to  
+
 AnalyserNode documentation:  
 http://docs.webplatform.org/wiki/apis/webaudio/AnalyserNode  
 
@@ -20,6 +23,8 @@ http://web.archive.org/web/20150426195559/http://tech.beatport.com/2014/web-audi
 
 good article about audio visualzation "Making Audio Reactive Visuals"  
 https://www.airtightinteractive.com/2013/10/making-audio-reactive-visuals/  
+"reactive-visuals" github repository  
+https://github.com/a-axton/threejs-web-audio-api  
 
 Another web audio article "What Does a Sound Look Like? Web Audio Art!"  
 https://ponyfoo.com/articles/web-audio-art  
