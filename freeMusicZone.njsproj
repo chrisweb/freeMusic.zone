@@ -31,6 +31,7 @@
     <Compile Include="mapreduce_cron.js" />
     <Compile Include="prototypes\text_editor\javascripts\main.js" />
     <Compile Include="prototypes\text_editor\server.js" />
+    <Compile Include="prototypes\web_audio_api\instruments\documentation.md" />
     <Compile Include="server.js" />
     <Compile Include="test\mocha.opts" />
     <Compile Include="twitter_harvester.js" />
@@ -631,6 +632,7 @@
     <Folder Include="prototypes\music_world\javascript\vendor\jquery-2.2.1" />
     <Folder Include="prototypes\music_world\javascript\vendor\modernizr_build" />
     <Folder Include="prototypes\music_world\javascript\vendor\requirejs-2.1.11" />
+    <Folder Include="prototypes\web_audio_api\" />
     <Folder Include="prototypes\text_editor\" />
     <Folder Include="prototypes\player_ui" />
     <Folder Include="prototypes\promises" />
@@ -665,6 +667,7 @@
     <Folder Include="prototypes\visualizer\javascripts\vendor\dat.gui\tests" />
     <Folder Include="prototypes\visualizer\javascripts\vendor\dat.gui\utils" />
     <Folder Include="prototypes\visualizer\textures" />
+    <Folder Include="prototypes\web_audio_api\instruments\" />
     <Folder Include="prototypes\web_speech_api" />
     <Folder Include="prototypes\web_speech_api\javascripts" />
     <Folder Include="server" />
