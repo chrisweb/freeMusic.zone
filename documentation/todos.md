@@ -52,6 +52,11 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * add voice commands recognition feature to remote based on web speech recognition prototype
 * add "sing my song" page using the web speech synthesis prototype (add one balled and one hiphop song as example) (see features.md)
 * use https://howlerjs.com/ as audio lib?
+* start working on the design color palette (ideas: https://cdn.zeit.co/hyper/hyper-intro.png yellow violet blue / blue summer sundown sky http://www.coolwallpapers.org/photo/40978/daytona-beach-halifax-river-tropical-palm-tree-sunset.jpg / outdrive video game http://cdn.akamai.steamstatic.com/steam/apps/441870/ss_0076f7e3c3e4d6b89fc71de4ac92951b3cf9e655.jpg?t=1456219681 and yet another example https://s-media-cache-ak0.pinimg.com/originals/68/9b/6d/689b6df1c01aaebb41526af24511430c.jpg)
+* upgrade mongodb to v3 https://objectrocket.com/blog/company/mongodb-wiredtiger
+* use myjs for animations? https://css-tricks.com/introduction-mo-js/, http://mojs.io/, for example for like button "heart" animation http://codepen.io/sol0mka/full/xOAKKA/
+* menu / navigation open / close animation, like this https://quicksight.aws/
+* 3d action buttons to with more visible click effect like this https://quickdraw.withgoogle.com/ (see 3d button prototype)
 
 ## Other todos (damn that's a lot of todos ;) )
 
@@ -92,6 +97,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 
 ## Todos that are on hold right now (as not required for this project or not enough time right now)
 
+* make website AMP ready? https://www.ampproject.org/
 * create responsive jquery ui dialog
 * put the modernizr modifications into a seperate repository by forking the original project, finish the rewrite of the core for all parts that are not used by this project (check out the modernizr documentation.md for more about this task)
 * create a nodejs script that setups all the cloud services using the aws api
