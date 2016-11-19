@@ -39,13 +39,13 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * improve security https://securityheaders.io/, dnssec, csp (check out documentation/security.md)
 * create mobile icons, windows tile setup (browser.xml) and android manifest.json https://realfavicongenerator.net/
 * update ffmpeg to version 3 https://github.com/FFmpeg/FFmpeg
-* create the player ui prototype
+* create the player ui prototype, check out the prototype
 * improve nodejs deployment script, check out this article https://certsimple.com/blog/deploy-node-on-linux
 * improve the chat message input field to render emoji in the field itself, see this little test fiddle https://jsfiddle.net/zvb154do/2/ (see also new prototype "text_editor")
 * update the project page with useful information and links to documentation as well as some screenshot and a link to website http://chrisweb.github.io/freeMusic.zone/
 * maybe this can help improve the gif quality for mobile background video http://blog.pkh.me/p/21-high-quality-gif-with-ffmpeg.html
 * bug to fix: on welcome page iframe for login is created three times, one per parallax lvl, only create one, then duplicate?
-* improve the background video player based on the improved prototype, add mute (firefox icon) and also use improved autoplay detection that replaces video element with gif (iOS)
+* improve the background video player based on the improved prototype, add mute (firefox icon) and also use improved autoplay detection (that replaces video element with gif on iOS)
 * create a passportjs prototype
 * replace twitter bootstrap 3 with twitter boostrap 4 (+ update documentation) https://github.com/twbs/bootstrap/tree/v4-dev / documentation: http://v4-alpha.getbootstrap.com/
 * replace all use of glyphicons with font awsome as twitter boostrap 4 does not have glyphicons anymore (+ update grunt file)
@@ -55,8 +55,11 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * start working on the design color palette (ideas: https://cdn.zeit.co/hyper/hyper-intro.png yellow violet blue / blue summer sundown sky http://www.coolwallpapers.org/photo/40978/daytona-beach-halifax-river-tropical-palm-tree-sunset.jpg / outdrive video game http://cdn.akamai.steamstatic.com/steam/apps/441870/ss_0076f7e3c3e4d6b89fc71de4ac92951b3cf9e655.jpg?t=1456219681 and yet another example https://s-media-cache-ak0.pinimg.com/originals/68/9b/6d/689b6df1c01aaebb41526af24511430c.jpg)
 * upgrade mongodb to v3 https://objectrocket.com/blog/company/mongodb-wiredtiger
 * use myjs for animations? https://css-tricks.com/introduction-mo-js/, http://mojs.io/, for example for like button "heart" animation http://codepen.io/sol0mka/full/xOAKKA/
-* menu / navigation open / close animation, like this https://quicksight.aws/
+* menu / navigation open / close animation, like this http://www.sapiens.org/blog/animalia/island-dwarfism/ or like this https://quicksight.aws/
 * 3d action buttons to with more visible click effect like this https://quickdraw.withgoogle.com/ (see 3d button prototype)
+* use custom cursors https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
+* fullscreen player with sound visualization, check out the prototype(s), either do something with webgl or something in 2d, for example a gooey effect (http://tympanus.net/Development/CreativeGooeyEffects/player.html) or something built with 2d canvas like a round sound visualization
+* include a webVR version of the visualizer, 3d waveform?
 
 ## Other todos (damn that's a lot of todos ;) )
 

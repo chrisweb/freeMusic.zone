@@ -28,3 +28,6 @@ https://github.com/a-axton/threejs-web-audio-api
 
 Another web audio article "What Does a Sound Look Like? Web Audio Art!"  
 https://ponyfoo.com/articles/web-audio-art  
+
+very nice gooey effect
+http://tympanus.net/Development/CreativeGooeyEffects/player.html
