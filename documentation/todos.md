@@ -26,7 +26,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * the redis server cloud init setup script must edit the redis conf file and set the production values
 * put the pm2 setup into the cloud init files for harvester and nodejs webserver (need to install pm2 and then use pm2 to run the server forever)
 * add this little effect (js) for homepage headline http://gabinaureche.com/TheaterJS/
-* add support for emoji using the twitter package https://www.npmjs.com/package/twemoji (or use google font https://www.google.com/get/noto/ for emoji as font)
+* add support for emoji using the twitter package https://www.npmjs.com/package/twemoji (or use google font https://www.google.com/get/noto/ for emoji as font) (nice emoji article: https://www.smashingmagazine.com/2016/11/character-sets-encoding-emoji/)
 * refactoring the managers
 ** add adapters
 ** create an abstract manager
@@ -60,6 +60,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * use custom cursors https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
 * fullscreen player with sound visualization, check out the prototype(s), either do something with webgl or something in 2d, for example a gooey effect (http://tympanus.net/Development/CreativeGooeyEffects/player.html) or something built with 2d canvas like a round sound visualization
 * include a webVR version of the visualizer, 3d waveform?
+* prepare design, need to find designer, css helpful website here: http://cssreference.io/#hn
 
 ## Other todos (damn that's a lot of todos ;) )
 
