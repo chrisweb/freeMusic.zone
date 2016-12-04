@@ -200,3 +200,4 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * DONE: create a camera (webcam photo) prototype (find solution for iOS thaz does not support getUserMedia)
 * DONE: write a google vision cloud prototype
 * DONE: refactoring of the client configuration file, make it dynamic so that we can pass the current environment and port (for devepment)
+* clean the documentation files and use correct markdown for formatting
