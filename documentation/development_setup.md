@@ -166,7 +166,7 @@ To start the web server, use this command on linux:
 ```NODE_ENV=development node server```
 
 OR these commands for windows powershell:  
-```$env:NODE_ENV="development"
+```$env:NODE_ENV=\"development\"
 node server```
 
 (!) NODE_ENV can be development, staging, production (not dev, prod)  
