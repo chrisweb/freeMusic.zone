@@ -166,8 +166,10 @@ To start the web server, use this command on linux:
 ```NODE_ENV=development node server```
 
 OR these commands for windows powershell:  
-```$env:NODE_ENV=\"development\"
-node server```
+```
+$env:NODE_ENV=\"development\"
+node server
+```
 
 (!) NODE_ENV can be development, staging, production (not dev, prod)  
 
@@ -192,8 +194,10 @@ To start the twitter harvester, use this command on linux:
 ```NODE_ENV=development node twitter_harvester```
 
 OR these commands for windows powershell:  
-```$env:NODE_ENV="development"
-node twitter_harvester```
+```
+$env:NODE_ENV="development"
+node twitter_harvester
+```
 
 ### mapreduce cron
 
@@ -206,8 +210,10 @@ To start the cron job, use this command on linux:
 ```NODE_ENV=development node mapreduce_cron```
 
 OR these commands for windows powershell:  
-```$env:NODE_ENV="development"
-node mapreduce_cron```
+```
+$env:NODE_ENV="development"
+node mapreduce_cron
+```
 
 ### Browser console messages  
 
