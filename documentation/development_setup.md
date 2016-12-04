@@ -1,58 +1,83 @@
 # Development setup
 
-### Project checkout
+### install git  
 
-If you are reading this you maybe already have a local copy of the project, if it's not the case you should go to the github and fork the project, then you can use git to clone the latest master branch  
+if you haven't already installed git, do this first  
 
-If you haven't already installed git, do this first:  
+http://git-scm.com/download  
 
-http://git-scm.com/download
+### project checkout  
 
-Now open your command line tool and use the following command to clone this project into one of your directories:  
+if you are reading this you maybe already have a local copy of the project, if not then you can should use git to clone the latest master branch  
+
+to do this you need open your command line tool and use the following command to clone (http://git-scm.com/docs/git-clone) this project into one of your directories (PROJECT_DIRECTORY_PATH)  
+
+```
+cd /PROJECT_DIRECTORY_PATH
+```  
+
+now clone the project into that directory  
 
 ```
 git clone git@github.com:chrisweb/freeMusic.zone.git
+```  
+
+if you are on windows you can also use the github desktop (https://desktop.github.com/) or if your use visual studio as IDE you can use the github for visual studio extension (https://visualstudio.github.com/)  
+
+install github desktop or the visual studio extension, then go to the github open the project main page and click the green "clone or download" button  
+
+### install Nodejs
+
+if you haven't done this already, install nodejs from https://nodejs.org (which includes npm, the nodejs package manager)  
+
+### update npm
+
+to ensure you have the latest version of npm, update npm (https://docs.npmjs.com/getting-started/installing-node), open your command line tool and use the following command  
+
 ```
+npm install npm@latest -g
+```  
 
-http://git-scm.com/docs/git-clone  
-
-### Install Nodejs
-
-If you haven't done this already, install nodejs (which includes npm, the nodejs package manager).  
-
-http://nodejs.org/  
-
-### update npm to the latest version
-
-Open your command line tool and use the following command to update npm to the latest version:
+to check if you have the latest version type  
 
 ```
-npm install npm -g
-```
+npm -v
+```  
+
+what the latest npm version is can be seen in their package.json https://github.com/npm/npm/blob/latest/package.json  
 
 ### Preperations for node-gyp
 
-node-gyp is a build tool that is being used by several nodejs modules https://github.com/nodejs/node-gyp  
+node-gyp is a build tool that is being used by several nodejs modules https://github.com/nodejs/node-gyp   
 To install node gyp on windows follow these steps:  
-* Option 1: Install Visual C++ Build Tools using the Default Install option.
-* Option 2: Install Visual Studio 2015 (or modify an existing installation) and select Common Tools for Visual C++ during setup (This also works with the free Community and Express for Desktop editions)
-* Install Python 2.7 (v3.x.x is not supported), and run 
+
+Option 1: Install Visual C++ Build Tools using the Default Install option.  
+Option 2: Install Visual Studio 2015 (or modify an existing installation) and select Common Tools for Visual C++ during setup (This also works with the free Community and Express for Desktop editions)  
+Install Python 2.7 (v3.x.x is not supported), and run  
+
 ```
 npm config set python python2.7
 ```
-* If you have multiple Python versions installed, you can identify which Python version node-gyp uses by setting the '--python' variable:
+
+If you have multiple Python versions installed, you can identify which Python version node-gyp uses by setting the '--python' variable:  
+
 ```
 npm config set python /path/to/python2.7/python.exe --global
 ```
-* For example:
+
+For example:  
+
 ```
 npm config set python /Python27/python.exe --global
 ```
-* Launch cmd, and then type
+
+Launch cmd, and then type  
+
 ```
 npm config set msvs_version 2015
 ```
-* If you are using another version of visual studio change the "2015" by the one you are using 
+
+If you are using another version of visual studio change the "2015" by the one you are using  
 * If you need to install node gyp on another operating system or if the steps listed here did not work, than check out the install instructions in the node gyp github readme https://github.com/nodejs/node-gyp  
 
 ### Nodejs modules - Server and Client dependencies  
@@ -209,11 +234,13 @@ If your redis or mongo db have no user and password, just keep those fields empt
 ### Start the server
 
 To start the web server, use this command on linux:  
+
 ```
 NODE_ENV=development node server
 ```
 
 OR these commands for windows powershell:  
+
 ```
 $env:NODE_ENV=\"development\"
 node server
@@ -248,6 +275,7 @@ NODE_ENV=development node twitter_harvester
 ```
 
 OR these commands for windows powershell:  
+
 ```
 $env:NODE_ENV="development"
 node twitter_harvester
@@ -266,6 +294,7 @@ NODE_ENV=development node mapreduce_cron
 ```
 
 OR these commands for windows powershell:  
+
 ```
 $env:NODE_ENV="development"
 node mapreduce_cron
@@ -280,6 +309,7 @@ To check out the browser messages use the F12 key and then select the console ta
 Check out the messages that get printed in realtime inside of your command line tool which you used to start the app, or if the app crashed to get the latest error message before the app crashed  
 
 or check out the logs in this directory:  
+
 ```
 /logs
 ```
