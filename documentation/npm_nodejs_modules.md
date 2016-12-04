@@ -8,7 +8,7 @@ Using your console go into the root directory of the project:
 
 ```
 cd /PROJECT_ROOT_PATH
-	```
+```
 
 Create a package json (to start a new project):  
 
