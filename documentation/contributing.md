@@ -2,31 +2,31 @@
 
 ## Important notes
 
-Please don't edit files in the "client/*_build" subdirectories as they are generated via Grunt. You'll find source code in the "client/*_development" subdirectories
+Please don't edit files in the "client/*_build" subdirectories as they are generated via Grunt. You'll find source code in the "client/*_development" subdirectories  
 
-If you want to contribute but don't know what would be helpful then check out the issues section of this project on GitHub https://github.com/chrisweb/freeMusic.zone/issues
+If you want to contribute but don't know what would be helpful then check out the issues section of this project on GitHub https://github.com/chrisweb/freeMusic.zone/issues  
 
 ### Code style
 
-Regarding code style like indentation and whitespace, read the code style "documentation/code_style_guide" document
+Regarding code style like indentation and whitespace, read the code style "documentation/code_style_guide" document  
 
 ### SASS/CSS style
 
-Read the code style "documentation/sass_style_guide" document
+Read the code style "documentation/sass_style_guide" document  
 
 ### Comments
 
-Add as much comments as you can to the code to explain what you did and why you did it
+Add as much comments as you can to the code to explain what you did and why you did it  
 
 ### Documentation
 
-If you add new features or change existing ones, remember to update the documentation
+If you add new features or change existing ones, remember to update the documentation  
 
-Read the "documentation/editing_documentation" document for more details about how to write documentation
+Read the "documentation/editing_documentation" document for more details about how to write documentation  
 
 ### Tests
 
-If you alter existing features or add new ones, ensure the test cases are up to date. Don't forget to read the code documentation/testing document
+If you alter existing features or add new ones, ensure the test cases are up to date. Don't forget to read the code documentation/testing document  
 
 ### Submitting pull requests
 
