@@ -61,6 +61,7 @@ Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMus
 * fullscreen player with sound visualization, check out the prototype(s), either do something with webgl or something in 2d, for example a gooey effect (http://tympanus.net/Development/CreativeGooeyEffects/player.html) or something built with 2d canvas like a round sound visualization
 * include a webVR version of the visualizer, 3d waveform?
 * prepare design, need to find designer, css helpful website here: http://cssreference.io/#hn
+* use tilt for song cover images? (https://github.com/gijsroge/tilt.js)
 
 ## Other todos (damn that's a lot of todos ;) )
 
