@@ -1,17 +1,12 @@
 # Todos
 
-Put all the todos in the github issues section?
-
-Add travis ci build check? https://travis-ci.org/
-
-Write tests using mocha and should
-
-Use hiredis? https://github.com/redis/hiredis-node
-
-Calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMusic.zone and nodejs istanbul
-
 ## Next todos
 
+* put all the todos in the github issues section?
+* add travis ci build check? https://travis-ci.org/
+* write tests using mocha and should
+* use hiredis? https://github.com/redis/hiredis-node
+* calculate tests coverage using coveralls https://coveralls.io/r/chrisweb/freeMusic.zone and nodejs istanbul
 * fully test player when bug "access control" of the streaming server is resolved
 * player automatically play next track
 * in the api module "/tweet/charts/day" save the tracks we got from jamendo api call into mongodb
