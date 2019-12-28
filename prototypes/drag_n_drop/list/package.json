@@ -11,6 +11,6 @@
   "license": "MIT",
   "dependencies": {
     "sortablejs": "1.4.2",
-	"jquery": "2.2.2"
+	"jquery": "3.4.1"
   }
 }
